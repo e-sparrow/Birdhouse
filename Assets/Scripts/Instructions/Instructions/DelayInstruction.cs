@@ -14,7 +14,13 @@ namespace ESparrow.Utils.Instructions.Kinds
         private float _currentProgress;
         private readonly float _delay;
 
-        public DelayInstruction(float delay, Action action, bool selfDestroy = false) : base(action, selfDestroy)
+        public DelayInstruction
+        (
+            float delay, 
+            Action action, 
+            bool selfDestroy = false, 
+            Action onDestroy = default
+        ) : base(action, selfDestroy, onDestroy)
         {
             _currentProgress = 0f;
             _delay = delay;

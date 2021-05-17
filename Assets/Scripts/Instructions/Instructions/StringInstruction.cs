@@ -19,7 +19,12 @@ namespace ESparrow.Utils.Instructions.Kinds
         protected override Action Action => unityEvent.Invoke;
         protected override Func<bool> Condition => () => true;
 
-        public StringInstruction(string name, UnityEvent unityEvent, bool selfDestroy) : base(unityEvent.Invoke, selfDestroy)
+        public StringInstruction
+        (
+            string name, 
+            UnityEvent unityEvent, 
+            bool selfDestroy
+        ) : base(unityEvent.Invoke, selfDestroy)
         {
             this.name = name;
         }

@@ -12,12 +12,13 @@ namespace ESparrow.Utils.Instructions.Kinds
 
         private readonly Func<bool> _condition = () => false;
 
-        public ConditionInstruction(Func<bool> condition, Action action) : base(action)
-        {
-            _condition = condition;
-        }
-
-        public ConditionInstruction(Func<bool> condition, Action action, bool selfDestroy) : base(action, selfDestroy)
+        public ConditionInstruction
+        (
+            Func<bool> condition, 
+            Action action, 
+            bool selfDestroy = false, 
+            Action onDestroy
+        ) : base(action, selfDestroy, onDestroy)
         {
             _condition = condition;
         }

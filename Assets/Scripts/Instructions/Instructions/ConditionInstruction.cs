@@ -17,7 +17,7 @@ namespace ESparrow.Utils.Instructions.Kinds
             Func<bool> condition, 
             Action action, 
             bool selfDestroy = false, 
-            Action onDestroy
+            Action onDestroy = default
         ) : base(action, selfDestroy, onDestroy)
         {
             _condition = condition;

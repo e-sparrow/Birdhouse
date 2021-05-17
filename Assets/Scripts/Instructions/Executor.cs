@@ -36,28 +36,9 @@ namespace ESparrow.Utils.Instructions
             _instructionsQueues.Remove(queue);
         }
 
-        public ConditionInstruction AddConditionInstruction(Func<bool> condition, Action action, bool selfDestroy = false)
+        public void AddInstruction(InstructionBase instruction)
         {
-            var instruction = new ConditionInstruction(condition, action, selfDestroy);
             _everyFrameInstructions.Add(instruction);
-
-            return instruction;
-        }
-
-        public KeyInstruction AddKeyInstruction(KeyCode keyCode, EKeyState state, Action action, bool selfDestroy = false)
-        {
-            var instruction = new KeyInstruction(keyCode, state, action, selfDestroy);
-            _everyFrameInstructions.Add(instruction);
-
-            return instruction;
-        }
-
-        public DelayInstruction AddDelayInstruction(float delay, Action action, bool selfDestroy = false)
-        {
-            var instruction = new DelayInstruction(delay, action, selfDestroy);
-            _everyFrameInstructions.Add(instruction);
-
-            return instruction;
         }
 
         public void RemoveInstruction(InstructionBase instruction)

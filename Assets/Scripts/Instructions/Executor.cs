@@ -74,6 +74,7 @@ namespace ESparrow.Utils.Instructions
 
                 if (executed && instruction.SelfDestroy)
                 {
+                    instruction.OnDestroy.Invoke();
                     _everyFrameInstructions.Remove(instruction);
                 }
             }

@@ -14,9 +14,10 @@ namespace ESparrow.Utils.Instructions.Kinds
             get;
         }
 
-        protected Action OnDestroy
+        public Action OnDestroy
         {
             get;
+            private set;
         }
 
         public bool SelfDestroy

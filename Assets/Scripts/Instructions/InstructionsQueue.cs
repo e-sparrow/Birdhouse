@@ -31,6 +31,7 @@ namespace ESparrow.Utils.Instructions
                 bool executed = _instructions.Last().TryExecute();
                 if (executed)
                 {
+                    _instructions.Last().OnDestroy.Invoke();
                     Skip();
                     last = _instructions.Count == 0;
                 }

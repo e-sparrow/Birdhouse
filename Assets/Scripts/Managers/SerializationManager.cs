@@ -28,7 +28,7 @@ namespace ESparrow.Utils.Managers
                     break;
                 case ESerializationMethod.Binary:
                     BinaryFormatter formatter = new BinaryFormatter();
-                    using (FileStream stream = new FileStream(directory, FileMode.Create))
+                    using (FileStream stream = new FileStream(directory, FileMode.Create, FileAccess.Write, FileShare.Write))
                     {
                         formatter.Serialize(stream, obj);
                     }
@@ -55,7 +55,7 @@ namespace ESparrow.Utils.Managers
                     }
                 case ESerializationMethod.Binary:
                     BinaryFormatter formatter = new BinaryFormatter();
-                    using (FileStream stream = new FileStream(directory, FileMode.Open))
+                    using (FileStream stream = new FileStream(directory, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
                     {
                         return (T) formatter.Deserialize(stream);
                     }

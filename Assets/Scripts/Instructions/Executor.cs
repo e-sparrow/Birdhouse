@@ -43,7 +43,7 @@ namespace ESparrow.Utils.Instructions
 
         public void RemoveInstruction(InstructionBase instruction)
         {
-            instruction.OnDestroy.Invoke();
+            instruction.OnDestroy?.Invoke();
             _everyFrameInstructions.Remove(instruction);
         }
 

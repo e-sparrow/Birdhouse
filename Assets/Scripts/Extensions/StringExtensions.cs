@@ -19,6 +19,11 @@ namespace ESparrow.Utils.Extensions
         {
             return $"<b>{text}</b>";
         }
+
+        public static string Sized(this string text, int size)
+        {
+            return $"<size={size}>{text}</size>";
+        }
     }
 }
     

@@ -5,9 +5,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using ESparrow.Utils.Enums;
 
-namespace ESparrow.Utils
+namespace ESparrow.Utils.Managers
 {
-    public static class Serialization
+    public static class SerializationManager
     {
         public static void Serialize(object obj, string directory, ESerializationMethod method)
         {

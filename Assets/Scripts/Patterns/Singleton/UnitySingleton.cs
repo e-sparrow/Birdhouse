@@ -5,15 +5,31 @@ namespace ESparrow.Utils.Patterns.Singleton
 {
     public abstract class UnitySingleton<T> : MonoBehaviour where T : UnitySingleton<T>
     {
-        private static UnitySingleton<T> _instance;
+        private static T _instance;
 
-        public static UnitySingleton<T> Instance
+        public static T Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    CreateNew();
+                    var array = FindObjectsOfType<T>();
+                    if (array.Length == 0)
+                    {
+                        CreateNew();
+                    }
+                    else
+                    {
+                        if (array.Length > 1)
+                        {
+                            for (int i = 1; i < array.Length; i++)
+                            {
+                                DestroyImmediate(array[i]);
+                            }
+                        }
+
+                        _instance = array[0];
+                    }
                 }
 
                 return _instance;
@@ -23,28 +39,25 @@ namespace ESparrow.Utils.Patterns.Singleton
         private static void CreateNew()
         {
             var gameObject = new GameObject(typeof(T).Name);
-            _instance = gameObject.AddComponent<UnitySingleton<T>>();
+            _instance = gameObject.AddComponent<T>();
         }
 
         private void Awake()
         {
             if (_instance != null && _instance != this)
             {
-                Destroy(this);
+                DestroyImmediate(gameObject);
                 Debug.LogWarning($"Second <color={Color.cyan.ToHexadecimal()}>{typeof(T).Name}</color> sigleton component detected and removed!");
             }
             else
             {
-                _instance = this; 
-                DontDestroyOnLoad(this);
-            }
-        }
+                _instance = (T) this;
 
-        private void OnDestroy()
-        {
-            if (_instance == this)
-            {
-                CreateNew();
+                if (Application.isPlaying)
+                {
+                    gameObject.transform.SetParent(null);
+                    DontDestroyOnLoad(gameObject);
+                }
             }
         }
 

@@ -5,15 +5,15 @@ namespace ESparrow.Utils.Managers
 {
     public class UnityMessagesManager : UnitySingleton<UnityMessagesManager>
     {
-        public static event Action AwakeHandler;
-        public static event Action StartHandler;
-        public static event Action UpdateHandler;
-        public static event Action FixedUpdateHandler;
-        public static event Action LateUpdateHandler;
+        public event Action AwakeHandler;
+        public event Action StartHandler;
+        public event Action UpdateHandler;
+        public event Action FixedUpdateHandler;
+        public event Action LateUpdateHandler;
 
-        public static event Action OnApplicationQuitHandler;
-        public static event Action<bool> OnApplicationFocusHandler;
-        public static event Action<bool> OnApplicationPauseHandler;
+        public event Action OnApplicationQuitHandler;
+        public event Action<bool> OnApplicationFocusHandler;
+        public event Action<bool> OnApplicationPauseHandler;
 
         private void Awake() => AwakeHandler?.Invoke();
         private void Start() => StartHandler?.Invoke();

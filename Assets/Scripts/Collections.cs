@@ -6,6 +6,17 @@ namespace ESparrow.Utils
 {
     public static class Collections
     {
+        public static IEnumerable<TResult> ForEachResult<TInput, TResult>(IEnumerable<TInput> collection, Func<TInput, TResult> func)
+        {
+            var list = new List<TResult>();
+            foreach (var input in collection)
+            {
+                list.Add(func.Invoke(input));
+            }
+
+            return list.AsEnumerable();
+        }
+
         public static IEnumerable<T> For<T>(Func<int, T> func, int count)
         {
             var list = new List<T>();

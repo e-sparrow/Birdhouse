@@ -1,7 +1,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using ESparrow.Utils.Structs;
+using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Collections.Generic;
 
 namespace ESparrow.Utils.Services
 {
@@ -14,7 +15,7 @@ namespace ESparrow.Utils.Services
 
         [SerializeField] private AudioClip defaultClip;
 
-        [SerializeField] private List<Pair<string, AudioClip>> clips;
+        [SerializeField] private KeyValueCollection<string, AudioClip> clips;
 
         private float _currentVolume = 1f;
 
@@ -26,7 +27,7 @@ namespace ESparrow.Utils.Services
             _currentVolume = volume;
 
             StopAllCoroutines();
-            StartCoroutine(Coroutines.Graduate(SetProgress, duration));
+            StartCoroutine(CoroutinesHelper.Graduate(SetProgress, duration));
 
             void SetProgress(float progress)
             {
@@ -57,7 +58,7 @@ namespace ESparrow.Utils.Services
             component.Play();
 
             StopAllCoroutines();
-            StartCoroutine(Coroutines.Graduate(SetProgress, duration, false, null, DestroyPrevious));
+            StartCoroutine(CoroutinesHelper.Graduate(SetProgress, duration, false, null, DestroyPrevious));
 
             void SetProgress(float progress)
             {
@@ -99,7 +100,7 @@ namespace ESparrow.Utils.Services
 
         public AudioClip GetAmbienceByName(string name)
         {
-            return clips.FirstOrDefault(value => value.key == name).value;
+            return clips[name];
         }
 
         private void Start()

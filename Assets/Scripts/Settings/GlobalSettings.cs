@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using ESparrow.Utils.Managers;
+using ESparrow.Utils.Patterns.Singleton;
 
 namespace ESparrow.Utils.Settings
 {
-    public class GlobalSettings : MonoBehaviour
+    public class GlobalSettings : UnitySingleton<GlobalSettings>
     {
         [SerializeField] private List<Setting> settings;
 
@@ -20,6 +22,8 @@ namespace ESparrow.Utils.Settings
             {
                 item.value = value;
             }
+
+            Save();
         }
 
         public T GetSetting<T>(string key)
@@ -33,6 +37,27 @@ namespace ESparrow.Utils.Settings
             {
                 throw new Exception("Not correct type");
             }
+        }
+
+        private void Save()
+        {
+            foreach (var setting in settings)
+            {
+                StorageManager.Set(setting.key, JsonUtility.ToJson(setting.value));
+            }
+        }
+
+        private void Load()
+        {
+            foreach (var setting in settings)
+            {
+                setting.value = StorageManager.Get<string>(setting.key);
+            }
+        }
+
+        private void Start()
+        {
+            Load();
         }
     }
 }

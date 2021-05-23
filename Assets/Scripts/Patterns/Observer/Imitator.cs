@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using ESparrow.Utils.Helpers;
 
 namespace ESparrow.Utils.Patterns.Observer
 {
@@ -26,6 +27,17 @@ namespace ESparrow.Utils.Patterns.Observer
             _listener = listener;
         }
 
+        public void SubscribeToAll()
+        {
+            SubscribeToAllBeside();
+        }
+
+        public void SubscribeToAllBeside(params string[] names)
+        {
+            var filteredNames = GetAllMutableMembersBeside(names);
+            _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged += OnMemberChanged);
+        }
+
         public void SubscribeToMembers(params string[] names)
         {
             foreach (var name in names)
@@ -37,6 +49,17 @@ namespace ESparrow.Utils.Patterns.Observer
         public void SubscribeToMember(string name)
         {
             _observer.CreateMemberObserver(name).OnMemberChanged += OnMemberChanged;
+        }
+
+        public void UnsubscribeFromAll()
+        {
+            UnsubscribeFromAllBeside();
+        }
+
+        public void UnsubscribeFromAllBeside(params string[] names)
+        {
+            var filteredNames = GetAllMutableMembersBeside(names);
+            _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged -= OnMemberChanged);
         }
 
         public void UnsubscribeFromMembers(params string[] names)
@@ -52,20 +75,10 @@ namespace ESparrow.Utils.Patterns.Observer
             _observer.RemovePropertyObserver(name);
         }
 
-        public void SubscribeToAll()
+        private string[] GetAllMutableMembersBeside(params string[] names)
         {
-            SubscribeToAllBeside();
-        }
-
-        public void SubscribeToAllBeside(params string[] names)
-        {
-            var fields = typeof(T).GetFields(Reflection.AnyBindingFlags);
-            var properties = typeof(T).GetProperties(Reflection.AnyBindingFlags);
-
-            var memberNames = properties.Select(property => property.Name).Concat(fields.Select(field => field.Name));
-            var filteredNames = memberNames.Where(value => !names.Contains(value)).ToArray();
-
-            _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged += OnMemberChanged);
+            var memberNames = typeof(T).GetMutableMemberNames(ReflectionHelper.AnyBindingFlags);
+            return memberNames.Where(value => !names.Contains(value)).ToArray();
         }
 
         private void Init(T subject)
@@ -78,11 +91,9 @@ namespace ESparrow.Utils.Patterns.Observer
 
         private void OnMemberChanged(string name, object before, object after)
         {
-            Debug.Log($"OnMemberChanged");
-
             object value;
 
-            var field = typeof(T).GetField(name, Reflection.AnyBindingFlags);
+            var field = typeof(T).GetField(name, ReflectionHelper.AnyBindingFlags);
             if (field != null)
             {
                 value = field.GetValue(_subject);
@@ -95,7 +106,7 @@ namespace ESparrow.Utils.Patterns.Observer
             }
             else
             {
-                var property = typeof(T).GetProperty(name, Reflection.AnyBindingFlags);
+                var property = typeof(T).GetProperty(name, ReflectionHelper.AnyBindingFlags);
 
                 value = field.GetValue(_subject);
                 property.SetValue(_value, value);

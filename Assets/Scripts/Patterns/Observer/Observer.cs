@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
+using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Managers;
 
 namespace ESparrow.Utils.Patterns.Observer
@@ -20,7 +21,7 @@ namespace ESparrow.Utils.Patterns.Observer
 
         public MemberObserver[] CreateMemberObservers(params string[] names)
         {
-            return Collections.ForEachResult(names, CreateMemberObserver).ToArray();
+            return CollectionsHelper.ForEachResult(names, CreateMemberObserver).ToArray();
         }
 
         public MemberObserver CreateMemberObserver(string name)
@@ -62,7 +63,7 @@ namespace ESparrow.Utils.Patterns.Observer
 
         private bool CheckField(string name, out FieldInfo field, out object value)
         {
-            field = typeof(T).GetField(name, Reflection.AnyBindingFlags);
+            field = typeof(T).GetField(name, ReflectionHelper.AnyBindingFlags);
 
             bool exist = field != null;
             value = exist ? field.GetValue(_target) : null;
@@ -72,7 +73,7 @@ namespace ESparrow.Utils.Patterns.Observer
 
         private bool CheckProperty(string name, out PropertyInfo property, out object value)
         {
-            property = typeof(T).GetProperty(name, Reflection.AnyBindingFlags);
+            property = typeof(T).GetProperty(name, ReflectionHelper.AnyBindingFlags);
 
             bool exist = property != null;
             value = exist ? property.GetValue(_target) : null;
@@ -93,13 +94,13 @@ namespace ESparrow.Utils.Patterns.Observer
                 switch (observer.Type)
                 {
                     case MemberTypes.Field:
-                        var field = typeof(T).GetField(observer.Name, Reflection.AnyBindingFlags);
+                        var field = typeof(T).GetField(observer.Name, ReflectionHelper.AnyBindingFlags);
                         var fieldValue = field.GetValue(_target);
                         observer.Check(fieldValue);
                         break;
 
                     case MemberTypes.Property:
-                        var property = typeof(T).GetProperty(observer.Name, Reflection.AnyBindingFlags);
+                        var property = typeof(T).GetProperty(observer.Name, ReflectionHelper.AnyBindingFlags);
                         var propertyValue = property.GetValue(_target);
                         observer.Check(propertyValue);
                         break;

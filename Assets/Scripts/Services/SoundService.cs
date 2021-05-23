@@ -3,17 +3,18 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Enums;
-using ESparrow.Utils.Structs;
+using ESparrow.Utils.Collections.Generic;
+using ESparrow.Utils.Instances;
 
 namespace ESparrow.Utils.Services
 {
-    [AddComponentMenu("Utils/Services/SoundService")]
+    [AddComponentMenu("ESparrow/Utils/Services/SoundService")]
     public class SoundService : MonoBehaviour
     {
         [SerializeField] private GameObject sourcePrefab;
 
         // Здесь хранятся кривые с определёнными настройками звука.
-        [SerializeField] private List<CurveVolumeTypePair> curveVolumeTypePairs;
+        [SerializeField] private EnumValueCollection<ESoundVolumeType, AnimationCurve> curveVolumeTypePairs;
 
         // Список из пар имя-звук, заполняемый в инспекторе.
         [SerializeField] private List<NameAudioClipPair> nameAudioClipPairs;
@@ -109,9 +110,9 @@ namespace ESparrow.Utils.Services
         /// </summary>
         private AnimationCurve GetCurveByType(ESoundVolumeType type)
         {
-            if (curveVolumeTypePairs.Any(value => value.volumeType == type))
+            if (curveVolumeTypePairs[type] != null)
             {
-                return curveVolumeTypePairs.FirstOrDefault(value => value.volumeType == type).curve;
+                return curveVolumeTypePairs[type];
             }
             else
             {

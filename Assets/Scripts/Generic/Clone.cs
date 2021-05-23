@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using ESparrow.Utils.Helpers;
 
-namespace ESparrow.Utils.Generics
+namespace ESparrow.Utils.Generic
 {
     public static class Clone<T>
     {
@@ -13,8 +14,8 @@ namespace ESparrow.Utils.Generics
 
         public static T GetClone(T original)
         {
-            var properties = typeof(T).GetProperties(Reflection.AnyBindingFlags);
-            var constructors = typeof(T).GetConstructors(Reflection.AnyBindingFlags);
+            var properties = typeof(T).GetProperties(ReflectionHelper.AnyBindingFlags);
+            var constructors = typeof(T).GetConstructors(ReflectionHelper.AnyBindingFlags);
             var clone = constructors[0].Invoke(null);
 
             foreach (var property in properties)

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using ESparrow.Utils.Helpers;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -10,7 +11,7 @@ namespace ESparrow.Utils.Extensions
         /// </summary>
         public static Transform[] GetChilds(this Transform transform)
         {
-            return Collections.For(value => transform.GetChild(value), transform.childCount).ToArray();
+            return CollectionsHelper.For(value => transform.GetChild(value), transform.childCount).ToArray();
         }
     }
 }

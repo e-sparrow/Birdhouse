@@ -1,5 +1,4 @@
 ﻿using System;
-using ESparrow.Utils.Enums;
 
 namespace ESparrow.Utils.Settings
 {
@@ -14,6 +13,7 @@ namespace ESparrow.Utils.Settings
         public Setting(string key, Type type, object value)
         {
             this.key = key;
+
             this.type = type;
             this.value = value;
         }

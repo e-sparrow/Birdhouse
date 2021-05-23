@@ -4,32 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Enums;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Managers;
 
 namespace ESparrow.Utils.Listeners
 {
-    public class PressListener : MonoBehaviour
+    public class PressListener
     {
+        public PressListener()
+        {
+            UnityMessagesManager.Instance.UpdateHandler += Check;
+        }
+
         public event Action<KeyCode> OnAnyKeyPressed;
 
-        public bool IsActive
+        private void Check()
         {
-            get;
-            private set;
-        }
-
-        public void SetActive(bool active)
-        {
-            IsActive = active;
-        }
-
-        private void Update()
-        {
-            if (IsActive)
+            foreach (var key in KeysHelper.GetKeysWithState(EKeyState.Pressed))
             {
-                foreach (var key in KeysHelper.GetKeysWithState(EKeyState.Pressed))
-                {
-                    OnAnyKeyPressed?.Invoke(key);
-                }
+                OnAnyKeyPressed?.Invoke(key);
             }
         }
     }

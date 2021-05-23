@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Random = UnityEngine.Random;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -16,7 +15,7 @@ namespace ESparrow.Utils.Extensions
         public static T GetRandom<T>(this IEnumerable<T> collection)
         {
             var array = collection.ToArray();
-            return array[Random.Range(0, array.Length)];
+            return array[UnityEngine.Random.Range(0, array.Length)];
         }
 
         /// <summary>
@@ -27,7 +26,7 @@ namespace ESparrow.Utils.Extensions
             var array = collection.ToArray();
 
             double sum = array.Sum(value => weight(value));
-            double random = Random.Range(0f, (float) sum);
+            double random = UnityEngine.Random.Range(0f, (float) sum);
 
             foreach (var element in array)
             {

@@ -42,12 +42,12 @@ namespace ESparrow.Utils.Managers
 
         private static void Save()
         {
-            SerializationManager.Serialize(_storage, dataPath, ESerializationMethod.Xml);
+            SerializationManager.Serialize(_storage, dataPath, ESerializationMethod.Binary);
         }
 
         private static void Load()
         {
-            _storage = SerializationManager.Deserialize<Dictionary<string, string>>(dataPath, ESerializationMethod.Xml);
+            _storage = SerializationManager.Deserialize<Dictionary<string, string>>(dataPath, ESerializationMethod.Binary);
         }
     }
 }

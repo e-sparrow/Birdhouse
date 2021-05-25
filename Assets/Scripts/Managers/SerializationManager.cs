@@ -15,20 +15,20 @@ namespace ESparrow.Utils.Managers
             {
                 case ESerializationMethod.Xml:
                     XmlSerializer serializer = new XmlSerializer(obj.GetType());
-                    using (StreamWriter writer = new StreamWriter(directory))
+                    using (var stream = File.CreateText(directory))
                     {
-                        serializer.Serialize(writer, obj); 
+                        serializer.Serialize(stream, obj); 
                     }
                     break;
                 case ESerializationMethod.Json:
-                    using (StreamWriter stream = new StreamWriter(directory))
+                    using (var stream = File.CreateText(directory))
                     {
                         stream.Write(JsonUtility.ToJson(obj, true));
                     }
                     break;
                 case ESerializationMethod.Binary:
                     BinaryFormatter formatter = new BinaryFormatter();
-                    using (FileStream stream = new FileStream(directory, FileMode.Create, FileAccess.Write, FileShare.Write))
+                    using (var stream = File.Create(directory))
                     {
                         formatter.Serialize(stream, obj);
                     }
@@ -40,22 +40,22 @@ namespace ESparrow.Utils.Managers
 
         public static T Deserialize<T>(string directory, ESerializationMethod method)
         {
-            switch (method)
+            switch (method) 
             {
                 case ESerializationMethod.Xml:
                     XmlSerializer deserializer = new XmlSerializer(typeof(T));
-                    using (TextReader reader = new StreamReader(directory))
+                    using (var reader = File.OpenRead(directory))
                     {
                         return (T) deserializer.Deserialize(reader);
                     }
                 case ESerializationMethod.Json:
-                    using (StreamReader stream = new StreamReader(directory))
+                    using (var stream = File.OpenText(directory))
                     {
                         return JsonUtility.FromJson<T>(stream.ReadToEnd());
                     }
                 case ESerializationMethod.Binary:
                     BinaryFormatter formatter = new BinaryFormatter();
-                    using (FileStream stream = new FileStream(directory, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
+                    using (var stream = File.OpenRead(directory))
                     {
                         return (T) formatter.Deserialize(stream);
                     }

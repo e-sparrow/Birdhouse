@@ -15,7 +15,7 @@ namespace ESparrow.Utils.UI
         {
             int fps = (int) (1f / Time.deltaTime);   
 
-            text.text = fps.ToString();
+            text.text = $"Fps: {fps}";
             text.color = gradient.Evaluate(curve.Evaluate(fps));
         }
     }

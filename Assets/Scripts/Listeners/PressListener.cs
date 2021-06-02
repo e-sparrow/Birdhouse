@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Enums;
 using ESparrow.Utils.Helpers;
@@ -13,6 +11,11 @@ namespace ESparrow.Utils.Listeners
         public PressListener()
         {
             UnityMessagesManager.Instance.UpdateHandler += Check;
+        }
+
+        ~PressListener()
+        {
+            UnityMessagesManager.Instance.UpdateHandler -= Check;
         }
 
         public event Action<KeyCode> OnAnyKeyPressed;

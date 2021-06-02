@@ -4,17 +4,11 @@ namespace ESparrow.Utils.Patterns.Command
 {
     public class Command
     {
-        private readonly string _name;
-
         private readonly Action _doAction = () => { };
         private readonly Action _undoAction = () => { };
 
-        public string Name => _name;
-
-        public Command(string name, Action doAction, Action undoAction)
+        public Command(Action doAction, Action undoAction)
         {
-            _name = name;
-
             _doAction = doAction;
             _undoAction = undoAction;
         }

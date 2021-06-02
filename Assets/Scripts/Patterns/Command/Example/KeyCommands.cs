@@ -14,30 +14,27 @@ namespace ESparrow.Utils.Patterns.Command.Example
         [SerializeField] private KeyCode undoKey;
         [SerializeField] private KeyCode redoKey;
 
-        [SerializeField] private Executor executor;
-        [SerializeField] private CommandExecutor commandExecutor;
+        private readonly InstructionExecutor _instructionExecutor = new InstructionExecutor();
+        private readonly CommandExecutor _commandExecutor = new CommandExecutor();
 
-        private KeyInstruction incrementInstruction;
-        private KeyInstruction decrementInstruction;
+        private InstructionBase _incrementInstruction;
+        private InstructionBase _decrementInstruction;
+        private InstructionBase _undoInstruction;
+        private InstructionBase _redoInstruction;
 
-        private KeyInstruction undoInstruction;
-        private KeyInstruction redoInstruction;
-
-        private Command incrementCommand;
-        private Command decrementCommand;
+        private Command _incrementCommand;
+        private Command _decrementCommand;
 
         private int _targetInt;
 
         private void Increment()
         {
-            var command = commandExecutor.GetCommandByName("Increment");
-            commandExecutor.DoCommand(command);
+            _commandExecutor.DoCommand(_incrementCommand);
         }
 
         private void Decrement()
         {
-            var command = commandExecutor.GetCommandByName("Decrement");
-            commandExecutor.DoCommand(command);
+            _commandExecutor.DoCommand(_decrementCommand);
         }
 
         private void IncrementValue()
@@ -55,55 +52,45 @@ namespace ESparrow.Utils.Patterns.Command.Example
         private void Undo()
         {
             Debug.Log($"Undo");
-            commandExecutor.Undo();
+            _commandExecutor.Undo();
         }
 
         private void Redo()
         {
             Debug.Log($"Redo");
-            commandExecutor.Redo();
+            _commandExecutor.Redo();
         }
 
         private void OnEnable()
         {
-            incrementCommand = new Command("Increment", IncrementValue, DecrementValue);
-            decrementCommand = new Command("Decrement", DecrementValue, IncrementValue);
+            _incrementInstruction = new KeyInstruction(incrementKey, EKeyState.Pressed, Increment);
+            _decrementInstruction = new KeyInstruction(decrementKey, EKeyState.Pressed, Decrement);
+            _undoInstruction = new KeyInstruction(undoKey, EKeyState.Pressed, Undo);
+            _redoInstruction = new KeyInstruction(redoKey, EKeyState.Pressed, Redo);
 
-            commandExecutor.AddCommand(incrementCommand);
-            commandExecutor.AddCommand(decrementCommand);
+            _instructionExecutor.AddInstruction(_incrementInstruction);
+            _instructionExecutor.AddInstruction(_decrementInstruction);
+            _instructionExecutor.AddInstruction(_undoInstruction);
+            _instructionExecutor.AddInstruction(_redoInstruction);
 
-            incrementInstruction = new KeyInstruction(incrementKey, EKeyState.Pressed, Increment);
-            decrementInstruction = new KeyInstruction(decrementKey, EKeyState.Pressed, Decrement);
-
-            undoInstruction = new KeyInstruction(undoKey, EKeyState.Pressed, Undo);
-            redoInstruction = new KeyInstruction(redoKey, EKeyState.Pressed, Redo);
-
-            executor.AddInstruction(incrementInstruction);
-            executor.AddInstruction(decrementInstruction);
-
-            executor.AddInstruction(undoInstruction);
-            executor.AddInstruction(redoInstruction);
+            _incrementCommand = new Command(IncrementValue, DecrementValue);
+            _decrementCommand = new Command(DecrementValue, IncrementValue);
         }
 
         private void OnDisable()
         {
-            executor.RemoveInstruction(incrementInstruction);
-            executor.RemoveInstruction(decrementInstruction);
+            _instructionExecutor.RemoveInstruction(_incrementInstruction);
+            _instructionExecutor.RemoveInstruction(_decrementInstruction);
+            _instructionExecutor.RemoveInstruction(_undoInstruction);
+            _instructionExecutor.RemoveInstruction(_redoInstruction);
 
-            executor.RemoveInstruction(undoInstruction);
-            executor.RemoveInstruction(redoInstruction);
+            _incrementInstruction = null;
+            _decrementInstruction = null;
+            _undoInstruction = null;
+            _redoInstruction = null;
 
-            commandExecutor.RemoveCommand(incrementCommand);
-            commandExecutor.RemoveCommand(decrementCommand);
-
-            incrementInstruction = null;
-            decrementInstruction = null;
-
-            undoInstruction = null;
-            redoInstruction = null;
-
-            incrementCommand = null;
-            decrementCommand = null;
+            _incrementCommand = null;
+            _decrementCommand = null;
         }
     }
 }

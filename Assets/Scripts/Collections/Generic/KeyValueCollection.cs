@@ -3,13 +3,14 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ESparrow.Utils.Helpers;
 
 namespace ESparrow.Utils.Collections.Generic
 {
     [Serializable]
     public class KeyValueCollection<TKey, TValue> : IEnumerable
     {
+        [SerializeField] protected List<KeyValuePair> _pairs;
+
         public KeyValueCollection()
         {
             _pairs = new List<KeyValuePair>();
@@ -20,8 +21,6 @@ namespace ESparrow.Utils.Collections.Generic
             get => GetPairByKey(key).value;
             set => GetPairByKey(key).value = value;
         }
-
-        [SerializeField] private List<KeyValuePair> _pairs;
 
         private KeyValuePair GetPairByKey(TKey key)
         {
@@ -36,15 +35,13 @@ namespace ESparrow.Utils.Collections.Generic
         [Serializable]
         protected class KeyValuePair
         {
-            [SerializeField] [HideInInspector] private string name;
-
             public TKey key;
             public TValue value;
 
-            public KeyValuePair(TKey key)
+            public KeyValuePair(TKey key, TValue value = default)
             {
                 this.key = key;
-                name = key.ToString();
+                this.value = value;
             }
         }
     }

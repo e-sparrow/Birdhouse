@@ -1,34 +1,24 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace ESparrow.Utils.Patterns.Command
 {
-    [AddComponentMenu("ESparrow/Utils/Patterns/CommandExecutor")]
-    public class CommandExecutor : MonoBehaviour
+    public class CommandExecutor
     {
-        // Если глубина буфера равна нулю, то его размерность не ограничена. Осторожней.
-        [SerializeField] private uint undoCommandsDepth;
-        [SerializeField] private uint redoCommandsDepth;
+        public event Action OnEmptyUndoExecuted; // События вызова команды Undo, когда стек _undoCommands пуст.
+        public event Action OnEmptyRedoExecuted; // Аналогично событию сверху, но с _redoCommands.
 
-        private readonly List<Command> _commands = new List<Command>();
+        // Если глубина буфера равна нулю, то его размерность не ограничена. Осторожней.
+        private readonly uint _undoDepth;
+        private readonly uint _redoDepth;
 
         private readonly Stack<Command> _undoCommands = new Stack<Command>();
         private readonly Stack<Command> _redoCommands = new Stack<Command>();
 
-        public Command GetCommandByName(string name)
+        public CommandExecutor(uint undoDepth = 0, uint redoDepth = 0)
         {
-            return _commands.FirstOrDefault(value => value.Name == name);
-        }
-
-        public void AddCommand(Command command)
-        {
-            _commands.Add(command);
-        }
-
-        public void RemoveCommand(Command command)
-        {
-            _commands.Remove(command);
+            _undoDepth = undoDepth;
+            _redoDepth = redoDepth;
         }
 
         public void DoCommand(Command command)
@@ -41,12 +31,16 @@ namespace ESparrow.Utils.Patterns.Command
 
         public void Undo()
         {
-            if (_undoCommands.Count == 0) return;
+            if (_undoCommands.Count == 0)
+            {
+                OnEmptyUndoExecuted?.Invoke();
+                return;
+            }
 
             var command = _undoCommands.Pop();
             command.Undo();
 
-            if (redoCommandsDepth == 0 || _redoCommands.Count + 1 <= redoCommandsDepth)
+            if (_redoDepth == 0 || _redoCommands.Count + 1 <= _redoDepth)
             {
                 _redoCommands.Push(command);
             }
@@ -54,12 +48,16 @@ namespace ESparrow.Utils.Patterns.Command
 
         public void Redo()
         {
-            if (_redoCommands.Count == 0) return;
+            if (_redoCommands.Count == 0)
+            {
+                OnEmptyRedoExecuted?.Invoke();
+                return;
+            }
 
             var command = _redoCommands.Pop();
             command.Do();
 
-            if (undoCommandsDepth == 0 || _undoCommands.Count + 1 <= undoCommandsDepth)
+            if (_undoDepth == 0 || _undoCommands.Count + 1 <= _undoDepth)
             {
                 _undoCommands.Push(command);
             }

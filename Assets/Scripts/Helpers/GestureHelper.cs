@@ -22,12 +22,18 @@ namespace ESparrow.Utils.Helpers
 
         public event Action<Vector2, float> OnStretch;
 
+        private const float MaxTouchesMagnitude = 5f; // Максимальное расстояние для того, чтобы зарегистрировался тач.
         private const float TapDuration = 0.1f; // Продолжительность нажатия.
         private const float BetweenDoubleTap = 0.1f; // Промежуток между нажатиями для регистрации двойного нажатия.
         private const float TouchDuration = 0.25f; // Продолжительность тача.
         private const float TouchAndHoldDuration = 1f; // Продолжительность тача и удержания.
-        private const float MinSwypeLength = 50f; // Минимальная длина свайпа в пикселях.
-        private const float MinFlickLength = 150f; // Минимальная длина флика. Так же в пикселях.
+
+        private const float MaxSwypeDuration = 0.75f; // Максимальное время свайпа. Если 
+        private const float MaxFlickDuration = 1.5f; // Максимальное время флика.
+        private const float MinSwypeLength = 25f; // Минимальная длина свайпа в пикселях.
+        private const float MinFlickLength = 100f; // Минимальная длина флика. Так же в пикселях.
+
+        private readonly List<TouchInfo> _touches = new List<TouchInfo>();
 
         public GestureHelper()
         {
@@ -39,16 +45,41 @@ namespace ESparrow.Utils.Helpers
             UnityMessagesManager.Instance.UpdateHandler -= Check;
         }
 
-        // TODO:
-
         private void Check()
+        {
+            CheckTouches();
+            CheckDrags();
+            CheckStretching();
+        }
+
+        private void CheckTouches()
         {
 
         }
 
-        private void CheckTap()
+        private void CheckDrags()
         {
 
+        }
+
+        private void CheckStretching()
+        {
+
+        }
+
+        private class TouchInfo
+        {
+            private readonly Touch _touch;
+            private readonly float _appearenceTime;
+
+            public Touch Touch => _touch;
+            public float TimeSinceAppear => Time.time - _appearenceTime;
+
+            public TouchInfo(Touch touch)
+            {
+                _touch = touch;
+                _appearenceTime = Time.time;
+            }
         }
     }
 }

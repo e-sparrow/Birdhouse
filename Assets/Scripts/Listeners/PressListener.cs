@@ -8,6 +8,8 @@ namespace ESparrow.Utils.Listeners
 {
     public class PressListener
     {
+        public event Action<KeyCode> OnAnyKeyPressed;
+
         public PressListener()
         {
             UnityMessagesManager.Instance.UpdateHandler += Check;
@@ -17,8 +19,6 @@ namespace ESparrow.Utils.Listeners
         {
             UnityMessagesManager.Instance.UpdateHandler -= Check;
         }
-
-        public event Action<KeyCode> OnAnyKeyPressed;
 
         private void Check()
         {

@@ -3,9 +3,9 @@ using ESparrow.Utils.Enums;
 using ESparrow.Utils.Instructions;
 using ESparrow.Utils.Instructions.Kinds;
 
-namespace ESparrow.Utils.Patterns.Command.Example
+namespace ESparrow.Utils.Patterns.Command.Examples
 {
-    [AddComponentMenu("ESparrow/Utils/Patterns/Command/Example")]
+    [AddComponentMenu("ESparrow/Utils/Patterns/Command/Examples/KeyCommands")]
     public class KeyCommands : MonoBehaviour
     {
         [SerializeField] private KeyCode incrementKey;
@@ -14,8 +14,8 @@ namespace ESparrow.Utils.Patterns.Command.Example
         [SerializeField] private KeyCode undoKey;
         [SerializeField] private KeyCode redoKey;
 
-        private readonly InstructionExecutor _instructionExecutor = new InstructionExecutor();
-        private readonly CommandExecutor _commandExecutor = new CommandExecutor();
+        private InstructionExecutor _instructionExecutor;
+        private CommandExecutor _commandExecutor;
 
         private InstructionBase _incrementInstruction;
         private InstructionBase _decrementInstruction;
@@ -59,6 +59,12 @@ namespace ESparrow.Utils.Patterns.Command.Example
         {
             Debug.Log($"Redo");
             _commandExecutor.Redo();
+        }
+
+        private void Start()
+        {
+            _instructionExecutor = new InstructionExecutor(); 
+            _commandExecutor = new CommandExecutor();
         }
 
         private void OnEnable()

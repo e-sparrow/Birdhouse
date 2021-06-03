@@ -7,7 +7,7 @@ namespace ESparrow.Utils.UI.ViewControllers
     {
         public Action<bool> OnActiveStateChanged;
 
-        [SerializeField] private GameObject panel;
+        [SerializeField] protected GameObject panel;
 
         [SerializeField] private bool closePrevious; // Закрывать предыдущее окно при открытии этого.
         [SerializeField] private bool defaultActive; // Должен ли ViewController быть открыт по запуску игры.

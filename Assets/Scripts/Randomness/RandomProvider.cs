@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ESparrow.Utils.Random
+namespace ESparrow.Utils.Randomness
 {
     public static class RandomProvider
     {
@@ -14,7 +14,7 @@ namespace ESparrow.Utils.Random
                 Debug.LogWarning($"Chance is outside the bounds of the array.");
             }
 
-            return UnityEngine.Random.Range(0, 100) <= chance;
+            return Random.Range(0, 100) <= chance;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace ESparrow.Utils.Random
                 Debug.LogWarning($"Chance is outside the bounds of the array.");
             }
 
-            return UnityEngine.Random.Range(0f, 1f) <= chance;
+            return Random.Range(0f, 1f) <= chance;
         }
     }
 }

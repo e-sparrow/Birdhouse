@@ -32,8 +32,16 @@ namespace ESparrow.Utils.Extensions
             return new Vector2(clampedX, clampedY);
         }
 
-        public static Vector2[] GetCorners(this Rect rect)
+        public static Vector2 GetRandomRectPoint(this Rect rect)
         {
+            var randomX = Random.Range(rect.x, rect.x + rect.width);
+            var randomY = Random.Range(rect.y, rect.y + rect.height);
+
+            return new Vector2(randomX, randomY);
+        }
+
+        public static Vector2[] GetCorners(this Rect rect)
+        {   
             return new Vector2[]
             {
                 new Vector2(rect.xMin, rect.yMin),

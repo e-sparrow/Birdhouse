@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Patterns.Command
+namespace ESparrow.Utils.Patterns.CommandPattern
 {
     public class Command
     {

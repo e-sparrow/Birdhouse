@@ -3,7 +3,7 @@ using ESparrow.Utils.Enums;
 using ESparrow.Utils.Instructions;
 using ESparrow.Utils.Instructions.Kinds;
 
-namespace ESparrow.Utils.Patterns.Command.Examples
+namespace ESparrow.Utils.Patterns.CommandPattern.Examples
 {
     [AddComponentMenu("ESparrow/Utils/Patterns/Command/Examples/KeyCommands")]
     public class KeyCommands : MonoBehaviour
@@ -29,12 +29,12 @@ namespace ESparrow.Utils.Patterns.Command.Examples
 
         private void Increment()
         {
-            _commandExecutor.DoCommand(_incrementCommand);
+            _commandExecutor.Execute(_incrementCommand);
         }
 
         private void Decrement()
         {
-            _commandExecutor.DoCommand(_decrementCommand);
+            _commandExecutor.Execute(_decrementCommand);
         }
 
         private void IncrementValue()

@@ -1,5 +1,5 @@
 using UnityEngine;
-using ESparrow.Utils.Patterns.Command;
+using ESparrow.Utils.Patterns.CommandPattern;
 
 namespace ESparrow.Utils.UI.ViewControllers
 {
@@ -29,7 +29,7 @@ namespace ESparrow.Utils.UI.ViewControllers
             var tempCurrent = _currentViewController;
 
             var command = new Command(Open, Close);
-            _commandExecutor.DoCommand(command);
+            _commandExecutor.Execute(command);
 
             _currentViewController = viewController;
 

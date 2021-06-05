@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ESparrow.Utils.Patterns.Command
+namespace ESparrow.Utils.Patterns.CommandPattern
 {
     public class CommandExecutor
     {
@@ -21,7 +21,7 @@ namespace ESparrow.Utils.Patterns.Command
             _redoDepth = redoDepth;
         }
 
-        public void DoCommand(Command command)
+        public void Execute(Command command)
         {
             command.Do();
 

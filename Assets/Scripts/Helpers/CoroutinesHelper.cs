@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ESparrow.Utils.Helpers
@@ -46,6 +47,20 @@ namespace ESparrow.Utils.Helpers
                 action.Invoke();
                 yield return duration;
             }
+        }
+
+        /// <summary>
+        /// Воспроизводит метод foreach с 
+        /// </summary>
+        public static IEnumerator ForeachWithStep<T>(IEnumerable<T> collection, Action<T> action, float step, Action callback = default)
+        {
+            foreach (var element in collection)
+            {
+                action.Invoke(element);
+                yield return new WaitForSeconds(step);
+            }
+
+            callback?.Invoke();
         }
     }
 }

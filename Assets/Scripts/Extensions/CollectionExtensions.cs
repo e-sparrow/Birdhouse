@@ -12,7 +12,7 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Получает случайный элемент коллекции.
         /// </summary>
-        public static T GetRandom<T>(this IEnumerable<T> collection)
+        public static T GetRandom<T>(this ICollection<T> collection)
         {
             var array = collection.ToArray();
             return array[UnityEngine.Random.Range(0, array.Length)];
@@ -21,7 +21,7 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Получает случайный элемент из коллекции, учитывая его вес, за который можно принять любое float, int или double число.
         /// </summary>
-        public static T GetWeighedRandom<T>(this IEnumerable<T> collection, Func<T, double> weight)
+        public static T GetWeighedRandom<T>(this ICollection<T> collection, Func<T, double> weight)
         {
             var array = collection.ToArray();
 
@@ -43,7 +43,7 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Меняет элементы местами по ссылкам на них.
         /// </summary>
-        public static C Swap<C, T>(this C collection, T left, T right) where C : IEnumerable<T>
+        public static C Swap<C, T>(this C collection, T left, T right) where C : ICollection<T>
         {
             Validate();
 
@@ -69,7 +69,7 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Меняет элементы местами по индексу.
         /// </summary>
-        public static C Swap<C, T>(this C collection, int leftIndex, int rightIndex) where C : IEnumerable<T>
+        public static C Swap<C, T>(this C collection, int leftIndex, int rightIndex) where C : ICollection<T>
         {
             Validate();
 
@@ -92,7 +92,7 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Перемешивает элементы коллекции в случайном порядке.
         /// </summary>
-        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection)
+        public static ICollection<T> Shake<T>(this ICollection<T> collection)
         {
             foreach (var element in collection)
             {
@@ -105,11 +105,11 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Возвращает count последних элементов коллекции.
         /// </summary>
-        public static IEnumerable<T> Last<T>(this IEnumerable<T> collection, int count)
+        public static ICollection<T> Last<T>(this ICollection<T> collection, int count)
         {
             if (collection.Count() > count)
             {
-                return collection.ToList().GetRange(collection.Count() - 1 - count, count).AsEnumerable();
+                return collection.ToList().GetRange(collection.Count() - 1 - count, count);
             }
             else
             {
@@ -118,9 +118,18 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
+        /// Добавляет элемент к коллекции и возвращает его же (Fluent-pattern)
+        /// </summary>
+        public static T AddTo<T>(this T element, ICollection<T> collection)
+        {
+            collection.Add(element);
+            return element;
+        }
+
+        /// <summary>
         /// Метод, созданный с целью сократить дублирование кода.
         /// </summary>
-        private static IEnumerable<T> Swap<T>(this IEnumerable<T> collection, int leftIndex, int rightIndex)
+        private static ICollection<T> Swap<T>(this ICollection<T> collection, int leftIndex, int rightIndex)
         {
             var array = collection.ToArray();
 
@@ -128,7 +137,7 @@ namespace ESparrow.Utils.Extensions
             array[leftIndex] = array[rightIndex];
             array[rightIndex] = temp;
 
-            return array.AsEnumerable();
+            return array;
         }
     }
 }

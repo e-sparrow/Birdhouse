@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace ESparrow.Utils.Extensions
@@ -47,6 +46,46 @@ namespace ESparrow.Utils.Extensions
             scale.z = new Vector4(matrix.m02, matrix.m12, matrix.m22, matrix.m32).magnitude;
 
             return scale;
+        }
+
+        /// <summary>
+        /// Устанавливает матрице позицию и возвращает получившуюся матрицу.
+        /// </summary>
+        public static Matrix4x4 SetPosition(this Matrix4x4 matrix, Vector3 position)
+        {
+            matrix.m03 = position.x;
+            matrix.m13 = position.y;
+            matrix.m23 = position.z;
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Устанавливает матрице поворот и возвращает получившуюся матрицу.
+        /// </summary>
+        public static Matrix4x4 SetRotation(this Matrix4x4 matrix, Quaternion rotation)
+        {
+            Vector3 forward = rotation * Vector3.forward;
+            matrix.m02 = forward.x;
+            matrix.m12 = forward.y;
+            matrix.m22 = forward.z;
+
+            Vector3 upwards = rotation * Vector3.up;
+            matrix.m01 = upwards.x;
+            matrix.m11 = upwards.y;
+            matrix.m21 = upwards.z;
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Устанавливает матрице размер и возвращает получившуюся матрицу.
+        /// </summary>
+        public static Matrix4x4 SetScale(this Matrix4x4 matrix, Vector3 scale)
+        {
+            matrix = Matrix4x4.TRS(matrix.GetPosition(), matrix.GetRotation(), scale);
+
+            return matrix;
         }
     }
 }

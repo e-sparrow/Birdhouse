@@ -6,9 +6,10 @@ namespace ESparrow.Utils.Collections.Generic
 {
     public class Matrix<T> : StandardEnumerable<T>
     {
-        protected override T[] Array => _list.Select(value => value.value).ToArray();
+        protected override T[] Array => List.Select(value => value.value).ToArray();
 
         private readonly List<Element> _list = new List<Element>();
+        protected virtual List<Element> List => _list;
 
         public T this[Vector3Int index]
         {
@@ -45,15 +46,15 @@ namespace ESparrow.Utils.Collections.Generic
 
         public Vector3Int IndexOf(T element)
         {
-            return _list.FirstOrDefault(value => value.value.Equals(element)).index;
+            return List.FirstOrDefault(value => value.value.Equals(element)).index;
         }
 
         public void Remove(Vector3Int index)
         {
-            var removeElement = _list.FirstOrDefault(value => value.index == index);
-            int removeIndex = _list.IndexOf(removeElement);
+            var removeElement = List.FirstOrDefault(value => value.index == index);
+            int removeIndex = List.IndexOf(removeElement);
 
-            _list.RemoveAt(removeIndex);
+            List.RemoveAt(removeIndex);
         }
 
         public void Remove(Vector2Int index)
@@ -63,12 +64,12 @@ namespace ESparrow.Utils.Collections.Generic
 
         private Element Get(Vector3Int index)
         {
-            return _list.FirstOrDefault(value => value.index == index);
+            return List.FirstOrDefault(value => value.index == index);
         }
 
         private void Set(Vector3Int index, T value)
         {
-            var first = _list.FirstOrDefault(value => value.index == index);
+            var first = List.FirstOrDefault(value => value.index == index);
             if (first != null)
             {
                 first.value = value;
@@ -86,10 +87,10 @@ namespace ESparrow.Utils.Collections.Generic
             element.index = index;
             element.value = value;
 
-            _list.Add(element);
+            List.Add(element);
         }
 
-        private class Element
+        protected class Element
         {
             public T value;
             public Vector3Int index;

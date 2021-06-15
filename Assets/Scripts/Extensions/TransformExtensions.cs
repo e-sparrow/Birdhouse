@@ -9,10 +9,35 @@ namespace ESparrow.Utils.Extensions
     {
         /// <summary>
         /// Возвращает все дочерние объекты Transform'а.
+        /// Если nested, то возв
         /// </summary>
-        public static Transform[] GetChilds(this Transform transform)
+        public static Transform[] GetChilds(this Transform transform, bool nested = false)
         {
-            return CollectionsHelper.For(value => transform.GetChild(value), transform.childCount).ToArray();
+            var childs = CollectionsHelper.For(value => transform.GetChild(value), transform.childCount).ToArray(); 
+            if (!nested || transform.childCount == 0)
+            {
+                return childs;
+            }
+            else
+            {
+                return childs.Concat(childs.SelectMany(value => value.GetChilds())).ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Получает дочерние объекты Transform, вложенные в него до nestingLevel раз.
+        /// </summary>
+        public static Transform[] GetChilds(this Transform transform, int nestingLevel)
+        {
+            var childs = transform.GetChilds(false);
+            if (nestingLevel <= 1 || transform.childCount == 0)
+            {
+                return childs;
+            }
+            else
+            {
+                return childs.Concat(childs.SelectMany(value => value.GetChilds(nestingLevel - 1))).ToArray();
+            }
         }
 
         /// <summary>

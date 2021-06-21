@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Linq;
 
 namespace ESparrow.Utils.Helpers
 {
     public static class EnumsHelper
     {
+        public static int GetIndex<T>(this T self) where T : Enum
+        {
+            return ((T[]) typeof(T).GetEnumValues()).ToList().IndexOf(self);
+        }
+
         public static int GetCount<T>() where T : Enum
         {
             return typeof(T).GetEnumValues().Length;

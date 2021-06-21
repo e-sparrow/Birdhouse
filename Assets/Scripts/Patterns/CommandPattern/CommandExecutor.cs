@@ -29,6 +29,12 @@ namespace ESparrow.Utils.Patterns.CommandPattern
             _redoCommands.Clear();
         }
 
+        public void Clear()
+        {
+            _undoCommands.Clear();
+            _redoCommands.Clear();
+        }
+
         public void Undo()
         {
             if (_undoCommands.Count == 0)

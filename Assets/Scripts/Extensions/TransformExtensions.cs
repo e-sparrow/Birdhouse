@@ -11,10 +11,10 @@ namespace ESparrow.Utils.Extensions
         /// Возвращает все дочерние объекты Transform'а.
         /// Если nested, то возв
         /// </summary>
-        public static Transform[] GetChilds(this Transform transform, bool nested = false)
+        public static Transform[] GetChilds(this Transform transform, bool nesting = false)
         {
             var childs = CollectionsHelper.For(value => transform.GetChild(value), transform.childCount).ToArray(); 
-            if (!nested || transform.childCount == 0)
+            if (!nesting || transform.childCount == 0)
             {
                 return childs;
             }

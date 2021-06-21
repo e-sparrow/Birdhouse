@@ -14,6 +14,8 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         private bool _isActive; // Открыто ли окно. По умолчанию закрыто. Чтобы открыть, нужно вызвать метод Open.
 
+        public bool IsActive => _isActive;
+
         public void Toggle()
         {
             switch (_isActive)
@@ -38,6 +40,11 @@ namespace ESparrow.Utils.UI.ViewControllers
         }
 
         public void Close()
+        {
+            ViewControllersManager.Close();
+        }
+
+        public void Back()
         {
             if (_isActive && ViewControllersManager.IsCurrent(this))
             {

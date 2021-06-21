@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Managers;
+using ESparrow.Utils.Extensions;
 
 namespace ESparrow.Utils.Helpers
 {
@@ -10,6 +12,14 @@ namespace ESparrow.Utils.Helpers
     /// </summary>
     public class GestureHelper
     {
+        public delegate void Tap(Vector2 position);
+        public delegate void DoubleTap(Vector2 position);
+        public delegate void Touch(Vector2 position);
+        public delegate void TouchAndHold(Vector2 position);
+
+        public delegate void Swype(Vector2 from, Vector2 to);
+        public delegate void Flick(Vector2 from, Vector2 to);
+
         public event Action<Vector2> OnTap;
         public event Action<Vector2> OnDoubleTap;
 
@@ -18,8 +28,8 @@ namespace ESparrow.Utils.Helpers
 
         public event Action<Vector2, Vector2> OnSwype;
         public event Action<Vector2, Vector2> OnFlick;
-        public event Action<Vector2, Vector2> OnDrag;
 
+        public event Action<Vector2> OnDrag;
         public event Action<Vector2, float> OnStretch;
 
         private const float MaxTouchesMagnitude = 5f; // Максимальное расстояние для того, чтобы зарегистрировался тач.
@@ -33,7 +43,7 @@ namespace ESparrow.Utils.Helpers
         private const float MinSwypeLength = 25f; // Минимальная длина свайпа в пикселях.
         private const float MinFlickLength = 100f; // Минимальная длина флика. Так же в пикселях.
 
-        private readonly List<TouchInfo> _touches = new List<TouchInfo>();
+        private readonly List<GestureListenerBase> _listeners = new List<GestureListenerBase>();
 
         public GestureHelper()
         {
@@ -47,38 +57,70 @@ namespace ESparrow.Utils.Helpers
 
         private void Check()
         {
-            CheckTouches();
-            CheckDrags();
-            CheckStretching();
+            _listeners.ForEach(value => value.Check());
         }
 
-        private void CheckTouches()
+        private abstract class GestureListenerBase
         {
-
+            public abstract void Check();
         }
 
-        private void CheckDrags()
+        private class GestureListenerGeneric<T> : GestureListenerBase where T : Delegate
         {
 
-        }
-
-        private void CheckStretching()
-        {
-
-        }
-
-        private class TouchInfo
-        {
-            private readonly Touch _touch;
-            private readonly float _appearenceTime;
-
-            public Touch Touch => _touch;
-            public float TimeSinceAppear => Time.time - _appearenceTime;
-
-            public TouchInfo(Touch touch)
+            public override void Check()
             {
-                _touch = touch;
-                _appearenceTime = Time.time;
+                throw new NotImplementedException();
+            }
+        }
+
+        private abstract class GestureListener
+        {
+            public GestureListener()
+            {
+
+            }
+
+            public abstract void Check();
+        }
+
+        private class DragListener : GestureListener
+        {
+            public override void Check()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private class StretchListener : GestureListener
+        {
+            public event Action<Vector2, float> OnStretch;
+
+            private float _deltaMagnitude;
+            private bool _stretching = false;
+
+            public override void Check()
+            {
+                if (Input.touches.Length > 1)
+                {
+                    var averagePosition = Input.touches.Select(value => value.position).Sum() / Input.touchCount;
+                    var magnitude = (Input.GetTouch(0).position - averagePosition).magnitude;
+
+                    if (!_stretching)
+                    {
+                        _stretching = true;
+                        _deltaMagnitude = magnitude;
+                        return;
+                    }
+
+                    OnStretch.Invoke(averagePosition, magnitude - _deltaMagnitude);
+
+                    _deltaMagnitude = magnitude;
+                }
+                else
+                {
+                    _stretching = false;
+                }
             }
         }
     }

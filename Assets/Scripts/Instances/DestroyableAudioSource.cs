@@ -105,7 +105,7 @@ namespace ESparrow.Utils.Instances
             source.Play();
 
             StopAllCoroutines();
-            StartCoroutine(CoroutinesHelper.Graduate(SetVolume, durationLeft, false, VolumeCurve, Stop));
+            StartCoroutine(CoroutinesHelper.CoroutineWithCallback(CoroutinesHelper.Graduate(SetVolume, durationLeft, false, VolumeCurve), Stop));
 
             void SetVolume(float progress)
             {

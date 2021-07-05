@@ -1,4 +1,7 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using ESparrow.Utils.Helpers;
 
 namespace ESparrow.Utils.Instructions.Kinds
 {
@@ -7,6 +10,7 @@ namespace ESparrow.Utils.Instructions.Kinds
         protected virtual Action Action
         {
             get;
+            private set;
         }
 
         protected abstract Func<bool> Condition
@@ -30,6 +34,14 @@ namespace ESparrow.Utils.Instructions.Kinds
             Action = action;
             SelfDestroy = selfDestroy;
             OnDestroy = onDestroy;
+        }
+
+        public async Task Wait(CancellationToken token = new CancellationToken())
+        {
+            var executed = false;
+            Action += () => executed = true;
+
+            await AsyncHelper.WaitUntil(() => executed, token);
         }
 
         public virtual bool TryExecute()

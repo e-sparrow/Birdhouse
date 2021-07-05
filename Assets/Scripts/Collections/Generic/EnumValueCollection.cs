@@ -13,12 +13,12 @@ namespace ESparrow.Utils.Collections.Generic
 
         public EnumValueCollection()
         {
-            int count = EnumsHelper.GetCount<TEnum>();
+            int count = EnumsHelper<TEnum>.GetCount();
 
             _pairs = new List<EnumValuePair>();
             for (int i = 0; i < count; i++)
             {
-                _pairs[i] = new EnumValuePair(EnumsHelper.GetByIndex<TEnum>(i));
+                _pairs[i] = new EnumValuePair(EnumsHelper<TEnum>.GetByIndex(i));
             }
         }
 

@@ -559,7 +559,7 @@ MonoBehaviour:
   curve:
     start: {x: 0, y: 0, z: 0}
     end: {x: 2, y: 1, z: 0}
-    guide: {x: 1, y: 2, z: 0}
+    guide: {x: 0.71, y: 1.66, z: 1.43}
 --- !u!4 &379726342
 Transform:
   m_ObjectHideFlags: 0

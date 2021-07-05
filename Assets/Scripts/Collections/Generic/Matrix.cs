@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,21 @@ namespace ESparrow.Utils.Collections.Generic
         public Matrix()
         {
 
+        }
+
+        public void Fill(Vector3Int from, Vector3Int to, Func<Vector3Int, T> func)
+        {
+            for (int x = from.x; x != to.x; x += Math.Sign(to.x - from.x))
+            {
+                for (int y = from.y; y != to.y; y += Math.Sign(to.y - from.y))
+                {
+                    for (int z = from.z; z != to.z; z += Math.Sign(to.z - from.z))
+                    {
+                        var index = new Vector3Int(x, y, z);
+                        this[index] = func.Invoke(index);
+                    }
+                }
+            }
         }
 
         public Vector3Int IndexOf(T element)

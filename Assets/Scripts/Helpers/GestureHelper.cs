@@ -43,7 +43,7 @@ namespace ESparrow.Utils.Helpers
         private const float MinSwypeLength = 25f; // Минимальная длина свайпа в пикселях.
         private const float MinFlickLength = 100f; // Минимальная длина флика. Так же в пикселях.
 
-        private readonly List<GestureListenerBase> _listeners = new List<GestureListenerBase>();
+        // private readonly List<GestureListenerBase> _listeners = new List<GestureListenerBase>();
 
         public GestureHelper()
         {
@@ -57,21 +57,12 @@ namespace ESparrow.Utils.Helpers
 
         private void Check()
         {
-            _listeners.ForEach(value => value.Check());
+            // _listeners.ForEach(value => value.Check());
         }
 
-        private abstract class GestureListenerBase
+        private abstract class GestureListenerGeneric<T>
         {
-            public abstract void Check();
-        }
-
-        private class GestureListenerGeneric<T> : GestureListenerBase where T : Delegate
-        {
-
-            public override void Check()
-            {
-                throw new NotImplementedException();
-            }
+            public abstract void Check(out T result);
         }
 
         private abstract class GestureListener

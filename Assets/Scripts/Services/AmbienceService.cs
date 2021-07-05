@@ -58,7 +58,7 @@ namespace ESparrow.Utils.Services
             component.Play();
 
             StopAllCoroutines();
-            StartCoroutine(CoroutinesHelper.Graduate(SetProgress, duration, false, null, DestroyPrevious));
+            StartCoroutine(CoroutinesHelper.CoroutineWithCallback(CoroutinesHelper.Graduate(SetProgress, duration, false, null), DestroyPrevious));
 
             void SetProgress(float progress)
             {

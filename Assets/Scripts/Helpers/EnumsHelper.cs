@@ -1,30 +1,39 @@
 ﻿using System;
-using System.Linq;
 
 namespace ESparrow.Utils.Helpers
 {
-    public static class EnumsHelper
+    public static class EnumsHelper<T> where T : Enum
     {
-        public static int GetIndex<T>(this T self) where T : Enum
-        {
-            return ((T[]) typeof(T).GetEnumValues()).ToList().IndexOf(self);
-        }
-
-        public static int GetCount<T>() where T : Enum
+        public static int GetCount()
         {
             return typeof(T).GetEnumValues().Length;
         }
 
-        public static T GetByIndex<T>(int index) where T : Enum
+        public static T GetRandom(int seed)
         {
-            return (T) Enum.GetValues(typeof(T)).GetValue(index);
+            return GetRandom(new Random(seed));
         }
 
-        public static void ForEach<T>(Action<T> action) where T : Enum
+        public static T GetRandom(Random random = null)
+        {
+            if (random == null)
+            {
+                random = new Random();
+            }
+
+            return GetByIndex(random.Next(0, GetCount()));
+        }
+
+        public static T GetByIndex(int index)
+        {
+            return (T)Enum.GetValues(typeof(T)).GetValue(index);
+        }
+
+        public static void ForEach(Action<T> action)
         {
             foreach (var value in Enum.GetValues(typeof(T)))
             {
-                action.Invoke((T) value);
+                action.Invoke((T)value);
             }
         }
     }

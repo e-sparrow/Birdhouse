@@ -39,7 +39,20 @@ namespace ESparrow.Utils.Extensions
 
             throw new Exception();
         }
-        
+
+        public static void CrossAggregate<T1, T2>(this IEnumerable<T1> self, IEnumerable<T2> other, Action<T1, T2> action)
+        {
+            var left = self.ToArray();
+            var right = other.ToArray();
+
+            int minCount = Math.Min(left.Length, right.Length);
+
+            for (int i = 0; i < minCount; i++)
+            {
+                action.Invoke(left[i], right[i]);
+            }
+        }
+
         /// <summary>
         /// Меняет элементы местами по ссылкам на них.
         /// </summary>
@@ -94,12 +107,19 @@ namespace ESparrow.Utils.Extensions
         /// </summary>
         public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection)
         {
-            foreach (var element in collection)
-            {
-                collection = collection.Swap(element, collection.GetRandom());
-            }
+            var random = new Random();
+            return collection.Shake(random);
+        }
 
-            return collection;
+        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection, int seed)
+        {
+            var random = new Random(seed);
+            return collection.Shake(random);
+        }
+
+        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection, Random random)
+        {
+            return collection.OrderBy(value => random.Next());
         }
 
         /// <summary>
@@ -204,6 +224,24 @@ namespace ESparrow.Utils.Extensions
             return IsAllSuccessively(collection.Select(value => func.Invoke(value)));
         }
 
+        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> collection, int count)
+        {
+            if (count > collection.Count())
+            {
+                throw new Exception("Число запрошенных элементов больше количества элементов в коллекции");
+            }
+
+            var distinct = collection.Distinct();
+
+            if (count > distinct.Count())
+            {
+                throw new Exception("Число запрошенных элементо больше количества неповторяющихся элементов в коллекции");
+            }
+
+            distinct = distinct.Shake();
+
+            return distinct.Take(count);
+        }
 
         /// <summary>
         /// Добавляет элемент к коллекции и возвращает его же (Fluent-pattern)

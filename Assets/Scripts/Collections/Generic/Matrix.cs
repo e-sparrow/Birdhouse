@@ -30,8 +30,8 @@ namespace ESparrow.Utils.Collections.Generic
 
         public T this[Vector2Int index]
         {
-            get => this[(Vector3Int)index];
-            set => this[(Vector3Int)index] = value;
+            get => this[(Vector3Int) index];
+            set => this[(Vector3Int) index] = value;
         }
 
         public T this[int x, int y, int z = 0]
@@ -43,6 +43,11 @@ namespace ESparrow.Utils.Collections.Generic
         public Matrix()
         {
 
+        }
+
+        public void Clear()
+        {
+            _list.Clear();
         }
 
         public void Fill(Vector3Int from, Vector3Int to, Func<Vector3Int, T> func)
@@ -60,9 +65,60 @@ namespace ESparrow.Utils.Collections.Generic
             }
         }
 
+        public T[] GetNeighboursGroupWhere(T element, Func<T, bool> func, T[] except = null)
+        {
+            return GetNeighboursGroupWhere(IndexOf(element), func, except);
+        }
+
+        public T[] GetNeighboursGroupWhere(Vector3Int index, Func<T, bool> func, T[] except = null)
+        {
+            if (except == null) except = new T[0];
+
+            var neighbours = GetNeighboursGroup(index).Where(func).Except(except);
+            var without = neighbours.Concat(except).ToArray();
+            var groups = neighbours.SelectMany(value => GetNeighboursGroupWhere(value, func, without));
+            var array = neighbours.Concat(groups).ToArray();
+
+            return array;
+        }
+
+        public T[] GetNeighboursGroup(T element)
+        {
+            return GetNeighboursGroup(IndexOf(element));
+        }
+
+        public T[] GetNeighboursGroup(Vector3Int index)
+        {
+            return GetNeighboursGroupWhere(index, value => true);
+        }
+
+        public T[] GetNeighbours(T element)
+        {
+            return GetNeighbours(IndexOf(element));
+        }
+
+        public T[] GetNeighbours(Vector3Int index)
+        {
+            var neighbours = _list.Where(value => (value.index - index).magnitude == 1);
+            return neighbours.Select(value => value.value).ToArray();
+        }
+
         public Vector3Int IndexOf(T element)
         {
-            return List.FirstOrDefault(value => value.value.Equals(element)).index;
+            var first = List.FirstOrDefault(value => value.value.Equals(element));
+            if (first != null)
+            {
+                return List.FirstOrDefault(value => value.value.Equals(element)).index;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
+        public void Remove(T element)
+        {
+            List.Remove(List.FirstOrDefault(value => value.value.Equals(element)));
         }
 
         public void Remove(Vector3Int index)

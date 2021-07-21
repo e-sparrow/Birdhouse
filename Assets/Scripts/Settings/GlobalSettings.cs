@@ -43,7 +43,7 @@ namespace ESparrow.Utils.Settings
         {
             foreach (var setting in settings)
             {
-                StorageManager.Set(setting.key, JsonUtility.ToJson(setting.value));
+                StorageManager.Main.Set(setting.key, JsonUtility.ToJson(setting.value));
             }
         }
 
@@ -51,7 +51,7 @@ namespace ESparrow.Utils.Settings
         {
             foreach (var setting in settings)
             {
-                setting.value = StorageManager.Get<string>(setting.key);
+                setting.value = StorageManager.Main.Get<string>(setting.key);
             }
         }
 

@@ -150,7 +150,7 @@ namespace ESparrow.Utils.Extensions
         public static IEnumerable<T> Distinct<T>(this IEnumerable<T> collection, Comparison<T> comparison)
         {
             var list = collection.ToList();
-            foreach (var self in list)
+            foreach (var self in collection)
             {
                 foreach (var other in list.Without(self))
                 {
@@ -277,6 +277,120 @@ namespace ESparrow.Utils.Extensions
             };
 
             return array.AsEnumerable();
+        }
+
+        public static IEnumerable<T> Without<T>(this IEnumerable<T> collection, T element)
+        {
+            return collection.Except(element.AsSingleCollection());
+        }    
+
+        public static bool ContainsAll<T>(this IEnumerable<T> self, IEnumerable<T> other)
+        {
+            return self.Intersect(other) == other;
+        }
+
+        public static IEnumerable<T> WithoutDefault<T>(this IEnumerable<T> collection)
+        {
+            return collection.Where(value => !value.Equals(default));
+        }
+
+        public static bool TryGetSameSequences<T>
+        (
+            this IEnumerable<T> collection,
+            Comparison<T> comparison,
+            out IEnumerable<IEnumerable<T>> combinations
+        )
+        {
+            var list = new List<IEnumerable<T>>();
+
+            foreach (var current in collection)
+            {
+                var combination = collection.Where(value => comparison.Invoke(current, value) == 0);
+
+                if (combination != null && combination.Count() != 0)
+                {
+                    list.Add(combination);
+                }
+            }
+
+            combinations = list;
+
+            return list.Count > 0;
+        }
+
+        public static bool TryGetSameSequences<T>
+        (
+            this IEnumerable<T> collection,
+            out IEnumerable<IEnumerable<T>> combinations
+        )
+        {
+            var list = new List<IEnumerable<T>>();
+
+            foreach (var current in collection)
+            {
+                var combination = collection.Where(value => current.Equals(value));
+
+                if (combination != null && combination.Count() != 0)
+                {
+                    list.Add(combination);
+                }
+            }
+
+            combinations = list;
+
+            return list.Count > 0;
+        }
+
+        public static bool TryGetSameSequence<T>
+        (
+            this IEnumerable<T> collection,
+            Comparison<T> comparison,
+            out IEnumerable<T> combination
+        )
+        {
+            bool can = collection.TryGetSameSequences(comparison, out var combinations);
+            combination = combinations.First();
+
+            return can;
+        }
+
+        public static bool TryGetSameSequence<T>
+        (
+            this IEnumerable<T> collection,
+            out IEnumerable<T> combination
+        )
+        {
+            combination = new List<T>();
+
+            foreach (var current in collection)
+            {
+                combination = collection.Where(value => current.Equals(value));
+
+                if (combination != null && combination.Count() != 0) return true;
+            }
+
+            return false;
+        }
+            
+        public static bool TryGetSameSequence<T>
+        (
+            this IEnumerable<T> collection,
+            int count,
+            Comparison<T> comparison,
+            out IEnumerable<T> combination
+        )
+        {
+            return collection.TryGetSameSequence(comparison, out combination) && combination.Count() >= count;
+        }
+
+        public static IEnumerable<T> GetSameSequence<T>
+        (
+            this IEnumerable<T> collection,
+            Comparison<T> comparison
+        )
+        {
+            var _ = collection.TryGetSameSequence(0, comparison, out var combination);
+            return combination;
         }
     }
 }

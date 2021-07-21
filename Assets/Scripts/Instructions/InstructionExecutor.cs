@@ -1,24 +1,48 @@
 using System.Collections.Generic;
-using ESparrow.Utils.Managers;
 using ESparrow.Utils.Instructions.Kinds;
 
 namespace ESparrow.Utils.Instructions
 {
     public class InstructionExecutor
     {
+        // Проеряются каждый вызов Check.
+        private readonly List<InstructionBase> _instructions = new List<InstructionBase>();
+
         // Последняя инструкция каждой очереди проверяются каждый кадр. Когда она выполняется, переходит к следующей.
         private readonly List<InstructionsQueue> _instructionsQueues = new List<InstructionsQueue>();
-        // Эти инструкции проверяются каждый кадр.
-        private readonly List<InstructionBase> _everyFrameInstructions = new List<InstructionBase>();
 
-        public InstructionExecutor()
+        public void Check()
         {
-            UnityMessagesManager.Instance.UpdateHandler += OnUpdate;
-        }
+            CheckInstructions();
+            CheckQueues();
 
-        ~InstructionExecutor()
-        {
-            UnityMessagesManager.Instance.UpdateHandler -= OnUpdate;
+            void CheckInstructions()
+            {
+                var incomingEveryFrame = new List<InstructionBase>(_instructions);
+                foreach (var instruction in incomingEveryFrame)
+                {
+                    bool executed = instruction.TryExecute();
+
+                    if (executed && instruction.SelfDestroy)
+                    {
+                        instruction.OnDestroy.Invoke();
+                        _instructions.Remove(instruction);
+                    }
+                }
+            }
+
+            void CheckQueues()
+            {
+                var incomingQueues = new List<InstructionsQueue>(_instructionsQueues);
+                foreach (var queue in incomingQueues)
+                {
+                    queue.TryExecuteLast(out bool last);
+                    if (last)
+                    {
+                        _instructionsQueues.Remove(queue);
+                    }
+                }
+            }
         }
 
         public void AddQueue(InstructionsQueue queue)
@@ -33,38 +57,13 @@ namespace ESparrow.Utils.Instructions
 
         public void AddInstruction(InstructionBase instruction)
         {
-            _everyFrameInstructions.Add(instruction);
+            _instructions.Add(instruction);
         }
 
         public void RemoveInstruction(InstructionBase instruction)
         {
             instruction.OnDestroy?.Invoke();
-            _everyFrameInstructions.Remove(instruction);
-        }
-
-        private void OnUpdate()
-        {
-            var incomingEveryFrame = new List<InstructionBase>(_everyFrameInstructions);
-            foreach (var instruction in incomingEveryFrame)
-            {
-                bool executed = instruction.TryExecute();
-
-                if (executed && instruction.SelfDestroy)
-                {
-                    instruction.OnDestroy.Invoke();
-                    _everyFrameInstructions.Remove(instruction);
-                }
-            }
-
-            var incomingQueues = new List<InstructionsQueue>(_instructionsQueues);
-            foreach (var queue in incomingQueues)
-            {
-                queue.TryExecuteLast(out bool last);
-                if (last)
-                {
-                    _instructionsQueues.Remove(queue);
-                }
-            }
+            _instructions.Remove(instruction);
         }
     }
 }

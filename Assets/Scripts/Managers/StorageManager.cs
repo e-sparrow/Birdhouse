@@ -1,53 +1,74 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Enums;
 
 namespace ESparrow.Utils.Managers
 {
-    public static class StorageManager
+    public class StorageManager
     {
-        private static Dictionary<string, string> _storage = new Dictionary<string, string>();
+        private static readonly StorageManager _main;
 
-        private static readonly string dataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + fileName;
-        private static readonly string fileName = "Storage.dat";
+        private static readonly string _defaultDataPath = Application.persistentDataPath + Path.DirectorySeparatorChar + _defaultFileName;
+        private static readonly string _defaultFileName = "MainStorage.dat";
+
+        public static StorageManager Main => _main;
+
+        public event Action OnStorageLoaded = () => { };
+        public event Action OnStorageChanged = () => { };
+        public event Action OnStorageSaved = () => { };
+
+        private Dictionary<string, string> _storage = new Dictionary<string, string>();
+
+        private readonly string _dataPath;
 
         static StorageManager()
         {
+            _main = new StorageManager(_defaultDataPath);
+        }
+
+        public StorageManager(string dataPath)
+        {
+            _dataPath = dataPath;
             Load();
         }
 
-        public static void Set(string key, object value)
+        public void Set(string key, object value)
         {
             _storage[key] = JsonUtility.ToJson(value);
             Save();
+
+            OnStorageChanged.Invoke();
         }
 
-        public static T Get<T>(string key)
+        public T Get<T>(string key, T defaultValue = default)
         {
             if (!HasKey(key))
             {
-                Debug.LogWarning($"Storage has no pair with key {key}");
-                return default;
+                return defaultValue;
             }
 
             return JsonUtility.FromJson<T>(_storage[key]);
         }
 
-        public static bool HasKey(string key)
+        public bool HasKey(string key)
         {
             return _storage.ContainsKey(key);
         }
 
-        private static void Save()
+        private void Save()
         {
-            SerializationManager.Serialize(_storage, dataPath, ESerializationMethod.Binary);
+            SerializationManager.Serialize(_storage, _dataPath, ESerializationMethod.Binary);
+
+            OnStorageSaved.Invoke();
         }
 
-        private static void Load()
+        private void Load()
         {
-            _storage = SerializationManager.Deserialize<Dictionary<string, string>>(dataPath, ESerializationMethod.Binary);
+            _storage = SerializationManager.Deserialize<Dictionary<string, string>>(_dataPath, ESerializationMethod.Binary);
+
+            OnStorageLoaded.Invoke();
         }
     }
 }

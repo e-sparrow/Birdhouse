@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections;
@@ -21,16 +21,7 @@ namespace ESparrow.Utils.Extensions
             var enumerator = CoroutinesHelper.CoroutineWithCallback(coroutine, () => ended = true);
             var routine = monoBehaviour.StartCoroutine(enumerator);
 
-            while (!ended)
-            {
-                if (token.IsCancellationRequested)
-                {
-                    monoBehaviour.StopCoroutine(routine);
-                    return;
-                }
-
-                await Task.Yield();
-            }
+            await AsyncHelper.WaitUntil(() => ended, token);
         }
 
         public static async Task PlayAnimationAsync
@@ -41,16 +32,7 @@ namespace ESparrow.Utils.Extensions
         {
             animation.Play();
 
-            while (animation.isPlaying)
-            {
-                if (token.IsCancellationRequested)
-                {
-                    animation.Stop();
-                    return;
-                }
-
-                await Task.Yield();
-            }
+            await AsyncHelper.WaitWhile(() => animation.isPlaying, token);
         }
 
         public static async Task PlayAnimationAsync
@@ -63,15 +45,15 @@ namespace ESparrow.Utils.Extensions
         {
             animator.Play(animationName, layer);
 
-            while (animator.GetCurrentAnimatorStateInfo(layer).IsName(animationName))
-            {
-                if (token.IsCancellationRequested)
-                {
-                    animator.StopPlayback();
-                }
+            await AsyncHelper.WaitWhile(() => animator.GetCurrentAnimatorStateInfo(layer).IsName(animationName), token);
+        }
 
-                await Task.Yield(); 
-            }
+        public static async Task WaitAction(this Action action)
+        {
+            bool invoked = false;
+            action += () => invoked = true;
+
+            await AsyncHelper.WaitUntil(() => invoked);
         }
     }
 }

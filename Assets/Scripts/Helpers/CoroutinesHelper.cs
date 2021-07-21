@@ -62,7 +62,7 @@ namespace ESparrow.Utils.Helpers
             for (int i = 0; i < count; i++)
             {
                 action.Invoke();
-                yield return duration;
+                yield return new WaitForSeconds(duration);
             }
         }
 

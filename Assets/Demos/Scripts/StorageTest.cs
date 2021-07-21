@@ -13,16 +13,16 @@ namespace Demos
 
         private void Start()
         {
-            bool hasKey = StorageManager.HasKey(testKey);
+            bool hasKey = StorageManager.Main.HasKey(testKey);
             Debug.Log($"StorageManager.HasKey(\"{testKey}\"): {hasKey}");
             
             if (hasKey)
             {
-                Debug.Log($"StorageManager.Get<string>({testKey}) = {StorageManager.Get<string>(testKey)}");
+                Debug.Log($"StorageManager.Get<string>({testKey}) = {StorageManager.Main.Get<string>(testKey)}");
             }
 
             Debug.Log($"StorageManager.Set({testKey}, {testValue})");
-            StorageManager.Set(testKey, testValue);
+            StorageManager.Main.Set(testKey, testValue);
         }
     }
 }

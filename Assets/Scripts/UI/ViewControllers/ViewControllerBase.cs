@@ -12,20 +12,23 @@ namespace ESparrow.Utils.UI.ViewControllers
         [SerializeField] private bool closePrevious; // Закрывать предыдущее окно при открытии этого.
         [SerializeField] private bool defaultActive; // Должен ли ViewController быть открыт по запуску игры.
 
-        private bool _isActive; // Открыто ли окно. По умолчанию закрыто. Чтобы открыть, нужно вызвать метод Open.
+        private bool _active; // Открыто ли окно. По умолчанию закрыто. Чтобы открыть, нужно вызвать метод Open.
 
-        public bool IsActive => _isActive;
+        public bool Active => _active;
+
+        private ViewControllersManager _viewControllersManager;
 
         public void Toggle()
         {
-            switch (_isActive)
+            _active = !_active;
+
+            if (_active)
             {
-                case true: 
-                    Close();
-                    break;
-                case false:
-                    Open();
-                    break;
+                Open();
+            }
+            else
+            {
+                Close();
             }
         }
 
@@ -36,28 +39,28 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         public void Open(bool closePrevious)
         {
-            ViewControllersManager.Open(this, closePrevious);
+            _viewControllersManager.Open(this, closePrevious);
         }
 
         public void Close()
         {
-            ViewControllersManager.Close();
+            _viewControllersManager.Close();
         }
 
         public void Back()
         {
-            if (_isActive && ViewControllersManager.IsCurrent(this))
+            if (_active && _viewControllersManager.IsCurrent(this))
             {
-                ViewControllersManager.Back();
+                _viewControllersManager.Back();
             }
         }
 
         public void SetActive(bool active)
         {
-            _isActive = active;
+            _active = active;
 
-            panel.gameObject.SetActive(_isActive);
-            OnActiveStateChanged?.Invoke(_isActive);
+            panel.gameObject.SetActive(_active);
+            OnActiveStateChanged?.Invoke(_active);
         }
 
         private void Start()
@@ -68,6 +71,16 @@ namespace ESparrow.Utils.UI.ViewControllers
         private void OnValidate()
         {
             SetActive(defaultActive);
+        }
+
+        private void OnEnable()
+        {
+            _viewControllersManager.Register(this);
+        }
+
+        private void OnDisable()
+        {
+            _viewControllersManager.Unregister(this);
         }
     }
 }

@@ -4,40 +4,45 @@ using ESparrow.Utils.Patterns.CommandPattern;
 
 namespace ESparrow.Utils.UI.ViewControllers
 {
-    public static class ViewControllersManager
+    public class ViewControllersManager
     {
         // Выполняющий команды скрипт, который в данном случае нужен для последовательного закрытия окон.
-        private static readonly CommandExecutor _commandExecutor = new CommandExecutor();
+        private readonly CommandExecutor _commandExecutor = new CommandExecutor();
 
         // Текущий ViewController. Остаётся null до первого вызова метода Open.
-        private static ViewControllerBase _currentViewController;
+        private ViewControllerBase _currentViewController;
 
-        private static List<ViewControllerBase> _viewControllers;
+        private List<ViewControllerBase> _viewControllers;
 
-        private static List<ViewControllerBase> ActiveViewControllers => _viewControllers.Where(value => value.IsActive).ToList();
-        private static List<ViewControllerBase> PassiveViewControllers => _viewControllers.Except(ActiveViewControllers).ToList();
+        private List<ViewControllerBase> ActiveViewControllers => _viewControllers.Where(value => value.Active).ToList();
+        private List<ViewControllerBase> PassiveViewControllers => _viewControllers.Except(ActiveViewControllers).ToList();
 
-        static ViewControllersManager()
+        public ViewControllersManager()
         {
             _viewControllers = new List<ViewControllerBase>();
 
             _commandExecutor.OnEmptyUndoExecuted += () => _currentViewController.SetActive(false);
         }
         
-        public static bool IsCurrent(ViewControllerBase viewController)
+        public bool IsCurrent(ViewControllerBase viewController)
         {
             return _currentViewController != null && _currentViewController.Equals(viewController);
         }
 
-        public static void Add(ViewControllerBase viewController)
+        public void Register(ViewControllerBase viewController)
         {
             _viewControllers.Add(viewController);
+        }
+
+        public void Unregister(ViewControllerBase viewController)
+        {
+            _viewControllers.Remove(viewController);
         }
 
         /// <summary>
         /// Открывает окно. Если leaveOn - false, то при открытии следующего окна оно закроется.
         /// </summary>
-        public static void Open(ViewControllerBase viewController, bool closePrevious)
+        public void Open(ViewControllerBase viewController, bool closePrevious)
         {
             var tempCurrent = _currentViewController;
 
@@ -71,12 +76,12 @@ namespace ESparrow.Utils.UI.ViewControllers
         /// <summary>
         /// Закрывает текущее окно и открывает предыдущее.
         /// </summary>
-        public static void Back()
+        public void Back()
         {
             _commandExecutor.Undo();
         }
 
-        public static void Close()
+        public void Close()
         {
             _commandExecutor.Clear();
             ActiveViewControllers.ForEach(value => value.SetActive(false));

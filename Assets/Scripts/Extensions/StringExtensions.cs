@@ -10,7 +10,7 @@ namespace ESparrow.Utils.Extensions
             return text.Substring(0, count);
         }
 
-        public static string Colored(this string text, Color color)
+        public static string WithColor(this string text, Color color)
         {
             return $"<color={color.ToHexadecimal()}>{text}</color>";
         }

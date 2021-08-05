@@ -16,8 +16,6 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         public bool Active => _active;
 
-        private ViewControllersManager _viewControllersManager;
-
         public void Toggle()
         {
             _active = !_active;
@@ -39,19 +37,19 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         public void Open(bool closePrevious)
         {
-            _viewControllersManager.Open(this, closePrevious);
+            ViewControllersManager.Main.Open(this, closePrevious);
         }
 
         public void Close()
         {
-            _viewControllersManager.Close();
+            ViewControllersManager.Main.Close();
         }
 
         public void Back()
         {
-            if (_active && _viewControllersManager.IsCurrent(this))
+            if (_active && ViewControllersManager.Main.IsCurrent(this))
             {
-                _viewControllersManager.Back();
+                ViewControllersManager.Main.Back();
             }
         }
 
@@ -75,12 +73,12 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         private void OnEnable()
         {
-            _viewControllersManager.Register(this);
+            ViewControllersManager.Main.Register(this);
         }
 
         private void OnDisable()
         {
-            _viewControllersManager.Unregister(this);
+            ViewControllersManager.Main.Unregister(this);
         }
     }
 }

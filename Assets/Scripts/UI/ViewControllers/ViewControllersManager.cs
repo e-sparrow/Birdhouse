@@ -6,6 +6,8 @@ namespace ESparrow.Utils.UI.ViewControllers
 {
     public class ViewControllersManager
     {
+        private static readonly ViewControllersManager _main;
+
         // ¬ыполн€ющий команды скрипт, который в данном случае нужен дл€ последовательного закрыти€ окон.
         private readonly CommandExecutor _commandExecutor = new CommandExecutor();
 
@@ -16,6 +18,13 @@ namespace ESparrow.Utils.UI.ViewControllers
 
         private List<ViewControllerBase> ActiveViewControllers => _viewControllers.Where(value => value.Active).ToList();
         private List<ViewControllerBase> PassiveViewControllers => _viewControllers.Except(ActiveViewControllers).ToList();
+
+        public static ViewControllersManager Main => _main;
+
+        static ViewControllersManager()
+        {
+            _main = new ViewControllersManager();
+        }
 
         public ViewControllersManager()
         {

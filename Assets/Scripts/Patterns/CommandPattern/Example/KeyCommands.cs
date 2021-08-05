@@ -61,14 +61,11 @@ namespace ESparrow.Utils.Patterns.CommandPattern.Examples
             _commandExecutor.Redo();
         }
 
-        private void Start()
-        {
-            _instructionExecutor = new InstructionExecutor(); 
-            _commandExecutor = new CommandExecutor();
-        }
-
         private void OnEnable()
         {
+            _instructionExecutor = new InstructionExecutor();
+            _commandExecutor = new CommandExecutor();
+
             _incrementInstruction = new KeyInstruction(incrementKey, EKeyState.Pressed, Increment);
             _decrementInstruction = new KeyInstruction(decrementKey, EKeyState.Pressed, Decrement);
             _undoInstruction = new KeyInstruction(undoKey, EKeyState.Pressed, Undo);

@@ -71,7 +71,29 @@ namespace ESparrow.Utils.Assertions
         {
             if (!_assertion.Invoke())
             {
-                switch (_type)
+                var exception = new AssertionException(_message, _context);
+                exception.Assert(_type);
+
+                _onAssert?.Invoke();
+            }
+        }
+
+        private class AssertionException : Exception
+        {
+            private readonly string _message;
+            private readonly Object _context;
+
+            public override string Message => _message;
+
+            public AssertionException(string message, Object context)
+            {
+                _message = message;
+                _context = context;
+            }
+
+            public void Assert(EAssertionType type)
+            {
+                switch (type)
                 {
                     case EAssertionType.Message:
                         Debug.Log(_message, _context);
@@ -83,36 +105,8 @@ namespace ESparrow.Utils.Assertions
                         Debug.LogError(_message, _context);
                         break;
                     case EAssertionType.Exception:
-                        throw new AssertionException(_message, _context);
+                        throw this;
                 }
-
-                _onAssert?.Invoke();
-            }
-        }
-
-        private class AssertionException : Exception
-        {
-            private readonly string _message;
-            private readonly Object _context;
-
-            public override string Message => GetMessage();
-
-            public AssertionException(string message, Object context)
-            {
-                _message = message;
-                _context = context;
-            }
-
-            private string GetMessage()
-            {
-                string message = $"Assertion provider asserts: \n\"{_message}\".";
-                
-                if (_context != default)
-                {
-                    message += $"\n\nContext: {_context.name}";
-                }
-
-                return message;
             }
         }
 

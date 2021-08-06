@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace ESparrow.Utils.Patterns.CommandPattern
@@ -37,7 +38,7 @@ namespace ESparrow.Utils.Patterns.CommandPattern
 
         public void Undo()
         {
-            if (_undoCommands.Count == 0)
+            if (!_undoCommands.Any())
             {
                 OnEmptyUndoExecuted?.Invoke();
                 return;
@@ -54,7 +55,7 @@ namespace ESparrow.Utils.Patterns.CommandPattern
 
         public void Redo()
         {
-            if (_redoCommands.Count == 0)
+            if (!_redoCommands.Any())
             {
                 OnEmptyRedoExecuted?.Invoke();
                 return;

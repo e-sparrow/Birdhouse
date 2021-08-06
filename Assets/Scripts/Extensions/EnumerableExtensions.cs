@@ -40,6 +40,33 @@ namespace ESparrow.Utils.Extensions
             throw new Exception();
         }
 
+        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> collection, int count)
+        {
+            if (collection.CheckNonRepeating(count, out var distinct))
+            {
+                distinct = distinct.Shake();
+                return distinct.Take(count);
+            }
+
+            throw new Exception();
+        }
+
+        public static IEnumerable<T> GetNonRepeatingWeighedRandom<T>(this IEnumerable<T> collection, int count, Func<T, double> weight)
+        {
+            if (collection.CheckNonRepeating(count, out var distinct))
+            {
+                var used = new List<T>();
+                for (int i = 0; i < count; i++)
+                {
+                    used.Add(distinct.Except(used).GetWeighedRandom(weight));
+                }
+
+                return used;
+            }
+
+            throw new Exception();
+        }
+
         public static void CrossAggregate<T1, T2>(this IEnumerable<T1> self, IEnumerable<T2> other, Action<T1, T2> action)
         {
             var left = self.ToArray();
@@ -224,25 +251,6 @@ namespace ESparrow.Utils.Extensions
             return IsAllSuccessively(collection.Select(value => func.Invoke(value)));
         }
 
-        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> collection, int count)
-        {
-            if (count > collection.Count())
-            {
-                throw new Exception("Число запрошенных элементов больше количества элементов в коллекции");
-            }
-
-            var distinct = collection.Distinct();
-
-            if (count > distinct.Count())
-            {
-                throw new Exception("Число запрошенных элементо больше количества неповторяющихся элементов в коллекции");
-            }
-
-            distinct = distinct.Shake();
-
-            return distinct.Take(count);
-        }
-
         /// <summary>
         /// Добавляет элемент к коллекции и возвращает его же (Fluent-pattern)
         /// </summary>
@@ -391,6 +399,23 @@ namespace ESparrow.Utils.Extensions
         {
             var _ = collection.TryGetSameSequence(0, comparison, out var combination);
             return combination;
+        }
+
+        private static bool CheckNonRepeating<T>(this IEnumerable<T> collection, int count, out IEnumerable<T> distinct)
+        {
+            if (count > collection.Count())
+            {
+                throw new Exception("Число запрошенных элементов больше количества элементов в коллекции");
+            }
+
+            distinct = collection.Distinct();
+
+            if (count > distinct.Count())
+            {
+                throw new Exception("Число запрошенных элементо больше количества неповторяющихся элементов в коллекции");
+            }
+
+            return true;
         }
     }
 }

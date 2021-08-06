@@ -175,5 +175,10 @@ namespace ESparrow.Utils.Assertions
             var assertion = new Assertion(defaultIsEqualsErrorMessage, context, () => comparer.Compare(self, than) == 0, onAssert);
             return assertion;
         }
+
+        private static string CombineMessage(string defaultMessage, string message)
+        {
+            return $"{message}\n{defaultMessage}";
+        }
     }
 }

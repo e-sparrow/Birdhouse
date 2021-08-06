@@ -1,4 +1,3 @@
-using UnityEngine;
 using ESparrow.Utils.Tools;
 
 namespace ESparrow.Utils.Interpolation.Adapters
@@ -12,7 +11,7 @@ namespace ESparrow.Utils.Interpolation.Adapters
 
         public override void Interpolate(double from, double to, float t)
         {
-            Value = (double) Mathf.Lerp((float) from, (float) to, t);
+            Value = from + (to - from) * t;
         }
     }
 }

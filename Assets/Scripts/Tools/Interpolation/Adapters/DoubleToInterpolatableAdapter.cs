@@ -1,6 +1,6 @@
 using ESparrow.Utils.Tools;
 
-namespace ESparrow.Utils.Interpolation.Adapters
+namespace ESparrow.Utils.Tools.Interpolation.Adapters
 {
     public class DoubleToInterpolatableAdapter : ToInterpolatableAdapterBase<double>
     {

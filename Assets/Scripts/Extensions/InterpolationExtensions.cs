@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine;
 using ESparrow.Utils.Tools;
 using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Interpolation.Adapters;
-using ESparrow.Utils.Interpolation.Interfaces;
+using ESparrow.Utils.Tools.Interpolation.Adapters;
+using ESparrow.Utils.Tools.Interpolation.Interfaces;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -33,6 +33,11 @@ namespace ESparrow.Utils.Extensions
         public static IInteropolatable<Quaternion> AsInterpolatable(this Reference<Quaternion> value)
         {
             return new QuaternionToInterpolatableAdapter(value);
+        }
+
+        public static IInteropolatable<Color> AsInterpolatable(this Reference<Color> value)
+        {
+            return new ColorToInterpolatableAdapter(value);
         }
 
         public static IEnumerator InterpolateFor<T>

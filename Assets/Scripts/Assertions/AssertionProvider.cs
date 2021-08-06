@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ESparrow.Utils.Tools.Errors.Interfaces;
 using Object = UnityEngine.Object;
 
 namespace ESparrow.Utils.Assertions
@@ -176,9 +177,17 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        private static string CombineMessage(string defaultMessage, string message)
+        public static Assertion IsEqualsWithError<T>
+        (
+            IErroneous<T> self,
+            T than,
+            T error = default,
+            Object context = default,
+            Action onAssert = default
+        )
         {
-            return $"{message}\n{defaultMessage}";
+            var assertion = new Assertion(defaultIsEqualsErrorMessage, context, () => self.CompareWithError(than, error), onAssert);
+            return assertion;
         }
     }
 }

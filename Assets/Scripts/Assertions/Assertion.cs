@@ -14,7 +14,7 @@ namespace ESparrow.Utils.Assertions
         private EAssertionType _type = EAssertionType.Exception;
 
         private readonly Func<bool> _assertion;
-        private readonly Action _onAssert;
+        private Action _onAssert;
 
         public Assertion(string message, Object context, Func<bool> assertion, Action onAssert = default)
         {
@@ -49,6 +49,12 @@ namespace ESparrow.Utils.Assertions
             return this;
         }
 
+        public Assertion WithCallback(Action callback)
+        {
+            _onAssert += callback;
+            return this;
+        }
+
         public Assertion WithContext(Object context)
         {
             _context = context;
@@ -74,7 +80,7 @@ namespace ESparrow.Utils.Assertions
                 var exception = new AssertionException(_message, _context);
                 exception.Assert(_type);
 
-                _onAssert?.Invoke();
+                _onAssert.Invoke();
             }
         }
 

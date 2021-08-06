@@ -1,7 +1,6 @@
-using ESparrow.Utils.Tools;
-using ESparrow.Utils.Interpolation.Interfaces;
+using ESparrow.Utils.Tools.Interpolation.Interfaces;
 
-namespace ESparrow.Utils.Interpolation.Adapters
+namespace ESparrow.Utils.Tools.Interpolation.Adapters
 {
     public abstract class ToInterpolatableAdapterBase<T> : IInteropolatable<T>
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using ESparrow.Utils.Tools;
 
-namespace ESparrow.Utils.Interpolation.Adapters
+namespace ESparrow.Utils.Tools.Interpolation.Adapters
 {
     public class Vector3ToInterpolatableAdapter : ToInterpolatableAdapterBase<Vector3>
     {

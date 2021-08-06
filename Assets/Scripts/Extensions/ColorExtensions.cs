@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using UnityEngine;
 
 namespace ESparrow.Utils.Extensions
@@ -17,9 +19,42 @@ namespace ESparrow.Utils.Extensions
 
             return code;
 
-            int ToInt(float from)
+            static int ToInt(float from)
             {
                 return (int) (from * 255);
+            }
+        }
+
+        public static Color FromHexadecimal(this string hex)
+        {
+            hex = hex.TrimStart('#');
+
+            if (hex.Length == 6)
+            {
+                return GetColor();
+            }
+            else if (hex.Length == 8)
+            {
+                var alpha = Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
+                return GetColor().SetAlpha(alpha);
+            }
+            else
+            {
+                throw new Exception("Hexadecimal code assuming length equals 6 or 8");
+            }
+
+            Color GetColor()
+            {
+                var red = Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+                var green = Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+                var blue = Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+
+                return new Color(red, green, blue);
+            }
+
+            float Parse(string text, NumberStyles styles)
+            {
+                return int.Parse(text, styles) / 255f;
             }
         }
 

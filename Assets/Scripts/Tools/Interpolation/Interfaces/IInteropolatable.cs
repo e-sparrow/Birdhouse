@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ESparrow.Utils.Interpolation.Interfaces
+namespace ESparrow.Utils.Tools.Interpolation.Interfaces
 {
     public interface IInteropolatable<T>
     {

@@ -134,5 +134,13 @@ namespace ESparrow.Utils.Extensions
         {
             return Vector3Int.Distance(self, other);
         }
+
+        public static float TargetAngle(this Vector2 self, Vector2 to)
+        {
+            var atan = Mathf.Atan2(-self.y + to.y, -self.x + to.x);
+            var angle = -atan * Mathf.Rad2Deg + 90.0f;
+
+            return angle;
+        }
     }
 }

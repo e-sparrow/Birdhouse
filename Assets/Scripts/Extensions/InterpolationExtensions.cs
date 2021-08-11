@@ -81,6 +81,17 @@ namespace ESparrow.Utils.Extensions
         {
             await monoBehaviour.StartCoroutineAsync(self.InterpolateFor(target, time, curve));
         }
+
+        public static async Task InterpolateForAsync<T>
+        (
+            this IInteropolatable<T> self,
+            T target,
+            float time,
+            AnimationCurve curve = default
+        )
+        {
+            await self.InterpolateFor(target, time, curve).StartAsync();
+        }
     }
 }
     

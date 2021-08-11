@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Mathematics;
 
 namespace ESparrow.Utils.Collections.Generic
 {
@@ -65,21 +67,57 @@ namespace ESparrow.Utils.Collections.Generic
             }
         }
 
-        public T[] GetNeighboursGroupWhere(T element, Func<T, bool> func, T[] except = null)
+        public T[] GetNeighbours(T element)
         {
-            return GetNeighboursGroupWhere(IndexOf(element), func, except);
+            return GetNeighbours(IndexOf(element));
+        }
+
+        public T[] GetNeighbours(Vector3Int index)
+        {
+            var neighbours = _list.Where(value => (value.index - index).magnitude == 1);
+            return neighbours.Select(value => value.value).ToArray();
+        }
+
+        public T[] GetNeighbours(Vector2Int index)
+        {
+            return GetNeighboursWhere(index, _ => true);
+        }
+
+        public T[] GetNeighboursWhere(T element, Func<T, bool> func)
+        {
+            return GetNeighboursWhere(IndexOf(element), func);
+        }
+
+        public T[] GetNeighboursWhere2D(T element, Func<T, bool> func)
+        {
+            return GetNeighboursWhere(IndexOf(element).ToVector2Int(), func);
+        }
+
+        public T[] GetNeighboursWhere(Vector3Int index, Func<T, bool> func)
+        {
+            var array = Direction.directions.Select(value => value.vector.ToVector3Int()).ToArray();
+            return GetNeighboursInWhere(index, array, func);
+        }
+
+        public T[] GetNeighboursWhere(Vector2Int index, Func<T, bool> func)
+        {
+            var array = Direction.directions2d.Select(value => value.vector.ToVector3Int()).ToArray();
+            return GetNeighboursInWhere(index.ToVector3Int(), array, func);
         }
 
         public T[] GetNeighboursGroupWhere(Vector3Int index, Func<T, bool> func, T[] except = null)
         {
-            if (except == null) except = new T[0];
+            return GetNeighboursGroupWhereIn(index, GetNeighbours, func, except);
+        }
 
-            var neighbours = GetNeighboursGroup(index).Where(func).Except(except);
-            var without = neighbours.Concat(except).ToArray();
-            var groups = neighbours.SelectMany(value => GetNeighboursGroupWhere(value, func, without));
-            var array = neighbours.Concat(groups).ToArray();
+        public T[] GetNeighboursGroupWhere(Vector2Int index, Func<T, bool> func, T[] except = null)
+        {
+            return GetNeighboursGroupWhereIn(index.ToVector3Int(), GetNeighbours, func, except);
+        }
 
-            return array;
+        public T[] GetNeighboursGroupWhere(T element, Func<T, bool> func, T[] except = null)
+        {
+            return GetNeighboursGroupWhere(IndexOf(element), func, except);
         }
 
         public T[] GetNeighboursGroup(T element)
@@ -92,15 +130,9 @@ namespace ESparrow.Utils.Collections.Generic
             return GetNeighboursGroupWhere(index, value => true);
         }
 
-        public T[] GetNeighbours(T element)
+        public T[] GetNeighboursGroup(Vector2Int index)
         {
-            return GetNeighbours(IndexOf(element));
-        }
-
-        public T[] GetNeighbours(Vector3Int index)
-        {
-            var neighbours = _list.Where(value => (value.index - index).magnitude == 1);
-            return neighbours.Select(value => value.value).ToArray();
+            return GetNeighboursGroup(index.ToVector3Int());
         }
 
         public Vector3Int IndexOf(T element)
@@ -132,6 +164,42 @@ namespace ESparrow.Utils.Collections.Generic
         public void Remove(Vector2Int index)
         {
             Remove((Vector3Int)index);
+        }
+
+        private T[] GetNeighboursInWhere(Vector3Int index, Vector3Int[] directions, Func<T, bool> func)
+        {
+            var list = new List<T>();
+
+            foreach (var direction in directions)
+            {
+                if (Check(direction, out var element))
+                {
+                    list.Add(element);
+                }
+            }
+
+            return list.ToArray();
+
+            bool Check(Vector3Int direction, out T element)
+            {
+                element = this[index + direction];
+                return !element.Equals(default) && func.Invoke(element);
+            }
+        }
+
+        private T[] GetNeighboursGroupWhereIn(Vector3Int index, Func<Vector3Int, T[]> getNeighbours, Func<T, bool> func, T[] except = null)
+        {
+            if (except == null) except = new T[0];
+
+            var neighbours = getNeighbours.Invoke(index).Except(except);
+            neighbours = neighbours.Where(func);
+
+            var exceptArray = neighbours.Concat(except).ToArray();
+            var selectMany = neighbours.SelectMany(value => GetNeighboursGroupWhere(value, func, exceptArray));
+            var concat = neighbours.Concat(selectMany);
+            var array = concat.ToArray();
+
+            return array;
         }
 
         private Element Get(Vector3Int index)

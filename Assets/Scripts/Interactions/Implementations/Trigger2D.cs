@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ESparrow.Utils.Interactions.Implementations
 {
     [RequireComponent(typeof(Collider2D))]
-    [AddComponentMenu("ESparrow/Utils/Interactions/Implementations/Trigger")]
+    [AddComponentMenu("ESparrow/Utils/Interactions/Implementations/Trigger2D")]
     public class Trigger2D : UnityTriggerBase
     {
         private void OnTriggerEnter2D(Collider2D other)

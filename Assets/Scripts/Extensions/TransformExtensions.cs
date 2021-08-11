@@ -40,6 +40,18 @@ namespace ESparrow.Utils.Extensions
             }
         }
 
+        public static bool IsParentOf(this Transform self, Transform other, bool nesting = false)
+        {
+            if (nesting)
+            {
+                return self.GetChilds().Contains(other);
+            }
+            else
+            {
+                return other.IsChildOf(self);
+            }
+        }
+
         /// <summary>
         /// Получает матрицу из компонента Transform.
         /// </summary>

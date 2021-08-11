@@ -95,6 +95,41 @@ namespace ESparrow.Utils.Extensions
             return new Vector4(self.x, self.y, self.z, self.w);
         }
 
+        public static Vector2Int ToVector2Int(this Vector2 self)
+        {
+            return new Vector2Int((int) self.x, (int) self.y);
+        }
+
+        public static Vector2Int ToVector2Int(this Vector3 self)
+        {
+            return new Vector2Int((int) self.x, (int) self.y);
+        }
+
+        public static Vector2Int ToVector2Int(this Vector4 self)
+        {
+            return new Vector2Int((int) self.x, (int) self.y);
+        }
+
+        public static Vector2Int ToVector2Int(this Vector3Int self)
+        {
+            return (Vector2Int) self;
+        }
+
+        public static Vector3Int ToVector3Int(this Vector2 self)
+        {
+            return new Vector3Int((int) self.x, (int) self.y, 0);
+        }
+
+        public static Vector3Int ToVector3Int(this Vector3 self)
+        {
+            return new Vector3Int((int) self.x, (int) self.y, (int) self.z);
+        }
+
+        public static Vector3Int ToVector3Int(this Vector2Int self)
+        {
+            return new Vector3Int(self.x, self.y, 0);
+        }
+
         public static Color ToColor(this Vector4 self)
         {
             return new Color(self.x, self.y, self.z, self.w);

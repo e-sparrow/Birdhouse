@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace ESparrow.Utils.Mathematics
 {
+    [Serializable]
     public struct Direction
     {
         public static readonly Direction up = new Direction(Vector3.up);
@@ -33,6 +35,22 @@ namespace ESparrow.Utils.Mathematics
         public Direction(Vector3 vector)
         {
             this.vector = vector.normalized;
+        }
+
+        public static Direction GetAverage(Direction from, Direction to)
+        {
+            return Lerp(from, to, 0.5f);
+        }
+
+        public static Direction Lerp(Direction from, Direction to, float t)
+        {
+            var fromRotation = Quaternion.FromToRotation(Vector3.zero, from.vector);
+            var toRotation = Quaternion.FromToRotation(Vector3.zero, to.vector);
+
+            var currentRotation = Quaternion.Lerp(fromRotation, toRotation, t);
+            var currentVector = currentRotation * Vector3.forward;
+
+            return new Direction(currentVector);
         }
     }
 }

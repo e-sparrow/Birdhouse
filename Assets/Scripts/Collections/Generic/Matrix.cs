@@ -135,6 +135,16 @@ namespace ESparrow.Utils.Collections.Generic
             return GetNeighboursGroup(index.ToVector3Int());
         }
 
+        public Vector3Int Delta(T first, T second)
+        {
+            return IndexOf(second) - IndexOf(first);
+        }
+
+        public float DistanceBetween(T first, T second)
+        {
+            return Delta(first, second).magnitude;
+        }
+
         public Vector3Int IndexOf(T element)
         {
             var first = List.FirstOrDefault(value => value.value.Equals(element));

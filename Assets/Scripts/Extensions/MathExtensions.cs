@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ESparrow.Utils.Extensions
 {
-    public static class NumericExtensions
+    public static class MathExtensions
     {
         public static double Power(this double self, double power)
         {
@@ -13,6 +13,11 @@ namespace ESparrow.Utils.Extensions
         public static double Square(this double self)
         {
             return self.Power(2);
+        }
+
+        public static double Root(this double self, double root)
+        {
+            return self.Power(1f / root);
         }
 
         public static double Sqrt(this double self)
@@ -48,6 +53,36 @@ namespace ESparrow.Utils.Extensions
         public static float RoundWithStep(this float self, float step)
         {
             return (int) (self / step) * step;
+        }
+
+        public static float LoopBetween(this float self, float min, float max)
+        {
+            float delta = max - min;
+
+            self %= delta;
+            self += min;
+
+            if (self < 0)
+            {
+                self += max;
+            }
+
+            return self;
+        }
+
+        public static int LoopBetween(this int self, int min, int max)
+        {
+            int delta = max - min;
+
+            self %= delta;
+            self += min;
+
+            if (self < 0)
+            {
+                self += max;
+            }
+
+            return self;
         }
     }
 }

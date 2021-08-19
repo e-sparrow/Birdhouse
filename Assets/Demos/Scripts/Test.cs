@@ -6,20 +6,14 @@ namespace Demos
 {
     public class Test : MonoBehaviour
     {
-        private void Start()
+        [SerializeField] private float min;
+        [SerializeField] private float max;
+
+        [SerializeField] private float number;
+
+        private void Update()
         {
-            var color = Color.green.SetAlpha(0.5f);
-
-            var toHex = color.ToHexadecimal();
-            var fromHex = toHex.FromHexadecimal().ToHexadecimal().FromHexadecimal();
-
-            AssertionProvider.IsEquals(color, fromHex, gameObject).AsMessage().WithColor(Color.red).WithCallback(Assert).Assert();
-
-            void Assert()
-            {
-                Debug.Log(color);
-                Debug.Log(fromHex);
-            }
+            Debug.Log(number.LoopBetween(min, max));
         }
     }
 }

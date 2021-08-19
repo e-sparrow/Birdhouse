@@ -79,5 +79,22 @@ namespace ESparrow.Utils.Helpers
 
             callback?.Invoke();
         }
+
+        public static IEnumerator Jump(Vector3 from, Vector3 to, Action<Vector3> action, float duration, float height, AnimationCurve curve = default)
+        {
+            yield return Graduate(SetProgress, duration, false, curve);
+
+            void SetProgress(float progress)
+            {
+                var position = Vector2.Lerp(from, to, progress);
+
+                var currentHeight = Mathf.Lerp(from.y, to.y, progress);
+                var currentJumpHeight = Mathf.Sin(progress * Mathf.PI) * height;
+
+                position.y = currentHeight + currentJumpHeight;
+
+                action.Invoke(position);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utils.Geometry
+namespace ESparrow.Utils.Geometry
 {
     public class Line
     {

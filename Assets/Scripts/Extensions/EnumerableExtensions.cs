@@ -302,6 +302,16 @@ namespace ESparrow.Utils.Extensions
             return collection.Where(value => !value.Equals(default));
         }
 
+        public static IEnumerable<T> With<T>(this IEnumerable<T> collection, T element)
+        {
+            return collection.Concat(element.AsSingleCollection());
+        }
+
+        public static IEnumerable<T> ConcatWith<T>(this T self, T other) 
+        {
+            return self.AsSingleCollection().With(other);
+        }
+
         public static bool TryGetSameSequences<T>
         (
             this IEnumerable<T> collection,

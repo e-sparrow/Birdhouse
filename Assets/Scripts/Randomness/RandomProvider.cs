@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+using ESparrow.Utils.Extensions;
+using Random = UnityEngine.Random;
 
 namespace ESparrow.Utils.Randomness
 {
@@ -28,6 +33,25 @@ namespace ESparrow.Utils.Randomness
             }
 
             return Random.Range(0f, 1f) <= chance;
+        }
+
+        public static bool GetRandomWithChances<T>(IEnumerable<RandomnessElement<T>> elements, out T result)
+        {
+            float sum = elements.Sum(value => value.Chance);
+            if (sum > 1f)
+            {
+                throw new Exception($"Sum of element's chances is more than 1");
+            }
+
+            float emptiness = 1f - sum;
+            var emptyElement = new RandomnessElement<T>(default, emptiness);
+
+            var collection = elements.Concat(emptyElement.AsSingleCollection());
+            var randomElement = collection.GetWeighedRandom(value => value.Chance);
+
+            result = randomElement.Element;
+
+            return !randomElement.Equals(emptyElement.Element);
         }
     }
 }

@@ -1,6 +1,8 @@
-using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Geometry.Bezier;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Mathematics.Ways.Implementations;
 
 namespace ESparrow.Utils.Drawers
 {
@@ -16,35 +18,22 @@ namespace ESparrow.Utils.Drawers
             Gizmos.DrawLine(corners[3], corners[0]);
         }
 
-        public static void DrawBezierCurve(BezierCurve curve, float step = 0.025f)
+        public static void DrawLine(Line line)
         {
-            for (float progress = 0; progress < 1; progress += step)
-            {
-                if (progress == 0) continue;
-
-                var from = curve.GetPoint(progress - step);
-                var to = curve.GetPoint(progress);
-                Gizmos.DrawLine(from, to);
-            }
+            Gizmos.DrawLine(line.Start, line.End);
         }
 
-        public static void DrawBezierCurvePoints
-        (
-            BezierCurve curve, 
-            float pointsRadius, 
-            float guidesRadius, 
-            Color pointsColor, 
-            Color guidesColor
-        )
+        public static void DrawBrokenLine(BrokenLine line, bool close = false)
         {
-            Gizmos.color = pointsColor;
-            Gizmos.DrawSphere(curve.Start, pointsRadius);
-            Gizmos.DrawSphere(curve.End, pointsRadius);
-
-            Gizmos.color = guidesColor;
-            foreach (var guide in curve.Guides)
+            var points = new List<Vector3>(line.Points);
+            for (int i = 1; i < points.Count; i++)
             {
-                Gizmos.DrawSphere(guide, guidesRadius);
+                Gizmos.DrawLine(points[i - 1], points[i]);
+            }
+
+            if (close)
+            {
+                Gizmos.DrawLine(points.Last(), points.First());
             }
         }
     }

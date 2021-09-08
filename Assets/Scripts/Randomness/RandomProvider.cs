@@ -51,7 +51,7 @@ namespace ESparrow.Utils.Randomness
 
             result = randomElement.Element;
 
-            return !randomElement.Equals(emptyElement.Element);
+            return randomElement != emptyElement;
         }
     }
 }

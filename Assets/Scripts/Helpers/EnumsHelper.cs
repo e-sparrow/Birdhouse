@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESparrow.Utils.Helpers
 {
@@ -35,6 +36,14 @@ namespace ESparrow.Utils.Helpers
             {
                 action.Invoke((T)value);
             }
+        }
+
+        public static IEnumerable<T> AsEnumerable()
+        {
+            var list = new List<T>();
+            ForEach(value => list.Add(value));
+
+            return list;
         }
     }
 }

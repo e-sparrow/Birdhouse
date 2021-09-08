@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ESparrow.Utils.Randomness
 {
     [Serializable]
-    public struct RandomnessElement<T>
+    public class RandomnessElement<T>
     {
         [SerializeField] private T element;
         [SerializeField] private float chance;

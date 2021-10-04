@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -310,6 +311,16 @@ namespace ESparrow.Utils.Extensions
         public static IEnumerable<T> ConcatWith<T>(this T self, T other) 
         {
             return self.AsSingleCollection().With(other);
+        }
+
+        public static IEnumerable<T> ConcatWith<T>(this IEnumerable<T> self, T other)
+        {
+            return self.Concat(other.AsSingleCollection());
+        }
+
+        public static Collection<T> AsCollection<T>(this IEnumerable<T> self)
+        {
+            return new Collection<T>(self.ToList());
         }
 
         public static bool TryGetSameSequences<T>

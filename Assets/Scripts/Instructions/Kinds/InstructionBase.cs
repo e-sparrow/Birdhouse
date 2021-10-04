@@ -2,10 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Instructions.Interfaces;
 
 namespace ESparrow.Utils.Instructions.Kinds
 {
-    public abstract class InstructionBase
+    public abstract class InstructionBase : IInstruction
     {
         protected virtual Action Action
         {

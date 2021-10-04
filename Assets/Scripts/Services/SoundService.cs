@@ -93,14 +93,14 @@ namespace ESparrow.Utils.Services
             var component = source.GetComponent<DestroyableAudioSource>();
 
             component.VolumeCurve = GetCurveByType(type);
-            component.onSoundEnded += OnSoundEnded;
+            component.OnSoundEnded += OnSoundEnded;
             _sources.Add(component);
 
             return component;
 
             void OnSoundEnded()
             {
-                component.onSoundEnded -= OnSoundEnded;
+                component.OnSoundEnded -= OnSoundEnded;
                 _sources.Remove(component);
             }
         }

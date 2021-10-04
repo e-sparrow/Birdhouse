@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Extensions;
 
 namespace ESparrow.Utils.Instances
 {
@@ -12,6 +14,8 @@ namespace ESparrow.Utils.Instances
     [RequireComponent(typeof(AudioSource))]
     public class DestroyableAudioSource : MonoBehaviour
     {
+        public event Action OnSoundEnded = () => { };
+
         // Кривая Безье для нелинейного уменьшения (или увеличения) звука.
         public AnimationCurve VolumeCurve
         {
@@ -27,12 +31,10 @@ namespace ESparrow.Utils.Instances
         }
 
         // Оставшееся время проигрывания.
-        private float durationLeft;
+        private float _durationLeft;
 
         // Компонент, воспроизводящий звук.
-        private AudioSource source;
-
-        public Action onSoundEnded = () => { };
+        private AudioSource _source;
 
         /// <summary>
         /// Инициализация класса для воспроизведения один раз. 
@@ -42,10 +44,10 @@ namespace ESparrow.Utils.Instances
         {
             Name = name;
 
-            source = GetComponent<AudioSource>();
-            source.clip = clip;
+            _source = GetComponent<AudioSource>();
+            _source.clip = clip;
 
-            durationLeft = clip.length;
+            _durationLeft = clip.length;
 
             Play();
         }
@@ -58,11 +60,11 @@ namespace ESparrow.Utils.Instances
         {
             Name = name;
 
-            source = GetComponent<AudioSource>();
-            source.clip = clip;
-            source.loop = true;
+            _source = GetComponent<AudioSource>();
+            _source.clip = clip;
+            _source.loop = true;
 
-            durationLeft = duration;
+            _durationLeft = duration;
 
             Play();
         }
@@ -74,11 +76,11 @@ namespace ESparrow.Utils.Instances
         {
             Name = name;
 
-            source = GetComponent<AudioSource>();
-            source.clip = clip;
-            source.loop = true;
+            _source = GetComponent<AudioSource>();
+            _source.clip = clip;
+            _source.loop = true;
 
-            source.Play();
+            _source.Play();
         }
 
         /// <summary>
@@ -86,9 +88,9 @@ namespace ESparrow.Utils.Instances
         /// </summary>
         public void Stop()
         {
-            onSoundEnded.Invoke();
+            OnSoundEnded.Invoke();
 
-            source.Stop();
+            _source.Stop();
             Destroy(gameObject);
         }
 
@@ -97,19 +99,21 @@ namespace ESparrow.Utils.Instances
         /// </summary>
         public void AddTime(float duration)
         {
-            durationLeft += duration;
+            _durationLeft += duration;
         }
 
-        private void Play()
+        private async Task Play()
         {
-            source.Play();
+            _source.Play();
 
             StopAllCoroutines();
-            StartCoroutine(CoroutinesHelper.CoroutineWithCallback(CoroutinesHelper.Graduate(SetVolume, durationLeft, false, VolumeCurve), Stop));
+            await CoroutinesHelper.Graduate(SetProgress, _durationLeft, false, VolumeCurve).StartAsync();
 
-            void SetVolume(float progress)
+            Stop();
+
+            void SetProgress(float progress)
             {
-                source.volume = progress;
+                _source.volume = progress;
             }
         }
     }

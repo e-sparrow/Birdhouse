@@ -1,13 +1,13 @@
-using System.Linq;
-using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Services.Interfaces;
+using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Collections.Generic;
 
 namespace ESparrow.Utils.Services
 {
     [AddComponentMenu("Utils/Services/AmbientService")]
-    public class AmbienceService : MonoBehaviour
+    public class AmbienceService : MonoBehaviour, IAmbienceService
     {
         [SerializeField] private float defaultTransitionDuration;
 
@@ -27,7 +27,7 @@ namespace ESparrow.Utils.Services
             _currentVolume = volume;
 
             StopAllCoroutines();
-            StartCoroutine(CoroutinesHelper.Graduate(SetProgress, duration));
+            CoroutinesHelper.Graduate(SetProgress, duration).Start(this);
 
             void SetProgress(float progress)
             {
@@ -98,7 +98,7 @@ namespace ESparrow.Utils.Services
             _currentSource.Pause();
         }
 
-        public AudioClip GetAmbienceByName(string name)
+        private AudioClip GetAmbienceByName(string name)
         {
             return clips[name];
         }

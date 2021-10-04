@@ -27,14 +27,14 @@ namespace ESparrow.Utils.Helpers
 
         public static T GetByIndex(int index)
         {
-            return (T)Enum.GetValues(typeof(T)).GetValue(index);
+            return (T) Enum.GetValues(typeof(T)).GetValue(index);
         }
 
         public static void ForEach(Action<T> action)
         {
             foreach (var value in Enum.GetValues(typeof(T)))
             {
-                action.Invoke((T)value);
+                action.Invoke((T) value);
             }
         }
 

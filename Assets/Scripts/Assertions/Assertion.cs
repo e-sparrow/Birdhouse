@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Throwening;
+using ESparrow.Utils.Throwening.Enums;
 using ESparrow.Utils.Extensions;
 using Object = UnityEngine.Object;
 
@@ -11,7 +13,7 @@ namespace ESparrow.Utils.Assertions
         private string _message;
         private Object _context;
 
-        private EAssertionType _type = EAssertionType.Exception;
+        private EThrowingType _type = EThrowingType.Exception;
 
         private readonly Func<bool> _assertion;
         private Action _onAssert;
@@ -27,25 +29,25 @@ namespace ESparrow.Utils.Assertions
 
         public Assertion AsMessage()
         {
-            _type = EAssertionType.Message;
+            _type = EThrowingType.Message;
             return this;
         }
 
         public Assertion AsWarning()
         {
-            _type = EAssertionType.Warning;
+            _type = EThrowingType.Warning;
             return this;
         }
 
         public Assertion AsError()
         {
-            _type = EAssertionType.Error;
+            _type = EThrowingType.Error;
             return this;
         }
 
         public Assertion AsException()
         {
-            _type = EAssertionType.Exception;
+            _type = EThrowingType.Exception;
             return this;
         }
 
@@ -77,51 +79,11 @@ namespace ESparrow.Utils.Assertions
         {
             if (!_assertion.Invoke())
             {
-                var exception = new AssertionException(_message, _context);
-                exception.Assert(_type);
+                var exception = new ImprovedException(_message, _context);
+                exception.Throw(_type);
 
                 _onAssert.Invoke();
             }
-        }
-
-        private class AssertionException : Exception
-        {
-            private readonly string _message;
-            private readonly Object _context;
-
-            public override string Message => _message;
-
-            public AssertionException(string message, Object context)
-            {
-                _message = message;
-                _context = context;
-            }
-
-            public void Assert(EAssertionType type)
-            {
-                switch (type)
-                {
-                    case EAssertionType.Message:
-                        Debug.Log(_message, _context);
-                        break;
-                    case EAssertionType.Warning:
-                        Debug.LogWarning(_message, _context);
-                        break;
-                    case EAssertionType.Error:
-                        Debug.LogError(_message, _context);
-                        break;
-                    case EAssertionType.Exception:
-                        throw this;
-                }
-            }
-        }
-
-        private enum EAssertionType
-        {
-            Message,
-            Warning,
-            Error,
-            Exception
         }
     }
 }

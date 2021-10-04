@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Instances.Interfaces;
 
 namespace ESparrow.Utils.Instances
 {

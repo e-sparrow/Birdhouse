@@ -5,11 +5,11 @@ using ESparrow.Utils.Helpers;
 
 namespace ESparrow.Utils.Patterns.Observer
 {
-    public class Imitator<T> where T : class
+    public class Imitator<T>
     {
-        public event Action<T> OnValueChanged;
+        public event Action<T> OnValueChanged = _ => { };
 
-        private T _value;
+        private T _self;
         private T _subject;
 
         private readonly T _listener;
@@ -62,19 +62,6 @@ namespace ESparrow.Utils.Patterns.Observer
             _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged -= OnMemberChanged);
         }
 
-        public void UnsubscribeFromMembers(params string[] names)
-        {
-            foreach (var name in names)
-            {
-                UnsubscribeFromMember(name);
-            }
-        }
-
-        public void UnsubscribeFromMember(string name)
-        {
-            _observer.RemovePropertyObserver(name);
-        }
-
         private string[] GetAllMutableMembersBeside(params string[] names)
         {
             var memberNames = typeof(T).GetMutableMemberNames(ReflectionHelper.AnyBindingFlags);
@@ -84,7 +71,7 @@ namespace ESparrow.Utils.Patterns.Observer
         private void Init(T subject)
         {
             _subject = subject;
-            _value = _subject;
+            _self = _subject;
 
             _observer = new Observer<T>(_subject);
         }
@@ -97,7 +84,7 @@ namespace ESparrow.Utils.Patterns.Observer
             if (field != null)
             {
                 value = field.GetValue(_subject);
-                field.SetValue(_value, value);
+                field.SetValue(_self, value);
 
                 if (_listener != null)
                 {
@@ -108,8 +95,8 @@ namespace ESparrow.Utils.Patterns.Observer
             {
                 var property = typeof(T).GetProperty(name, ReflectionHelper.AnyBindingFlags);
 
-                value = field.GetValue(_subject);
-                property.SetValue(_value, value);
+                value = property.GetValue(_subject);
+                property.SetValue(_self, value);
 
                 if (_listener != null)
                 {
@@ -117,7 +104,7 @@ namespace ESparrow.Utils.Patterns.Observer
                 }
             }
 
-            OnValueChanged?.Invoke(_value);
+            OnValueChanged?.Invoke(_self);
         }
     }
 }

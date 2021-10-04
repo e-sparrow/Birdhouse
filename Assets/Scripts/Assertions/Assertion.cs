@@ -4,15 +4,16 @@ using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Throwening;
 using ESparrow.Utils.Throwening.Enums;
 using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Assertions.Interfaces; 
 using Object = UnityEngine.Object;
 
 namespace ESparrow.Utils.Assertions
 {
-    public class Assertion
+    public class Assertion : IFluentAssertion
     {
         private string _message;
         private Object _context;
-
+        
         private EThrowingType _type = EThrowingType.Exception;
 
         private readonly Func<bool> _assertion;
@@ -27,49 +28,49 @@ namespace ESparrow.Utils.Assertions
             _onAssert = CheckHelper.CheckForDefault(onAssert);
         }
 
-        public Assertion AsMessage()
+        public IAssertion AsMessage()
         {
             _type = EThrowingType.Message;
             return this;
         }
 
-        public Assertion AsWarning()
+        public IAssertion AsWarning()
         {
             _type = EThrowingType.Warning;
             return this;
         }
 
-        public Assertion AsError()
+        public IAssertion AsError()
         {
             _type = EThrowingType.Error;
             return this;
         }
 
-        public Assertion AsException()
+        public IAssertion AsException()
         {
             _type = EThrowingType.Exception;
             return this;
         }
 
-        public Assertion WithCallback(Action callback)
+        public IAssertion WithCallback(Action callback)
         {
             _onAssert += callback;
             return this;
         }
 
-        public Assertion WithContext(Object context)
+        public IAssertion WithContext(Object context)
         {
             _context = context;
             return this;
         }
 
-        public Assertion WithColor(Color color)
+        public IAssertion WithColor(Color color)
         {
             _message = _message.WithColor(color);
             return this;
         }
 
-        public Assertion WithBoldMessage()
+        public IAssertion WithBoldMessage()
         {
             _message = _message.Bold();
             return this;

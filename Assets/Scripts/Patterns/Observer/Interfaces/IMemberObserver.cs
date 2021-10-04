@@ -5,18 +5,18 @@ namespace ESparrow.Utils.Patterns.Observer.Interfaces
 {
     public interface IMemberObserver
     {
-        public event Action<string, object, object> OnMemberChanged;
+        event Action<string, object, object> OnMemberChanged;
 
-        public string Name
+        string Name
         {
             get;
         }
 
-        public MemberTypes Type
+        MemberTypes Type
         {
             get;
         }
 
-        public void Check(object value);
+        void Check(object value);
     }
 }

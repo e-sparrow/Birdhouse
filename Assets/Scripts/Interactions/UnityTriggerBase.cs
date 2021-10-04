@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using ESparrow.Utils.Interactions.Interfaces;
 
-namespace ESparrow.Utils.Interactions.Implementations
+namespace ESparrow.Utils.Interactions
 {
     public abstract class UnityTriggerBase : MonoBehaviour, ITrigger
     {

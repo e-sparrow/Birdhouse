@@ -3,13 +3,14 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Enums;
-using ESparrow.Utils.Collections.Generic;
+using ESparrow.Utils.Services.Interfaces;
 using ESparrow.Utils.Instances;
+using ESparrow.Utils.Collections.Generic;
 
 namespace ESparrow.Utils.Services
 {
     [AddComponentMenu("ESparrow/Utils/Services/SoundService")]
-    public class SoundService : MonoBehaviour
+    public class SoundService : MonoBehaviour, ISoundService
     {
         [SerializeField] private GameObject sourcePrefab;
 
@@ -34,22 +35,6 @@ namespace ESparrow.Utils.Services
             else
             {
                 CreateSource(ESoundVolumeType.Default).InitToStop(name, GetAudioClipByName(name));
-            }
-        }
-
-        /// <summary>
-        /// Останавливает воспроизведение звука с указанным именем, если он работает.
-        /// В обратном случае выводит ошибку.
-        /// </summary>
-        public void Stop(string name)
-        {
-            if (_sources.Any(value => value.Name == name))
-            {
-                _sources.FirstOrDefault(value => value.Name == name).Stop();
-            }
-            else
-            {
-                Debug.LogWarning($"There is no some sources called '{name}' in SoundService.");
             }
         }
 
@@ -82,6 +67,22 @@ namespace ESparrow.Utils.Services
         public void PlayOneShot(string name, ESoundVolumeType type = ESoundVolumeType.Default)
         {
             CreateSource(type).Init(name, GetAudioClipByName(name));
+        }
+
+        /// <summary>
+        /// Останавливает воспроизведение звука с указанным именем, если он работает.
+        /// В обратном случае выводит ошибку.
+        /// </summary>
+        public void Stop(string name)
+        {
+            if (_sources.Any(value => value.Name == name))
+            {
+                _sources.FirstOrDefault(value => value.Name == name).Stop();
+            }
+            else
+            {
+                Debug.LogWarning($"There is no some sources called '{name}' in SoundService.");
+            }
         }
 
         /// <summary>

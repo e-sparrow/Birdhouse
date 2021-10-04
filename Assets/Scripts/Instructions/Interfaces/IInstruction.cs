@@ -6,18 +6,18 @@ namespace ESparrow.Utils.Instructions.Interfaces
 {
     public interface IInstruction
     {
-        public Action OnDestroy
+        Action OnDestroy
         {
             get;
         }
 
-        public bool SelfDestroy
+        bool SelfDestroy
         {
             get;
         }
 
-        public Task Wait(CancellationToken token);
+        Task Wait(CancellationToken token);
 
-        public bool TryExecute();
+        bool TryExecute();
     }
 }

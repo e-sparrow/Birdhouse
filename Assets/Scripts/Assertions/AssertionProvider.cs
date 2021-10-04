@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ESparrow.Utils.Tools.Errors.Interfaces;
+using ESparrow.Utils.Assertions.Interfaces;
 using Object = UnityEngine.Object;
 
 namespace ESparrow.Utils.Assertions
@@ -22,43 +23,43 @@ namespace ESparrow.Utils.Assertions
 
         private const string defaultIsEqualsErrorMessage = "Variable is not equals specified variable";
 
-        public static Assertion IsTrue(bool self, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsTrue(bool self, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsTrueErrorMessage, context, () => self, onAssert);
             return assertion;
         }
 
-        public static Assertion IsTrue(Func<bool> func, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsTrue(Func<bool> func, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsTrueErrorMessage, context, func, onAssert);
             return assertion;
         }
 
-        public static Assertion IsMatch<T>(T self, Predicate<T> predicate, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsMatch<T>(T self, Predicate<T> predicate, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsMatchErrorMessage, context, () => predicate.Invoke(self), onAssert);
             return assertion;
         }
 
-        public static Assertion IsDefault(object self, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsDefault(object self, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsDefaultErrorMessage, context, () => self.Equals(default), onAssert);
             return assertion;
         }
 
-        public static Assertion IsEmpty(string self, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsEmpty(string self, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsEmptyErrorMessage, context, () => self.Equals(string.Empty), onAssert);
             return assertion;
         }
 
-        public static Assertion IsDefaultOrEmpty(string self, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsDefaultOrEmpty(string self, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsDefaultOrEmptyErrorMessage, context, () => string.IsNullOrEmpty(self), onAssert);
             return assertion;
         }
 
-        public static Assertion IsMoreThan
+        public static IFluentAssertion IsMoreThan
         (
             IComparable self, 
             IComparable than, 
@@ -70,7 +71,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsMoreThan<T>
+        public static IFluentAssertion IsMoreThan<T>
         (
             T self,
             T than,
@@ -83,7 +84,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsMoreOrEquals
+        public static IFluentAssertion IsMoreOrEquals
         (
             IComparable self, 
             IComparable than, 
@@ -95,7 +96,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsMoreOrEquals<T>
+        public static IFluentAssertion IsMoreOrEquals<T>
         (
             T self,
             T than,
@@ -108,7 +109,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsLessThan
+        public static IFluentAssertion IsLessThan
         (
             IComparable self,
             IComparable than, 
@@ -120,7 +121,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsLessThan<T>
+        public static IFluentAssertion IsLessThan<T>
         (
             T self,
             T than,
@@ -133,7 +134,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsLessOrEquals
+        public static IFluentAssertion IsLessOrEquals
         (
             IComparable self, 
             IComparable than, 
@@ -145,7 +146,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsLessOrEquals<T>
+        public static IFluentAssertion IsLessOrEquals<T>
         (
             T self,
             T than,
@@ -158,13 +159,13 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsEquals<T>(T self, T than, Object context = default, Action onAssert = default)
+        public static IFluentAssertion IsEquals<T>(T self, T than, Object context = default, Action onAssert = default)
         {
             var assertion = new Assertion(defaultIsEqualsErrorMessage, context, () => self.Equals(than), onAssert);
             return assertion;
         }
 
-        public static Assertion IsEquals<T>
+        public static IFluentAssertion IsEquals<T>
         (
             T self, 
             T than, 
@@ -177,7 +178,7 @@ namespace ESparrow.Utils.Assertions
             return assertion;
         }
 
-        public static Assertion IsEqualsWithError<T>
+        public static IFluentAssertion IsEqualsWithError<T>
         (
             IErroneous<T> self,
             T than,

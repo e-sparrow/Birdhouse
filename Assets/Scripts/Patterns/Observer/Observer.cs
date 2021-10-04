@@ -34,10 +34,9 @@ namespace ESparrow.Utils.Patterns.Observer
 
                 return observer;
             }
-
-            if (CheckProperty(name, out _, out var propertyValue))
+            else if (CheckProperty(name, out _, out var propertyValue))
             {
-                var observer = new MemberObserver(name, MemberTypes.Property, fieldValue);
+                var observer = new MemberObserver(name, MemberTypes.Property, propertyValue);
                 _observers.Add(observer);
 
                 return observer;

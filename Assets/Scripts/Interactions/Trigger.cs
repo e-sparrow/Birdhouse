@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ESparrow.Utils.Interactions.Implementations
+namespace ESparrow.Utils.Interactions
 {
     [RequireComponent(typeof(Collider))]
     [AddComponentMenu("ESparrow/Utils/Interactions/Implementations/Trigger")]

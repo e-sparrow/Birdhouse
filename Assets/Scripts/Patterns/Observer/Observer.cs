@@ -5,26 +5,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Managers;
+using ESparrow.Utils.Patterns.Observer.Interfaces;
 
 namespace ESparrow.Utils.Patterns.Observer
 {
-    public class Observer<T>
+    public class Observer<T> : IObserver
     {
         private T _target;
 
-        private readonly List<MemberObserver> _observers = new List<MemberObserver>();
+        private readonly List<IMemberObserver> _observers = new List<IMemberObserver>();
 
         public Observer(T target)
         {
             Init(target);
         }
 
-        public MemberObserver[] CreateMemberObservers(params string[] names)
+        public IMemberObserver[] CreateMemberObservers(params string[] names)
         {
             return CollectionsHelper.ForEachResult(names, CreateMemberObserver).ToArray();
         }
 
-        public MemberObserver CreateMemberObserver(string name)
+        public IMemberObserver CreateMemberObserver(string name)
         {
             if (CheckField(name, out var _, out var fieldValue))
             {
@@ -46,19 +47,9 @@ namespace ESparrow.Utils.Patterns.Observer
             return null;
         }
 
-        public void RemovePropertyObserver(string name)
-        {
-            RemovePropertyObserver(GetObserverByName(name));
-        }
-
-        public void RemovePropertyObserver(MemberObserver observer)
+        public void RemovePropertyObserver(IMemberObserver observer)
         {
             _observers.Remove(observer);
-        }
-
-        public MemberObserver GetObserverByName(string name)
-        {
-            return _observers.FirstOrDefault(value => value.Name == name);
         }
 
         private bool CheckField(string name, out FieldInfo field, out object value)
@@ -108,41 +99,6 @@ namespace ESparrow.Utils.Patterns.Observer
                     default:
                         throw new NotImplementedException();
                 }
-            }
-        }
-
-        public class MemberObserver
-        {
-            public MemberObserver(string name, MemberTypes type, object lastValue)
-            {
-                _name = name;
-                _type = type;
-
-                _lastValue = lastValue;
-            }
-
-            public event Action<string, object, object> OnMemberChanged;
-
-            protected readonly string _name;
-            private readonly MemberTypes _type;
-
-            protected object _lastValue;
-
-            public string Name => _name;
-            public MemberTypes Type => _type;
-
-            public void Check(object value)
-            {
-                if (!value.Equals(_lastValue))
-                {
-                    OnChange(value);
-                }
-            }
-
-            protected void OnChange(object newValue)
-            {
-                OnMemberChanged?.Invoke(_name, _lastValue, newValue);
-                _lastValue = newValue;
             }
         }
     }

@@ -1,11 +1,9 @@
 using System;
-using UnityEngine;
 
 namespace ESparrow.Utils.Patterns.FluentBuilder.Examples
 {
     public class ConcreteBuilder : BuilderBase<ConcreteInstance>
     {
-        protected override event Action OnBuilderCreated = () => Debug.Log("ConcreteBuilder Created!");
         protected override event Action<ConcreteInstance> OnInstanceBuilded = instance => instance.Log();
 
         public ConcreteBuilder SetName(string name)

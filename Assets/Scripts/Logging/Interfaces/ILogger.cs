@@ -1,5 +1,3 @@
-using ESparrow.Utils.Throwening.Interfaces;
-
 namespace ESparrow.Utils.Logging.Interfaces
 {
     public interface ILogger

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Reflection;
 
 namespace ESparrow.Utils.Helpers
 {
@@ -29,15 +25,5 @@ namespace ESparrow.Utils.Helpers
             BindingFlags.SuppressChangeType |
             BindingFlags.OptionalParamBinding |
             BindingFlags.IgnoreReturn;
-
-        public static string[] GetMutableMemberNames(this Type type, BindingFlags flags)
-        {
-            var fields = type.GetFields(flags);
-            var properties = type.GetProperties(flags);
-
-            var memberNames = properties.Select(property => property.Name).Concat(fields.Select(field => field.Name)).ToArray();
-
-            return memberNames;
-        }
     }
 }

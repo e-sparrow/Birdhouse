@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using ESparrow.Utils.Throwening.Interfaces;
 using ESparrow.Utils.Throwening.Enums;
+using ESparrow.Utils.Throwening.Interfaces;
 using Object = UnityEngine.Object;
 
 namespace ESparrow.Utils.Throwening

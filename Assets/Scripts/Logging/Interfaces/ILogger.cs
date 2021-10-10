@@ -2,8 +2,8 @@ namespace ESparrow.Utils.Logging.Interfaces
 {
     public interface ILogger
     {
-        void Log(string message);
-        void ThrowWarning(string message);
-        void ThrowError(string message);
+            void LogMessage(string message);
+            void LogWarning(string message);
+            void LogError(string message);
     }
 }

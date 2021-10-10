@@ -4,6 +4,8 @@ namespace ESparrow.Utils.Mathematics.Ways.Interfaces
 {
     public interface IWay
     {
+        public Vector3 Evaluate(float t);
+
         public Vector3 Start
         {
             get;
@@ -13,7 +15,5 @@ namespace ESparrow.Utils.Mathematics.Ways.Interfaces
         {
             get;
         }
-
-        public Vector3 Evaluate(float t);
     }
 }

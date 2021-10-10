@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Mathematics.Ways.Implementations;
+using ESparrow.Utils.Mathematics.Ways;
 
 namespace ESparrow.Utils.Drawers
 {

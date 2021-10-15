@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Generalization.Summation.Interfaces;
 
 namespace ESparrow.Utils.Generalization.Summation.Adapters
@@ -36,6 +37,11 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
         {
             get;
             set;
+        }
+
+        public abstract EGeneralizationType GeneralizationType
+        {
+            get;
         }
 
         public static ToSummableAdapterBase<T> operator +(ToSummableAdapterBase<T> left, ToSummableAdapterBase<T> right)

@@ -1,4 +1,5 @@
-﻿using ESparrow.Utils.Generalization.Multiplying.Interfaces;
+﻿using ESparrow.Utils.Generalization.Types.Enums;
+using ESparrow.Utils.Generalization.Multiplying.Interfaces;
 
 namespace ESparrow.Utils.Generalization.Multiplying
 {
@@ -23,5 +24,7 @@ namespace ESparrow.Utils.Generalization.Multiplying
         {
             return new FloatToMultipliableAdapter(Value % other);
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Float;
     }
 }

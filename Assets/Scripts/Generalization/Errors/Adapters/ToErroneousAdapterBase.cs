@@ -1,3 +1,4 @@
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Generalization.Errors.Interfaces;
 
 namespace ESparrow.Utils.Generalization.Errors.Adapters
@@ -34,6 +35,11 @@ namespace ESparrow.Utils.Generalization.Errors.Adapters
         public bool Compare(T self, T other)
         {
             return CompareWithError(self, other, DefaultError);
+        }
+
+        public abstract EGeneralizationType GeneralizationType
+        {
+            get;
         }
     }
 }

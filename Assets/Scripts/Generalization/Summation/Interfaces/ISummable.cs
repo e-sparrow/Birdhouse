@@ -1,6 +1,8 @@
+using ESparrow.Utils.Generalization.Interfaces;
+
 namespace ESparrow.Utils.Generalization.Summation.Interfaces
 {
-    public interface ISummable<T>
+    public interface ISummable<T> : IGeneralizationAdapter
     {
         /// <summary>
         /// Adds this value to another.

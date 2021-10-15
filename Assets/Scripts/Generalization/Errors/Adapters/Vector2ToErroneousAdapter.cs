@@ -1,4 +1,5 @@
 using System;
+using ESparrow.Utils.Generalization.Types.Enums;
 using UnityEngine;
 
 namespace ESparrow.Utils.Generalization.Errors.Adapters
@@ -19,5 +20,7 @@ namespace ESparrow.Utils.Generalization.Errors.Adapters
 
             return x && y;
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Vector2;
     }
 }

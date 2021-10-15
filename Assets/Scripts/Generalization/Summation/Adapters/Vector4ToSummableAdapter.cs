@@ -1,4 +1,5 @@
-﻿using ESparrow.Utils.Generalization.Summation.Interfaces;
+﻿using ESparrow.Utils.Generalization.Types.Enums;
+using ESparrow.Utils.Generalization.Summation.Interfaces;
 using UnityEngine;
 
 namespace ESparrow.Utils.Generalization.Summation.Adapters
@@ -19,5 +20,7 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
         {
             return new Vector4ToSummableAdapter(Value - other);;
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Vector4;
     }
 }

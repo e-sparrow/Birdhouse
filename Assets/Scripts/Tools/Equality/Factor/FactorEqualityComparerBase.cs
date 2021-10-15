@@ -1,18 +1,45 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ESparrow.Utils.Tools.Equality.Factor.Interfaces;
-using UnityEngine;
 
 namespace ESparrow.Utils.Tools.Equality.Factor
 {
     public abstract class FactorEqualityComparerBase<TSelf, TFactor> : IFactorEqualityComparer<TSelf, TFactor>
     {
         public abstract bool Equals(TSelf self, object other);
-        public abstract TFactor GetFactor(TSelf self);
+        /// <summary>
+        /// Checks is self factor equals another one.
+        /// </summary>
+        /// <param name="self">Self factor</param>
+        /// <param name="other">Another one</param>
+        /// <returns>True if self factor equals another one and false otherwise</returns>
+        protected abstract bool FactorsEquals(TFactor self, TFactor other);
         
+        public abstract IEnumerable<TFactor> GetFactors(TSelf self);
+
+        /// <summary>
+        /// Compares two same-type variables by GetFactors method.
+        /// </summary>
+        /// <param name="self">Self value</param>
+        /// <param name="other">Another value</param>
+        /// <returns>True if self value equals another one and false otherwise</returns>
         protected bool Equals(TSelf self, TSelf other)
         {
-            return EqualityComparer<TFactor>.Default.Equals(GetFactor(self), GetFactor(other));
+            var selfFactors = GetFactors(self).ToArray();
+            var otherFactors = GetFactors(other).ToArray();
+
+            if (selfFactors.Length != otherFactors.Length) return false;
+            
+            for (int i = 0; i < selfFactors.Length; i++)
+            {
+                bool factorsEquals = FactorsEquals(selfFactors[i], otherFactors[i]);
+                if (!factorsEquals)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

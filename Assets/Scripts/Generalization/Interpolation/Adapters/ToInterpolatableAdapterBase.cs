@@ -1,3 +1,4 @@
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Generalization.Interpolation.Interfaces;
 using ESparrow.Utils.Tools;
 
@@ -19,5 +20,10 @@ namespace ESparrow.Utils.Generalization.Interpolation.Adapters
         }
 
         public abstract void Interpolate(T from, T to, float progress);
+
+        public abstract EGeneralizationType GeneralizationType
+        {
+            get;
+        }
     }
 }

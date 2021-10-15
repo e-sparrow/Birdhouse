@@ -1,4 +1,5 @@
-﻿using ESparrow.Utils.Generalization.Summation.Interfaces;
+﻿using ESparrow.Utils.Generalization.Types.Enums;
+using ESparrow.Utils.Generalization.Summation.Interfaces;
 
 namespace ESparrow.Utils.Generalization.Summation.Adapters
 {
@@ -18,5 +19,7 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
         {
             return new IntToSummableAdapter(Value - other);
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Int;
     }
 }

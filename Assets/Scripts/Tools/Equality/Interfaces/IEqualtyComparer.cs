@@ -15,7 +15,7 @@ namespace ESparrow.Utils.Tools.Equality.Interfaces
         bool Equals(TSelf self, TOther other);
     }
     
-    public interface IEqualtyComparer<T> : IEqualityComparer<T, T>
+    public interface IEqualityComparer<in T> : IEqualityComparer<T, T>
     {
         
     }

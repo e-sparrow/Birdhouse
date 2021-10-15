@@ -1,4 +1,5 @@
 using System;
+using ESparrow.Utils.Generalization.Types.Enums;
 
 namespace ESparrow.Utils.Generalization.Errors.Adapters
 {
@@ -15,5 +16,7 @@ namespace ESparrow.Utils.Generalization.Errors.Adapters
         {
             return Math.Abs(other - self) <= error;
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Decimal;
     }
 }

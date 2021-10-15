@@ -1,6 +1,8 @@
+using ESparrow.Utils.Generalization.Interfaces;
+
 namespace ESparrow.Utils.Generalization.Errors.Interfaces
 {
-    public interface IErroneous<T>
+    public interface IErroneous<T> : IGeneralizationAdapter
     { 
         /// <summary>
         /// Compares erroneous inheritors with specified error.

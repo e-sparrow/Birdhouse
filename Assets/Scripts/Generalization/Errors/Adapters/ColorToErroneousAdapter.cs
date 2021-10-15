@@ -1,4 +1,5 @@
 using System;
+using ESparrow.Utils.Generalization.Types.Enums;
 using UnityEngine;
 
 namespace ESparrow.Utils.Generalization.Errors.Adapters
@@ -21,5 +22,7 @@ namespace ESparrow.Utils.Generalization.Errors.Adapters
 
             return r && g && b && a;
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Color;
     }
 }

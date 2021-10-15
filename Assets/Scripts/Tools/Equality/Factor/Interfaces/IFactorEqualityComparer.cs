@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ESparrow.Utils.Tools.Equality.Interfaces;
 
 namespace ESparrow.Utils.Tools.Equality.Factor.Interfaces
@@ -9,6 +10,6 @@ namespace ESparrow.Utils.Tools.Equality.Factor.Interfaces
         /// </summary>
         /// <param name="self">Self value</param>
         /// <returns>Factor for check the equality</returns>
-        TFactor GetFactor(TSelf self);
+        IEnumerable<TFactor> GetFactors(TSelf self);
     }
 }

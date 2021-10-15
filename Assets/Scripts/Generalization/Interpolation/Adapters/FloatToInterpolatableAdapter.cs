@@ -1,3 +1,4 @@
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Tools;
 using UnityEngine;
 
@@ -14,5 +15,7 @@ namespace ESparrow.Utils.Generalization.Interpolation.Adapters
         {
             Value = Mathf.Lerp(from, to, progress);
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Float;
     }
 }

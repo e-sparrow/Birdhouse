@@ -1,3 +1,4 @@
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Generalization.Multiplying.Interfaces;
 
 namespace ESparrow.Utils.Generalization.Multiplying
@@ -17,6 +18,11 @@ namespace ESparrow.Utils.Generalization.Multiplying
         { 
             get; 
             set;
+        }
+
+        public abstract EGeneralizationType GeneralizationType
+        {
+            get;
         }
 
         public static ToMultipliableAdapterBase<TSelf, TOther> operator *(ToMultipliableAdapterBase<TSelf, TOther> left,
@@ -53,6 +59,11 @@ namespace ESparrow.Utils.Generalization.Multiplying
         { 
             get; 
             set;
+        }
+
+        public abstract EGeneralizationType GeneralizationType
+        {
+            get;
         }
 
         public static ToMultipliableAdapterBase<T> operator *(ToMultipliableAdapterBase<T> left,

@@ -1,4 +1,5 @@
 ﻿using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Generalization.Multiplying.Interfaces;
 using UnityEngine;
 
@@ -25,5 +26,7 @@ namespace ESparrow.Utils.Generalization.Multiplying
         {
             return new Vector3ToMultipliableAdapter(Value.Mod(other));
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Vector3;
     }
 }

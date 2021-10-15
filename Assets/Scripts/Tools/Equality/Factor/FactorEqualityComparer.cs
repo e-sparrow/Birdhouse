@@ -10,13 +10,13 @@ namespace ESparrow.Utils.Tools.Equality.Factor
     /// </summary>
     /// <typeparam name="TSelf">Type to compare</typeparam>
     /// <typeparam name="TFactor">Factor type</typeparam>
-    public class FactorEqualityComparer<TSelf, TFactor> : IFactorEqualityComparer<TSelf, TFactor>
+    public class FactorEqualityComparer<TSelf, TFactor> : FactorEqualityComparerBase<TSelf, TFactor>
     {
         /// <summary>
         /// Creates comparer by specified function which gets factor by self.
         /// </summary>
         /// <param name="equalityFactor">Specified function</param>
-        public FactorEqualityComparer(Func<TSelf, TFactor> equalityFactor)
+        public FactorEqualityComparer(Func<TSelf, IEnumerable<TFactor>> equalityFactor)
         {
             _equalityFactor = equalityFactor;
         }
@@ -24,13 +24,13 @@ namespace ESparrow.Utils.Tools.Equality.Factor
         /// <summary>
         /// Directly function.
         /// </summary>
-        private readonly Func<TSelf, TFactor> _equalityFactor;
+        private readonly Func<TSelf, IEnumerable<TFactor>> _equalityFactor;
 
-        public bool Equals(TSelf self, object other)
+        public override bool Equals(TSelf self, object other)
         {
             if (other.IsNull()) return false;
             if (self.IsReferencesMatchWith(other)) return true;
-
+            
             var typesAreMatch = self.IsTypesMatchWith(other);
             var isEquals = Equals(self, (TSelf) other);
 
@@ -42,9 +42,17 @@ namespace ESparrow.Utils.Tools.Equality.Factor
         /// </summary>
         /// <param name="self">Self value</param>
         /// <returns>Factor to check equality</returns>
-        public TFactor GetFactor(TSelf self)
+        public override IEnumerable<TFactor> GetFactors(TSelf self)
         {
             return _equalityFactor.Invoke(self);
+        }
+
+        protected override bool FactorsEquals(TFactor self, TFactor other)
+        {
+            var comparer = EqualityComparer<TFactor>.Default;
+            bool equals = comparer.Equals(self, other);
+
+            return equals;
         }
     }
 }

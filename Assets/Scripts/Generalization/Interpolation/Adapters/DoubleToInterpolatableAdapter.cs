@@ -1,3 +1,4 @@
+using ESparrow.Utils.Generalization.Types.Enums;
 using ESparrow.Utils.Tools;
 
 namespace ESparrow.Utils.Generalization.Interpolation.Adapters
@@ -13,5 +14,7 @@ namespace ESparrow.Utils.Generalization.Interpolation.Adapters
         {
             Value = from + (to - from) * progress;
         }
+
+        public override EGeneralizationType GeneralizationType => EGeneralizationType.Double;
     }
 }

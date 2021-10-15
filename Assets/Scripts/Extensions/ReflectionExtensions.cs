@@ -68,7 +68,17 @@ namespace ESparrow.Utils.Extensions
                 return subclasses.Concat(subsubclasses).ToArray();
             }
         }
-
+        
+        /// <summary>
+        /// Checks is self class is real.
+        /// </summary>
+        /// <param name="self">Self class</param>
+        /// <returns>True if it's real class and false otherwise</returns>
+        public static bool IsRealClass(this Type self)
+        {
+            return !self.IsAbstract && !self.IsGenericTypeDefinition && !self.IsInterface;
+        }
+        
         /// <summary>
         /// Checks for mutation opportunity for this property.
         /// </summary>

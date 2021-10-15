@@ -7,6 +7,12 @@ namespace ESparrow.Utils.Helpers
 {
     public static class AsyncHelper
     {
+        /// <summary>
+        /// Awaits while specified function returns true.
+        /// </summary>
+        /// <param name="func">Specified function </param>
+        /// <param name="token">Token to cancel task</param>
+        /// <param name="onCancellationRequested">Callback which invokes when token is performs cancellation</param>
         public static async Task WaitWhile
         (
             Func<bool> func, 
@@ -28,6 +34,12 @@ namespace ESparrow.Utils.Helpers
             }
         }
 
+        /// <summary>
+        /// Awaits while specified function returns false.
+        /// </summary>
+        /// <param name="func">Specified function </param>
+        /// <param name="token">Token to cancel task</param>
+        /// <param name="onCancellationRequested">Callback which invokes when token is performs cancellation</param>
         public static async Task WaitUntil
         (
             Func<bool> func,
@@ -38,18 +50,15 @@ namespace ESparrow.Utils.Helpers
             await WaitWhile(() => !func.Invoke(), token, onCancellationRequested);
         }
 
+        /// <summary>
+        /// Awaits while subject will be changed.
+        /// </summary>
+        /// <param name="subject">Subject to observe</param>
+        /// <typeparam name="T">Type of subject</typeparam>
         public static async Task WaitForChange<T>(T subject)
         {
             var original = Clone<T>.CreateClone(subject);
             await WaitWhile(() => original.Equals(subject));
-        }
-
-        public static async Task WaitAction(Action action)
-        {
-            bool invoked = false;
-            action += () => invoked = true;
-
-            await WaitWhile(() => !invoked);
         }
     }
 }

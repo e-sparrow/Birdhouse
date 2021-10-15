@@ -1,17 +1,17 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
-using ESparrow.Utils.Patterns.CommandPattern;
+using ESparrow.Utils.Patterns.Commands;
+using ESparrow.Utils.Patterns.Commands.Interfaces;
 
 namespace ESparrow.Utils.UI.ViewControllers
 {
     public class ViewControllersManager
     {
-        private static readonly ViewControllersManager _main;
+        private static readonly ViewControllersManager Main;
 
-        // Выполняющий команды скрипт, который в данном случае нужен для последовательного закрытия окон.
-        private readonly CommandExecutor _commandExecutor = new CommandExecutor();
+        private readonly ICommandExecutor<Action> _commandExecutor = new DefaultCommandExecutor();
 
-        // Текущий ViewController. Остаётся null до первого вызова метода Open.
         private ViewControllerBase _currentViewController;
 
         private List<ViewControllerBase> _viewControllers;
@@ -19,43 +19,56 @@ namespace ESparrow.Utils.UI.ViewControllers
         private List<ViewControllerBase> ActiveViewControllers => _viewControllers.Where(value => value.Active).ToList();
         private List<ViewControllerBase> PassiveViewControllers => _viewControllers.Except(ActiveViewControllers).ToList();
 
-        public static ViewControllersManager Main => _main;
-
         static ViewControllersManager()
         {
-            _main = new ViewControllersManager();
+            Main = new ViewControllersManager();
         }
 
         public ViewControllersManager()
         {
             _viewControllers = new List<ViewControllerBase>();
 
-            _commandExecutor.OnEmptyUndoExecuted += () => _currentViewController.SetActive(false);
+            _commandExecutor.OnEmptyUndoStackInvoked += () => _currentViewController.SetActive(false);
         }
         
+        /// <summary>
+        /// Is this view controller is current.
+        /// </summary>
+        /// <param name="viewController">This view controller</param>
+        /// <returns>True if it's current view controller and false otherwise</returns>
         public bool IsCurrent(ViewControllerBase viewController)
         {
             return _currentViewController != null && _currentViewController.Equals(viewController);
         }
 
+        /// <summary>
+        /// Registers the view controller in this controller.
+        /// </summary>
+        /// <param name="viewController">View controller to register</param>
         public void Register(ViewControllerBase viewController)
         {
             _viewControllers.Add(viewController);
         }
 
+        /// <summary>
+        /// Unregisters the view controller from this controller.
+        /// </summary>
+        /// <param name="viewController">View controller to unregister</param>
         public void Unregister(ViewControllerBase viewController)
         {
             _viewControllers.Remove(viewController);
         }
 
         /// <summary>
-        /// Открывает окно. Если leaveOn - false, то при открытии следующего окна оно закроется.
+        /// Opens the specified view controller and closes previous if needed.
         /// </summary>
-        public void Open(ViewControllerBase viewController, bool closePrevious)
+        /// <param name="viewController">Specified view controller</param>
+        /// <param name="closePrevious">Need to close previous view controller or not</param>
+        public void Open(ViewControllerBase viewController, bool closePrevious = false)
         {
             var tempCurrent = _currentViewController;
 
-            var command = new Command(Open, Close);
+            var command = new CommandGeneric<Action>(Open, Close);
             _commandExecutor.Execute(command);
 
             _currentViewController = viewController;
@@ -83,13 +96,16 @@ namespace ESparrow.Utils.UI.ViewControllers
         }
 
         /// <summary>
-        /// Закрывает текущее окно и открывает предыдущее.
+        /// Closes current window and opens previous if needed.
         /// </summary>
         public void Back()
         {
             _commandExecutor.Undo();
         }
 
+        /// <summary>
+        /// Closes all the active windows.
+        /// </summary>
         public void Close()
         {
             _commandExecutor.Clear();

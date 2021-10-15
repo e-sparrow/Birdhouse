@@ -5,28 +5,33 @@ using System.Collections.ObjectModel;
 
 namespace ESparrow.Utils.Extensions
 {
-    /// <summary>
-    /// Класс расширений для коллекций, наследуемых от интерфейса IEnumerable;
-    /// </summary>
     public static class EnumerableExtensions
     {
         /// <summary>
-        /// Получает случайный элемент коллекции.
+        /// Gets a random element of enumerable.
         /// </summary>
-        public static T GetRandom<T>(this IEnumerable<T> collection)
+        /// <param name="enumerable">Enumerable to get an element</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Random element</returns>
+        public static T GetRandom<T>(this IEnumerable<T> enumerable)
         {
-            var array = collection.ToArray();
+            var array = enumerable.ToArray();
             return array[UnityEngine.Random.Range(0, array.Length)];
         }
 
         /// <summary>
-        /// Получает случайный элемент из коллекции, учитывая его вес, за который можно принять любое float, int или double число.
+        /// Gets a random element given its weight.
         /// </summary>
-        public static T GetWeighedRandom<T>(this IEnumerable<T> collection, Func<T, double> weight)
+        /// <param name="enumerable">Enumerable to get an element</param>
+        /// <param name="weight">Method to get weights of elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Random element</returns>
+        /// <exception cref="Exception">Random double was more than sum of the weights</exception>
+        public static T GetWeighedRandom<T>(this IEnumerable<T> enumerable, Func<T, double> weight)
         {
-            var array = collection.ToArray();
-
-            double sum = array.Sum(value => weight(value));
+            var array = enumerable.ToArray();
+            var sum = array.Sum(value => weight(value));
+            
             double random = UnityEngine.Random.Range(0f, (float) sum);
 
             foreach (var element in array)
@@ -41,20 +46,37 @@ namespace ESparrow.Utils.Extensions
             throw new Exception();
         }
 
-        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> collection, int count)
+        /// <summary>
+        /// Gets specified count of not repeating random elements. 
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get random elements</param>
+        /// <param name="count">Count of random elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable of elements</returns>
+        /// <exception cref="Exception"></exception>
+        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> enumerable, int count)
         {
-            if (collection.CheckNonRepeating(count, out var distinct))
+            if (enumerable.CheckNonRepeating(count, out var distinct))
             {
-                distinct = distinct.Shake();
+                distinct = distinct.Shuffle();
                 return distinct.Take(count);
             }
 
             throw new Exception();
         }
 
-        public static IEnumerable<T> GetNonRepeatingWeighedRandom<T>(this IEnumerable<T> collection, int count, Func<T, double> weight)
+        /// <summary>
+        /// Gets specified count of not repeating random elements given its weights.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get random elements</param>
+        /// <param name="count">Count of random elements</param>
+        /// <param name="weight">Method to get weights of elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable of elements</returns>
+        /// <exception cref="Exception"></exception>
+        public static IEnumerable<T> GetNonRepeatingWeighedRandom<T>(this IEnumerable<T> enumerable, int count, Func<T, double> weight)
         {
-            if (collection.CheckNonRepeating(count, out var distinct))
+            if (enumerable.CheckNonRepeating(count, out var distinct))
             {
                 var used = new List<T>();
                 for (int i = 0; i < count; i++)
@@ -67,7 +89,15 @@ namespace ESparrow.Utils.Extensions
 
             throw new Exception();
         }
-
+        
+        /// <summary>
+        /// Aggregates action in both enumerables.
+        /// </summary>
+        /// <param name="self">First enumerable to aggregate</param>
+        /// <param name="other">Second enumerable to aggregate</param>
+        /// <param name="action">Action to execute</param>
+        /// <typeparam name="T1">Type of elements in first enumerable</typeparam>
+        /// <typeparam name="T2">Type of elements in second enumerable</typeparam>
         public static void CrossAggregate<T1, T2>(this IEnumerable<T1> self, IEnumerable<T2> other, Action<T1, T2> action)
         {
             var left = self.ToArray();
@@ -82,25 +112,37 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// Меняет элементы местами по ссылкам на них.
+        /// Swaps elements in the collection
         /// </summary>
-        public static C Swap<C, T>(this C collection, T left, T right) where C : IEnumerable<T>
+        /// <param name="enumerable">Enumerable to swap</param>
+        /// <param name="left">First element to swap</param>
+        /// <param name="right">Second element to swap</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with swapped elements</returns>
+        /// <exception cref="Exception">Wrong index</exception>
+        public static IEnumerable<T> Swap<T>(this IEnumerable<T> enumerable, T left, T right) where T : IEnumerable<T>
         {
             Validate();
 
-            int leftIndex = collection.ToList().IndexOf(left);
-            int rightIndex = collection.ToList().IndexOf(right);
+            var list = enumerable.ToList();
 
-            return (C) collection.Swap(leftIndex, rightIndex);
+            int leftIndex = list.IndexOf(left);
+            int rightIndex = list.IndexOf(right);
+
+            T temp = list[leftIndex];
+            list[leftIndex] = list[rightIndex];
+            list[rightIndex] = temp;
+
+            return list;
 
             void Validate()
             {
-                if (!collection.Contains(left))
+                if (!enumerable.Contains(left))
                 {
                     throw new Exception($"collection doesn't contains left");
                 }
 
-                if (!collection.Contains(right))
+                if (!enumerable.Contains(right))
                 {
                     throw new Exception($"collection doesn't contains right");
                 }
@@ -108,77 +150,96 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// Меняет элементы местами по индексу.
+        /// Shuffles the enumerable by default random.
         /// </summary>
-        public static C Swap<C, T>(this C collection, int leftIndex, int rightIndex) where C : IEnumerable<T>
-        {
-            Validate();
-
-            return (C) collection.Swap(leftIndex, rightIndex);
-
-            void Validate()
-            {
-                if (leftIndex >= collection.Count())
-                {
-                    throw new Exception($"leftIndex of collection is outside the bounds of the array");
-                }
-
-                if (rightIndex >= collection.Count())
-                {
-                    throw new Exception($"rightIndex of collection is outside the bounds of the array");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Перемешивает элементы коллекции в случайном порядке.
-        /// </summary>
-        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection)
+        /// <param name="enumerable">Enumerable to shuffle</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Shuffled enumerable</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
         {
             var random = new Random();
-            return collection.Shake(random);
-        }
-
-        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection, int seed)
-        {
-            var random = new Random(seed);
-            return collection.Shake(random);
-        }
-
-        public static IEnumerable<T> Shake<T>(this IEnumerable<T> collection, Random random)
-        {
-            return collection.OrderBy(value => random.Next());
+            return enumerable.Shuffle(random);
         }
 
         /// <summary>
-        /// Возвращает count последних элементов коллекции.
+        /// Shuffles the enumerable by random with specified seed.
         /// </summary>
-        public static IEnumerable<T> Last<T>(this IEnumerable<T> collection, int count)
+        /// <param name="enumerable">Enumerable to shuffle</param>
+        /// <param name="seed">Specified seed to random which doing a shuffle</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Shuffled enumerable</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable, int seed)
         {
-            if (collection.Count() > count)
+            var random = new Random(seed);
+            return enumerable.Shuffle(random);
+        }
+
+        /// <summary>
+        /// Shuffles the enumerable by specified random.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to shuffle</param>
+        /// <param name="random">Specified random which doing a shuffle</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Shuffled enumerable</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable, Random random)
+        {
+            return enumerable.OrderBy(value => random.Next());
+        }
+
+        /// <summary>
+        /// Returns specified count of last elements of the enumerable.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get last elements</param>
+        /// <param name="count">Count of elements to return</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Last elements of enumerable</returns>
+        public static IEnumerable<T> Last<T>(this IEnumerable<T> enumerable, int count)
+        {
+            if (enumerable.Count() > count)
             {
-                return collection.ToList().GetRange(collection.Count() - 1 - count, count);
+                return enumerable.ToList().GetRange(enumerable.Count() - 1 - count, count);
             }
             else
             {
-                return collection;
+                return enumerable;
             }
         }
 
-        public static IEnumerable<T> Without<T>(this IEnumerable<T> collection, IEnumerable<T> without)
+        /// <summary>
+        /// Removes the second enumerable from first one.
+        /// </summary>
+        /// <param name="enumerable">Outer enumerable</param>
+        /// <param name="without">Enumerable to remove</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Returns first enumerable but without all the last values</returns>
+        public static IEnumerable<T> Without<T>(this IEnumerable<T> enumerable, IEnumerable<T> without)
         {
-            return collection.Where(value => !without.Contains(value));
+            return enumerable.Where(value => !without.Contains(value));
         }
 
-        public static IEnumerable<T> Without<T>(this IEnumerable<T> collection, params T[] without)
+        /// <summary>
+        /// Removes the second enumerable from first one.
+        /// </summary>
+        /// <param name="enumerable">Outer enumerable</param>
+        /// <param name="without">Enumerable to remove</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Returns first enumerable but without all the last values</returns>
+        public static IEnumerable<T> Without<T>(this IEnumerable<T> enumerable, params T[] without)
         {
-            return collection.Where(value => !without.Contains(value));
+            return enumerable.Where(value => !without.Contains(value));
         }
 
-        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> collection, Comparison<T> comparison)
+        /// <summary>
+        /// Removes the same elements from enumerable by comparison.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to distinct</param>
+        /// <param name="comparison">Comparison to compare elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>New enumerable without same elements</returns>
+        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> enumerable, Comparison<T> comparison)
         {
-            var list = collection.ToList();
-            foreach (var self in collection)
+            var list = enumerable.ToList();
+            foreach (var self in enumerable)
             {
                 foreach (var other in list.Without(self))
                 {
@@ -192,92 +253,24 @@ namespace ESparrow.Utils.Extensions
             return list.AsEnumerable();
         }
 
-        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> collection, Func<T, int> func)
+        /// <summary>
+        /// Removes the same elements from enumerable by Func.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to distinct</param>
+        /// <param name="func">Func to compare elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>New enumerable without same elements</returns>
+        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> enumerable, Func<T, int> func)
         {
-            return collection.Distinct((left, right) => func(right) - func(left));
+            return enumerable.Distinct((left, right) => func(right) - func(left));
         }
 
         /// <summary>
-        /// Проверяет, идут ли хоть некоторые элементы друг за другом последовательно
+        /// Returns a enumerable from variable.
         /// </summary>
-        public static bool IsSomeSuccessively(this IEnumerable<int> collection, out List<List<int>> sequences)
-        {
-            var list = collection.ToList();
-
-            sequences = new List<List<int>>();
-
-            List<int> currentSequence = new List<int>();
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (list[i] == list.Last()) break;
-
-                if (currentSequence.Count == 0)
-                {
-                    if (list[i + 1] - list[i] == 1)
-                    {
-                        currentSequence.Add(list[i]);
-                    }
-                }
-                else if (list[i] - list[i - 1] == 1)
-                {
-                    currentSequence.Add(list[i]);
-                }
-                else if (currentSequence.Count != 0 || i == list.Count - 1)
-                {
-                    sequences.Add(currentSequence);
-                    currentSequence.Clear();
-                }
-            }
-
-            return sequences.Count > 0;
-        }
-
-        /// <summary>
-        /// Проверяет, идут ли все элементы друг за другом последовательно (1-2-3 / 6-7-8...)
-        /// </summary>
-        public static bool IsAllSuccessively(this IEnumerable<int> collection)
-        {
-            var list = collection.ToList();
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (i == 0) continue;
-                if (list[i] - list[i - 1] != 1) return false;
-            }
-
-            return true;
-        }
-
-        public static bool IsAllSuccessively<T>(this IEnumerable<T> collection, Func<T, int> func)
-        {
-            return IsAllSuccessively(collection.Select(value => func.Invoke(value)));
-        }
-
-        /// <summary>
-        /// Добавляет элемент к коллекции и возвращает его же (Fluent-pattern)
-        /// </summary>
-        public static T AddTo<T>(this T element, ICollection<T> collection)
-        {
-            collection.Add(element);
-            return element;
-        }
-
-        /// <summary>
-        /// Метод, созданный с целью сократить дублирование кода.
-        /// </summary>
-        private static IEnumerable<T> Swap<T>(this IEnumerable<T> collection, int leftIndex, int rightIndex)
-        {
-            var array = collection.ToArray();
-
-            T temp = array[leftIndex];
-            array[leftIndex] = array[rightIndex];
-            array[rightIndex] = temp;
-
-            return array;
-        }
-
-        /// <summary>
-        /// Возвращает коллекцию с одним элементом.
-        /// </summary>
+        /// <param name="self">Variable to create enumerable</param>
+        /// <typeparam name="T">Type of variable</typeparam>
+        /// <returns>Enumerable from variable</returns>
         public static IEnumerable<T> AsSingleCollection<T>(this T self)
         {
             var array = new T[1]
@@ -288,53 +281,108 @@ namespace ESparrow.Utils.Extensions
             return array.AsEnumerable();
         }
 
-        public static IEnumerable<T> Without<T>(this IEnumerable<T> collection, T element)
+        /// <summary>
+        /// Returns enumerable without specified element.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to remove element</param>
+        /// <param name="element">Element to remove from enumerable</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable without specified element</returns>
+        public static IEnumerable<T> Without<T>(this IEnumerable<T> enumerable, T element)
         {
-            return collection.Except(element.AsSingleCollection());
+            return enumerable.Except(element.AsSingleCollection());
         }    
 
+        /// <summary>
+        /// Checks all the other enumerable is contains in self.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="other">Another enumerable</param>
+        /// <typeparam name="T">Type of elements in enumerables</typeparam>
+        /// <returns>True if all the other enumerable contains in self</returns>
         public static bool ContainsAll<T>(this IEnumerable<T> self, IEnumerable<T> other)
         {
-            return self.Intersect(other) == other;
+            return self.Intersect(other).Equals(other);
         }
 
-        public static IEnumerable<T> WithoutDefault<T>(this IEnumerable<T> collection)
+        /// <summary>
+        /// Removes all the default values from enumerable.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to remove default values</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable without default values</returns>
+        public static IEnumerable<T> WithoutDefault<T>(this IEnumerable<T> enumerable)
         {
-            return collection.Where(value => !value.Equals(default));
+            return enumerable.Where(value => !value.Equals(default));
         }
 
-        public static IEnumerable<T> With<T>(this IEnumerable<T> collection, T element)
+        /// <summary>
+        /// Adds specified element to enumerable.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to add an element</param>
+        /// <param name="element">Element to add in the enumerable</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with specified element</returns>
+        public static IEnumerable<T> With<T>(this IEnumerable<T> enumerable, T element)
         {
-            return collection.Concat(element.AsSingleCollection());
+            return enumerable.Concat(element.AsSingleCollection());
         }
-
+        
+        /// <summary>
+        /// Creates enumerable from two variables.
+        /// </summary>
+        /// <param name="self">Self variable</param>
+        /// <param name="other">Another variable</param>
+        /// <typeparam name="T">Type of variables</typeparam>
+        /// <returns>Enumerable with both elements</returns>
         public static IEnumerable<T> ConcatWith<T>(this T self, T other) 
         {
             return self.AsSingleCollection().With(other);
         }
 
+        /// <summary>
+        /// Adds variable to enumerable.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="other">Another element</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with old elements and specified variable</returns>
         public static IEnumerable<T> ConcatWith<T>(this IEnumerable<T> self, T other)
         {
             return self.Concat(other.AsSingleCollection());
         }
 
+        /// <summary>
+        /// Creates Collection from Enumerable.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Collection from IEnumerable</returns>
         public static Collection<T> AsCollection<T>(this IEnumerable<T> self)
         {
             return new Collection<T>(self.ToList());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        /// <param name="comparison"></param>
+        /// <param name="combinations"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static bool TryGetSameSequences<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             Comparison<T> comparison,
             out IEnumerable<IEnumerable<T>> combinations
         )
         {
             var list = new List<IEnumerable<T>>();
 
-            foreach (var current in collection)
+            foreach (var current in enumerable)
             {
-                var combination = collection.Where(value => comparison.Invoke(current, value) == 0);
+                var combination = enumerable.Where(value => comparison.Invoke(current, value) == 0);
 
                 if (combination != null && combination.Count() != 0)
                 {
@@ -347,17 +395,24 @@ namespace ESparrow.Utils.Extensions
             return list.Count > 0;
         }
 
+        /// <summary>
+        /// Gets the sequence with same elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get same elements</param>
+        /// <param name="combinations">Enumerables from enumerables without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with same elements</returns>
         public static bool TryGetSameSequences<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             out IEnumerable<IEnumerable<T>> combinations
         )
         {
             var list = new List<IEnumerable<T>>();
 
-            foreach (var current in collection)
+            foreach (var current in enumerable)
             {
-                var combination = collection.Where(value => current.Equals(value));
+                var combination = enumerable.Where(value => current.Equals(value));
 
                 if (combination != null && combination.Count() != 0)
                 {
@@ -370,30 +425,45 @@ namespace ESparrow.Utils.Extensions
             return list.Count > 0;
         }
 
+        /// <summary>
+        /// Gets the sequence with same elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get same elements</param>
+        /// <param name="comparison">Comparison to compare elements</param>
+        /// <param name="combination">Enumerable without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with same elements</returns>
         public static bool TryGetSameSequence<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             Comparison<T> comparison,
             out IEnumerable<T> combination
         )
         {
-            bool can = collection.TryGetSameSequences(comparison, out var combinations);
+            bool can = enumerable.TryGetSameSequences(comparison, out var combinations);
             combination = combinations.First();
 
             return can;
         }
 
+        /// <summary>
+        /// Gets the sequence with same elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get same elements</param>
+        /// <param name="combination">Enumerable without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with same elements</returns>
         public static bool TryGetSameSequence<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             out IEnumerable<T> combination
         )
         {
             combination = new List<T>();
 
-            foreach (var current in collection)
+            foreach (var current in enumerable)
             {
-                combination = collection.Where(value => current.Equals(value));
+                combination = enumerable.Where(value => current.Equals(value));
 
                 if (combination != null && combination.Count() != 0) return true;
             }
@@ -401,42 +471,57 @@ namespace ESparrow.Utils.Extensions
             return false;
         }
             
+        /// <summary>
+        /// Gets the sequence with same elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get same elements</param>
+        /// <param name="count">Count of combination</param>
+        /// <param name="comparison">Comparison to compare elements</param>
+        /// <param name="combination">Enumerable without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with same elements</returns>
         public static bool TryGetSameSequence<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             int count,
             Comparison<T> comparison,
             out IEnumerable<T> combination
         )
         {
-            return collection.TryGetSameSequence(comparison, out combination) && combination.Count() >= count;
+            return enumerable.TryGetSameSequence(comparison, out combination) && combination.Count() >= count;
         }
 
+        /// <summary>
+        /// Gets the sequence with same elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to get same elements</param>
+        /// <param name="comparison">Comparison to compare elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with same elements</returns>
         public static IEnumerable<T> GetSameSequence<T>
         (
-            this IEnumerable<T> collection,
+            this IEnumerable<T> enumerable,
             Comparison<T> comparison
         )
         {
-            var _ = collection.TryGetSameSequence(0, comparison, out var combination);
+            var _ = enumerable.TryGetSameSequence(0, comparison, out var combination);
             return combination;
         }
 
-        private static bool CheckNonRepeating<T>(this IEnumerable<T> collection, int count, out IEnumerable<T> distinct)
+        /// <summary>
+        /// Checks for count of not repeating elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable for check</param>
+        /// <param name="count">Count of not repeating elements</param>
+        /// <param name="distinct">Enumerable without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if count of not repeating elements is more than specified count and false otherwise</returns>
+        private static bool CheckNonRepeating<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> distinct)
         {
-            if (count > collection.Count())
-            {
-                throw new Exception("Число запрошенных элементов больше количества элементов в коллекции");
-            }
+            distinct = enumerable.Distinct();
 
-            distinct = collection.Distinct();
-
-            if (count > distinct.Count())
-            {
-                throw new Exception("Число запрошенных элементо больше количества неповторяющихся элементов в коллекции");
-            }
-
-            return true;
+            var isCorrect = !(count > enumerable.Count() || count > distinct.Count());
+            return isCorrect;
         }
     }
 }

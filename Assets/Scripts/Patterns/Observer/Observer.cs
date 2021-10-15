@@ -22,7 +22,7 @@ namespace ESparrow.Utils.Patterns.Observer
 
         public IMemberObserver[] CreateMemberObservers(params string[] names)
         {
-            return CollectionsHelper.ForEachResult(names, CreateMemberObserver).ToArray();
+            return EnumerablesHelper.ForEachResult(names, CreateMemberObserver).ToArray();
         }
 
         public IMemberObserver CreateMemberObserver(string name)

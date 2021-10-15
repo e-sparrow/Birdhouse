@@ -7,8 +7,17 @@ using ESparrow.Utils.Mathematics;
 
 namespace ESparrow.Utils.Collections.Generic
 {
+    /// <summary>
+    /// It's custom matrix with opportunity to get and set elements by integer vectors and another useful features.
+    /// </summary>
+    /// <typeparam name="T">Type of elements in the matrix</typeparam>
     public class Matrix<T> : StandardEnumerable<T>
     {
+        public Matrix()
+        {
+
+        }
+
         protected override T[] Array => List.Select(value => value.value).ToArray();
 
         private readonly List<Element> _list = new List<Element>();
@@ -42,11 +51,6 @@ namespace ESparrow.Utils.Collections.Generic
             set => this[new Vector3Int(x, y, z)] = value;
         }
 
-        public Matrix()
-        {
-
-        }
-
         public void Clear()
         {
             _list.Clear();
@@ -74,8 +78,14 @@ namespace ESparrow.Utils.Collections.Generic
 
         public T[] GetNeighbours(Vector3Int index)
         {
-            var neighbours = _list.Where(value => (value.index - index).magnitude == 1);
+            var neighbours = _list.Where(IsNeighbour);
             return neighbours.Select(value => value.value).ToArray();
+
+            bool IsNeighbour(Element element)
+            {
+                var range = (element.index - index).magnitude;
+                return range.AsErroneous().CompareWithDefaultError(1f);
+            }
         }
 
         public T[] GetNeighbours(Vector2Int index)
@@ -95,13 +105,13 @@ namespace ESparrow.Utils.Collections.Generic
 
         public T[] GetNeighboursWhere(Vector3Int index, Func<T, bool> func)
         {
-            var array = Direction.directions.Select(value => value.vector.ToVector3Int()).ToArray();
+            var array = Direction.Directions.Select(value => value.Vector.ToVector3Int()).ToArray();
             return GetNeighboursInWhere(index, array, func);
         }
 
         public T[] GetNeighboursWhere(Vector2Int index, Func<T, bool> func)
         {
-            var array = Direction.directions2d.Select(value => value.vector.ToVector3Int()).ToArray();
+            var array = Direction.Directions2d.Select(value => value.Vector.ToVector3Int()).ToArray();
             return GetNeighboursInWhere(index.ToVector3Int(), array, func);
         }
 

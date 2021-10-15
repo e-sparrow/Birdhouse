@@ -7,50 +7,99 @@ namespace ESparrow.Utils.Mathematics
     [Serializable]
     public struct Direction
     {
-        public static readonly Direction up = new Direction(Vector3.up);
-        public static readonly Direction down = new Direction(Vector3.down);
-        public static readonly Direction left = new Direction(Vector3.left);
-        public static readonly Direction right = new Direction(Vector3.right);
-        public static readonly Direction forward = new Direction(Vector3.forward);
-        public static readonly Direction back = new Direction(Vector3.back);
-
-        public static readonly Direction[] directions2d = new Direction[]
-        {
-            up,
-            down,
-            left,
-            right
-        };
-
-        public static readonly Direction[] directions = new Direction[]
-        {
-            forward,
-            back
-        }.Concat(directions2d).ToArray();
-
-        public Vector3 vector;
-
-        public Direction Reverse => new Direction(-vector);
-
+        /// <summary>
+        /// Creates direction by vector.
+        /// </summary>
+        /// <param name="vector">Vector to create direction</param>
         public Direction(Vector3 vector)
         {
-            this.vector = vector.normalized;
+            Vector = vector.normalized;
         }
+        
+        public static readonly Direction Up = new Direction(Vector3.up);
+        public static readonly Direction Down = new Direction(Vector3.down);
+        public static readonly Direction Left = new Direction(Vector3.left);
+        public static readonly Direction Right = new Direction(Vector3.right);
+        public static readonly Direction Forward = new Direction(Vector3.forward);
+        public static readonly Direction Back = new Direction(Vector3.back);
+        
+        /// <summary>
+        /// Gets all directions in 2D space.
+        /// </summary>
+        public static readonly Direction[] Directions2d = new Direction[]
+        {
+            Up,
+            Down,
+            Left,
+            Right
+        };
 
+        /// <summary>
+        /// Gets all directions in 3D space.
+        /// </summary>
+        public static readonly Direction[] Directions = new Direction[]
+        {
+            Forward,
+            Back
+        }.Concat(Directions2d).ToArray();
+        
+        /// <summary>
+        /// Gets average direction between two ones.
+        /// </summary>
+        /// <param name="from">Start direction</param>
+        /// <param name="to">End direction</param>
+        /// <returns>Average direction between two arguments</returns>
         public static Direction GetAverage(Direction from, Direction to)
         {
             return Lerp(from, to, 0.5f);
         }
 
-        public static Direction Lerp(Direction from, Direction to, float t)
+        /// <summary>
+        /// Gets average direction between all the parameters.
+        /// </summary>
+        /// <param name="directions">Directions to get average</param>
+        /// <returns>Average direction</returns>
+        public static Direction GetAverage(params Direction[] directions)
         {
-            var fromRotation = Quaternion.FromToRotation(Vector3.zero, from.vector);
-            var toRotation = Quaternion.FromToRotation(Vector3.zero, to.vector);
+            var current = directions.First();
+            foreach (var direction in directions)
+            {
+                current = GetAverage(current, direction);
+            }
 
-            var currentRotation = Quaternion.Lerp(fromRotation, toRotation, t);
+            return current;
+        }
+
+        /// <summary>
+        /// Linear interpolates between from and to by progress.
+        /// </summary>
+        /// <param name="from">Start point</param>
+        /// <param name="to">End point</param>
+        /// <param name="progress">Progress to interpolate</param>
+        /// <returns>Interpolated value</returns>
+        public static Direction Lerp(Direction from, Direction to, float progress)
+        {
+            var fromRotation = Quaternion.FromToRotation(Vector3.zero, from.Vector);
+            var toRotation = Quaternion.FromToRotation(Vector3.zero, to.Vector);
+
+            var currentRotation = Quaternion.Lerp(fromRotation, toRotation, progress);
             var currentVector = currentRotation * Vector3.forward;
 
             return new Direction(currentVector);
+        }
+
+        /// <summary>
+        /// Reversed direction.
+        /// </summary>
+        public Direction Reverse => new Direction(-Vector);
+
+        /// <summary>
+        /// Directly vector of direction.
+        /// </summary>
+        public Vector3 Vector
+        {
+            get;
+            set;
         }
     }
 }

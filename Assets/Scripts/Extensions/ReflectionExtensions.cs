@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -6,24 +7,36 @@ namespace ESparrow.Utils.Extensions
 {
     public static class ReflectionExtensions
     {
-        public static string[] GetMutableMemberNames(this Type type, BindingFlags flags)
+        /// <summary>
+        /// Gets names of all the mutable members of specified type.
+        /// </summary>
+        /// <param name="self">Self type</param>
+        /// <param name="flags">BindingFlags for mutable members</param>
+        /// <returns>Enumerable with names of members</returns>
+        public static IEnumerable<string> GetMutableMemberNames(this Type self, BindingFlags flags)
         {
-            var fields = type.GetFields(flags);
-            var properties = type.GetProperties(flags);
+            var fields = self.GetFields(flags);
+            var properties = self.GetProperties(flags);
 
             var memberNames = properties.Select(property => property.Name).Concat(fields.Select(field => field.Name)).ToArray();
 
             return memberNames;
         }
 
-        public static Type[] GetSubclasses(this Type self, bool nesting = false)
+        /// <summary>
+        /// Gets subclasses of self type.
+        /// </summary>
+        /// <param name="self">Self type</param>
+        /// <param name="nesting">Get nested subclasses or not</param>
+        /// <returns>Subclasses of self type</returns>
+        public static IEnumerable<Type> GetSubclasses(this Type self, bool nesting = false)
         {
             var assembly = self.Assembly;
-            var types = assembly.GetTypes().Where(Func).ToArray();
+            var types = assembly.GetTypes().Where(IsSubclass).ToArray();
 
             return types;
 
-            bool Func(Type type)
+            bool IsSubclass(Type type)
             {
                 if (nesting)
                 {
@@ -36,10 +49,16 @@ namespace ESparrow.Utils.Extensions
             }
         }
 
-        public static Type[] GetSubclasses(this Type self, int nestingLevel)
+        /// <summary>
+        /// Gets subclasses with specified nesting level.
+        /// </summary>
+        /// <param name="self">Self type</param>
+        /// <param name="nestingLevel">Nesting level</param>
+        /// <returns>Subclasses of self type</returns>
+        public static IEnumerable<Type> GetSubclasses(this Type self, int nestingLevel)
         {
             var subclasses = self.GetSubclasses();
-            if (nestingLevel <= 1 || subclasses.Length == 0)
+            if (nestingLevel <= 1 || subclasses.Count() == 0)
             {
                 return subclasses;
             }
@@ -50,9 +69,14 @@ namespace ESparrow.Utils.Extensions
             }
         }
 
-        private static bool IsMutableProperty(this PropertyInfo property)
+        /// <summary>
+        /// Checks for mutation opportunity for this property.
+        /// </summary>
+        /// <param name="self">Self property</param>
+        /// <returns>True if self property is mutable and false otherwise</returns>
+        private static bool IsMutableProperty(this PropertyInfo self)
         {
-            return property.CanRead && property.CanWrite;
+            return self.CanRead && self.CanWrite;
         }
     }
 }

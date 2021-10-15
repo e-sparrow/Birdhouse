@@ -5,8 +5,10 @@ namespace ESparrow.Utils.Extensions
     public static class MatrixExtensions
     {
         /// <summary>
-        /// ¬озвращает позицию матрицы.
+        /// Gets position of TRS-matrix.
         /// </summary>
+        /// <param name="matrix">TRS-matrix</param>
+        /// <returns>Position of matrix</returns>
         public static Vector3 GetPosition(this Matrix4x4 matrix)
         {
             Vector3 position;
@@ -18,8 +20,10 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// ¬озвращает поворот матрицы.
+        /// Gets rotation of TRS-matrix.
         /// </summary>
+        /// <param name="matrix">TRS-matrix</param>
+        /// <returns>Rotation of matrix</returns>
         public static Quaternion GetRotation(this Matrix4x4 matrix)
         {
             Vector3 forward;
@@ -36,8 +40,10 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// ¬озвращает размер матрицы.
+        /// Gets scale of TRS-matrix.
         /// </summary>
+        /// <param name="matrix">TRS-matrix</param>
+        /// <returns>Scale of matrix</returns>
         public static Vector3 GetScale(this Matrix4x4 matrix)
         {
             Vector3 scale;
@@ -49,8 +55,11 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// ”станавливает матрице позицию и возвращает получившуюс€ матрицу.
+        /// Sets position to TRS-matrix.
         /// </summary>
+        /// <param name="matrix">Self TRS-matrix</param>
+        /// <param name="position">Position to set</param>
+        /// <returns>Matrix with new position</returns>
         public static Matrix4x4 SetPosition(this Matrix4x4 matrix, Vector3 position)
         {
             matrix.m03 = position.x;
@@ -61,8 +70,11 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// ”станавливает матрице поворот и возвращает получившуюс€ матрицу.
+        /// Sets rotation to TRS-matrix.
         /// </summary>
+        /// <param name="matrix">Self TRS-matrix</param>
+        /// <param name="rotation">Rotation to set</param>
+        /// <returns>Matrix with new rotation</returns>
         public static Matrix4x4 SetRotation(this Matrix4x4 matrix, Quaternion rotation)
         {
             Vector3 forward = rotation * Vector3.forward;
@@ -79,8 +91,11 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// ”станавливает матрице размер и возвращает получившуюс€ матрицу.
+        /// Sets scale to TRS-matrix.
         /// </summary>
+        /// <param name="matrix">Self TRS-matrix</param>
+        /// <param name="scale">Scale to set</param>
+        /// <returns>Matrix with new scale</returns>
         public static Matrix4x4 SetScale(this Matrix4x4 matrix, Vector3 scale)
         {
             matrix = Matrix4x4.TRS(matrix.GetPosition(), matrix.GetRotation(), scale);

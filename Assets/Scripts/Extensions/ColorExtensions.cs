@@ -7,11 +7,14 @@ namespace ESparrow.Utils.Extensions
     public static class ColorExtensions
     {
         /// <summary>
-        /// Представляет цвет в виде шестнадцатиричного кода (например, #FFFFFFFF)
+        /// Converts a color to string in hexadecimal. 
         /// </summary>
+        /// <param name="color">Color to convert</param>
+        /// <returns>Hexadecimal code of a color</returns>
         public static string ToHexadecimal(this Color color)
         {
-            string code = "#";
+            var code = "#";
+            
             code += ToInt(color.r).ToString("X2");
             code += ToInt(color.g).ToString("X2");
             code += ToInt(color.b).ToString("X2");
@@ -25,6 +28,12 @@ namespace ESparrow.Utils.Extensions
             }
         }
 
+        /// <summary>
+        /// Converts hexadecimal code to string.
+        /// </summary>
+        /// <param name="hex">Hexadecimal code of color</param>
+        /// <returns>Color from hexadecimal code</returns>
+        /// <exception cref="Exception">Wrong code length</exception>
         public static Color FromHexadecimal(this string hex)
         {
             hex = hex.TrimStart('#');
@@ -59,8 +68,11 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// Возвращает тот же цвет с указанным в аргументе значением прозрачности.
+        /// Modifies a color's alpha.
         /// </summary>
+        /// <param name="color">Color to change alpha</param>
+        /// <param name="alpha">Necessary alpha value from 0 to 1</param>
+        /// <returns>Color with modified alpha channel value</returns>
         public static Color SetAlpha(this Color color, float alpha)
         {
             return new Color(color.r, color.g, color.b, alpha);

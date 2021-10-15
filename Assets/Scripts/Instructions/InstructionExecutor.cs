@@ -1,69 +1,26 @@
-using System.Collections.Generic;
-using ESparrow.Utils.Instructions.Kinds;
+using ESparrow.Utils.Instructions.Interfaces;
 
 namespace ESparrow.Utils.Instructions
 {
-    public class InstructionExecutor
+    public class InstructionExecutor : InstructionExecutorBase 
     {
-        // Проеряются каждый вызов Check.
-        private readonly List<InstructionBase> _instructions = new List<InstructionBase>();
-
-        // Последняя инструкция каждой очереди проверяются каждый кадр. Когда она выполняется, переходит к следующей.
-        private readonly List<InstructionsQueue> _instructionsQueues = new List<InstructionsQueue>();
-
-        public void Check()
+        protected override bool CheckInstruction(IInstruction instruction)
         {
-            CheckInstructions();
-            CheckQueues();
+            bool executed = instruction.TryExecute();
+            return executed;
+        }
 
-            void CheckInstructions()
+        protected override bool CheckInstructionQueue(IInstructionQueue queue, out bool last)
+        {
+            last = false;
+            
+            bool executed = queue.TryExecuteLast(out bool isLast);
+            if (isLast)
             {
-                var incomingEveryFrame = new List<InstructionBase>(_instructions);
-                foreach (var instruction in incomingEveryFrame)
-                {
-                    bool executed = instruction.TryExecute();
-
-                    if (executed && instruction.SelfDestroy)
-                    {
-                        instruction.OnDestroy.Invoke();
-                        _instructions.Remove(instruction);
-                    }
-                }
+                last = true;
             }
 
-            void CheckQueues()
-            {
-                var incomingQueues = new List<InstructionsQueue>(_instructionsQueues);
-                foreach (var queue in incomingQueues)
-                {
-                    queue.TryExecuteLast(out bool last);
-                    if (last)
-                    {
-                        _instructionsQueues.Remove(queue);
-                    }
-                }
-            }
-        }
-
-        public void AddQueue(InstructionsQueue queue)
-        { 
-            _instructionsQueues.Add(queue);
-        }
-
-        public void RemoveQueue(InstructionsQueue queue)
-        {
-            _instructionsQueues.Remove(queue);
-        }
-
-        public void AddInstruction(InstructionBase instruction)
-        {
-            _instructions.Add(instruction);
-        }
-
-        public void RemoveInstruction(InstructionBase instruction)
-        {
-            instruction.OnDestroy?.Invoke();
-            _instructions.Remove(instruction);
+            return executed;
         }
     }
 }

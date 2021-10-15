@@ -4,6 +4,12 @@ namespace ESparrow.Utils.Extensions
 {
     public static class RectExtensions
     {
+        /// <summary>
+        /// Checks is small rect contains in big one.
+        /// </summary>
+        /// <param name="big">Big rect</param>
+        /// <param name="small">Small rect</param>
+        /// <returns>True if contains and false otherwise</returns>
         public static bool ContainsEntirely(this Rect big, Rect small)
         {
             bool leftDownCorner = big.Contains(new Vector2(small.xMin, small.yMin));
@@ -14,24 +20,35 @@ namespace ESparrow.Utils.Extensions
             return leftDownCorner && leftUpCorner && rightDownCorner && rightUpCorner;
         }
 
-        public static Vector2 ClampedInRectCenter(this Rect inside, Rect outside)
+        /// <summary>
+        /// Gets the position of inner rect clamped in outer one.
+        /// </summary>
+        /// <param name="inner">Inner rect</param>
+        /// <param name="outer">Outer rect</param>
+        /// <returns>Position of clamped inner rect</returns>
+        public static Vector2 ClampedInRectCenter(this Rect inner, Rect outer)
         {
-            float clampedX = Mathf.Clamp(inside.center.x, outside.xMin + inside.size.x / 2, outside.xMax - inside.size.x / 2);
-            float clampedY = Mathf.Clamp(inside.center.y, outside.yMin + inside.size.y / 2, outside.yMax - inside.size.y / 2);
+            float clampedX = Mathf.Clamp(inner.center.x, outer.xMin + inner.size.x / 2, outer.xMax - inner.size.x / 2);
+            float clampedY = Mathf.Clamp(inner.center.y, outer.yMin + inner.size.y / 2, outer.yMax - inner.size.y / 2);
 
-            if (inside.size.x > outside.size.x)
+            if (inner.size.x > outer.size.x)
             {
-                clampedX = outside.center.x;
+                clampedX = outer.center.x;
             }
 
-            if (inside.size.y > outside.size.y)
+            if (inner.size.y > outer.size.y)
             {
-                clampedY = outside.center.y;
+                clampedY = outer.center.y;
             }
 
             return new Vector2(clampedX, clampedY);
         }
 
+        /// <summary>
+        /// Gets random rect point.
+        /// </summary>
+        /// <param name="rect">Self rect</param>
+        /// <returns>Random rect point</returns>
         public static Vector2 GetRandomRectPoint(this Rect rect)
         {
             var randomX = Random.Range(rect.x, rect.x + rect.width);
@@ -40,6 +57,11 @@ namespace ESparrow.Utils.Extensions
             return new Vector2(randomX, randomY);
         }
 
+        /// <summary>
+        /// Gets corners of rect.
+        /// </summary>
+        /// <param name="rect">Self rect</param>
+        /// <returns>Corners of rect</returns>
         public static Vector2[] GetCorners(this Rect rect)
         {   
             return new Vector2[]

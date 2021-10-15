@@ -9,6 +9,12 @@ namespace ESparrow.Utils.Extensions
 {
     public static class AsyncExtensions
     {
+        /// <summary>
+        /// Starts routine async from MonoBehaviour in argument.
+        /// </summary>
+        /// <param name="monoBehaviour">Object which will run routine</param>
+        /// <param name="coroutine">Routine</param>
+        /// <param name="token">Cancellation token to cancel the routine</param>
         public static async Task StartCoroutineAsync
         (
             this MonoBehaviour monoBehaviour,
@@ -24,6 +30,11 @@ namespace ESparrow.Utils.Extensions
             await AsyncHelper.WaitUntil(() => ended, token);
         }
 
+        /// <summary>
+        /// Plays animation in the argument async and can stop it by token.
+        /// </summary>
+        /// <param name="animation">Animation to play</param>
+        /// <param name="token">Token to stop animation</param>
         public static async Task PlayAnimationAsync
         (
             this Animation animation, 
@@ -35,6 +46,13 @@ namespace ESparrow.Utils.Extensions
             await AsyncHelper.WaitWhile(() => animation.isPlaying, token);
         }
 
+        /// <summary>
+        /// Plays animation async with specified layer and name.
+        /// </summary>
+        /// <param name="animator">Animator which will play the animation</param>
+        /// <param name="animationName">Name of animation</param>
+        /// <param name="layer">Layer of animation</param>
+        /// <param name="token">Token to stop animation</param>
         public static async Task PlayAnimationAsync
         (
             this Animator animator,
@@ -48,9 +66,13 @@ namespace ESparrow.Utils.Extensions
             await AsyncHelper.WaitWhile(() => animator.GetCurrentAnimatorStateInfo(layer).IsName(animationName), token);
         }
 
+        /// <summary>
+        /// Awaits an action in the argument.
+        /// </summary>
+        /// <param name="action">Action to await</param>
         public static async Task WaitAction(this Action action)
         {
-            bool invoked = false;
+            var invoked = false;
             action += () => invoked = true;
 
             await AsyncHelper.WaitUntil(() => invoked);

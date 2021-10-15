@@ -8,6 +8,10 @@ namespace ESparrow.Utils.Drawers
 {
     public static class GizmosDrawer
     {
+        /// <summary>
+        /// Draws Rect by gizmos.
+        /// </summary>
+        /// <param name="rect">Rect to draw</param>
         public static void DrawRect(Rect rect)
         {
             var corners = rect.GetCorners();
@@ -18,11 +22,20 @@ namespace ESparrow.Utils.Drawers
             Gizmos.DrawLine(corners[3], corners[0]);
         }
 
+        /// <summary>
+        /// Draws Line by gizmos.
+        /// </summary>
+        /// <param name="line">Line to draw</param>
         public static void DrawLine(Line line)
         {
             Gizmos.DrawLine(line.Start, line.End);
         }
 
+        /// <summary>
+        /// Draws BrokenLine by gizmos.
+        /// </summary>
+        /// <param name="line">Line to draw</param>
+        /// <param name="close"></param>
         public static void DrawBrokenLine(BrokenLine line, bool close = false)
         {
             var points = new List<Vector3>(line.Points);

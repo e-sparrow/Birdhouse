@@ -19,7 +19,7 @@ namespace ESparrow.Utils.Tools.Flickering
 
         protected List<CharActionPair> AllPairs => GetAllPairs();
 
-        // Инициируется на старте для рассинхронизации мерцания. То есть, если попадутся два искрящихся фонарика, то мерцать они будут асинхронно. 
+        // РРЅРёС†РёРёСЂСѓРµС‚СЃСЏ РЅР° СЃС‚Р°СЂС‚Рµ РґР»СЏ СЂР°СЃСЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РјРµСЂС†Р°РЅРёСЏ. РўРѕ РµСЃС‚СЊ, РµСЃР»Рё РїРѕРїР°РґСѓС‚СЃСЏ РґРІР° РёСЃРєСЂСЏС‰РёС…СЃСЏ С„РѕРЅР°СЂРёРєР°, С‚Рѕ РјРµСЂС†Р°С‚СЊ РѕРЅРё Р±СѓРґСѓС‚ Р°СЃРёРЅС…СЂРѕРЅРЅРѕ. 
         private float _offset; 
 
         private List<CharActionPair> GetAllPairs()
@@ -42,7 +42,7 @@ namespace ESparrow.Utils.Tools.Flickering
 
         private void Update()
         {
-            AssertionProvider.IsDefaultOrEmpty(code, gameObject).AsException().Assert();
+            AssertionProvider.IsNullOrEmpty(code, gameObject).AsError().Assert();
 
             int currentTimeStep = (int) ((_offset + Time.time) / step);
             int currentCharIndex = currentTimeStep % code.Length;

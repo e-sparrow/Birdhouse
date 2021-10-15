@@ -28,49 +28,55 @@ namespace ESparrow.Utils.Assertions
             _onAssert = CheckHelper.CheckForDefault(onAssert);
         }
 
-        public IAssertion AsMessage()
+        public IFluentAssertion AsMessage()
         {
             _type = EThrowingType.Message;
             return this;
         }
 
-        public IAssertion AsWarning()
+        public IFluentAssertion AsWarning()
         {
             _type = EThrowingType.Warning;
             return this;
         }
 
-        public IAssertion AsError()
+        public IFluentAssertion AsError()
         {
             _type = EThrowingType.Error;
             return this;
         }
 
-        public IAssertion AsException()
+        public IFluentAssertion AsException()
         {
             _type = EThrowingType.Exception;
             return this;
         }
 
-        public IAssertion WithCallback(Action callback)
+        public IFluentAssertion WithCallback(Action callback)
         {
             _onAssert += callback;
             return this;
         }
 
-        public IAssertion WithContext(Object context)
+        public IFluentAssertion WithContext(Object context)
         {
             _context = context;
             return this;
         }
 
-        public IAssertion WithColor(Color color)
+        public IFluentAssertion WithContext<T>(T context) where T : Object
+        {
+            _context = context;
+            return this;
+        }
+
+        public IFluentAssertion WithColor(Color color)
         {
             _message = _message.WithColor(color);
             return this;
         }
 
-        public IAssertion WithBoldMessage()
+        public IFluentAssertion WithBoldMessage()
         {
             _message = _message.Bold();
             return this;

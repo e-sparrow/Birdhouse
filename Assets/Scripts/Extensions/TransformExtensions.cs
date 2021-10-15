@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ESparrow.Utils.Helpers;
@@ -8,43 +9,55 @@ namespace ESparrow.Utils.Extensions
     public static class TransformExtensions
     {
         /// <summary>
-        /// Возвращает все дочерние объекты Transform'а.
-        /// Если nested, то возв
+        /// Returns children of self transform.
         /// </summary>
-        public static Transform[] GetChilds(this Transform transform, bool nesting = false)
+        /// <param name="self">Self transform</param>
+        /// <param name="nesting">Get children's children or not</param>
+        /// <returns>Transform's children enumerable</returns>
+        public static IEnumerable<Transform> GetChildren(this Transform self, bool nesting = false)
         {
-            var childs = CollectionsHelper.For(value => transform.GetChild(value), transform.childCount).ToArray(); 
-            if (!nesting || transform.childCount == 0)
+            var childs = EnumerablesHelper.For(value => self.GetChild(value), self.childCount); 
+            if (!nesting || self.childCount == 0)
             {
                 return childs;
             }
             else
             {
-                return childs.Concat(childs.SelectMany(value => value.GetChilds())).ToArray();
+                return childs.Concat(childs.SelectMany(value => value.GetChildren()));
             }
         }
 
         /// <summary>
-        /// Получает дочерние объекты Transform, вложенные в него до nestingLevel раз.
+        /// Returns children of self transform with specified nesting level.
         /// </summary>
-        public static Transform[] GetChilds(this Transform transform, int nestingLevel)
+        /// <param name="self">Self transform</param>
+        /// <param name="nestingLevel">Specified nesting level</param>
+        /// <returns>Transform's children enumerable</returns>
+        public static IEnumerable<Transform> GetChildren(this Transform self, int nestingLevel)
         {
-            var childs = transform.GetChilds(false);
-            if (nestingLevel <= 1 || transform.childCount == 0)
+            var childs = self.GetChildren(false);
+            if (nestingLevel <= 1 || self.childCount == 0)
             {
                 return childs;
             }
             else
             {
-                return childs.Concat(childs.SelectMany(value => value.GetChilds(nestingLevel - 1))).ToArray();
+                return childs.Concat(childs.SelectMany(value => value.GetChildren(nestingLevel - 1))).ToArray();
             }
         }
 
+        /// <summary>
+        /// Checks is other transform is child of self.
+        /// </summary>
+        /// <param name="self">Self transform</param>
+        /// <param name="other">Another transform</param>
+        /// <param name="nesting">Check the nested transforms or not</param>
+        /// <returns>True if other is child of self and false otherwise</returns>
         public static bool IsParentOf(this Transform self, Transform other, bool nesting = false)
         {
             if (nesting)
             {
-                return self.GetChilds().Contains(other);
+                return self.GetChildren(true).Contains(other);
             }
             else
             {
@@ -53,26 +66,31 @@ namespace ESparrow.Utils.Extensions
         }
 
         /// <summary>
-        /// Получает матрицу из компонента Transform.
+        /// Creates TRS-matrix from transform.
         /// </summary>
-        public static Matrix4x4 GetTRSMatrix(this Transform transform)
+        /// <param name="self">Self transform</param>
+        /// <returns>TRS-matrix</returns>
+        public static Matrix4x4 GetTRSMatrix(this Transform self)
         {
-            return Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
+            return Matrix4x4.TRS(self.position, self.rotation, self.localScale);
         }
 
         /// <summary>
-        /// Применяет к компоненту Transform значения матрицы.
+        /// Applies the TRS-matrix to self transform.
         /// </summary>
-        public static void SetTRSMatrix(this Transform transform, Matrix4x4 matrix)
+        /// <param name="self">Self transform</param>
+        /// <param name="matrix">Matrix to apply</param>
+        /// <exception cref="ArgumentException">Not valid matrix</exception>
+        public static void SetTRSMatrix(this Transform self, Matrix4x4 matrix)
         {
             if (!matrix.ValidTRS())
             {
-                throw new ArgumentException("Not valid matrix inputed.", "matrix");
+                throw new ArgumentException("Not valid matrix.", nameof(matrix));
             }
 
-            transform.rotation = matrix.GetRotation();
-            transform.position = matrix.GetPosition();
-            transform.localScale = matrix.GetScale();
+            self.rotation = matrix.GetRotation();
+            self.position = matrix.GetPosition();
+            self.localScale = matrix.GetScale();
         }
     }
 }

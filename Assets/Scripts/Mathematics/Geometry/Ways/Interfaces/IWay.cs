@@ -7,9 +7,9 @@ namespace ESparrow.Utils.Mathematics.Ways.Interfaces
         /// <summary>
         /// Gets a point on the way by path share in argument.
         /// </summary>
-        /// <param name="t">Path share</param>
+        /// <param name="progress">Path share</param>
         /// <returns></returns>
-        public Vector3 Evaluate(float t);
+        public Vector3 Evaluate(float progress);
 
         /// <summary>
         /// Start of a way.

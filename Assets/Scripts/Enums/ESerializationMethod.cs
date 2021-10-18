@@ -4,6 +4,7 @@
     {
         Xml,
         Json,
-        Binary
+        Binary,
+        Custom
     }
 }

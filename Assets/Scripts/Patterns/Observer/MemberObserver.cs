@@ -1,41 +1,34 @@
 using System;
-using System.Reflection;
 using ESparrow.Utils.Patterns.Observer.Interfaces;
+using ESparrow.Utils.Reflection.MutableMembers.Interfaces;
 
 namespace ESparrow.Utils.Patterns.Observer
 {
-    public class MemberObserver : IMemberObserver
+    public sealed class MemberObserver : IMemberObserver
     {
-        public event Action<string, object, object> OnMemberChanged;
-
-        protected object _lastValue;
-
-        protected readonly string _name;
-        private readonly MemberTypes _type;
-
-        public string Name => _name;
-        public MemberTypes Type => _type;
-
-        public MemberObserver(string name, MemberTypes type, object lastValue)
+        public MemberObserver(IMutable mutable, object currentValue)
         {
-            _name = name;
-            _type = type;
-
-            _lastValue = lastValue;
+            Mutable = mutable;
+            _lastValue = currentValue;
         }
 
-        public void Check(object value)
+        public event Action<object, object> OnMemberChanged = (before, after) => { };
+        
+        private object _lastValue;
+        
+        public bool Check(object value)
         {
-            if (!value.Equals(_lastValue))
-            {
-                ConfirmChange(value);
-            }
-        }
-
-        protected void ConfirmChange(object value)
-        {
-            OnMemberChanged?.Invoke(_name, _lastValue, value);
+            if (value.Equals(_lastValue)) return false;
+            
+            OnMemberChanged.Invoke(_lastValue, value);
+            
             _lastValue = value;
+            return true;
+        }
+
+        public IMutable Mutable
+        {
+            get;
         }
     }
 }

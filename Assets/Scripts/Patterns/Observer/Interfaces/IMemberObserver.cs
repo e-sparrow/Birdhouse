@@ -1,22 +1,28 @@
 using System;
-using System.Reflection;
+using ESparrow.Utils.Reflection.MutableMembers.Interfaces;
 
 namespace ESparrow.Utils.Patterns.Observer.Interfaces
 {
     public interface IMemberObserver
     {
-        event Action<string, object, object> OnMemberChanged;
+        /// <summary>
+        /// Event which invokes when observable member is changes.
+        /// </summary>
+        event Action<object, object> OnMemberChanged;
 
-        string Name
+        /// <summary>
+        /// Checks is value of member was changed or not.
+        /// </summary>
+        /// <param name="value">Value to compare with old</param>
+        /// <returns>True if old value doesn't equal value in argument and false otherwise</returns>
+        bool Check(object value);
+
+        /// <summary>
+        /// Mutable member to observe.
+        /// </summary>
+        public IMutable Mutable
         {
             get;
         }
-
-        MemberTypes Type
-        {
-            get;
-        }
-
-        void Check(object value);
     }
 }

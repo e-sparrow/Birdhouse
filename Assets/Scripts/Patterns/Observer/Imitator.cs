@@ -6,106 +6,30 @@ using ESparrow.Utils.Extensions;
 
 namespace ESparrow.Utils.Patterns.Observer
 {
-    public class Imitator<T>
+    public class Imitator<T> : ImitatorBase<T>
     {
-        public event Action<T> OnValueChanged = _ => { };
-
-        private T _self;
-        private T _subject;
-
-        private readonly T _listener;
-
-        private Observer<T> _observer;
-
-        public Imitator(T subject)
+        public Imitator(T imitator, T exemplar) : base(imitator, exemplar)
         {
-            Init(subject);
+            
         }
 
-        public Imitator(T subject, T listener)
+        public override bool TrySubscribeToMember(string name)
         {
-            Init(subject);
-            _listener = listener;
-        }
+            if (!Observer.TryCreateMemberObserver(name, out var observer)) return false;
+            
+            observer.OnMemberChanged += OnMemberChanged;
 
-        public void SubscribeToAll()
-        {
-            SubscribeToAllBeside();
-        }
+            return true;
 
-        public void SubscribeToAllBeside(params string[] names)
-        {
-            var filteredNames = GetAllMutableMembersBeside(names);
-            _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged += OnMemberChanged);
-        }
-
-        public void SubscribeToMembers(params string[] names)
-        {
-            foreach (var name in names)
+            void OnMemberChanged(object oldValue, object newValue)
             {
-                SubscribeToMember(name);
+                Apply(observer.Mutable, newValue);
             }
         }
 
-        public void SubscribeToMember(string name)
+        public override void UnsubscribeFromMember(string name)
         {
-            _observer.CreateMemberObserver(name).OnMemberChanged += OnMemberChanged;
-        }
-
-        public void UnsubscribeFromAll()
-        {
-            UnsubscribeFromAllBeside();
-        }
-
-        public void UnsubscribeFromAllBeside(params string[] names)
-        {
-            var filteredNames = GetAllMutableMembersBeside(names);
-            _observer.CreateMemberObservers(filteredNames).ToList().ForEach(value => value.OnMemberChanged -= OnMemberChanged);
-        }
-
-        private string[] GetAllMutableMembersBeside(params string[] names)
-        {
-            var memberNames = typeof(T).GetMutableMemberNames(ReflectionHelper.AnyBindingFlags);
-            return memberNames.Where(value => !names.Contains(value)).ToArray();
-        }
-
-        private void Init(T subject)
-        {
-            _subject = subject;
-            _self = _subject;
-
-            _observer = new Observer<T>(_subject);
-        }
-
-        private void OnMemberChanged(string name, object before, object after)
-        {
-            object value;
-
-            var field = typeof(T).GetField(name, ReflectionHelper.AnyBindingFlags);
-            if (field != null)
-            {
-                value = field.GetValue(_subject);
-                field.SetValue(_self, value);
-
-                if (_listener != null)
-                {
-                    field.SetValue(_listener, value);
-                }
-            }
-            else
-            {
-                var property = typeof(T).GetProperty(name, ReflectionHelper.AnyBindingFlags);
-
-                value = property.GetValue(_subject);
-                property.SetValue(_self, value);
-
-                if (_listener != null)
-                {
-                    property.SetValue(_listener, value);
-                }
-            }
-
-            OnValueChanged?.Invoke(_self);
+            Observer.RemoveMemberObserver(Observer.GetObserverByName(name));
         }
     }
 }

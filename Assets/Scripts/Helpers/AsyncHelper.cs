@@ -30,7 +30,7 @@ namespace ESparrow.Utils.Helpers
                     return;
                 }
 
-                await Task.Delay(100);
+                await Task.Delay(100, token);
             }
         }
 

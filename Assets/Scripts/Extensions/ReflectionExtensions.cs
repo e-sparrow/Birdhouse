@@ -1,26 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using ESparrow.Utils.Reflection.MutableMembers;
+using ESparrow.Utils.Reflection.MutableMembers.Adapters;
+using ESparrow.Utils.Reflection.MutableMembers.Interfaces;
 
 namespace ESparrow.Utils.Extensions
 {
     public static class ReflectionExtensions
     {
         /// <summary>
-        /// Gets names of all the mutable members of specified type.
+        /// Gets all the mutable members of self type.
         /// </summary>
         /// <param name="self">Self type</param>
-        /// <param name="flags">BindingFlags for mutable members</param>
-        /// <returns>Enumerable with names of members</returns>
-        public static IEnumerable<string> GetMutableMemberNames(this Type self, BindingFlags flags)
+        /// <returns>All the mutable members of self type</returns>
+        public static IEnumerable<IMutable> GetMutableMembers(this Type self)
         {
-            var fields = self.GetFields(flags);
-            var properties = self.GetProperties(flags);
+            var list = new List<IMutable>();
+            
+            var fields = self.GetFields().Where(MutableValidator.IsValidField);
+            foreach (var field in fields)
+            {
+                var mutableField = new FieldToMutableAdapter(field);
+                list.Add(mutableField);
+            }
+            
+            var properties = self.GetProperties().Where(MutableValidator.IsValidProperty);
+            foreach (var property in properties)
+            {
+                var mutableProperty = new PropertyToMutableAdapter(property);
+                list.Add(mutableProperty);
+            }
 
-            var memberNames = properties.Select(property => property.Name).Concat(fields.Select(field => field.Name)).ToArray();
+            return list;
+        }
 
-            return memberNames;
+        /// <summary>
+        /// Gets the specified mutable member of self type.
+        /// </summary>
+        /// <param name="self">Self type</param>
+        /// <param name="name">Name of specified mutable member</param>
+        /// <param name="mutable">Mutable variable by name</param>
+        /// <returns>Specified mutable member</returns>
+        public static bool TryGetMutableMember(this Type self, string name, out IMutable mutable)
+        {
+            mutable = default;
+            if (IsField())
+            {
+                var field = self.GetField(name);
+                mutable = new FieldToMutableAdapter(field);
+            }
+            else if (IsProperty())
+            {
+                var property = self.GetProperty(name);
+                mutable = new PropertyToMutableAdapter(property);
+            }
+
+            return false;
+            
+            bool IsField()
+            {
+                return MutableValidator.IsValidField(self.GetField(name));
+            }
+
+            bool IsProperty()
+            {
+                return MutableValidator.IsValidProperty(self.GetProperty(name));
+            }
         }
 
         /// <summary>
@@ -58,7 +104,7 @@ namespace ESparrow.Utils.Extensions
         public static IEnumerable<Type> GetSubclasses(this Type self, int nestingLevel)
         {
             var subclasses = self.GetSubclasses();
-            if (nestingLevel <= 1 || subclasses.Count() == 0)
+            if (nestingLevel <= 1 || !subclasses.Any())
             {
                 return subclasses;
             }
@@ -77,16 +123,6 @@ namespace ESparrow.Utils.Extensions
         public static bool IsRealClass(this Type self)
         {
             return !self.IsAbstract && !self.IsGenericTypeDefinition && !self.IsInterface;
-        }
-        
-        /// <summary>
-        /// Checks for mutation opportunity for this property.
-        /// </summary>
-        /// <param name="self">Self property</param>
-        /// <returns>True if self property is mutable and false otherwise</returns>
-        private static bool IsMutableProperty(this PropertyInfo self)
-        {
-            return self.CanRead && self.CanWrite;
         }
     }
 }

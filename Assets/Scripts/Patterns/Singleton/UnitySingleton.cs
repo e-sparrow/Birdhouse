@@ -5,35 +5,9 @@ namespace ESparrow.Utils.Patterns.Singleton
 {
     public abstract class UnitySingleton<T> : MonoBehaviour where T : UnitySingleton<T>
     {
-        private static T _instance;
-
-        public static T Instance
+        protected UnitySingleton()
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    var array = FindObjectsOfType<T>();
-                    if (array.Length == 0)
-                    {
-                        CreateNew();
-                    }
-                    else
-                    {
-                        if (array.Length > 1)
-                        {
-                            for (int i = 1; i < array.Length; i++)
-                            {
-                                DestroyImmediate(array[i]);
-                            }
-                        }
 
-                        _instance = array[0];
-                    }
-                }
-
-                return _instance;
-            }
         }
 
         private static void CreateNew()
@@ -53,17 +27,41 @@ namespace ESparrow.Utils.Patterns.Singleton
             {
                 _instance = (T) this;
 
-                if (Application.isPlaying)
-                {
-                    gameObject.transform.SetParent(null);
-                    DontDestroyOnLoad(gameObject);
-                }
+                if (!Application.isPlaying) return;
+                
+                gameObject.transform.SetParent(null);
+                DontDestroyOnLoad(gameObject);
             }
         }
+        
+        private static T _instance;
 
-        protected UnitySingleton()
+        public static T Instance
         {
+            get
+            {
+                if (_instance != null) return _instance;
+                
+                var array = FindObjectsOfType<T>();
+                if (array.Length == 0)
+                {
+                    CreateNew();
+                }
+                else
+                {
+                    if (array.Length > 1)
+                    {
+                        for (int i = 1; i < array.Length; i++)
+                        {
+                            DestroyImmediate(array[i]);
+                        }
+                    }
 
+                    _instance = array[0];
+                }
+
+                return _instance;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ namespace ESparrow.Utils.Serialization.Examples
 {
     public class SerializationStorageExample : MonoBehaviour
     {
+        [SerializeField] private string key;
         [SerializeField] private string information;
         
         private ISerializationStorage _storage;
@@ -20,7 +21,7 @@ namespace ESparrow.Utils.Serialization.Examples
         [ContextMenu("Save")]
         private void Save()
         {
-            _storage.Set("information", information);
+            _storage.Set(key, information);
             _storage.Save();
         }
 
@@ -28,7 +29,7 @@ namespace ESparrow.Utils.Serialization.Examples
         private void Load()
         {
             _storage.Load();
-            Debug.Log(_storage.Get<string>("information"));
+            Debug.Log(_storage.Get<string>(key));
         }
     }
 }

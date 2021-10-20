@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using ESparrow.Utils.Serialization.Interfaces;
 
-namespace ESparrow.Utils.Serialization.Adapters
+namespace ESparrow.Utils.Serialization.Adapters.Formatters
 {
     public abstract class SerializationFormatterAdapterBase : ISerializationFormatter
     {

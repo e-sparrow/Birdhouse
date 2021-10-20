@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Serialization
@@ -27,7 +28,7 @@ namespace ESparrow.Utils.Serialization
         {
             subject = default;
             
-            bool canDeserialize = GetStreamToRead().CanRead;
+            bool canDeserialize = GetStreamToRead().IsNotEmpty();
             if (canDeserialize)
             {
                 subject = Deserialize<T>();

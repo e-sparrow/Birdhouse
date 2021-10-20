@@ -5,28 +5,29 @@ using ESparrow.Utils.Patterns.Commands.Interfaces;
 
 namespace ESparrow.Utils.Patterns.Commands
 {
-    public abstract class CommandExecutorBase<T> : ICommandExecutor<T> where T : Delegate
+    public abstract class CommandExecutorBase<TCommand, TDelegate> : ICommandExecutor<TCommand, TDelegate>
+        where TCommand : ICommand<TDelegate> where TDelegate : Delegate
     {
         public event Action OnEmptyUndoStackInvoked = () => { };
         public event Action OnEmptyRedoStackInvoked = () => { };
 
-        private readonly Stack<ICommand<T>> _undoStack = new Stack<ICommand<T>>();
-        private readonly Stack<ICommand<T>> _redoStack = new Stack<ICommand<T>>();
+    private readonly Stack<TCommand> _undoStack = new Stack<TCommand>();
+        private readonly Stack<TCommand> _redoStack = new Stack<TCommand>();
 
         /// <summary>
-        /// Void to execute the delegate if it's a do action.
+        /// Void to execute the command.
         /// </summary>
-        /// <param name="instruction">Delegate to execute</param>
-        protected abstract void Do(T instruction);
+        /// <param name="command">Command to execute</param>
+        protected abstract void Do(TCommand command);
         /// <summary>
-        /// Void to execute the delegate if it's a undo action.
+        /// Void to execute the command if it's undo action.
         /// </summary>
-        /// <param name="instruction">Delegate to execute</param>
-        protected abstract void Undo(T instruction);
+        /// <param name="command">Command to execute</param>
+        protected abstract void Undo(TCommand command);
 
-        public void Execute(ICommand<T> command)
+        public void Execute(TCommand command)
         {
-            Do(command.Do);
+            Do(command);
             
             _undoStack.Push(command);
             _redoStack.Clear();
@@ -41,7 +42,7 @@ namespace ESparrow.Utils.Patterns.Commands
             }
 
             var command = _undoStack.Pop();
-            Undo(command.Undo);
+            Undo(command);
             
             _redoStack.Push(command);
         }
@@ -55,7 +56,7 @@ namespace ESparrow.Utils.Patterns.Commands
             }
 
             var command = _redoStack.Pop();
-            Do(command.Do);
+            Do(command);
             
             _undoStack.Push(command);
         }

@@ -23,6 +23,19 @@ namespace ESparrow.Utils.Serialization
             return Method.Deserialize<T>(GetStreamToRead());
         }
 
+        public bool TryDeserialize<T>(out T subject)
+        {
+            subject = default;
+            
+            bool canDeserialize = GetStreamToRead().CanRead;
+            if (canDeserialize)
+            {
+                subject = Deserialize<T>();
+            }
+            
+            return canDeserialize;
+        }
+
         public ISerializationMethod Method
         {
             get;

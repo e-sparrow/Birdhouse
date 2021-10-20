@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace ESparrow.Utils.Tools.Equality.Interfaces
 {
-    public interface IEqualityComparer<in TSelf, in TOther>
+    public interface IEqualityComparer<in TSelf>
     {
         /// <summary>
         /// Checks self and another values for equality.
@@ -12,11 +8,6 @@ namespace ESparrow.Utils.Tools.Equality.Interfaces
         /// <param name="self">Self value</param>
         /// <param name="other">Another value</param>
         /// <returns>True if self value equals another one and false otherwise</returns>
-        bool Equals(TSelf self, TOther other);
-    }
-    
-    public interface IEqualityComparer<in T> : IEqualityComparer<T, T>
-    {
-        
+        bool Equals(TSelf self, object other);
     }
 }

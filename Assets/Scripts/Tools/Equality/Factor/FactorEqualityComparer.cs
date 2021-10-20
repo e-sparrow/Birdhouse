@@ -37,11 +37,6 @@ namespace ESparrow.Utils.Tools.Equality.Factor
             return typesAreMatch && isEquals;
         }
 
-        /// <summary>
-        /// Gets factor by self value.
-        /// </summary>
-        /// <param name="self">Self value</param>
-        /// <returns>Factor to check equality</returns>
         public override IEnumerable<TFactor> GetFactors(TSelf self)
         {
             return _equalityFactor.Invoke(self);

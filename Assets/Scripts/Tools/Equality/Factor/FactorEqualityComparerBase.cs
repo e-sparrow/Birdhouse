@@ -14,7 +14,27 @@ namespace ESparrow.Utils.Tools.Equality.Factor
         /// <param name="other">Another one</param>
         /// <returns>True if self factor equals another one and false otherwise</returns>
         protected abstract bool FactorsEquals(TFactor self, TFactor other);
-        
+
+        public float GetEqualityProportion(TSelf self, TSelf other)
+        {
+            var selfFactors = GetFactors(self).ToArray();
+            var otherFactors = GetFactors(other).ToArray();
+
+            if (selfFactors.Length != otherFactors.Length) return 0f;
+
+            int rightFactors = 0;
+            for (int i = 0; i < selfFactors.Length; i++)
+            {
+                bool factorsEquals = FactorsEquals(selfFactors[i], otherFactors[i]);
+                if (!factorsEquals)
+                {
+                    rightFactors++;
+                }
+            }
+
+            return (float) rightFactors / selfFactors.Length;
+        }
+
         public abstract IEnumerable<TFactor> GetFactors(TSelf self);
 
         /// <summary>
@@ -25,21 +45,7 @@ namespace ESparrow.Utils.Tools.Equality.Factor
         /// <returns>True if self value equals another one and false otherwise</returns>
         protected bool Equals(TSelf self, TSelf other)
         {
-            var selfFactors = GetFactors(self).ToArray();
-            var otherFactors = GetFactors(other).ToArray();
-
-            if (selfFactors.Length != otherFactors.Length) return false;
-            
-            for (int i = 0; i < selfFactors.Length; i++)
-            {
-                bool factorsEquals = FactorsEquals(selfFactors[i], otherFactors[i]);
-                if (!factorsEquals)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return (int) GetEqualityProportion(self, other) == 1;
         }
     }
 }

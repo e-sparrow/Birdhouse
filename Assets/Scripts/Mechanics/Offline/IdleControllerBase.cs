@@ -1,7 +1,7 @@
 ﻿using System;
 using ESparrow.Utils.Tools.Offline.Interfaces;
 
-namespace ESparrow.Utils.Tools.Idle
+namespace ESparrow.Utils.Mechanics.Offline
 {
     public abstract class IdleControllerBase : IIdleController
     {

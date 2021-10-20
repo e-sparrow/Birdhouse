@@ -2,7 +2,7 @@
 using ESparrow.Utils.Serialization.Interfaces;
 using ESparrow.Utils.Tools.Offline.Interfaces;
 
-namespace ESparrow.Utils.Tools.Idle
+namespace ESparrow.Utils.Mechanics.Offline
 {
     public class OfflineController : OfflineControllerBase
     {

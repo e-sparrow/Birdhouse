@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Idle
+namespace ESparrow.Utils.Mechanics.Offline
 {
     public class IdleController : IdleControllerBase
     {

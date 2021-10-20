@@ -1,6 +1,6 @@
 using ESparrow.Utils.Generalization.Summation.Interfaces;
 
-namespace ESparrow.Utils.Tools.Streaks.Interfaces
+namespace ESparrow.Utils.Mechanics.Streaks.Interfaces
 {
     public interface IStreak<TSelf, TSummable> where TSummable : ISummable<TSelf>
     {

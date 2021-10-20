@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Tools.Equality.Factor.Interfaces;
 
-namespace ESparrow.Utils.Tools.Equality.Factor
+namespace ESparrow.Utils.Equality.Factor
 {
     /// <summary>
     /// Class which compares equality by specified factor.

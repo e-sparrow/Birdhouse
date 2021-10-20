@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using ESparrow.Utils.Tools.Equality.Interfaces;
+using ESparrow.Utils.Equality.Interfaces;
 
-namespace ESparrow.Utils.Tools.Equality.Factor.Interfaces
+namespace ESparrow.Utils.Equality.Factor.Interfaces
 {
     public interface IFactorEqualityComparer<in TSelf, out TFactor> : Equality.Interfaces.IEqualityComparer<TSelf>
     {

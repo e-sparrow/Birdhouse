@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using ESparrow.Utils.Tools.Equality.Factor.Interfaces;
+using ESparrow.Utils.Equality.Factor.Interfaces;
 
-namespace ESparrow.Utils.Tools.Equality.Factor
+namespace ESparrow.Utils.Equality.Factor
 {
     public abstract class FactorEqualityComparerBase<TSelf, TFactor> : IFactorEqualityComparer<TSelf, TFactor>
     {

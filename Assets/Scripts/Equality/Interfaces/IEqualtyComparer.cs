@@ -1,4 +1,4 @@
-namespace ESparrow.Utils.Tools.Equality.Interfaces
+namespace ESparrow.Utils.Equality.Interfaces
 {
     public interface IEqualityComparer<in TSelf>
     {

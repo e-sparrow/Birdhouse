@@ -3,7 +3,7 @@ using ESparrow.Utils.Serialization.Interfaces;
 using ESparrow.Utils.Tools.Offline.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Idle
+namespace ESparrow.Utils.Mechanics.Offline
 {
     public abstract class OfflineControllerBase : IOfflineController
     {

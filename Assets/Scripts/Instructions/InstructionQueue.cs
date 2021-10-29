@@ -10,7 +10,7 @@ namespace ESparrow.Utils.Instructions
     /// </summary>
     public class InstructionQueue : InstructionQueueBase
     {
-        private readonly List<IInstruction> _instructions = new List<IInstruction>();
+        private IList<IInstruction> _instructions = new List<IInstruction>();
 
         public InstructionQueue(params IInstruction[] instructions) : this(instructions.AsEnumerable()) 
         { 
@@ -65,7 +65,7 @@ namespace ESparrow.Utils.Instructions
 
         public override void Reverse()
         {
-            _instructions.Reverse();
+            _instructions = _instructions.Reverse().ToList();
         }
 
         public void Skip(int count)

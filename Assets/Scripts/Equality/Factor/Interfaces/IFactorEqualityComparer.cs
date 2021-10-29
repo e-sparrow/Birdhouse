@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ESparrow.Utils.Equality.Interfaces;
 
 namespace ESparrow.Utils.Equality.Factor.Interfaces
 {
@@ -21,5 +20,10 @@ namespace ESparrow.Utils.Equality.Factor.Interfaces
         /// <param name="self">Self value</param>
         /// <returns>Factor for check the equality</returns>
         IEnumerable<TFactor> GetFactors(TSelf self);
+    }
+
+    public interface IFactorEqualityComparer<in TSelf> : IFactorEqualityComparer<TSelf, object>
+    {
+        
     }
 }

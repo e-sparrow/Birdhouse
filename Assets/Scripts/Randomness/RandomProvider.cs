@@ -46,7 +46,7 @@ namespace ESparrow.Utils.Randomness
             float emptiness = 1f - sum;
             var emptyElement = new RandomnessElement<T>(default, emptiness);
 
-            var collection = elements.Concat(emptyElement.AsSingleCollection());
+            var collection = elements.Concat(emptyElement.AsSingleEnumerable());
             var randomElement = collection.GetWeighedRandom(value => value.Chance);
 
             result = randomElement.Element;

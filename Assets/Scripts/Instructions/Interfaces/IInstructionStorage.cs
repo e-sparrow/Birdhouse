@@ -4,12 +4,12 @@ namespace ESparrow.Utils.Instructions.Interfaces
 {
     public interface IInstructionStorage
     {
-        List<IInstruction> Instructions
+        IList<IInstruction> Instructions
         {
             get;
         }
 
-        List<IInstructionQueue> InstructionQueues
+        IList<IInstructionQueue> InstructionQueues
         {
             get;
         }

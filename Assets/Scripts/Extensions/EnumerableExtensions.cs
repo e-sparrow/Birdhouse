@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
+using Random = System.Random;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -129,9 +131,7 @@ namespace ESparrow.Utils.Extensions
             int leftIndex = list.IndexOf(left);
             int rightIndex = list.IndexOf(right);
 
-            T temp = list[leftIndex];
-            list[leftIndex] = list[rightIndex];
-            list[rightIndex] = temp;
+            (list[leftIndex], list[rightIndex]) = (list[rightIndex], list[leftIndex]);
 
             return list;
 
@@ -271,7 +271,7 @@ namespace ESparrow.Utils.Extensions
         /// <param name="self">Variable to create enumerable</param>
         /// <typeparam name="T">Type of variable</typeparam>
         /// <returns>Enumerable from variable</returns>
-        public static IEnumerable<T> AsSingleCollection<T>(this T self)
+        public static IEnumerable<T> AsSingleEnumerable<T>(this T self)
         {
             var array = new T[1]
             {
@@ -290,7 +290,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Enumerable without specified element</returns>
         public static IEnumerable<T> Without<T>(this IEnumerable<T> enumerable, T element)
         {
-            return enumerable.Except(element.AsSingleCollection());
+            return enumerable.Except(element.AsSingleEnumerable());
         }    
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Enumerable with specified element</returns>
         public static IEnumerable<T> With<T>(this IEnumerable<T> enumerable, T element)
         {
-            return enumerable.Concat(element.AsSingleCollection());
+            return enumerable.Concat(element.AsSingleEnumerable());
         }
         
         /// <summary>
@@ -337,7 +337,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Enumerable with both elements</returns>
         public static IEnumerable<T> ConcatWith<T>(this T self, T other) 
         {
-            return self.AsSingleCollection().With(other);
+            return self.AsSingleEnumerable().With(other);
         }
 
         /// <summary>
@@ -349,7 +349,19 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Enumerable with old elements and specified variable</returns>
         public static IEnumerable<T> ConcatWith<T>(this IEnumerable<T> self, T other)
         {
-            return self.Concat(other.AsSingleCollection());
+            return self.Concat(other.AsSingleEnumerable());
+        }
+
+        /// <summary>
+        /// Adds self variable to another enumerable.
+        /// </summary>
+        /// <param name="self">Self variable</param>
+        /// <param name="other">Another enumerable</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>Enumerable with old elements and specified variable</returns>
+        public static IEnumerable<T> ConcatTo<T>(this T self, IEnumerable<T> other)
+        {
+            return self.AsSingleEnumerable().Concat(other);
         }
 
         /// <summary>
@@ -506,6 +518,68 @@ namespace ESparrow.Utils.Extensions
         {
             var _ = enumerable.TryGetSameSequence(0, comparison, out var combination);
             return combination;
+        }
+
+        /// <summary>
+        /// Checks is self enumerable contains any elements which matches to predicate.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="predicate">Specified predicate</param>
+        /// <param name="first">First value which match to predicate</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
+        public static bool Any<T>(this IEnumerable<T> self, Predicate<T> predicate, out T first)
+        {
+            var func = predicate.ToFunc();
+            return self.Any(func, out first);
+        }
+
+        /// <summary>
+        /// Checks is self enumerable contains any elements which matches to predicate.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="predicate">Specified predicate</param>
+        /// <param name="areMatch">All the values which matches to predicate</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
+        public static bool Any<T>(this IEnumerable<T> self, Predicate<T> predicate, out IEnumerable<T> areMatch)
+        {
+            var func = predicate.ToFunc();
+            return self.Any(func, out areMatch);
+        }
+
+        /// <summary>
+        /// Checks is self enumerable contains any elements which matches to predicate.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="predicate">Specified predicate</param>
+        /// <param name="first">First value which match to predicate</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
+        public static bool Any<T>(this IEnumerable<T> self, Func<T, bool> predicate, out T first)
+        {
+            first = default;
+            if (!self.Any(predicate)) return false;
+
+            first = self.First(predicate);
+            return true;
+        }
+
+        /// <summary>
+        /// Checks is self enumerable contains any elements which matches to predicate.
+        /// </summary>
+        /// <param name="self">Self enumerable</param>
+        /// <param name="predicate">Specified predicate</param>
+        /// <param name="areMatch">All the values which matches to predicate</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
+        public static bool Any<T>(this IEnumerable<T> self, Func<T, bool> predicate, out IEnumerable<T> areMatch)
+        {
+            areMatch = default;
+            if (!self.Any(predicate)) return false;
+
+            areMatch = self.Where(predicate);
+            return true;
         }
 
         /// <summary>

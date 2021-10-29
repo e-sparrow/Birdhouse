@@ -55,7 +55,7 @@ namespace ESparrow.Utils.Extensions
 
             if (isGeneralizationType)
             {
-                var argument = self.AsSingleCollection();
+                var argument = self.AsSingleEnumerable();
                 return (TAdapter) Activator.CreateInstance(targetType, argument);
             }
             else
@@ -70,7 +70,7 @@ namespace ESparrow.Utils.Extensions
 
                 bool IsTargetConstructor(ConstructorInfo constructor)
                 {
-                    return Equals(constructor.GetParameters().AsEnumerable(), self.AsSingleCollection());
+                    return Equals(constructor.GetParameters().AsEnumerable(), self.AsSingleEnumerable());
                 }
             }
             

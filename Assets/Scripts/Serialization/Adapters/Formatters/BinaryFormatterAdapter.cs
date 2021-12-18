@@ -1,23 +1,25 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
 namespace ESparrow.Utils.Serialization.Adapters.Formatters
 {
     public class BinaryFormatterAdapter : SerializationFormatterAdapterBase
     {
-        protected virtual BinaryFormatter GetFormatter<T>()
+        public override async Task Write<T>(Stream stream, T self)
         {
-            return new BinaryFormatter();
-        }
-        
-        public override void Write<T>(Stream stream, T self)
-        {
-            GetFormatter<T>().Serialize(stream, self);
+            new BinaryFormatter().Serialize(stream, self);
+
+            await stream.FlushAsync();
         }
 
-        public override T Read<T>(Stream stream)
+        public override async Task<T> Read<T>(Stream stream)
         {
-            return (T) GetFormatter<T>().Deserialize(stream);
+            var subject = new BinaryFormatter().Deserialize(stream);
+
+            await stream.FlushAsync();
+
+            return (T) subject;
         }
     }
 }

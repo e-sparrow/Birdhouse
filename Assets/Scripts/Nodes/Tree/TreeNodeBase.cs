@@ -35,11 +35,18 @@ namespace Nodes.Tree
 
         public void Traverse(Action<ITreeNode<T>> action)
         {
+            TraverseWhile(action, _ => true);
+        } 
+        
+        public void TraverseWhile(Action<ITreeNode<T>> action, Predicate<ITreeNode<T>> condition)
+        {
+            if (!condition.Invoke(this)) return;
+            
             action.Invoke(this);
 
             foreach (var child in Children)
             {
-                child.Traverse(action);
+                child.TraverseWhile(action, condition);
             }
         }
 

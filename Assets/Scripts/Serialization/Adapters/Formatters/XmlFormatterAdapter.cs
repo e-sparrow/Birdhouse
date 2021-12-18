@@ -1,23 +1,28 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ESparrow.Utils.Serialization.Adapters.Formatters
 {
     public class XmlFormatterAdapter : SerializationFormatterAdapterBase
     {
-        private static XmlSerializer GetSerializer<T>()
+        public override async Task Write<T>(Stream stream, T self)
         {
-            return new XmlSerializer(typeof(T));
-        }
-        
-        public override void Write<T>(Stream stream, T self)
-        {
-            GetSerializer<T>().Serialize(stream, self);
+            var serializer = new XmlSerializer(typeof(T));
+            serializer.Serialize(stream, self);
+
+            await stream.FlushAsync();
         }
 
-        public override T Read<T>(Stream stream)
+        public override async Task<T> Read<T>(Stream stream)
         {
-            return (T) GetSerializer<T>().Deserialize(stream);
+            var serializer = new XmlSerializer(typeof(T));
+            var subject = serializer.Deserialize(stream);
+
+            await stream.FlushAsync();
+
+            return (T) subject;
         }
     }
 }

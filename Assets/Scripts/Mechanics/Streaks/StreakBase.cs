@@ -3,7 +3,7 @@ using ESparrow.Utils.Mechanics.Streaks.Interfaces;
 
 namespace ESparrow.Utils.Mechanics.Streaks
 {
-    public abstract class StreakBase<TSelf, TSummable> : IStreak<TSelf, TSummable> where TSummable : ISummable<TSelf>
+    public abstract class StreakBase<TSelf, TSummable> : IStreak<TSelf> where TSummable : ISummable<TSelf>
     {
         protected StreakBase(ISummable<TSelf> summable, TSelf zero)
         {

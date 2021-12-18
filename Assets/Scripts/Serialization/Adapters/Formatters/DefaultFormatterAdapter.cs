@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace ESparrow.Utils.Serialization.Adapters.Formatters
 {
@@ -12,14 +13,20 @@ namespace ESparrow.Utils.Serialization.Adapters.Formatters
 
         private readonly IFormatter _formatter;
         
-        public override void Write<T>(Stream stream, T self)
+        public override async Task Write<T>(Stream stream, T self)
         {
             _formatter.Serialize(stream, self);
+
+            await stream.FlushAsync();
         }
 
-        public override T Read<T>(Stream stream)
+        public override async Task<T> Read<T>(Stream stream)
         {
-            return (T) _formatter.Deserialize(stream);
+            var subject = (T) _formatter.Deserialize(stream);
+
+            await stream.FlushAsync();
+
+            return subject;
         }
     }
 }

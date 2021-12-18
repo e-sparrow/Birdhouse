@@ -1,25 +1,26 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Serialization
 {
     public class SerializationMethod : SerializationMethodBase
     {
-        public SerializationMethod(ISerializationFormatter formatter) : base(formatter)
+        public SerializationMethod(ISerializationFormatter formatter)
         {
             _formatter = formatter;
         }
 
         private readonly ISerializationFormatter _formatter;
         
-        public override void Serialize<T>(T self, Stream stream)
+        public override async Task Serialize<T>(T self, Stream stream)
         {
-            _formatter.Write(stream, self);
+            await _formatter.Write(stream, self);
         }
 
-        public override T Deserialize<T>(Stream stream)
+        public override async Task<T> Deserialize<T>(Stream stream)
         {
-            return (T) _formatter.Read<T>(stream);
+            return await _formatter.Read<T>(stream);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using ESparrow.Utils.Enums;
+using System.Collections.Generic;
 using ESparrow.Utils.Serialization;
+using ESparrow.Utils.Serialization.Enums;
 using ESparrow.Utils.Serialization.Adapters.Formatters;
 using ESparrow.Utils.Serialization.Interfaces;
 
@@ -64,9 +64,9 @@ namespace ESparrow.Utils.Helpers
         /// <param name="method">Enum to get storage</param>
         /// <param name="directory">Directory where to save data</param>
         /// <returns>Storage by method type if it's exist</returns>
-        public static ISerializationStorage GetDefaultSerializationStorage(ESerializationMethod method, string directory)
+        public static ISerializationStorage<TKey> GetDefaultSerializationStorage<TKey>(ESerializationMethod method, string directory)
         {
-            return new SerializationStorage(GetDefaultSerializationController(method, directory));
+            return new SerializationStorage<TKey>(GetDefaultSerializationController(method, directory));
         }
     }
 }

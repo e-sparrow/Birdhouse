@@ -43,6 +43,12 @@ namespace ESparrow.Utils.Extensions
             return func.Invoke(self);
         }
 
+        public static T Modify<T>(this T self, Action<T> action)
+        {
+            action.Invoke(self);
+            return self;
+        }
+
         /// <summary>
         /// Adds the element to collection and returns it back.
         /// </summary>
@@ -54,6 +60,11 @@ namespace ESparrow.Utils.Extensions
         {
             collection.Add(element);
             return element;
+        }
+        
+        public static TResult PipeTo<TSource, TResult>(this TSource source, Func<TSource, TResult> func)
+        {
+            return func.Invoke(source);
         }
     }
 }

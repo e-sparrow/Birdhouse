@@ -1,51 +1,44 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Serialization
 {
-    public abstract class SerializationStorageBase : ISerializationStorage
+    public abstract class SerializationStorageBase<TKey> : ISerializationStorage<TKey>
     {
-        protected SerializationStorageBase(ISerializationController controller)
+        private Dictionary<TKey, object> _dictionary = new Dictionary<TKey, object>();
+        
+        protected abstract Task SaveDictionary(Dictionary<TKey, object> dictionary);
+        protected abstract Task<Dictionary<TKey, object>> LoadDictionary();
+
+        public async Task Save()
         {
-            Controller = controller;
+            await SaveDictionary(_dictionary);
         }
 
-        protected Dictionary<string, object> Dictionary = new Dictionary<string, object>();
-        
-        public abstract void Save();
-        public abstract void Load();
-        
-        public T Get<T>(string key)
+        public async Task Load()
         {
-            return (T) Dictionary[key];
+            _dictionary = await LoadDictionary();
         }
 
-        public T Get<T>(string key, T defaultValue)
+        public bool HasKey(TKey key)
+        {
+            return _dictionary.ContainsKey(key);
+        }
+        
+        public T Get<T>(TKey key)
+        {
+            return (T) _dictionary[key];
+        }
+
+        public T Get<T>(TKey key, T defaultValue)
         {
             return Get<T>(key) ?? defaultValue;
         }
 
-        public void Set(string key, object subject)
+        public void Set(TKey key, object subject)
         {
-            Dictionary[key] = subject;
-            if (SaveWhenSet)
-            {
-                Save();
-            }
-        }
-
-        public ISerializationController Controller
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Save the storage when setting the objects or not.
-        /// </summary>
-        public bool SaveWhenSet
-        {
-            get;
-            set;
+            _dictionary[key] = subject;
         }
     }
 }

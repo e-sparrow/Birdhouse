@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Extensions
@@ -10,9 +11,9 @@ namespace ESparrow.Utils.Extensions
             controller.Serialize(self);
         }
 
-        public static T Deserialize<T>(this ISerializationController controller)
+        public static async Task<T> Deserialize<T>(this ISerializationController controller)
         {
-            return controller.Deserialize<T>();
+            return await controller.Deserialize<T>();
         }
 
         public static bool IsEmpty(this Stream stream)

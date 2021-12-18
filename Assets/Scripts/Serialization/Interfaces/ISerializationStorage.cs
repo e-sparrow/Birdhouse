@@ -1,15 +1,24 @@
-﻿namespace ESparrow.Utils.Serialization.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace ESparrow.Utils.Serialization.Interfaces
 {
-    public interface ISerializationStorage
+    public interface ISerializationStorage<in TKey>
     {
         /// <summary>
         /// Save method.
         /// </summary>
-        void Save();
+        Task Save();
         /// <summary>
         /// Load method.
         /// </summary>
-        void Load();
+        Task Load();
+        
+        /// <summary>
+        /// Checks is dictionary has a specified key.
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>True if dictionary has the key and false otherwise</returns>
+        bool HasKey(TKey key);
         
         /// <summary>
         /// Gets the object by key.
@@ -17,20 +26,13 @@
         /// <param name="key">Key to get object</param>
         /// <typeparam name="T">Object type</typeparam>
         /// <returns>Object by specified key or null if key is wrong</returns>
-        T Get<T>(string key);
+        T Get<T>(TKey key);
+        
         /// <summary>
         /// Set method.
         /// </summary>
         /// <param name="key">Key to get subject by Get method</param>
         /// <param name="subject">Subject to save</param>
-        void Set(string key, object subject);
-
-        /// <summary>
-        /// Controller used to serialize objects in the storage.
-        /// </summary>
-        ISerializationController Controller
-        {
-            get;
-        }
+        void Set(TKey key, object subject);
     }
 }

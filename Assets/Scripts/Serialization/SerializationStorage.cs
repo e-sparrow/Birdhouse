@@ -1,23 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Serialization
 {
-    public class SerializationStorage : SerializationStorageBase 
+    public class SerializationStorage<TKey> : SerializationStorageBase<TKey>
     {
-        public SerializationStorage(ISerializationController controller) : base(controller)
+        public SerializationStorage(ISerializationController serializationController)
         {
-            
+            _serializationController = serializationController;
         }
 
-        public override void Save()
+        private readonly ISerializationController _serializationController;
+        
+        protected override async Task SaveDictionary(Dictionary<TKey, object> dictionary)
         {
-            Controller.Serialize(Dictionary);
+            await _serializationController.Serialize(dictionary);
         }
 
-        public override void Load()
+        protected override async Task<Dictionary<TKey, object>> LoadDictionary()
         {
-            Dictionary = Controller.Deserialize<Dictionary<string, object>>();
+            return await _serializationController.Deserialize<Dictionary<TKey, object>>();
         }
     }
 }

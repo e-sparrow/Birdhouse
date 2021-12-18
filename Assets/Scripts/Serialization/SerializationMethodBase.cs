@@ -1,21 +1,12 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ESparrow.Utils.Serialization.Interfaces;
 
 namespace ESparrow.Utils.Serialization
 {
     public abstract class SerializationMethodBase : ISerializationMethod
     {
-        protected SerializationMethodBase(ISerializationFormatter formatter)
-        {
-            Formatter = formatter;
-        }
-
-        public abstract void Serialize<TSelf>(TSelf self, Stream stream);
-        public abstract TSelf Deserialize<TSelf>(Stream stream);
-
-        public ISerializationFormatter Formatter
-        {
-            get;
-        }
+        public abstract Task Serialize<TSelf>(TSelf self, Stream stream);
+        public abstract Task<TSelf> Deserialize<TSelf>(Stream stream);
     }
 }

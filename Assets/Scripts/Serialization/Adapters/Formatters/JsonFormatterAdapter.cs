@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 
 namespace ESparrow.Utils.Serialization.Adapters.Formatters
 {
@@ -10,14 +11,20 @@ namespace ESparrow.Utils.Serialization.Adapters.Formatters
             return new DataContractJsonSerializer(typeof(T));
         }
         
-        public override void Write<T>(Stream stream, T self)
+        public override async Task Write<T>(Stream stream, T self)
         {
             GetSerializer<T>().WriteObject(stream, self);
+            
+            await stream.FlushAsync();
         }
 
-        public override T Read<T>(Stream stream)
+        public override async Task<T> Read<T>(Stream stream)
         {
-            return (T) GetSerializer<T>().ReadObject(stream);
+            var subject = (T) GetSerializer<T>().ReadObject(stream);
+            
+            await stream.FlushAsync();
+
+            return subject;
         }
     }
 }

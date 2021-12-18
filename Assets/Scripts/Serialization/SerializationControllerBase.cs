@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Serialization.Interfaces;
 
@@ -14,30 +15,33 @@ namespace ESparrow.Utils.Serialization
         protected abstract Stream GetStreamToWrite();
         protected abstract Stream GetStreamToRead();
         
-        public void Serialize<T>(T self)
+        public async Task Serialize<T>(T self)
         {
-            Method.Serialize(self, GetStreamToWrite());
+            var stream = GetStreamToWrite();
+            await Method.Serialize(self, stream);
+            stream.Close();
         }
 
-        public T Deserialize<T>()
+        public async Task<T> Deserialize<T>()
         {
-            return Method.Deserialize<T>(GetStreamToRead());
-        }
-
-        public bool TryDeserialize<T>(out T subject)
-        {
-            subject = default;
+            var stream = GetStreamToRead();
             
-            bool canDeserialize = GetStreamToRead().IsNotEmpty();
-            if (canDeserialize)
-            {
-                subject = Deserialize<T>();
-            }
+            var value = await Method.Deserialize<T>(stream);
+            stream.Close();
+            
+            return value;
+        }  
+
+        public bool IsExist<T>()
+        {
+            var stream = GetStreamToRead();
+            bool canDeserialize = stream.IsNotEmpty();
+            stream.Close();
             
             return canDeserialize;
         }
 
-        public ISerializationMethod Method
+        private ISerializationMethod Method
         {
             get;
         }

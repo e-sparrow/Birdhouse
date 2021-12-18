@@ -77,5 +77,21 @@ namespace ESparrow.Utils.Extensions
 
             await AsyncHelper.WaitUntil(() => invoked);
         }
+
+        public static T Sync<T>(this Task<T> task)
+        {
+            task.Start();
+            task.Wait();
+            return task.Result;
+        }
+
+        public static void Sync(this Task task, bool wait)
+        {
+            task.Start();
+            if (wait)
+            {
+                task.Wait();
+            }
+        }
     }
 }

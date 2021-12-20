@@ -21,6 +21,6 @@ namespace ESparrow.Utils.Serialization.Interfaces
         /// </summary>
         /// <typeparam name="T">Type of object</typeparam>
         /// <returns>True if it's exist and false otherwise</returns>
-        bool IsExist<T>();
+        bool IsExist();
     }
 }

@@ -32,7 +32,7 @@ namespace ESparrow.Utils.Serialization
             return value;
         }  
 
-        public bool IsExist<T>()
+        public bool IsExist()
         {
             var stream = GetStreamToRead();
             bool canDeserialize = stream.IsNotEmpty();

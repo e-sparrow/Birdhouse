@@ -15,17 +15,17 @@ namespace ESparrow.Utils.Tools.Flickering
 
         [SerializeField] private List<CharUnityEventPair> serializedPairs;
 
-        protected virtual List<CharActionPair> DefaultPairs => new List<CharActionPair>();
+        [SerializeField] private bool synchronous;
 
-        protected List<CharActionPair> AllPairs => GetAllPairs();
+        protected virtual IEnumerable<CharActionPair> Pairs => new List<CharActionPair>();
+        protected IEnumerable<CharActionPair> AllPairs => GetAllPairs();
 
-        // Инициируется на старте для рассинхронизации мерцания. То есть, если попадутся два искрящихся фонарика, то мерцать они будут асинхронно. 
         private float _offset; 
 
         private List<CharActionPair> GetAllPairs()
         {
             var serializedActionPairs = serializedPairs.Select(value => new CharActionPair(value));
-            var allPairs = serializedActionPairs.Concat(DefaultPairs).ToList();
+            var allPairs = serializedActionPairs.Concat(Pairs).ToList();
 
             return allPairs;
         }
@@ -37,7 +37,7 @@ namespace ESparrow.Utils.Tools.Flickering
 
         private void Start()
         {
-            _offset = Random.Range(0, step);
+            _offset = synchronous ? 0 : Random.Range(0, step);
         }
 
         private void Update()
@@ -83,6 +83,14 @@ namespace ESparrow.Utils.Tools.Flickering
             {
                 this.character = character;
                 this.unityEvent = unityEvent;
+            }
+
+            public CharUnityEventPair(CharActionPair pair)
+            {
+                character = pair.character;
+                unityEvent = new UnityEvent();
+                
+                unityEvent.AddListener(pair.action.Invoke);
             }
         }
     }

@@ -19,9 +19,9 @@ namespace ESparrow.Utils.Extensions
             return self.FindGeneralizationAdapter<T, IErroneous<T>>();
         }
 
-        public static IInteropolatable<T> AsInterpolatable<T>(this Reference<T> self)
+        public static IInterpolatable<T> AsInterpolatable<T>(this Reference<T> self)
         {
-            return self.FindGeneralizationAdapter<Reference<T>, IInteropolatable<T>>();
+            return self.FindGeneralizationAdapter<Reference<T>, IInterpolatable<T>>();
         }
 
         public static IMultipliable<T> AsMultipliable<T>(this T self)

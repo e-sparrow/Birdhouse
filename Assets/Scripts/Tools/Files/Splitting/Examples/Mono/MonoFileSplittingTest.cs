@@ -27,7 +27,7 @@ namespace ESparrow.Utils.Tools.Files.Splitting.Examples.Mono
         [ContextMenu("Load")]
         private async void Load()
         {
-            if (_serializationController.IsExist<string>())
+            if (_serializationController.IsExist())
             {
                 info = await _serializationController.Deserialize<string>();
             }

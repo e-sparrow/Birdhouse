@@ -25,7 +25,7 @@ namespace ESparrow.Utils.Extensions
             bool ended = false;
 
             var enumerator = CoroutinesHelper.CoroutineWithCallback(coroutine, () => ended = true);
-            var routine = monoBehaviour.StartCoroutine(enumerator);
+            monoBehaviour.StartCoroutine(enumerator);
 
             await AsyncHelper.WaitUntil(() => ended, token);
         }
@@ -64,18 +64,6 @@ namespace ESparrow.Utils.Extensions
             animator.Play(animationName, layer);
 
             await AsyncHelper.WaitWhile(() => animator.GetCurrentAnimatorStateInfo(layer).IsName(animationName), token);
-        }
-
-        /// <summary>
-        /// Awaits an action in the argument.
-        /// </summary>
-        /// <param name="action">Action to await</param>
-        public static async Task WaitAction(this Action action)
-        {
-            var invoked = false;
-            action += () => invoked = true;
-
-            await AsyncHelper.WaitUntil(() => invoked);
         }
 
         public static T Sync<T>(this Task<T> task)

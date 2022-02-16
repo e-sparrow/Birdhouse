@@ -4,7 +4,7 @@ using ESparrow.Utils.Tools;
 
 namespace ESparrow.Utils.Generalization.Interpolation.Adapters
 {
-    public abstract class ToInterpolatableAdapterBase<T> : IInteropolatable<T>
+    public abstract class ToInterpolatableAdapterBase<T> : IInterpolatable<T>
     {
         private readonly Reference<T> _reference;
 

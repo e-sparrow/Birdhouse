@@ -11,9 +11,9 @@ namespace ESparrow.Utils.Tools.Flickering.Examples
 
         [SerializeField] private List<CharIntensityPair> charIntensityPairs;
 
-        protected override List<CharActionPair> DefaultPairs => GetDefaultPairs();
+        protected override IEnumerable<CharActionPair> Pairs => GetDefaultPairs();
 
-        private List<CharActionPair> GetDefaultPairs()
+        private IEnumerable<CharActionPair> GetDefaultPairs()
         {
             var pairs = charIntensityPairs.Select(value => GetPairByCharAndIntensity(value.character, value.intensity));
 

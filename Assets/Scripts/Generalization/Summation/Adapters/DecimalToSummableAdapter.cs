@@ -12,12 +12,12 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
 
         public override ISummable<decimal> Plus(decimal other)
         {
-            return new DecimalToSummableAdapter(Value + other);;
+            return new DecimalToSummableAdapter(Value + other);
         }
         
         public override ISummable<decimal> Minus(decimal other)
         {
-            return new DecimalToSummableAdapter(Value - other);;
+            return new DecimalToSummableAdapter(Value - other);
         }
 
         public override EGeneralizationType GeneralizationType => EGeneralizationType.Decimal;

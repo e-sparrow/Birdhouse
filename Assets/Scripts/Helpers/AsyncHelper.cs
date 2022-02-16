@@ -2,11 +2,26 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ESparrow.Utils.Generic;
+using ESparrow.Utils.Tools.Eases;
+using ESparrow.Utils.Tools.Eases.Interfaces;
+using ESparrow.Utils.Tools.Graduating;
+using ESparrow.Utils.Tools.Graduating.Interfaces;
 
 namespace ESparrow.Utils.Helpers
 {
     public static class AsyncHelper
     {
+        public static async Task Graduate(IGradualSettings settings, TimeSpan step)
+        {
+            var gradual = new AsyncGradual(step);
+            await gradual.Graduate(settings);
+        }
+
+        public static async Task Graduate(IGradualSettings settings, int step)
+        {
+            await Graduate(settings, TimeSpan.FromMilliseconds(step));
+        }
+        
         /// <summary>
         /// Awaits while specified function returns true.
         /// </summary>

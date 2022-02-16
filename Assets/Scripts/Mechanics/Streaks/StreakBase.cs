@@ -5,7 +5,7 @@ namespace ESparrow.Utils.Mechanics.Streaks
 {
     public abstract class StreakBase<TSelf, TSummable> : IStreak<TSelf> where TSummable : ISummable<TSelf>
     {
-        protected StreakBase(ISummable<TSelf> summable, TSelf zero)
+        protected StreakBase(TSummable summable, TSelf zero)
         {
             _summable = summable;
             

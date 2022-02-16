@@ -2,36 +2,36 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using ESparrow.Utils.Tools.Eases;
+using ESparrow.Utils.Tools.Eases.Interfaces;
+using ESparrow.Utils.Tools.Graduating;
+using ESparrow.Utils.Tools.Graduating.Interfaces;
 using UnityEngine;
 
 namespace ESparrow.Utils.Helpers
 {
     public static class CoroutinesHelper
     {
+        private static readonly IGradual Gradual = new Gradual();
+        
         /// <summary>
         /// Выполняет действие каждый кадр с заданными настройками с аргументом от 0 до 1.
         /// </summary>
-        public static IEnumerator Graduate
-        (
-            Action<float> action,
-            float duration,
-            bool reverse = false,
-            AnimationCurve curve = default
-        )
+        public static IEnumerator Graduate(IGradualSettings settings)
         {
-            for (float time = 0f; time < duration; time += Time.deltaTime)
-            {
-                float ratio = time / duration;
-                ratio = reverse ? 1f - ratio : ratio;
+            yield return Gradual.Graduate(settings);
+        }
 
-                float progress = curve == default ? ratio : curve.Evaluate(ratio);
+        public static IEnumerator Graduate(Action<float> action, float duration, IEase ease = null)
+        {
+            var settings = new GradualSettings(action, duration, ease);
+            return Graduate(settings);
+        }
 
-                action.Invoke(progress);
-
-                yield return null;
-            }
-
-            action.Invoke(curve == default ? reverse ? 0f : 1f : curve.Evaluate(reverse ? 0f : 1f));
+        public static IEnumerator Graduate(IReferencedEaseApplier applier, float duration, IEase ease = null)
+        {
+            var settings = new GradualSettings(applier.Evaluate, duration, ease);
+            return Graduate(settings);
         }
 
         public static IEnumerator ExecuteConsistently(IEnumerable<IEnumerator> coroutines, float cooldown = 0f)
@@ -80,9 +80,10 @@ namespace ESparrow.Utils.Helpers
             callback?.Invoke();
         }
 
-        public static IEnumerator Jump(Vector3 from, Vector3 to, Action<Vector3> action, float duration, float height, AnimationCurve curve = default)
+        public static IEnumerator Jump(Vector3 from, Vector3 to, Action<Vector3> action, float duration, float height, IEase ease)
         {
-            yield return Graduate(SetProgress, duration, false, curve);
+            var settings = new GradualSettings(SetProgress, duration, ease);
+            yield return Graduate(settings);
 
             void SetProgress(float progress)
             {

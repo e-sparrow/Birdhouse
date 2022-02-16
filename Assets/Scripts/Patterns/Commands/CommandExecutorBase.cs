@@ -11,7 +11,7 @@ namespace ESparrow.Utils.Patterns.Commands
         public event Action OnEmptyUndoStackInvoked = () => { };
         public event Action OnEmptyRedoStackInvoked = () => { };
 
-    private readonly Stack<TCommand> _undoStack = new Stack<TCommand>();
+        private readonly Stack<TCommand> _undoStack = new Stack<TCommand>();
         private readonly Stack<TCommand> _redoStack = new Stack<TCommand>();
 
         /// <summary>

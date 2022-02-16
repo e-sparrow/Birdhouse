@@ -1,9 +1,8 @@
 using ESparrow.Utils.Generalization.Interfaces;
-using UnityEngine;
 
 namespace ESparrow.Utils.Generalization.Interpolation.Interfaces
 {
-    public interface IInteropolatable<T> : IGeneralizationAdapter
+    public interface IInterpolatable<T> : IGeneralizationAdapter
     { 
         /// <summary>
         /// Interpolates between two values by progress variable.

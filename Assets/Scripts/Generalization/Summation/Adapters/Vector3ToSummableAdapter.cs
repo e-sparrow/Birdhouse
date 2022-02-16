@@ -13,12 +13,12 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
 
         public override ISummable<Vector3> Plus(Vector3 other)
         {
-            return new Vector3ToSummableAdapter(Value + other);;
+            return new Vector3ToSummableAdapter(Value + other);
         }
         
         public override ISummable<Vector3> Minus(Vector3 other)
         {
-            return new Vector3ToSummableAdapter(Value - other);;
+            return new Vector3ToSummableAdapter(Value - other);
         }
 
         public override EGeneralizationType GeneralizationType => EGeneralizationType.Vector3;

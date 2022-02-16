@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ESparrow.Utils.Exceptions;
 using UnityEngine;
 using Random = System.Random;
 
@@ -28,43 +29,47 @@ namespace ESparrow.Utils.Extensions
         /// <param name="weight">Method to get weights of elements</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
         /// <returns>Random element</returns>
-        /// <exception cref="Exception">Random double was more than sum of the weights</exception>
-        public static T GetWeighedRandom<T>(this IEnumerable<T> enumerable, Func<T, double> weight)
-        {
-            var array = enumerable.ToArray();
-            var sum = array.Sum(value => weight(value));
-            
-            double random = UnityEngine.Random.Range(0f, (float) sum);
-
-            foreach (var element in array)
+            /// <exception cref="Exception">Random double was more than sum of the weights</exception>
+            public static T GetWeighedRandom<T>(this IEnumerable<T> enumerable, Func<T, double> weight)
             {
-                random -= weight(element);
-                if (random <= 0)
-                {
-                    return element;
-                }
-            }
+                var array = enumerable.ToArray();
+                var sum = array.Sum(weight);
+                
+                double random = UnityEngine.Random.Range(0f, (float) sum);
 
-            throw new Exception();
-        }
+                foreach (var element in array)
+                {
+                    random -= weight(element);
+                    if (random <= 0)
+                    {
+                        return element;
+                    }
+                }
+
+                throw new WtfException();
+            }
 
         /// <summary>
         /// Gets specified count of not repeating random elements. 
         /// </summary>
         /// <param name="enumerable">Enumerable to get random elements</param>
         /// <param name="count">Count of random elements</param>
+        /// <param name="result">Enumerable of non repeating random elements</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
         /// <returns>Enumerable of elements</returns>
-        /// <exception cref="Exception"></exception>
-        public static IEnumerable<T> GetNonRepeatingRandom<T>(this IEnumerable<T> enumerable, int count)
+        public static bool TryGetNonRepeatingRandom<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> result)
         {
-            if (enumerable.CheckNonRepeating(count, out var distinct))
+            result = Enumerable.Empty<T>();
+            
+            if (enumerable.HasNonRepeating(count, out var distinct))
             {
                 distinct = distinct.Shuffle();
-                return distinct.Take(count);
+                result = distinct.Take(count);
+
+                return true;
             }
 
-            throw new Exception();
+            return false;
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace ESparrow.Utils.Extensions
         /// <exception cref="Exception"></exception>
         public static IEnumerable<T> GetNonRepeatingWeighedRandom<T>(this IEnumerable<T> enumerable, int count, Func<T, double> weight)
         {
-            if (enumerable.CheckNonRepeating(count, out var distinct))
+            if (enumerable.HasNonRepeating(count, out var distinct))
             {
                 var used = new List<T>();
                 for (int i = 0; i < count; i++)
@@ -183,7 +188,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Shuffled enumerable</returns>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable, Random random)
         {
-            return enumerable.OrderBy(value => random.Next());
+            return enumerable.OrderBy(_ => random.Next());
         }
 
         /// <summary>
@@ -191,18 +196,20 @@ namespace ESparrow.Utils.Extensions
         /// </summary>
         /// <param name="enumerable">Enumerable to get last elements</param>
         /// <param name="count">Count of elements to return</param>
+        /// <param name="result">Last elements of enumerable</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
-        /// <returns>Last elements of enumerable</returns>
-        public static IEnumerable<T> Last<T>(this IEnumerable<T> enumerable, int count)
+        /// <returns>True if count is correct and false otherwise</returns>
+        public static bool TryGetLast<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> result)
         {
-            if (enumerable.Count() > count)
+            result = Enumerable.Empty<T>();
+            
+            if (enumerable.Count() >= count)
             {
-                return enumerable.ToList().GetRange(enumerable.Count() - 1 - count, count);
+                result = enumerable.Reverse().Take(count);
+                return true;
             }
-            else
-            {
-                return enumerable;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -587,15 +594,31 @@ namespace ESparrow.Utils.Extensions
         /// </summary>
         /// <param name="enumerable">Enumerable for check</param>
         /// <param name="count">Count of not repeating elements</param>
+        /// <param name="distinctFunc">Function to distinct enumerable</param>
         /// <param name="distinct">Enumerable without same elements</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
         /// <returns>True if count of not repeating elements is more than specified count and false otherwise</returns>
-        private static bool CheckNonRepeating<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> distinct)
+        private static bool HasNonRepeating<T>(this IEnumerable<T> enumerable, int count, Func<IEnumerable<T>, IEnumerable<T>> distinctFunc, out IEnumerable<T> distinct)
         {
-            distinct = enumerable.Distinct();
+            distinct = distinctFunc.Invoke(enumerable);
 
-            var isCorrect = !(count > enumerable.Count() || count > distinct.Count());
+            if (count > enumerable.Count()) return false;
+
+            var isCorrect = count >= distinct.Count();
             return isCorrect;
+        }
+
+        /// <summary>
+        /// Checks for count of not repeating elements.
+        /// </summary>
+        /// <param name="enumerable">Enumerable for check</param>
+        /// <param name="count">Count of not repeating elements</param>
+        /// <param name="distinct">Enumerable without same elements</param>
+        /// <typeparam name="T">Type of elements in enumerable</typeparam>
+        /// <returns>True if count of not repeating elements is more than specified count and false otherwise</returns>
+        private static bool HasNonRepeating<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> distinct)
+        {
+            return HasNonRepeating(enumerable, count, Enumerable.Distinct, out distinct);
         }
     }
 }

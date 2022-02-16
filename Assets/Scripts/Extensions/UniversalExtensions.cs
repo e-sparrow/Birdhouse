@@ -43,7 +43,7 @@ namespace ESparrow.Utils.Extensions
             return func.Invoke(self);
         }
 
-        public static T Modify<T>(this T self, Action<T> action)
+        public static T InvokeBySelf<T>(this T self, Action<T> action)
         {
             action.Invoke(self);
             return self;

@@ -12,12 +12,12 @@ namespace ESparrow.Utils.Generalization.Summation.Adapters
 
         public override ISummable<double> Plus(double other)
         {
-            return new DoubleToSummableAdapter(Value + other);;
+            return new DoubleToSummableAdapter(Value + other);
         }
         
         public override ISummable<double> Minus(double other)
         {
-            return new DoubleToSummableAdapter(Value - other);;
+            return new DoubleToSummableAdapter(Value - other);
         }
 
         public override EGeneralizationType GeneralizationType => EGeneralizationType.Double;

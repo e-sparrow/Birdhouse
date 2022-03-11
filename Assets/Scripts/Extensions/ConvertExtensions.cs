@@ -5,6 +5,18 @@ namespace ESparrow.Utils.Extensions
 {
     public static class ConvertExtensions
     {
+        public static bool TryCast<TFrom, TTo>(this TFrom self, out TTo result)
+        {
+            if (self is TTo to)
+            {
+                result = to;
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+        
         /// <summary>
         /// Converts decimal to double.
         /// </summary>

@@ -1,22 +1,24 @@
-using System.Linq;
-using System.Collections.Generic;
-using ESparrow.Utils.Drawers.Interfaces;
 using UnityEngine;
-using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Mathematics.Ways;
 
 namespace ESparrow.Utils.Drawers
 {
     public class GizmosDrawer : DrawerBase
     {
-        public GizmosDrawer(Color color)
+        public GizmosDrawer(int steps) : base(steps)
         {
-            Gizmos.color = color;
+            
         }
 
-        public override void DrawLine(Line line)
+        protected override void DrawLine(StraightLine<Vector3> line, int steps)
         {
-            Gizmos.DrawLine(line.Start, line.End);
+            for (int i = 0; i < steps; i++)
+            {
+                var from = (float) i / steps;
+                var to = (float) (i + 1) / steps;
+                
+                Gizmos.DrawLine(line.Evaluate(from), line.Evaluate(to));
+            }
         }
     }
 }

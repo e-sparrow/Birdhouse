@@ -1,11 +1,10 @@
 ﻿using ESparrow.Utils.Mathematics.Ways;
+using UnityEngine;
 
 namespace ESparrow.Utils.Drawers.Interfaces
 {
     public interface IDrawer
     {
-        void Draw(IDrawable drawable);
-
-        void DrawLine(Line line);
+        void DrawLine(StraightLine<Vector3> line);
     }
 }

@@ -72,5 +72,27 @@ namespace ESparrow.Utils.Extensions
                 new Vector2(rect.xMax, rect.yMin)
             };
         }
+
+        /// <summary>
+        /// Moves rect position to target position.
+        /// </summary>
+        /// <param name="rect">Target rect</param>
+        /// <param name="position">Target position</param>
+        /// <returns>Moved rect</returns>
+        public static Rect MoveTo(this Rect rect, Vector2 position)
+        {
+            return new Rect(position, rect.size);
+        }
+
+        /// <summary>
+        /// Moves rect position by specified delta.
+        /// </summary>
+        /// <param name="rect">Target rect</param>
+        /// <param name="delta">Delta to move relatively current position</param>
+        /// <returns>Moved rect</returns>
+        public static Rect MoveBy(this Rect rect, Vector2 delta)
+        {
+            return rect.MoveTo(rect.position + delta);
+        }
     }
 }

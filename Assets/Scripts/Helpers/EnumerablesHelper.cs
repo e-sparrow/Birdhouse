@@ -29,15 +29,34 @@ namespace ESparrow.Utils.Helpers
             return list.AsEnumerable();
         }
 
-        public static IEnumerable<T> Append<T>(params IEnumerable<T>[] collections)
+        /// <summary>
+        /// Gets the result of repeating of specific function for specific times.
+        /// </summary>
+        /// <param name="func">Specific function to repeat with argument from 0 to count</param>
+        /// <param name="count">Count to repeat</param>
+        /// <typeparam name="T">Type of function's result</typeparam>
+        /// <returns>Enumerable with the result of repeating</returns>
+        public static IEnumerable<T> RepeatWithResult<T>(Func<int, T> func, int count)
         {
-            var list = new List<IEnumerable<T>>();
-            foreach (var collection in collections)
+            var list = new List<T>();
+            for (int i = 0; i < count; i++)
             {
-                list.Add(collection);
+                list.Add(func.Invoke(i));
             }
 
-            return list.SelectMany(value => value).AsEnumerable();
+            return list;
+        }
+
+        /// <summary>
+        /// Gets the result of repeating of specific function for specific times.
+        /// </summary>
+        /// <param name="func">Specific function to repeat</param>
+        /// <param name="count">Count to repeat</param>
+        /// <typeparam name="T">Type of function's result</typeparam>
+        /// <returns>Enumerable with the result of repeating</returns>
+        public static IEnumerable<T> RepeatWithResult<T>(Func<T> func, int count)
+        {
+            return RepeatWithResult(_ => func.Invoke(), count);
         }
     }
 }

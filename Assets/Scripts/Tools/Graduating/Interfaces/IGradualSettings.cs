@@ -1,5 +1,5 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Eases.Interfaces;
+using ESparrow.Utils.Tools.Easing.Interfaces;
 
 namespace ESparrow.Utils.Tools.Graduating.Interfaces
 {

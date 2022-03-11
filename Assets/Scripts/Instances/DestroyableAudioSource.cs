@@ -4,6 +4,8 @@ using UnityEngine;
 using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Instances.Interfaces;
+using ESparrow.Utils.Tools.Easing;
+using ESparrow.Utils.Tools.Graduating;
 
 namespace ESparrow.Utils.Instances
 {
@@ -17,30 +19,22 @@ namespace ESparrow.Utils.Instances
     {
         public event Action OnSoundEnded = () => { };
 
-        // Кривая Безье для нелинейного уменьшения (или увеличения) звука.
         public AnimationCurve VolumeCurve
         {
             get;
             set;
         }
 
-        // Имя звука, задаваемое сервисом звуков, который и будет к нему обращаться, находя в списке.
         public string Name
         {
             get;
             set;
         }
 
-        // Оставшееся время проигрывания.
         private float _durationLeft;
 
-        // Компонент, воспроизводящий звук.
         private AudioSource _source;
 
-        /// <summary>
-        /// Инициализация класса для воспроизведения один раз. 
-        /// Задаётся нужный звук, воспроизводится и, по окончанию, самоуничтожается.
-        /// </summary>
         public void Init(string name, AudioClip clip)
         {
             Name = name;
@@ -107,8 +101,11 @@ namespace ESparrow.Utils.Instances
         {
             _source.Play();
 
+            var ease = new Ease(VolumeCurve);
+            var settings = new GradualSettings(SetProgress, TimeSpan.FromSeconds(_durationLeft), ease);
+            
             StopAllCoroutines();
-            await CoroutinesHelper.Graduate(SetProgress, _durationLeft, false, VolumeCurve).StartAsync();
+            await CoroutinesHelper.Graduate(settings).StartAsync();
 
             Stop();
 

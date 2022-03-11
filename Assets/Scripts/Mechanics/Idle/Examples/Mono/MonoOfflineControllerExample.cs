@@ -30,7 +30,7 @@ namespace ESparrow.Utils.Mechanics.Idle.Examples.Mono
 
             _timeManager = new TimeManager();
             _idleController = new IdleController();
-            _offlineController = new OfflineController(_timeManager, _idleController, _serializationController);
+            _offlineController = new OfflineController(_timeManager, _idleController);  
         }
 
         private void Start()

@@ -1,6 +1,7 @@
 ﻿using ESparrow.Utils.Drawers.Interfaces;
 using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Mathematics.Ways;
+using ESparrow.Utils.Tools.Interpolation.Adapters;
 using UnityEngine;
 
 namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
@@ -16,10 +17,12 @@ namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
         {
             var corners = Self.GetCorners();
 
-            drawer.DrawLine(new Line(corners[0], corners[1]));
-            drawer.DrawLine(new Line(corners[1], corners[2]));
-            drawer.DrawLine(new Line(corners[2], corners[3]));
-            drawer.DrawLine(new Line(corners[3], corners[0]));
+            var interpolator = new Vector3ToInterpolatorAdapter();
+
+            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[0], corners[1]));
+            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[1], corners[2]));
+            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[2], corners[3]));
+            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[3], corners[0]));
         }
     }
 }

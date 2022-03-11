@@ -5,6 +5,20 @@ namespace ESparrow.Utils.Instructions
 {
     public abstract class InstructionExecutorBase : IInstructionExecutor
     {
+        /// <summary>
+        /// Checks instruction and executes it if it's valid.
+        /// </summary>
+        /// <param name="instruction">Instruction to check</param>
+        /// <returns>True if instruction is executed and false otherwise</returns>
+        protected abstract bool CheckInstruction(IInstruction instruction);
+        /// <summary>
+        /// Checks last instruction in the queue and executes it if it's valid.
+        /// </summary>
+        /// <param name="queue">Queue to check</param>
+        /// <param name="last">Is this instruction was last in the queue</param>
+        /// <returns>True if instruction is executed and false otherwise</returns>
+        protected abstract bool CheckInstructionQueue(IInstructionQueue queue, out bool last);
+        
         public void Check(IInstructionStorage storage)
         {
             var incomingInstructions = new List<IInstruction>(storage.Instructions);
@@ -12,8 +26,7 @@ namespace ESparrow.Utils.Instructions
             {
                 if (CheckInstruction(instruction))
                 {
-                    if (!instruction.SelfDestroy) continue;
-                    instruction.OnDestroy.Invoke();;
+                    instruction.Destroy();
                 }
             }
 
@@ -29,19 +42,5 @@ namespace ESparrow.Utils.Instructions
                 }
             }
         }
-        
-        /// <summary>
-        /// Checks instruction and executes it if it's valid.
-        /// </summary>
-        /// <param name="instruction">Instruction to check</param>
-        /// <returns>True if instruction is executed and false otherwise</returns>
-        protected abstract bool CheckInstruction(IInstruction instruction);
-        /// <summary>
-        /// Checks last instruction in the queue and executes it if it's valid.
-        /// </summary>
-        /// <param name="queue">Queue to check</param>
-        /// <param name="last">Is this instruction was last in the queue</param>
-        /// <returns>True if instruction is executed and false otherwise</returns>
-        protected abstract bool CheckInstructionQueue(IInstructionQueue queue, out bool last);
     }
 }

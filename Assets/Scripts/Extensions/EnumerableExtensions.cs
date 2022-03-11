@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -583,10 +584,35 @@ namespace ESparrow.Utils.Extensions
         public static bool Any<T>(this IEnumerable<T> self, Func<T, bool> predicate, out IEnumerable<T> areMatch)
         {
             areMatch = default;
+            
             if (!self.Any(predicate)) return false;
 
             areMatch = self.Where(predicate);
             return true;
+        }
+
+        /// <summary>
+        /// Selects all elements of the enumerable as theirs base class
+        /// </summary>
+        /// <param name="self">Enumerable to select</param>
+        /// <typeparam name="TInheritor">Inheritor type</typeparam>
+        /// <typeparam name="TBase">Base type of inheritor</typeparam>
+        /// <returns>New enumerable with base type values</returns>
+        public static IEnumerable<TBase> SelectBase<TInheritor, TBase>(this IEnumerable<TInheritor> self) where TInheritor : TBase
+        {
+            return self.Select(value => value.Base<TInheritor, TBase>());
+        }
+
+        /// <summary>
+        /// Selects all elements of the enumerable as theirs specific inheritor class
+        /// </summary>
+        /// <param name="self">Enumerable to select</param>
+        /// <typeparam name="TBase">Base type of inheritor</typeparam>
+        /// <typeparam name="TInheritor">Specific inheritor type</typeparam>
+        /// <returns>New enumerable with inheritor type values</returns>
+        public static IEnumerable<TInheritor> SelectInheritor<TBase, TInheritor>(this IEnumerable<TBase> self) where TInheritor : TBase
+        {
+            return self.Select(value => value.Inheritor<TBase, TInheritor>());
         }
 
         /// <summary>

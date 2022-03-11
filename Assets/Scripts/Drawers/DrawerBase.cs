@@ -1,15 +1,24 @@
-﻿using ESparrow.Utils.Drawers.Interfaces;
-using ESparrow.Utils.Mathematics.Ways;
+﻿using ESparrow.Utils.Mathematics.Ways;
+using UnityEditor.U2D.Path;
+using UnityEngine;
+using IDrawer = ESparrow.Utils.Drawers.Interfaces.IDrawer;
 
 namespace ESparrow.Utils.Drawers
 {
     public abstract class DrawerBase : IDrawer
     {
-        public abstract void DrawLine(Line line);
-
-        public void Draw(IDrawable drawable)
+        protected DrawerBase(int steps)
         {
-            drawable.Draw(this);
+            _steps = steps;
+        }
+
+        private readonly int _steps;
+
+        protected abstract void DrawLine(StraightLine<Vector3> line, int steps);
+ 
+        public void DrawLine(StraightLine<Vector3> line)
+        {
+            DrawLine(line, _steps);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ESparrow.Utils.Helpers
 {
@@ -28,6 +29,16 @@ namespace ESparrow.Utils.Helpers
         public static T GetByIndex(int index)
         {
             return (T) Enum.GetValues(typeof(T)).GetValue(index);
+        }
+
+        public static T GetByName(string name)
+        {
+            return Find(value => value.ToString() == name);
+        }
+
+        public static T Find(Predicate<T> predicate)
+        {
+            return AsEnumerable().FirstOrDefault(predicate.Invoke);
         }
 
         public static void ForEach(Action<T> action)

@@ -35,7 +35,7 @@ namespace ESparrow.Utils.Conversion.Specific
                 case 8:
                     var alpha = Parse(value.Substring(6, 2), NumberStyles.HexNumber);
                     return GetColor().SetAlpha(alpha);
-                }
+            }
 
             throw new Exception("Hexadecimal code assuming length equals 6 or 8");
 

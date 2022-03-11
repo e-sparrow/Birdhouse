@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ESparrow.Utils.Generic;
-using ESparrow.Utils.Tools.Eases;
-using ESparrow.Utils.Tools.Eases.Interfaces;
+using ESparrow.Utils.Generic.Vectors;
+using ESparrow.Utils.Tools.Easing;
+using ESparrow.Utils.Tools.Easing.Interfaces;
 using ESparrow.Utils.Tools.Graduating;
 using ESparrow.Utils.Tools.Graduating.Interfaces;
 
@@ -72,7 +72,7 @@ namespace ESparrow.Utils.Helpers
         /// <typeparam name="T">Type of subject</typeparam>
         public static async Task WaitForChange<T>(T subject)
         {
-            var original = Clone<T>.CreateClone(subject);
+            var original = CloneHelper<T>.CreateClone(subject);
             await WaitWhile(() => original.Equals(subject));
         }
     }

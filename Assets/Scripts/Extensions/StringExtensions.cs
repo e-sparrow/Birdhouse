@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Text.RegularExpressions;
+using ESparrow.Utils.Helpers;
+using UnityEngine;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -46,6 +48,19 @@ namespace ESparrow.Utils.Extensions
         public static string Sized(this string text, int size)
         {
             return $"<size={size}>{text}</size>";
+        }
+
+        /// <summary>
+        /// Cleanses string from multiple spaces ("  ", f.e.)
+        /// </summary>
+        /// <param name="self">Dirty string</param>
+        /// <returns>Clean string</returns>
+        public static string ClearMultipleSpaces(this string self)
+        {
+            var regex = RegexHelper.CreateMultipleSpacesRegex();
+            
+            var clearString = regex.Replace(self, StringConstants.Space);
+            return clearString;
         }
     }
 }

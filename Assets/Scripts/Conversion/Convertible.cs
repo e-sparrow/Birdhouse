@@ -1,4 +1,6 @@
-﻿namespace ESparrow.Utils.Conversion
+﻿using ESparrow.Utils.Conversion;
+
+namespace ESparrow.Utils.Conversion
 {
     public class Convertible<TFrom, TTo> : ConvertibleBase<TFrom, TTo>
     {

@@ -15,7 +15,7 @@ namespace ESparrow.Utils.Collections.Generic
     {
         public Matrix()
         {
-
+        
         }
 
         protected override T[] Array => List.Select(value => value.value).ToArray();

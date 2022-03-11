@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using ESparrow.Utils.Instructions.Interfaces;
-using ESparrow.Utils.Instructions.Kinds;
 
 namespace ESparrow.Utils.Instructions
 {
@@ -32,8 +31,8 @@ namespace ESparrow.Utils.Instructions
             
             if (!executed) return false;
             
-            _instructions.Last().OnDestroy.Invoke();
-            Skip(1);
+            _instructions.Last().Destroy();
+            Skip(1);    
                     
             last = _instructions.Count == 0;
 

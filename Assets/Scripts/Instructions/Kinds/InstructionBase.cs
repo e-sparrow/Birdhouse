@@ -8,52 +8,33 @@ namespace ESparrow.Utils.Instructions.Kinds
 {
     public abstract class InstructionBase : IInstruction
     {
-        protected virtual Action Action
+        protected InstructionBase(Action action, Action onDestroy = default)
         {
-            get;
-            private set;
+            _action = action;
+            
+            onDestroy ??= () => { };
+            _onDestroy = onDestroy;
         }
 
-        protected abstract Func<bool> Condition
-        {
-            get;
-        }
+        private readonly Action _action;
+        private readonly Action _onDestroy;
 
-        public Action OnDestroy
-        {
-            get;
-            private set;
-        }
+        protected abstract bool Check();
 
-        public bool SelfDestroy
+        public bool TryExecute()
         {
-            get;
-        } = false;
-
-        public InstructionBase(Action action, bool selfDestroy = false, Action onDestroy = default)
-        {
-            Action = action;
-            SelfDestroy = selfDestroy;
-            OnDestroy = onDestroy;
-        }
-
-        public async Task Wait(CancellationToken token = new CancellationToken())
-        {
-            var executed = false;
-            Action += () => executed = true;
-
-            await AsyncHelper.WaitUntil(() => executed, token);
-        }
-
-        public virtual bool TryExecute()
-        {
-            if (Condition.Invoke())
+            if (Check())
             {
-                Action.Invoke();
+                _action.Invoke();
                 return true;
             }
 
             return false;
+        }
+
+        public void Destroy()
+        {
+            _onDestroy.Invoke();
         }
     }
 }

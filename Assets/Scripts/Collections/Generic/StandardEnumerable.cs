@@ -43,8 +43,8 @@ namespace ESparrow.Utils.Collections.Generic
                     _current++;
                     return true;
                 }
-                else
-                    return false;
+
+                return false;
             }
 
             void IEnumerator.Reset()

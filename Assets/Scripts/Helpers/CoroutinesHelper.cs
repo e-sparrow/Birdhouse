@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using ESparrow.Utils.Tools.Eases;
-using ESparrow.Utils.Tools.Eases.Interfaces;
+using ESparrow.Utils.Collections.Generic;
+using ESparrow.Utils.Tools.Easing;
+using ESparrow.Utils.Tools.Easing.Interfaces;
 using ESparrow.Utils.Tools.Graduating;
 using ESparrow.Utils.Tools.Graduating.Interfaces;
 using UnityEngine;
@@ -25,12 +26,6 @@ namespace ESparrow.Utils.Helpers
         public static IEnumerator Graduate(Action<float> action, float duration, IEase ease = null)
         {
             var settings = new GradualSettings(action, duration, ease);
-            return Graduate(settings);
-        }
-
-        public static IEnumerator Graduate(IReferencedEaseApplier applier, float duration, IEase ease = null)
-        {
-            var settings = new GradualSettings(applier.Evaluate, duration, ease);
             return Graduate(settings);
         }
 

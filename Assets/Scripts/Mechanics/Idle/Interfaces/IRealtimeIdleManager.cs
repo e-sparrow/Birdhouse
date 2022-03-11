@@ -7,5 +7,7 @@ namespace ESparrow.Utils.Mechanics.Idle.Interfaces
     {
         void Register(IIdleController controller);
         void Unregister(IIdleController controller);
+
+        void Check();
     }
 }

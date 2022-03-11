@@ -8,6 +8,6 @@ namespace ESparrow.Utils.Managers
     [AddComponentMenu("ESparrow/Utils/Managers/GlobalManager")]
     public class GlobalManager : UnitySingleton<GlobalManager>
     {
-
+        
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
 {
-    public class LineToDrawableAdapter : ToDrawableAdapterBase<Line>
+    public class LineToDrawableAdapter : ToDrawableAdapterBase<StraightLine<Vector3>>
     {
-        public LineToDrawableAdapter(Line self) : base(self)
+        public LineToDrawableAdapter(StraightLine<Vector3> self) : base(self)
         {
             
         }

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Reflection;
 using ESparrow.Utils.Generalization.Errors.Interfaces;
 using ESparrow.Utils.Generalization.Interfaces;
-using ESparrow.Utils.Generalization.Interpolation.Interfaces;
+using ESparrow.Utils.Tools.Interpolation.Interfaces;
 using ESparrow.Utils.Generalization.Multiplying.Interfaces;
 using ESparrow.Utils.Generalization.Summation.Interfaces;
 using ESparrow.Utils.Generalization.Types.Enums;
+using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Tools;
+using ESparrow.Utils.Generic.References;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -17,11 +19,6 @@ namespace ESparrow.Utils.Extensions
         public static IErroneous<T> AsErroneous<T>(this T self)
         {
             return self.FindGeneralizationAdapter<T, IErroneous<T>>();
-        }
-
-        public static IInterpolatable<T> AsInterpolatable<T>(this Reference<T> self)
-        {
-            return self.FindGeneralizationAdapter<Reference<T>, IInterpolatable<T>>();
         }
 
         public static IMultipliable<T> AsMultipliable<T>(this T self)
@@ -43,7 +40,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>TTo value from TFrom value</returns>
         public static TAdapter FindGeneralizationAdapter<TFrom, TAdapter>(this TFrom self) where TAdapter : IGeneralizationAdapter
         {
-            bool isGeneralizationType = self.IsGeneralizationType();
+            bool isGeneralizationType = GeneralizationHelper.IsGeneralizationType(self);
             if (!isGeneralizationType && !IsConstructorArgument()) return default;
 
             var subclasses = typeof(TAdapter).GetSubclasses();
@@ -60,7 +57,7 @@ namespace ESparrow.Utils.Extensions
             }
             else
             {
-                ParameterInfo[] argument = GetTargetConstructor().GetParameters();
+                var argument = GetTargetConstructor().GetParameters();
                 return (TAdapter) Activator.CreateInstance(targetType, argument);
             }
             
@@ -84,42 +81,5 @@ namespace ESparrow.Utils.Extensions
                 return self.GetType() == value;
             }
         }
-
-        private static Dictionary<EGeneralizationType, Type> GetGeneralizationTypes()
-        {
-            var types = typeof(IGeneralizationType).GetSubclasses();
-
-            var list = new List<IGeneralizationType>();
-            foreach (var type in types)
-            {
-                var instance = GetInstanceByType(type);
-                list.Add(instance);
-            }
-
-            var dictionary = new Dictionary<EGeneralizationType, Type>();
-            foreach (var element in list)
-            {
-                dictionary.Add(element.GeneralizationType, element.Type);
-            }
-
-            return dictionary;
-            
-            IGeneralizationType GetInstanceByType(Type type)
-            {
-                return Activator.CreateInstance(type) as IGeneralizationType;
-            }
-        }
-
-        private static bool IsGeneralizationType<T>(this T self)
-        {
-            return self.GetType().IsGeneralizationType();
-        }
-
-        private static bool IsGeneralizationType(this Type self)
-        {
-            return GetGeneralizationTypes().ContainsValue(self);
-        }
-
-        private static Dictionary<EGeneralizationType, Type> GeneralizationTypes => GetGeneralizationTypes();
     }
 }

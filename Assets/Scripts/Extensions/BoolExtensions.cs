@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ESparrow.Utils.Extensions
 {
     public static class BoolExtensions

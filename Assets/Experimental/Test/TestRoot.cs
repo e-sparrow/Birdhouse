@@ -10,7 +10,9 @@ namespace ESparrow.Utils.Experimental
 {
     public class TestRoot : MonoBehaviour
     {
-        [SerializeField] private ConversionTestModule conversionTestModule;
+        // [SerializeField] private ConversionTestModule conversionTestModule;
+
+        [SerializeField] private MemoizationTestModule memoizationTestModule;
         
         [SerializeField] private bool drawTestGizmos;
 
@@ -22,6 +24,12 @@ namespace ESparrow.Utils.Experimental
             var operatorTest = new OperatorTest();
             var type = operatorTest.GetType();
             var infos =  ReflectionHelper.OperatorHelper.GetAllOperatorInfos(type);
+        }
+
+        [ContextMenu("Test Memoization")]
+        private void TestMemoization()
+        {
+            memoizationTestModule.Test();
         }
 
         private void OnDrawGizmos()

@@ -30,25 +30,26 @@ namespace ESparrow.Utils.Extensions
         /// <param name="weight">Method to get weights of elements</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
         /// <returns>Random element</returns>
-            /// <exception cref="Exception">Random double was more than sum of the weights</exception>
-            public static T GetWeighedRandom<T>(this IEnumerable<T> enumerable, Func<T, double> weight)
+        /// <exception cref="Exception">Random double was more than sum of the weights</exception>
+        public static T GetWeighedRandom<T>(this IEnumerable<T> enumerable, Func<T, double> weight)
+        {
+            var array = enumerable.ToArray();
+            var sum = array.Sum(weight);
+
+            double random = UnityEngine.Random.Range(0f, (float) sum);
+
+            foreach (var element in array)
             {
-                var array = enumerable.ToArray();
-                var sum = array.Sum(weight);
-                
-                double random = UnityEngine.Random.Range(0f, (float) sum);
+                random -= weight(element);
 
-                foreach (var element in array)
+                if (random <= 0)
                 {
-                    random -= weight(element);
-                    if (random <= 0)
-                    {
-                        return element;
-                    }
+                    return element;
                 }
-
-                throw new WtfException();
             }
+
+            throw new WtfException("Algorithm error in GetWeighedRandom method", typeof(EnumerableExtensions));
+        }
 
         /// <summary>
         /// Gets specified count of not repeating random elements. 

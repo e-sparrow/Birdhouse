@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef95049abd9c4c09907725bcac10de32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  memoizationTestModule:
+    number: 999
+  drawTestGizmos: 0
 --- !u!4 &10098495
 Transform:
   m_ObjectHideFlags: 0

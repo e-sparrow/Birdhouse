@@ -5,12 +5,12 @@ using UnityEngine;
 namespace ESparrow.Utils.Generic.Pairs
 {
     [Serializable]
-    public struct SerializablePair<T1, T2> : IPair<T1, T2>
+    public struct SerializablePair<TKey, TValue> : IPair<TKey, TValue>
     {
-        [SerializeField] private T1 key;
-        [SerializeField] private T2 value;
+        [SerializeField] private TKey key;
+        [SerializeField] private TValue value;
 
-        public T1 Key => key;
-        public T2 Value => value;
+        public TKey Key => key;
+        public TValue Value => value;
     }
 }

@@ -18,15 +18,15 @@ namespace ESparrow.Utils.Reflection.Operators
             var method = type.GetMethod($"op_{UnaryOperatorType.ToString()}");
             
             if (method == null)
-                throw new WtfException("Operator doesn't exist");
+                throw new WtfException("Operator doesn't exist", this);
             
             var result = method.Invoke(subject, null);
             
             if (result == null)
-                throw new WtfException("Return type is void");
+                throw new WtfException("Return type is void", this);
             
             if (result.GetType() != ReturnType)
-                throw new WtfException("Wrong return type invocation");
+                throw new WtfException("Wrong return type invocation", this);
             
             return result;
         }

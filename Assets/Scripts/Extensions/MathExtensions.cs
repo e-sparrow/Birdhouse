@@ -1,4 +1,5 @@
 using System;
+using ESparrow.Utils.Helpers;
 using UnityEngine;
 
 namespace ESparrow.Utils.Extensions
@@ -165,6 +166,11 @@ namespace ESparrow.Utils.Extensions
             }
 
             return self;
+        }
+
+        public static int Factorial(this int self)
+        {
+            return MathHelper.Factorial(self);
         }
     }
 }

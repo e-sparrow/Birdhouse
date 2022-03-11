@@ -1,12 +1,17 @@
-﻿namespace ESparrow.Utils.Optimization.Memoization.Interfaces
+﻿using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
+
+namespace ESparrow.Utils.Optimization.Memoization.Interfaces
 {
-    public interface IMemoizationElement<TValue>
+    public interface IMemoizationElement<out TValue>
     {
         TValue Value
         {
             get;
         }
-        
-        Exp
+
+        ITerm Term
+        {
+            get;
+        }
     }
 }

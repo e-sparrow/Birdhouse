@@ -16,7 +16,7 @@ namespace ESparrow.Utils.Reflection.Operators
         {
             get;
         }
-
+        
         public Type ReturnType
         {
             get;

@@ -13,23 +13,23 @@ namespace ESparrow.Utils.Patterns.Observer
             
         }
 
-        public override bool TrySubscribeToMember(string name)
+        protected override bool TrySubscribeToMember(Observer<T> observer, string name)
         {
-            if (!Observer.TryCreateMemberObserver(name, out var observer)) return false;
+            if (!observer.TryCreateMemberObserver(name, out var memberObserver)) return false;
             
-            observer.OnMemberChanged += OnMemberChanged;
+            memberObserver.OnMemberChanged += OnMemberChanged;
 
             return true;
 
             void OnMemberChanged(object oldValue, object newValue)
             {
-                Apply(observer.Mutable, newValue);
+                Apply(memberObserver.Mutable, newValue);
             }
         }
 
-        public override void UnsubscribeFromMember(string name)
+        protected override void UnsubscribeFromMember(Observer<T> observer, string name)
         {
-            Observer.RemoveMemberObserver(Observer.GetObserverByName(name));
+            observer.RemoveMemberObserver(observer.GetObserverByName(name));
         }
     }
 }

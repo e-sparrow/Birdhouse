@@ -9,19 +9,14 @@ namespace ESparrow.Utils.Reflection.MutableMembers.Adapters
             
         }
         
-        public override void SetValue(object subject, object value)
+        protected override void SetValue(PropertyInfo mutable, object subject, object value)
         {
-            FieldInfo.SetValue(subject, value);
+            mutable.SetValue(subject, value);
         }
 
-        public override object GetValue(object subject)
+        protected override object GetValue(PropertyInfo mutable, object subject)
         {
-            return FieldInfo.GetValue(subject);
-        }
-
-        protected override bool IsValidMutable(PropertyInfo mutable)
-        {
-            return MutableValidator.IsValidProperty(mutable);
+            return mutable.GetValue(subject);
         }
     }
 }

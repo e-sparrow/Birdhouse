@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Patterns.Singleton.Mono;
 
 namespace ESparrow.Utils.Patterns.Singleton.Examples
 {
-    public class SingletonExample : UnitySingleton<SingletonExample>
+    public class SingletonExample : MonoSingleton<SingletonExample>
     {
         private void Start()    
         {

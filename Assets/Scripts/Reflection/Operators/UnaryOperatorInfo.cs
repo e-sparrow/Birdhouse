@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using ESparrow.Utils.Exceptions;
+using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Reflection.Operators.Enums;
 using ESparrow.Utils.Reflection.Operators.Interfaces;
 
@@ -20,7 +22,7 @@ namespace ESparrow.Utils.Reflection.Operators
             if (method == null)
                 throw new WtfException("Operator doesn't exist", this);
             
-            var result = method.Invoke(subject, null);
+            var result = method.Invoke(subject, subject.AsSingleEnumerable().ToArray());
             
             if (result == null)
                 throw new WtfException("Return type is void", this);

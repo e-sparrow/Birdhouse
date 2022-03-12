@@ -3,33 +3,32 @@ using ESparrow.Utils.Reflection.MutableMembers.Interfaces;
 
 namespace ESparrow.Utils.Reflection.MutableMembers.Adapters
 {
-    public abstract class ToMutableAdapterBase<TMutable> : IMutable
+    public abstract class ToMutableAdapterBase<T> : IMutable
     {
-        protected ToMutableAdapterBase(TMutable fieldInfo, string name)
+        protected ToMutableAdapterBase(T mutable, string name)
         {
-            Validate(fieldInfo);
-            
-            FieldInfo = fieldInfo;
-            _name = name;
+            _mutable = mutable;
+            Name = name;
         }
 
-        protected readonly TMutable FieldInfo;
-        
-        private readonly string _name;
+        private readonly T _mutable;
 
-        public abstract void SetValue(object subject, object value);
-        public abstract object GetValue(object subject);
+        protected abstract void SetValue(T mutable, object subject, object value);
+        protected abstract object GetValue(T mutable, object subject);
 
-        protected abstract bool IsValidMutable(TMutable mutable);
-
-        private void Validate(TMutable mutable)
+        public void SetValue(object subject, object value)
         {
-            if (IsValidMutable(mutable)) return;
-            
-            const string message = "This mutable is not valid!";
-            throw new ArgumentException(message, nameof(mutable));
+            SetValue(_mutable, subject, value);
         }
 
-        public string Name => _name;
+        public object GetValue(object subject)
+        {
+            return GetValue(_mutable, subject);
+        }
+
+        public string Name
+        {
+            get;
+        }
     }
 }

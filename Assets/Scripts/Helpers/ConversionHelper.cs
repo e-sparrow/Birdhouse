@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ESparrow.Utils.Conversion;
+using ESparrow.Utils.Conversion.Adapters;
 using ESparrow.Utils.Conversion.Enums;
 using ESparrow.Utils.Conversion.Interfaces;
 using ESparrow.Utils.Reflection.Operators;
@@ -18,17 +20,17 @@ namespace ESparrow.Utils.Helpers
 
         private static readonly Lazy<List<ITypedConversion>> Conversions = new Lazy<List<ITypedConversion>>(InitializeConversions);
 
-        public static bool TryConvert<TFrom, TTo>(TFrom self, out TTo result)
+        public static bool TryConvert<TFrom, TTo>(TFrom self, out TTo result, EConversionType conversionType = EConversionType.All)
         {
             var originalType = typeof(TFrom);
             var finalType = typeof(TTo);
             
-            if (HasConversion(originalType, finalType))
+            if (conversionType.HasFlag(EConversionType.Marked) && HasConversion(originalType, finalType))
             {
                 result = (TTo) FindConversion(originalType, finalType).Convert(self);
                 return true;
             }
-            else if (TryGenerateConversion(originalType, finalType, EConversionType.All, out var conversion))
+            else if (TryGenerateConversion(originalType, finalType, conversionType, out var conversion))
             {
                 result = (TTo) conversion.Convert(self);
                 return true;
@@ -38,51 +40,112 @@ namespace ESparrow.Utils.Helpers
             return false;
         }
 
-        public static bool TryGenerateConversion(Type original, Type final, EConversionType conversionType, out ITypedConversion result)
+        private static bool TryGenerateConversion(Type original, Type final, EConversionType conversionType, out ITypedConversion result)
         {
             result = default;
 
             if (conversionType.HasFlag(EConversionType.ExplicitOperator))
             {
-                if (TryGenerateConversionFromOperator(original, final, EUnaryOperatorType.Explicit, out var operatorInfo))
+                if (TryGetSuitableOperator(original, final, EUnaryOperatorType.Explicit, out var operatorInfo))
                 {
-                    result = new TypedConversion(new TypedConversionInfo(original, final, operatorInfo.Invoke));
+                    result = new UnaryOperatorToTypedConversionAdapter(original, operatorInfo);
                     return true;
                 }
             }
             else if (conversionType.HasFlag(EConversionType.ImplicitOperator))
             {
-                if (TryGenerateConversionFromOperator(original, final, EUnaryOperatorType.Implicit, out var operatorInfo))
+                if (TryGetSuitableOperator(original, final, EUnaryOperatorType.Implicit, out var operatorInfo))
                 {
-                    result = new TypedConversion(new TypedConversionInfo(original, final, operatorInfo.Invoke));
+                    result = new UnaryOperatorToTypedConversionAdapter(original, operatorInfo);
                     return true;
                 }
             }
             else if (conversionType.HasFlag(EConversionType.Method))
             {
-                // TODO: найти методы без параметров с нужными возвращаемыми типами в типе original
+                if (TryGetSuitableMethod(original, final, out var method))
+                {
+                    result = new MethodToTypedConversionAdapter(method);
+                    return true;
+                }
             }
             else if (conversionType.HasFlag(EConversionType.Constructor))
             {
-                // TODO: найти конструктор с параметром типа original в классе final
+                if (TryGetSuitableConstructor(original, final, out var constructor))
+                {
+                    result = new ConstructorToTypedConversionAdapter(constructor);
+                    return true;
+                }
             }
 
             return false;
         }
 
-        private static bool TryGenerateConversionFromOperator(Type original, Type final, EUnaryOperatorType operatorTypes, out UnaryOperatorInfo result)
+        private static bool TryGetSuitableOperator(Type original, Type final, EUnaryOperatorType operatorTypes, out UnaryOperatorInfo result)
         {
             var operatorInfos = ReflectionHelper.OperatorHelper.GetUnaryOperatorInfos(original, operatorTypes);
             var array = operatorInfos.ToArray();
             
             if (array.Length > 0)
             {
-                result = array.FirstOrDefault(value => value.ReturnType == final);
+                result = array.FirstOrDefault(IsFit);
+
+                if (result == default) return false;
+                
                 return true;
             }
             
             result = default;
             return false;
+
+            bool IsFit(UnaryOperatorInfo operatorInfo)
+            {
+                var suitableType = operatorInfo.ReturnType == final;
+                return suitableType;
+            }
+        }
+
+        private static bool TryGetSuitableMethod(Type original, Type final, out MethodInfo result)
+        {
+            result = default;
+            
+            var methods = original.GetMethods();
+            var target = methods.FirstOrDefault(IsFit);
+
+            if (target == default) return false;
+            
+            result = target;
+            return true;
+
+            bool IsFit(MethodInfo methodInfo)
+            {
+                bool parameterless = methodInfo.GetParameters().Length == 0;
+                bool suitableType = methodInfo.ReturnType == final;
+
+                return parameterless && suitableType;
+            }
+        }
+
+        private static bool TryGetSuitableConstructor(Type original, Type final, out ConstructorInfo result)
+        {
+            result = default;
+            
+            var constructors = final.GetConstructors();
+            var target = constructors.FirstOrDefault(IsFit);
+
+            if (target == default) return false;
+
+            result = target;
+            return true;
+
+            bool IsFit(ConstructorInfo constructorInfo)
+            {
+                var parameters = constructorInfo.GetParameters();
+                
+                bool suitableParametersCount = parameters.Length == 1;
+                bool suitableParameterType = parameters.First().ParameterType == original;
+                
+                return suitableParametersCount && suitableParameterType;
+            }
         }
 
         private static List<ITypedConversion> InitializeConversions()

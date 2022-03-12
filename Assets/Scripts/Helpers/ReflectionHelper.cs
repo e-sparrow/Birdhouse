@@ -90,12 +90,12 @@ namespace ESparrow.Utils.Helpers
                 var methods = type.GetMethods();
                 var operatorMethods = GetOperatorMethods(methods).ToArray();
 
-                var withoutParameters = GetOperatorMethodsWithoutParameters(operatorMethods).ToArray();
-                var unaryOperatorInfos = withoutParameters.Select(CreateUnaryOperator);
+                var unaryOperatorMethods = GetUnaryOperatorMethods(operatorMethods).ToArray();
+                var unaryOperatorInfos = unaryOperatorMethods.Select(CreateUnaryOperator);
 
-                var except = operatorMethods.Except(withoutParameters);
-                var withOneParameter = GetOperatorMethodsWithParameters(except);
-                var binaryOperatorInfos = withOneParameter.Select(CreateBinaryOperator);
+                var except = operatorMethods.Except(unaryOperatorMethods);
+                var binaryOperatorMethods = GetBinaryOperatorMethods(except);
+                var binaryOperatorInfos = binaryOperatorMethods.Select(CreateBinaryOperator);
 
                 return unaryOperatorInfos.SelectBase<UnaryOperatorInfo, IOperatorInfo>().Concat(binaryOperatorInfos);
             }
@@ -121,26 +121,21 @@ namespace ESparrow.Utils.Helpers
                 return DefaultOperatorRegex.IsMatch(method.Name);
             }
 
-            private static IEnumerable<MethodInfo> GetOperatorMethodsWithoutParameters(IEnumerable<MethodInfo> methods)
+            private static IEnumerable<MethodInfo> GetUnaryOperatorMethods(IEnumerable<MethodInfo> methods)
             {
-                var fits = methods.Where(value => !value.GetParameters().Any());
+                var fits = methods.Where(IsUnary);
                 return fits;
             }
 
-            private static IEnumerable<MethodInfo> GetOperatorMethodsWithParameters(IEnumerable<MethodInfo> methods)
+            private static IEnumerable<MethodInfo> GetBinaryOperatorMethods(IEnumerable<MethodInfo> methods)
             {
-                var fits = methods.Where(value => value.GetParameters().Length == 1);
+                var fits = methods.Where(IsBinary);
                 return fits;
-            }
-
-            private static Regex GetOperatorRegex(Type type, EOperatorType operatorType)
-            {
-                return new Regex($@"\{OperatorPrefix}");
             }
 
             private static UnaryOperatorInfo CreateUnaryOperator(MethodInfo method)
             {
-                var operatorType = EnumsHelper<EUnaryOperatorType>.GetByName(method.Name.Substring(3));
+                var operatorType = GetOperatorTypeByName<EUnaryOperatorType>(method.Name);
                 var result = new UnaryOperatorInfo(method.ReturnType, operatorType);
 
                 return result;
@@ -148,11 +143,27 @@ namespace ESparrow.Utils.Helpers
 
             private static BinaryOperatorInfo CreateBinaryOperator(MethodInfo method)
             {
-                var operatorType = EnumsHelper<EBinaryOperatorType>.GetByName(method.Name.Substring(3));
+                var operatorType = GetOperatorTypeByName<EBinaryOperatorType>(method.Name);
                 var anotherArgumentType = method.GetParameters()[0].GetType();
                 var result = new BinaryOperatorInfo(method.ReturnType, operatorType, anotherArgumentType);
 
                 return result;
+            }
+
+            private static TType GetOperatorTypeByName<TType>(string name) where TType : Enum
+            {
+                var target = EnumsHelper<TType>.GetByName(name.Substring(3));
+                return target;
+            }
+
+            private static bool IsUnary(MethodInfo methodInfo)
+            {
+                return methodInfo.GetParameters().Length == 1;
+            }
+
+            private static bool IsBinary(MethodInfo methodInfo)
+            {
+                return methodInfo.GetParameters().Length == 2;
             }
         }
     }

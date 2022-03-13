@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Optimization.Memoization.Interfaces;
 using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
 using ESparrow.Utils.Tools.Substitution;
+using ESparrow.Utils.Tools.Substitution.Enums;
 using ESparrow.Utils.Tools.Substitution.Interfaces;
 using ESparrow.Utils.Tools.Substitution.Methods;
 using ESparrow.Utils.Tools.Substitution.Operators.Adapters;
@@ -24,15 +27,15 @@ namespace ESparrow.Utils.Optimization.Memoization
         private static ISubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>> CreateSubstitutionController
             (IDictionary<TKey, IMemoizationElement<TValue>> dictionary, bool capacious, int capacity)
         {
-            var substitutionOperator = new DictionaryToSubstitutionOperatorAdapter<TKey, IMemoizationElement<TValue>>(dictionary);
+            var substitutionOperator = dictionary.AsSubstitutionOperator();
 
-            ISubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>> method = new ForgetSubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>>(substitutionOperator);
+            ISubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>> method = SubstitutionHelper.CreateSubstitutionMethod(substitutionOperator, ESubstitutionType.Forget);
             if (capacious)
             {
-                method = new CapaciousSubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>>(capacity, method, substitutionOperator);
+                method = SubstitutionHelper.CreateCapaciousSubstitutionMethod(capacity, method, substitutionOperator);
             }
 
-            var controller = new SubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>>(method);
+            var controller = SubstitutionHelper.CreateSubstitutionController(method);
 
             return controller;
         }

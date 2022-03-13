@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Tools.Substitution;
 using ESparrow.Utils.Tools.Substitution.Enums;
@@ -21,7 +22,7 @@ namespace ESparrow.Utils.Test
         
         public override void Test()
         {
-            var substitutionOperator = new ListToSubstitutionOperatorAdapter<int>(list);
+            var substitutionOperator = list.AsSubstitutionOperator();
             var method = SubstitutionHelper.CreateSubstitutionMethod(substitutionOperator, substitutionType);
             var capaciousMethod = SubstitutionHelper.CreateCapaciousSubstitutionMethod(capacity, substitutionOperator, substitutionType);
             var controller = new SubstitutionController<int>(capacious ? capaciousMethod : method);

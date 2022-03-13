@@ -10,7 +10,7 @@ namespace ESparrow.Utils.Tools.Substitution.Operators.Adapters
             _orderDictionary = new Dictionary<int, TKey>();
 
             var keys = enumerable.Keys.ToArray();
-            for (int i = 0; i < enumerable.Count; i++)
+            for (int i = 0; i < keys.Length; i++)
             {
                 _orderDictionary[i] = keys[i];
             }
@@ -28,10 +28,13 @@ namespace ESparrow.Utils.Tools.Substitution.Operators.Adapters
 
         protected override void RemoveAt(int index, IDictionary<TKey, TValue> enumerable)
         {
-            var key = _orderDictionary[index];
-            enumerable.Remove(key);
-            
-            _orderDictionary.Remove(index);
+            if (_orderDictionary.ContainsKey(index))
+            {
+                var key = _orderDictionary[index];
+                enumerable.Remove(key);
+
+                _orderDictionary.Remove(index);
+            }
         }
     }
 }

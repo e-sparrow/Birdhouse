@@ -13,10 +13,17 @@ namespace ESparrow.Utils.Tools.Substitution.Methods
         private readonly ISubstitutionOperator<TElement> _substitutionOperator;
 
         protected abstract void Replace(TElement element, ISubstitutionOperator<TElement> substitutionOperator);
-        
-        public void Apply(TElement element)
+
+        public void Apply(TElement element, bool replace)
         {
-            Replace(element, _substitutionOperator);
+            if (replace)
+            {
+                Replace(element, _substitutionOperator);
+            }
+            else
+            {
+                _substitutionOperator.InsertAt(_substitutionOperator.Count, element);
+            }
         }
 
         public abstract ESubstitutionType Type

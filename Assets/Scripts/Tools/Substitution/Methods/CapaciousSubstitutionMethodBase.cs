@@ -24,10 +24,8 @@ namespace ESparrow.Utils.Tools.Substitution.Methods
                 ReduceTo(_capacity, substitutionOperator);
             }
 
-            if (substitutionOperator.Count == _capacity)
-            {
-                _method.Apply(element);
-            }
+            var replace = substitutionOperator.Count == _capacity;
+            _method.Apply(element, replace);
         }
 
         public override ESubstitutionType Type => _method.Type;

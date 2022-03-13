@@ -230,6 +230,7 @@ namespace ESparrow.Utils.Extensions
         /// Removes the second enumerable from first one.
         /// </summary>
         /// <param name="enumerable">Outer enumerable</param>
+        /// <param name="mixingPart"></param>
         /// <param name="without">Enumerable to remove</param>
         /// <typeparam name="T">Type of elements in enumerable</typeparam>
         /// <returns>Returns first enumerable but without all the last values</returns>

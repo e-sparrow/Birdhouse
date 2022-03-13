@@ -2,6 +2,6 @@
 {
     public interface ISubstitutionController<in TElement>
     {
-        void Substitute(TElement element);
+        void Add(TElement element);
     }
 }

@@ -7,6 +7,7 @@ namespace ESparrow.Utils.Tools.Substitution.Methods
     {
         public UpdateSubstitutionMethod(ISubstitutionOperator<TElement> substitutionOperator) : base(substitutionOperator)
         {
+            
         }
 
         protected override void Replace(TElement element, ISubstitutionOperator<TElement> substitutionOperator)

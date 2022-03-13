@@ -1,10 +1,10 @@
 ﻿using System;
 using ESparrow.Utils.Conversion.Enums;
-using ESparrow.Utils.Experimental.Examples;
 using ESparrow.Utils.Helpers;
+using ESparrow.Utils.Test.Examples;
 using UnityEngine;
 
-namespace ESparrow.Utils.Experimental
+namespace ESparrow.Utils.Test
 {
     [Serializable]
     public class ConversionTestModule : TestModuleBase

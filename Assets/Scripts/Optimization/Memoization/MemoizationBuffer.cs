@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ESparrow.Utils.Optimization.Memoization.Interfaces;
 using ESparrow.Utils.Tools.DateAndTime.Expiration;
 using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
 
@@ -6,7 +8,8 @@ namespace ESparrow.Utils.Optimization.Memoization
 {
     public class MemoizationBuffer<TKey, TValue> : MemoizationBufferBase<TKey, TValue>
     {
-        public MemoizationBuffer(Func<ITermInfo> termInfoCreator)
+        public MemoizationBuffer(Func<ITermInfo> termInfoCreator, bool capacious = false, int capacity = 0) 
+            : base(new Dictionary<TKey, IMemoizationElement<TValue>>(), capacious, capacity)
         {
             _termInfoCreator = termInfoCreator;
         }

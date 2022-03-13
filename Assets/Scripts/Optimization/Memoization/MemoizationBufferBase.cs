@@ -2,13 +2,40 @@
 using System.Collections.Generic;
 using ESparrow.Utils.Optimization.Memoization.Interfaces;
 using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
+using ESparrow.Utils.Tools.Substitution;
+using ESparrow.Utils.Tools.Substitution.Interfaces;
+using ESparrow.Utils.Tools.Substitution.Methods;
+using ESparrow.Utils.Tools.Substitution.Operators.Adapters;
 
 namespace ESparrow.Utils.Optimization.Memoization
 {
     public abstract class MemoizationBufferBase<TKey, TValue> : IMemoizationBuffer<TKey, TValue>
     {
-        private readonly Dictionary<TKey, IMemoizationElement<TValue>> _dictionary
-            = new Dictionary<TKey, IMemoizationElement<TValue>>();
+        protected MemoizationBufferBase(IDictionary<TKey, IMemoizationElement<TValue>> dictionary, bool capacious, int capacity)
+        {
+            _dictionary = dictionary;
+            _substitutionController = CreateSubstitutionController(_dictionary, capacious, capacity);
+        }
+
+        private readonly IDictionary<TKey, IMemoizationElement<TValue>> _dictionary;
+        
+        private readonly ISubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>> _substitutionController;
+
+        private static ISubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>> CreateSubstitutionController
+            (IDictionary<TKey, IMemoizationElement<TValue>> dictionary, bool capacious, int capacity)
+        {
+            var substitutionOperator = new DictionaryToSubstitutionOperatorAdapter<TKey, IMemoizationElement<TValue>>(dictionary);
+
+            ISubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>> method = new ForgetSubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>>(substitutionOperator);
+            if (capacious)
+            {
+                method = new CapaciousSubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>>(capacity, method, substitutionOperator);
+            }
+
+            var controller = new SubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>>(method);
+
+            return controller;
+        }
 
         protected abstract ITerm CreateTerm();
 
@@ -21,7 +48,10 @@ namespace ESparrow.Utils.Optimization.Memoization
         {
             if (!_dictionary.ContainsKey(key))
             {
-                _dictionary[key] = new MemoizationElement<TValue>(create.Invoke(), term);
+                var element = new MemoizationElement<TValue>(create.Invoke(), term);
+                var pair = new KeyValuePair<TKey, IMemoizationElement<TValue>>(key, element);
+                
+                _substitutionController.Add(pair);
             }
             
             return _dictionary[key].Value;

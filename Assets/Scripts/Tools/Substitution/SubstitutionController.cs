@@ -1,20 +1,17 @@
 ﻿using ESparrow.Utils.Tools.Substitution.Interfaces;
-using ESparrow.Utils.Tools.Substitution.Enums;
 
 namespace ESparrow.Utils.Tools.Substitution
 {
-    public abstract class SubstitutionController<TElement> : ISubstitutionController<TElement>
+    public class SubstitutionController<TElement> : SubstitutionControllerBase<TElement>
     {
-        protected SubstitutionController(ISubstitutionMethod<TElement> substitutionMethod)
+        public SubstitutionController(ISubstitutionMethod<TElement> substitutionMethod) : base(substitutionMethod)
         {
-            _substitutionMethod = substitutionMethod;
+            
         }
 
-        private readonly ISubstitutionMethod<TElement> _substitutionMethod;
-
-        public void Substitute(TElement element)
+        protected override void Add(TElement element, ISubstitutionMethod<TElement> method)
         {
-            _substitutionMethod.Apply(element);
+            method.Apply(element);
         }
     }
 }

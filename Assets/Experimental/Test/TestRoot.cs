@@ -1,17 +1,16 @@
-﻿using System;
-using ESparrow.Utils.Drawers;
+﻿using ESparrow.Utils.Drawers;
 using ESparrow.Utils.Drawers.Adapters.AsGizmos;
 using ESparrow.Utils.Drawers.Interfaces;
-using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Reflection.Operators;
 using UnityEngine;
 
-namespace ESparrow.Utils.Experimental
+namespace ESparrow.Utils.Test
 {
     public class TestRoot : MonoBehaviour
     {
         [SerializeField] private ConversionTestModule conversionTestModule;
         [SerializeField] private MemoizationTestModule memoizationTestModule;
+        [SerializeField] private ReflectionTestModule reflectionTestModule;
+        [SerializeField] private SubstitutionTestModule substitutionTestModule;
         
         [SerializeField] private bool drawTestGizmos;
 
@@ -27,6 +26,18 @@ namespace ESparrow.Utils.Experimental
         private void TestMemoization()
         {
             memoizationTestModule.Test();
+        }
+
+        [ContextMenu("Test Reflection")]
+        private void TestReflection()
+        {
+            reflectionTestModule.Test();
+        }
+        
+        [ContextMenu("Test Substitution")]
+        private void TestSubstitution()
+        {
+            substitutionTestModule.Test();
         }
 
         private void OnDrawGizmos()

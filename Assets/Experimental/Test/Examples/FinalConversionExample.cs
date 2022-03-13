@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Experimental.Examples
+﻿namespace ESparrow.Utils.Test.Examples
 {
     public class FinalConversionExample
     {

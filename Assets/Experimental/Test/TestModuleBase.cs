@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Experimental
+﻿namespace ESparrow.Utils.Test
 {
     public abstract class TestModuleBase
     {

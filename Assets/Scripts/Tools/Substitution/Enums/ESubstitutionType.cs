@@ -11,10 +11,6 @@
         /// </summary>
         Update,
         /// <summary>
-        /// Ignores updates
-        /// </summary>
-        Ignore,
-        /// <summary>
         /// Something another
         /// </summary>
         Custom

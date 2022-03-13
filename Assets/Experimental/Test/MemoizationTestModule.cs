@@ -2,7 +2,7 @@
 using ESparrow.Utils.Extensions;
 using UnityEngine;
 
-namespace ESparrow.Utils.Experimental
+namespace ESparrow.Utils.Test
 {
     [Serializable]
     public class MemoizationTestModule : TestModuleBase

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ESparrow.Utils.Mathematics
 {
     [Serializable]
-    public struct Direction
+    public readonly struct Direction
     {
         /// <summary>
         /// Creates direction by vector.
@@ -39,9 +39,13 @@ namespace ESparrow.Utils.Mathematics
         /// </summary>
         public static readonly Direction[] Directions = new Direction[]
         {
+            Up,
+            Down,
+            Left,
+            Right,
             Forward,
             Back
-        }.Concat(Directions2d).ToArray();
+        };
         
         /// <summary>
         /// Gets average direction between two ones.
@@ -99,7 +103,6 @@ namespace ESparrow.Utils.Mathematics
         public Vector3 Vector
         {
             get;
-            set;
         }
     }
 }

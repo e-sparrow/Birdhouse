@@ -5,48 +5,37 @@ using ESparrow.Utils.Extensions;
 namespace ESparrow.Utils.Mathematics
 {
     [Serializable]
-    public struct PolarCoordinates
+    public readonly struct Polar
     {
-        private float _radius;
-        private float _angle;
-
-        /// <summary>
-        /// Radius of coordinates property.
-        /// </summary>
-        public float Radius
-        {
-            get => _radius;
-            set => _radius = value;
-        }
-
-        /// <summary>
-        /// Angle of coordinates property.
-        /// </summary>
-        public float Angle
-        {
-            get => _angle;
-            set => _angle = value;
-        }
-
         /// <summary>
         /// Creates polar coordinates from radius and angle.
         /// </summary>
         /// <param name="radius">Radius of coordinates</param>
         /// <param name="angle">Angle at which coordinates are rotated</param>
-        public PolarCoordinates(float radius, float angle)
+        public Polar(float angle, float radius)
         {
-            _radius = radius;
-            _angle = angle;
+            Angle = angle;
+            Radius = radius;
         }
 
         /// <summary>
         /// Creates polar coordinates from Cartesian coordinates.
         /// </summary>
         /// <param name="vector">Vector in Cartesian coordinates</param>
-        public PolarCoordinates(Vector2 vector)
+        public Polar(Vector2 vector)
         {
-            _radius = vector.magnitude;
-            _angle = Mathf.Atan2(vector.y, vector.x);
+            Angle = Mathf.Atan2(vector.y, vector.x);
+            Radius = vector.magnitude;
+        }
+
+        /// <summary>
+        /// Creates polar coordinates from polar coordinates.
+        /// </summary>
+        /// <param name="direction">Direction of coordinates</param>
+        /// <param name="radius">Radius of polar coordinates</param>
+        public Polar(Direction direction, float radius) : this(direction.Vector * radius)
+        {
+            
         }
 
         /// <summary>
@@ -55,7 +44,7 @@ namespace ESparrow.Utils.Mathematics
         /// <returns>Cartesian coordinates</returns>
         public Vector2 ToVector2()
         {
-            return new Vector2(Mathf.Cos(_angle) * _radius, Mathf.Sin(_angle) * _radius);
+            return new Vector2(Mathf.Cos(Angle) * Radius, Mathf.Sin(Angle) * Radius);
         }
 
         /// <summary>
@@ -65,6 +54,22 @@ namespace ESparrow.Utils.Mathematics
         public Vector3 ToVector3()
         {
             return ToVector2().ToVector3();
+        }
+
+        /// <summary>
+        /// Angle of coordinates property.
+        /// </summary>
+        public float Angle
+        {
+            get;
+        }
+        
+        /// <summary>
+        /// Radius of coordinates property.
+        /// </summary>
+        public float Radius
+        {
+            get;
         }
     }
 }

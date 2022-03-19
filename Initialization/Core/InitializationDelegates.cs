@@ -1,4 +1,4 @@
-﻿namespace ESparrow.ZenjectUtils.Initialization.Core
+﻿namespace ESparrow.Utils.Initialization.Core
 { 
     public delegate void InitializeCommand(int current, int count);
 }

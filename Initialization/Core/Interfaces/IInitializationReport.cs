@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.ZenjectUtils.Initialization.Core.Interfaces
+namespace ESparrow.Utils.Initialization.Core.Interfaces
 {
     public interface IInitializationReport
     {

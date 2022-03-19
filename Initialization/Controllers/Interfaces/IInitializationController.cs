@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESparrow.ZenjectUtils.Initialization.Commands.Interfaces;
-using ESparrow.ZenjectUtils.Initialization.Core;
+using ESparrow.Utils.Initialization.Commands.Interfaces;
+using ESparrow.Utils.Initialization.Core;
 
-namespace ESparrow.ZenjectUtils.Initialization.Controllers.Interfaces
+namespace ESparrow.Utils.Initialization.Controllers.Interfaces
 {
     public interface IInitializationController<out TContext>
     {

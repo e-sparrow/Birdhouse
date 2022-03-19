@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Commands.Interfaces
+namespace ESparrow.Utils.Initialization.Commands.Interfaces
 {
     public interface IInitializationCommand<in TContext>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Controllers
+namespace ESparrow.Utils.Initialization.Controllers
 {
     public class InitializationController<TContext> : InitializationControllerBase<TContext>
     {

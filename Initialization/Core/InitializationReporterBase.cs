@@ -1,8 +1,8 @@
 ﻿using System;
-using ESparrow.ZenjectUtils.Initialization.Commands.Interfaces;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Commands.Interfaces;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Core
+namespace ESparrow.Utils.Initialization.Core
 {
     public abstract class InitializationReporterBase<TContext> : IInitializationReporter<TContext>
     {

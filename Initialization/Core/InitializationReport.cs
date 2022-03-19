@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Core
+namespace ESparrow.Utils.Initialization.Core
 {
     public readonly struct InitializationReport : IInitializationReport
     {

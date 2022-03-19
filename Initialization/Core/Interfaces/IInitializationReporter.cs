@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.ZenjectUtils.Initialization.Commands.Interfaces;
+using ESparrow.Utils.Initialization.Commands.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Core.Interfaces
+namespace ESparrow.Utils.Initialization.Core.Interfaces
 {
     public interface IInitializationReporter<out TContext>
     {

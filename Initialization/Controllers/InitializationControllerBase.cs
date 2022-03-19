@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ESparrow.Utils.Extensions;
-using ESparrow.ZenjectUtils.Initialization.Commands.Interfaces;
-using ESparrow.ZenjectUtils.Initialization.Controllers.Interfaces;
-using ESparrow.ZenjectUtils.Initialization.Core;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Commands.Interfaces;
+using ESparrow.Utils.Initialization.Controllers.Interfaces;
+using ESparrow.Utils.Initialization.Core;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 
-namespace ESparrow.ZenjectUtils.Initialization.Controllers
+namespace ESparrow.Utils.Initialization.Controllers
 {
     public abstract class InitializationControllerBase<TContext> : IInitializationController<TContext>
     {

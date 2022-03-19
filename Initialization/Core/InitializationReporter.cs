@@ -1,9 +1,9 @@
 ﻿using System;
-using ESparrow.ZenjectUtils.Initialization.Commands.Interfaces;
-using ESparrow.ZenjectUtils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Commands.Interfaces;
+using ESparrow.Utils.Initialization.Core.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.ZenjectUtils.Initialization.Core
+namespace ESparrow.Utils.Initialization.Core
 {
     public class InitializationReporter<TContext> : InitializationReporterBase<TContext>
     {

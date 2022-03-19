@@ -52,19 +52,30 @@ namespace ESparrow.Utils.Extensions
         /// <summary>
         /// Adds the element to collection and returns it back.
         /// </summary>
-        /// <param name="element">Element to add and return</param>
+        /// <param name="self">Element to add and return</param>
         /// <param name="collection">Collection to add the element</param>
         /// <typeparam name="T">Type of elements in collection</typeparam>
         /// <returns>Element added to collection</returns>
-        public static T AddTo<T>(this T element, ICollection<T> collection)
+        public static T AddTo<T>(this T self, ICollection<T> collection)
         {
-            collection.Add(element);
-            return element;
+            collection.Add(self);
+            return self;
+        }
+
+        public static T RemoveFrom<T>(this T self, ICollection<T> collection)
+        {
+            collection.Remove(self);
+            return self;
         }
         
         public static TResult PipeTo<TSource, TResult>(this TSource source, Func<TSource, TResult> func)
         {
             return func.Invoke(source);
+        }
+
+        public static T OrDefault<T>(this T self, T defaultValue)
+        {
+            return self ?? defaultValue;
         }
     }
 }

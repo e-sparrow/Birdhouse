@@ -7,40 +7,22 @@ namespace ESparrow.Utils.Extensions
 {
     public static class DiagnosticHelper
     {
-        public static double MeasureExecutionMilliseconds(Action action)
+        public static TimeSpan MeasureExecutionTime(Action action)
         {
             var stopwatch = MeasureExecution(action);
-            return stopwatch.ElapsedMilliseconds;
+            return stopwatch.Elapsed;
         }
         
-        public static double MeasureExecutionTicks(Action action)
-        {
-            var stopwatch = MeasureExecution(action);
-            return stopwatch.ElapsedTicks;
-        }
-        
-        public static async Task<double> MeasureAsyncExecutionMilliseconds(Task task)
+        public static async Task<TimeSpan> MeasureAsyncExecutionTime(Task task)
         {
             var stopwatch = await MeasureAsyncExecution(task);
-            return stopwatch.ElapsedMilliseconds;
+            return stopwatch.Elapsed;
         }
         
-        public static async Task<double> MeasureAsyncExecutionTicks(Task task)
-        {
-            var stopwatch = await MeasureAsyncExecution(task);
-            return stopwatch.ElapsedTicks;
-        }
-        
-        public static async Task<double> MeasureCoroutineExecutionMilliseconds(IEnumerator coroutine)
+        public static async Task<TimeSpan> MeasureCoroutineExecutionTime(IEnumerator coroutine)
         {
             var stopwatch = await MeasureCoroutineExecution(coroutine);
-            return stopwatch.ElapsedMilliseconds;
-        }
-        
-        public static async Task<double> MeasureCoroutineExecutionTicks(IEnumerator coroutine)
-        {
-            var stopwatch = await MeasureCoroutineExecution(coroutine);
-            return stopwatch.ElapsedTicks;
+            return stopwatch.Elapsed;
         }
 
         private static Stopwatch MeasureExecution(Action action)

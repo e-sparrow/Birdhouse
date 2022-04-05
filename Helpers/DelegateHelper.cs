@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ESparrow.Utils.Helpers
 {
-    public class DelegateHelper
+    public static class DelegateHelper
     {
         /// <summary>
         /// Returns new function that return true if all the specific predicates return true.
@@ -26,6 +26,16 @@ namespace ESparrow.Utils.Helpers
         public static Func<T, bool> Any<T>(params Func<T, bool>[] predicates)
         {
             return subject => predicates.Any(value => value.Invoke(subject));
+        }
+
+        public static Func<T, T> Self<T>()
+        {
+            return self => self;
+        }
+
+        public static Func<object, object> Self()
+        {
+            return Self<object>();
         }
     }
 }

@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ESparrow.Utils.Initialization.Commands.Interfaces;
-using ESparrow.Utils.Initialization.Core;
+using ESparrow.Utils.Initialization.Reports;
 
 namespace ESparrow.Utils.Initialization.Controllers.Interfaces
 {
-    public interface IInitializationController<out TContext>
+    public interface IInitializationController<TContext, TCommand> where TCommand : IInitializationCommand<TContext>
     {
         Task Initialize
         (
-            IEnumerable<IInitializationCommand<TContext>> preInitializationCommands, 
-            IEnumerable<IInitializationCommand<TContext>> initializationCommands, 
-            InitializeCommand initializeCommand
+            IEnumerable<TCommand> initializationCommands, 
+            InitializationCallback<TContext, TCommand> callback
         );
     }
 }

@@ -1,5 +1,5 @@
 ﻿using ESparrow.Utils.Optimization.Memoization.Interfaces;
-using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
+using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
 
 namespace ESparrow.Utils.Optimization.Memoization
 {

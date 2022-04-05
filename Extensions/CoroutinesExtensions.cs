@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
-using ESparrow.Utils.Managers;
+using ESparrow.Utils.Mono;
 
 namespace ESparrow.Utils.Extensions
 {
@@ -40,7 +40,7 @@ namespace ESparrow.Utils.Extensions
         /// <param name="routine">Routine to start</param>
         public static void Start(this IEnumerator routine)
         {
-            GlobalManager.Instance.StartCoroutine(routine);
+            ESparrow.Utils.Mono.MonoMessageController.Instance.StartCoroutine(routine);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace ESparrow.Utils.Extensions
         /// <param name="token">Token to cancel the routine</param>
         public static async Task StartAsync(this IEnumerator routine, CancellationToken token = new CancellationToken())
         {
-            await GlobalManager.Instance.StartCoroutineAsync(routine, token);
+            await MonoOrigin.Instance.StartCoroutineAsync(routine, token);
         }
 
         /// <summary>

@@ -11,9 +11,9 @@ namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
             
         }
 
-        public override void Draw(IDrawer drawer)
+        public override void Draw(IWayDrawer wayDrawer)
         {
-            drawer.DrawLine(Self);
+            wayDrawer.DrawLine(Self);
         }
     }
 }

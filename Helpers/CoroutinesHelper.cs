@@ -15,9 +15,6 @@ namespace ESparrow.Utils.Helpers
     {
         private static readonly IGradual Gradual = new Gradual();
         
-        /// <summary>
-        /// Выполняет действие каждый кадр с заданными настройками с аргументом от 0 до 1.
-        /// </summary>
         public static IEnumerator Graduate(IGradualSettings settings)
         {
             yield return Gradual.Graduate(settings);

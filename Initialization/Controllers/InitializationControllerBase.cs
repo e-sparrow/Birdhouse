@@ -1,72 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Initialization.Commands.Interfaces;
 using ESparrow.Utils.Initialization.Controllers.Interfaces;
-using ESparrow.Utils.Initialization.Core;
-using ESparrow.Utils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Reports.Enums;
+using ESparrow.Utils.Initialization.Reports.Interfaces;
 
 namespace ESparrow.Utils.Initialization.Controllers
 {
-    public abstract class InitializationControllerBase<TContext> : IInitializationController<TContext>
+    public abstract class InitializationControllerBase<TContext, TCommand> : IInitializationController<TContext, TCommand> 
+        where TCommand : IInitializationCommand<TContext>
     {
-        protected InitializationControllerBase(TContext context, IInitializationReporter<TContext> reporter)
+        protected InitializationControllerBase(TContext context, IInitializationReporter reporter)
         {
             _context = context;
             _reporter = reporter;
         }
 
         private readonly TContext _context;
-        private readonly IInitializationReporter<TContext> _reporter;
+        private readonly IInitializationReporter _reporter;
+
+        protected abstract Task InitializeCommand(TCommand command, TContext context);
+        protected abstract void ReportTime(TimeSpan elapsed);
 
         public async Task Initialize
-            (IEnumerable<IInitializationCommand<TContext>> preInitializationCommands, IEnumerable<IInitializationCommand<TContext>> initializationCommands, InitializeCommand initializeCommand)
+            (IEnumerable<TCommand> initializationCommands, InitializationCallback<TContext, TCommand> callback)
         {
-            int current = 0;
-            int count = preInitializationCommands.Concat(initializationCommands).Count();
-            
-            _reporter.Report(_reporter.StartInitializationReport);
-            
-            _reporter.Report(_reporter.PreInitializationReport.GetInitializationStartReport());
-            var preCommandsTime = await DiagnosticHelper.MeasureAsyncExecutionTime(InitializePreCommands());
-            _reporter.Report(_reporter.PreInitializationReport.GetInitializationEndReport(preCommandsTime));
-            
-            _reporter.Report(_reporter.InitializationReport.GetInitializationStartReport());
-            var commandsTime = await DiagnosticHelper.MeasureAsyncExecutionTime(InitializeCommands());
-            _reporter.Report(_reporter.InitializationReport.GetInitializationEndReport(commandsTime));
-            
-            async Task InitializePreCommands()
+            try
             {
-                foreach (var preInitializationCommand in preInitializationCommands)
-                {
-                    await ExecuteCommand(preInitializationCommand);
-                }
+                _reporter.Report(EInitializationReportType.Start);
+                
+                var stopwatch = new Stopwatch();
+                
+                stopwatch.Start();
+                await InitializeCommands();
+                stopwatch.Stop();
+                
+                ReportTime(stopwatch.Elapsed);
+                
+                _reporter.Report(EInitializationReportType.Finish);
+            }
+            catch
+            {
+                _reporter.Report(EInitializationReportType.Exception);
             }
 
             async Task InitializeCommands()
             {
                 foreach (var initializationCommand in initializationCommands)
                 {
-                    await ExecuteCommand(initializationCommand);
-                }
-            }
-
-            async Task ExecuteCommand(IInitializationCommand<TContext> command)
-            {
-                try
-                {
-                    _reporter.Report(_reporter.CommandInitializationReport.GetInitializationStartReport(command));
-                    var commandTime = await DiagnosticHelper.MeasureAsyncExecutionTime(command.Initialize(_context));
-                    _reporter.Report(_reporter.CommandInitializationReport.GetInitializationEndReport(command, commandTime));
-
-                    current++;
-                    initializeCommand.Invoke(current, count);
-                }
-                catch (Exception exception)
-                {  
-                    _reporter.Report(_reporter.CommandInitializationExceptionReport.Invoke(exception, command));
+                    await InitializeCommand(initializationCommand, _context);
                 }
             }
         }

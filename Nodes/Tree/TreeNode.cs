@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ESparrow.Utils.Nodes.Tree;
 
-namespace Nodes.Tree
+namespace ESparrow.Utils.Nodes.Tree
 {
     public class TreeNode<T> : TreeNodeBase<T>
     {
@@ -15,12 +15,12 @@ namespace Nodes.Tree
         
         }
 
-        public TreeNode(T value, IList<ITreeNode<T>> children) : base(value, children)
+        public TreeNode(T value, IEnumerable<ITreeNode<T>> children) : base(value, children)
         {
         
         }
 
-        public TreeNode(T value, ITreeNode<T> parent, IList<ITreeNode<T>> children) : base(value, parent, children)
+        public TreeNode(T value, ITreeNode<T> parent, IEnumerable<ITreeNode<T>> children) : base(value, parent, children)
         {
         
         }

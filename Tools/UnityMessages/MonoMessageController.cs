@@ -3,7 +3,7 @@ using ESparrow.Utils.Patterns.Singleton;
 using ESparrow.Utils.Patterns.Singleton.Mono;
 using ESparrow.Utils.Tools.UnityMessages;
 
-namespace ESparrow.Utils.Managers
+namespace ESparrow.Utils.Mono
 {
     public sealed class MonoMessageController : MonoSingleton<MonoMessageController>, IMonoMessageController
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Nodes.Tree;
 
-namespace Nodes.Tree
+namespace ESparrow.Utils.Nodes.Tree
 {
     public abstract class TreeNodeBase<T> : ITreeNode<T>
     {
@@ -18,12 +18,12 @@ namespace Nodes.Tree
             Parent = parent;
         }
 
-        protected TreeNodeBase(T value, IList<ITreeNode<T>> children) : this(value)
+        protected TreeNodeBase(T value, IEnumerable<ITreeNode<T>> children) : this(value)
         {
             Children = children;
         }
 
-        protected TreeNodeBase(T value, ITreeNode<T> parent, IList<ITreeNode<T>> children) : this(value, parent)
+        protected TreeNodeBase(T value, ITreeNode<T> parent, IEnumerable<ITreeNode<T>> children) : this(value, parent)
         {
             Children = children;
         }
@@ -99,7 +99,7 @@ namespace Nodes.Tree
             set;
         }
 
-        public IList<ITreeNode<T>> Children
+        public IEnumerable<ITreeNode<T>> Children
         {
             get;
         }

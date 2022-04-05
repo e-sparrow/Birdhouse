@@ -207,7 +207,7 @@ namespace ESparrow.Utils.Extensions
             
             if (enumerable.Count() >= count)
             {
-                result = enumerable.Reverse().Take(count);
+                result = enumerable.Reverse().Take(count).Reverse();
                 return true;
             }
 
@@ -283,7 +283,7 @@ namespace ESparrow.Utils.Extensions
         /// <returns>Enumerable from variable</returns>
         public static IEnumerable<T> AsSingleEnumerable<T>(this T self)
         {
-            var array = new T[1]
+            var array = new T[]
             {
                 self
             };

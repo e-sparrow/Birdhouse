@@ -5,11 +5,6 @@ namespace ESparrow.Utils.Patterns.Singleton.Mono
 {
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
-        protected MonoSingleton()
-        {
-
-        }
-        
         private static T _instance;
 
         private static void CreateNew()
@@ -23,7 +18,7 @@ namespace ESparrow.Utils.Patterns.Singleton.Mono
             if (_instance != null && _instance != this)
             {
                 DestroyImmediate(gameObject);
-                Debug.LogWarning($"Second <color={Color.cyan.ToHexadecimal()}>{typeof(T).Name}</color> singleton component detected and removed!");
+                Debug.LogWarning($"Second Unity singleton component of type {typeof(T).Name.WithColor(Color.cyan).Bold()} detected and removed!");
             }
             else
             {

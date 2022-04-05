@@ -7,12 +7,12 @@ namespace ESparrow.Utils.Extensions
     {
         public static long ToUnix(this DateTime self)
         {
-            return DateAndTimeHelper.UnixHelper.ToUnix(self);
+            return TenseHelper.Unix.ToUnix(self);
         }
 
         public static DateTime FromUnix(this long self)
         {
-            return DateAndTimeHelper.UnixHelper.FromUnix(self);
+            return TenseHelper.Unix.FromUnix(self);
         }
 
         public static TimeSpan ToUnixTimeSpan(this DateTime self)

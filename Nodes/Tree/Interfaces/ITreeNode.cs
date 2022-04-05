@@ -24,7 +24,7 @@ namespace ESparrow.Utils.Nodes.Tree
             set;
         }
 
-        IList<ITreeNode<T>> Children
+        IEnumerable<ITreeNode<T>> Children
         {
             get;
         }

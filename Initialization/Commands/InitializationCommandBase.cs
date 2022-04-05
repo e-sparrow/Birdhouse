@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ESparrow.Utils.Initialization.Commands.Interfaces;
-using ESparrow.Utils.Initialization.Core.Interfaces;
+using ESparrow.Utils.Initialization.Reports.Interfaces;
 
 namespace ESparrow.Utils.Initialization.Commands
 {

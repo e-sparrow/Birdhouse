@@ -1,6 +1,6 @@
 ﻿using System;
 using ESparrow.Utils.Helpers;
-using Tools.DateAndTime.Timestamps.Interfaces;
+using ESparrow.Utils.Tools.Tense.Timestamps.Interfaces;
 
 namespace ESparrow.Utils.Instructions.Kinds
 {
@@ -23,7 +23,7 @@ namespace ESparrow.Utils.Instructions.Kinds
             Action action, 
             Action onDestroy = default,
             TimeSpan delay = default
-        ) : this(DateAndTimeHelper.UnixHelper.CreateDefaultUnixTimestamp(), action, onDestroy, delay)
+        ) : this(TenseHelper.Unix.CreateDefaultUnixTimestamp(), action, onDestroy, delay)
         {
             _delay = delay;
         }

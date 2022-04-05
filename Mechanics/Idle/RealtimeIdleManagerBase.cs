@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ESparrow.Utils.Mechanics.Idle.Interfaces;
 using ESparrow.Utils.Tools.Offline.Interfaces;
-using Tools.DateAndTime.Timestamps.Interfaces;
+using ESparrow.Utils.Tools.Tense.Timestamps.Interfaces;
 
 namespace ESparrow.Utils.Mechanics.Idle
 {

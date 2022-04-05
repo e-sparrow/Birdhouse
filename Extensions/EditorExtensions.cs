@@ -4,6 +4,7 @@ using UnityEditor;
 
 namespace ESparrow.Utils.Extensions
 {
+    #if UNITY_EDITOR
     public static class EditorExtensions
     {
         public static Type GetParentType(this SerializedProperty self)
@@ -63,4 +64,5 @@ namespace ESparrow.Utils.Extensions
             return fieldInfo;
         }
     }
+    #endif
 }

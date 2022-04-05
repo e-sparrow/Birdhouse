@@ -13,16 +13,16 @@ namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
             
         }
 
-        public override void Draw(IDrawer drawer)
+        public override void Draw(IWayDrawer wayDrawer)
         {
             var corners = Self.GetCorners();
 
             var interpolator = new Vector3ToInterpolatorAdapter();
 
-            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[0], corners[1]));
-            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[1], corners[2]));
-            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[2], corners[3]));
-            drawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[3], corners[0]));
+            wayDrawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[0], corners[1]));
+            wayDrawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[1], corners[2]));
+            wayDrawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[2], corners[3]));
+            wayDrawer.DrawLine(new StraightLine<Vector3>(interpolator, corners[3], corners[0]));
         }
     }
 }

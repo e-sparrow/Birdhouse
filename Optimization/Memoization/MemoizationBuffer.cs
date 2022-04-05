@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ESparrow.Utils.Optimization.Memoization.Interfaces;
-using ESparrow.Utils.Tools.DateAndTime.Expiration;
-using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
+using ESparrow.Utils.Tools.Tense.Expiration;
+using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
 
 namespace ESparrow.Utils.Optimization.Memoization
 {

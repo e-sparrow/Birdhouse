@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using ESparrow.Utils.Enums;
 using ESparrow.Utils.Extensions;
+using ESparrow.Utils.Inputs.Pressures.Enums;
 
 namespace ESparrow.Utils.Instructions.Kinds
 {
@@ -10,7 +11,7 @@ namespace ESparrow.Utils.Instructions.Kinds
         public KeyInstruction
         (
             KeyCode keyCode, 
-            EKeyState targetState, 
+            EPressureState targetState, 
             Action action, 
             Action onDestroy = default
         ) : base(action, onDestroy)
@@ -20,7 +21,7 @@ namespace ESparrow.Utils.Instructions.Kinds
         }
         
         private readonly KeyCode _keyCode;
-        private readonly EKeyState _targetState;
+        private readonly EPressureState _targetState;
 
         protected override bool Check()
         {

@@ -11,6 +11,6 @@ namespace ESparrow.Utils.Drawers.Adapters.AsGizmos
 
         protected readonly T Self;
 
-        public abstract void Draw(IDrawer drawer);
+        public abstract void Draw(IWayDrawer wayDrawer);
     }
 }

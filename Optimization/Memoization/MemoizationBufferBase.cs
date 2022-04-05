@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Helpers;
 using ESparrow.Utils.Optimization.Memoization.Interfaces;
-using ESparrow.Utils.Tools.DateAndTime.Expiration.Interfaces;
+using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
 using ESparrow.Utils.Tools.Substitution;
 using ESparrow.Utils.Tools.Substitution.Enums;
 using ESparrow.Utils.Tools.Substitution.Interfaces;

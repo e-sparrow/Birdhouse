@@ -37,39 +37,36 @@ namespace ESparrow.Utils.Helpers
 
         private const MethodAttributes DefaultOperatorAttributesValue = (MethodAttributes) 2198;
 
-        private const string OperatorPrefix = "op_";
-        
-        private static readonly Regex DefaultOperatorRegex = new Regex($@"\w*{OperatorPrefix}\w*");
-
         public static class OperatorHelper
         {
-            public static IEnumerable<UnaryOperatorInfo> GetUnaryOperatorInfos(Type type)
+            private const string OperatorPrefix = "op_";
+            private static readonly Regex DefaultOperatorRegex = new Regex($@"\w*{OperatorPrefix}\w*");
+            
+            public static IEnumerable<IUnaryOperatorInfo> GetUnaryOperatorInfos(Type type)
             {
                 return GetOperatorInfos(type, EOperatorType.Unary).Select(value => value.Inheritor<IOperatorInfo, UnaryOperatorInfo>());
             }
 
-            public static IEnumerable<UnaryOperatorInfo> GetUnaryOperatorInfos(Type type, EUnaryOperatorType operatorTypes)
+            public static IEnumerable<IUnaryOperatorInfo> GetUnaryOperatorInfos(Type type, EUnaryOperatorType operatorTypes)
             {
                 return GetUnaryOperatorInfos(type).Where(HasTargetFlag);
 
-                bool HasTargetFlag(UnaryOperatorInfo info)
+                bool HasTargetFlag(IUnaryOperatorInfo info)
                 {
                     return operatorTypes.HasFlag(info.UnaryOperatorType);
                 }
             }
 
-            public static IEnumerable<BinaryOperatorInfo> GetBinaryOperatorInfos(Type type)
+            public static IEnumerable<IBinaryOperatorInfo> GetBinaryOperatorInfos(Type type)
             {
                 return GetOperatorInfos(type, EOperatorType.Binary).Select(value => value.Inheritor<IOperatorInfo, BinaryOperatorInfo>());
-                
-                
             }
 
-            public static IEnumerable<BinaryOperatorInfo> GetBinaryOperatorInfos(Type type, EBinaryOperatorType operatorTypes)
+            public static IEnumerable<IBinaryOperatorInfo> GetBinaryOperatorInfos(Type type, EBinaryOperatorType operatorTypes)
             {
                 return GetBinaryOperatorInfos(type).Where(HasTargetFlag);
 
-                bool HasTargetFlag(BinaryOperatorInfo info)
+                bool HasTargetFlag(IBinaryOperatorInfo info)
                 {
                     return operatorTypes.HasFlag(info.BinaryOperatorType);
                 }

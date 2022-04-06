@@ -8,6 +8,7 @@ using ESparrow.Utils.Conversion.Enums;
 using ESparrow.Utils.Conversion.Interfaces;
 using ESparrow.Utils.Reflection.Operators;
 using ESparrow.Utils.Reflection.Operators.Enums;
+using ESparrow.Utils.Reflection.Operators.Interfaces;
 
 namespace ESparrow.Utils.Helpers
 {
@@ -30,7 +31,8 @@ namespace ESparrow.Utils.Helpers
                 result = (TTo) FindConversion(originalType, finalType).Convert(self);
                 return true;
             }
-            else if (TryGenerateConversion(originalType, finalType, conversionType, out var conversion))
+            
+            if (TryGenerateConversion(originalType, finalType, conversionType, out var conversion))
             {
                 result = (TTo) conversion.Convert(self);
                 return true;
@@ -80,7 +82,7 @@ namespace ESparrow.Utils.Helpers
             return false;
         }
 
-        private static bool TryGetSuitableOperator(Type original, Type final, EUnaryOperatorType operatorTypes, out UnaryOperatorInfo result)
+        private static bool TryGetSuitableOperator(Type original, Type final, EUnaryOperatorType operatorTypes, out IUnaryOperatorInfo result)
         {
             var operatorInfos = ReflectionHelper.OperatorHelper.GetUnaryOperatorInfos(original, operatorTypes);
             var array = operatorInfos.ToArray();
@@ -97,7 +99,7 @@ namespace ESparrow.Utils.Helpers
             result = default;
             return false;
 
-            bool IsFit(UnaryOperatorInfo operatorInfo)
+            bool IsFit(IUnaryOperatorInfo operatorInfo)
             {
                 var suitableType = operatorInfo.ReturnType == final;
                 return suitableType;

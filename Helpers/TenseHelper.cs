@@ -4,6 +4,8 @@ using ESparrow.Utils.Extensions;
 using ESparrow.Utils.Tools.Tense.Controllers;
 using ESparrow.Utils.Tools.Tense.Controllers.Interfaces;
 using ESparrow.Utils.Tools.Tense.Enums;
+using ESparrow.Utils.Tools.Tense.Expiration;
+using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
 using ESparrow.Utils.Tools.Tense.Timestamps;
 using UnityEngine;
 
@@ -11,6 +13,24 @@ namespace ESparrow.Utils.Helpers
 {
     public static class TenseHelper
     {
+        public static class Terms
+        {
+            public static ITermInfo CreateTermInfo()
+            {
+                return new TermInfo();
+            }
+
+            public static ITermInfo CreateTermInfo(TimeSpan lifetime)
+            {
+                return new TermInfo(GetExpirationTime());
+
+                DateTime GetExpirationTime()
+                {
+                    return DateTime.Now.Add(lifetime);
+                }
+            }
+        }
+        
         public static class Controllers
         {
             public static readonly IDictionary<ETenseType, ITenseController<DateTime>> DateTimeTenseControllers

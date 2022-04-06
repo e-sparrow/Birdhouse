@@ -92,5 +92,6 @@ namespace ESparrow.Utils.Extensions
         {
             return subject => predicates.Any(value => value.Invoke(subject));
         }
+        
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using ESparrow.Utils.Optimization.Memoization;
 using ESparrow.Utils.Optimization.Memoization.Interfaces;
-using ESparrow.Utils.Tools.Tense.Expiration;
 using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
 
 namespace ESparrow.Utils.Helpers
 {
     public static class MemoizationHelper
     {
+        public static readonly IBufferContainer<Type> Container = new BufferContainer<Type>();
+
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>()
         {
-            return new MemoizationBuffer<TKey, TValue>(CreateTermInfo);
+            return new MemoizationBuffer<TKey, TValue>(TenseHelper.Terms.CreateTermInfo);
         }
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>(TimeSpan elementLifetime)
@@ -19,28 +20,13 @@ namespace ESparrow.Utils.Helpers
 
             ITermInfo CreateTermInfoWithLifetime()
             {
-                return CreateTermInfo(elementLifetime);
+                return TenseHelper.Terms.CreateTermInfo(elementLifetime);
             }
         }
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>(Func<ITermInfo> termInfoCreator)
         {
             return new MemoizationBuffer<TKey, TValue>(termInfoCreator);
-        }
-
-        public static ITermInfo CreateTermInfo()
-        {
-            return new TermInfo();
-        }
-
-        public static ITermInfo CreateTermInfo(TimeSpan lifetime)
-        {
-            return new TermInfo(GetExpirationTime());
-
-            DateTime GetExpirationTime()
-            {
-                return DateTime.Now.Add(lifetime);
-            }
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ESparrow.Utils.Collections.Generic;
+using ESparrow.Utils.Collections.Generic.Interfaces;
 using ESparrow.Utils.Exceptions;
 using UnityEngine;
 using Random = System.Random;
@@ -615,6 +617,75 @@ namespace ESparrow.Utils.Extensions
         public static IEnumerable<TInheritor> SelectInheritor<TBase, TInheritor>(this IEnumerable<TBase> self) where TInheritor : TBase
         {
             return self.Select(value => value.Inheritor<TBase, TInheritor>());
+        }
+
+        public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>
+            (this IEnumerable<KeyValuePair<TKey, TValue>> self, bool replace = false)
+        {
+            var dictionary = new Dictionary<TKey, TValue>();
+            foreach (var item in self)
+            {
+                if (dictionary.ContainsKey(item.Key))
+                {
+                    if (replace)
+                    {
+                        dictionary[item.Key] = item.Value;
+                    }
+                }
+                else
+                {
+                    dictionary.Add(item.Key, item.Value);
+                }
+            }
+
+            return dictionary;
+        }
+
+        public static IMultiDictionary<TKey, TValue> ToMultiDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
+        {
+            var dictionary = new MultiDictionary<TKey, TValue>();
+            foreach (var item in self)
+            {
+                dictionary.Add(item.Key, item.Value);
+            }
+
+            return dictionary;
+        }
+
+        public static IMultiDictionary<TKey, TValue> ToMultiDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, IReadOnlyCollection<TValue>>> self)
+        {
+            var dictionary = new MultiDictionary<TKey, TValue>();
+            foreach (var item in self)
+            {
+                foreach (var value in item.Value)
+                {
+                    dictionary.Add(item.Key, value);
+                }
+            }
+
+            return dictionary;
+        }
+
+        public static IMultiDictionary<TKey, TValue> Concat<TKey, TValue>
+            (this IMultiDictionary<TKey, TValue> self, IMultiDictionary<TKey, TValue> other)
+        {
+            foreach (var item in other)
+            {
+                self.Add(item);
+            }
+            
+            return self;
+        }
+
+        public static IMultiDictionary<TKey, TValue> Add<TKey, TValue>
+            (this IMultiDictionary<TKey, TValue> self, KeyValuePair<TKey, IReadOnlyCollection<TValue>> pair)
+        {
+            foreach (var value in pair.Value)
+            {
+                self.Add(pair.Key, value);
+            }
+
+            return self;
         }
 
         /// <summary>

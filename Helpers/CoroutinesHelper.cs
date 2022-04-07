@@ -22,6 +22,7 @@ namespace ESparrow.Utils.Helpers
 
         public static IEnumerator Graduate(Action<float> action, float duration, IEase ease = null)
         {
+            ease ??= new Ease();
             var settings = new GradualSettings(action, duration, ease);
             return Graduate(settings);
         }

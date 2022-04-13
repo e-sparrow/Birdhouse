@@ -13,7 +13,14 @@ namespace ESparrow.Utils.Tools.Graduating
             Ease = ease;
         }
         
-        public GradualSettings(Action<float> action, float duration, IEase ease = null) : this(action, TimeSpan.FromSeconds(duration), ease)
+        public GradualSettings(Action<float> action, float duration, IEase ease = null)
+            : this(action, TimeSpan.FromSeconds(duration), ease)
+        {
+            
+        }
+
+        public GradualSettings(Action<float> action, ITweeningSettings settings) 
+            : this(action, settings.Duration, settings.Ease)
         {
             
         }

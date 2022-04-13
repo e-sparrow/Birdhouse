@@ -21,6 +21,16 @@ namespace ESparrow.Utils.Helpers
         {
             await Graduate(settings, TimeSpan.FromMilliseconds(step));
         }
+
+        public static async Task Graduate(Action<float> action, float duration, TimeSpan step, IEase ease = default)
+        {
+            await Graduate(new GradualSettings(action, TimeSpan.FromSeconds(duration), ease), step);
+        }
+
+        public static async Task Graduate(Action<float> action, float duration, int step, IEase ease = default)
+        {
+            await Graduate(new GradualSettings(action, TimeSpan.FromSeconds(duration), ease), step);
+        }
         
         /// <summary>
         /// Awaits while specified function returns true.

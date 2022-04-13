@@ -27,6 +27,11 @@ namespace ESparrow.Utils.Helpers
             return Graduate(settings);
         }
 
+        public static IEnumerator Graduate(Action<float> action, ITweeningSettings settings)
+        {
+            return Graduate(action, (float) settings.Duration.TotalSeconds, settings.Ease);
+        }
+
         public static IEnumerator ExecuteConsistently(IEnumerable<IEnumerator> coroutines, float cooldown = 0f)
         {
             foreach (var coroutine in coroutines)

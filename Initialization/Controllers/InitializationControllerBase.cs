@@ -51,6 +51,7 @@ namespace ESparrow.Utils.Initialization.Controllers
                 foreach (var initializationCommand in initializationCommands)
                 {
                     await InitializeCommand(initializationCommand, _context);
+                    callback.Invoke(initializationCommand);
                 }
             }
         }

@@ -2,7 +2,7 @@
 using ESparrow.Utils.Data.Interfaces;
 using ESparrow.Utils.Serialization.Interfaces;
 
-namespace Data.Transmission.Adapters
+namespace ESparrow.Utils.Data.Transmission.Adapters
 {
     public class SerializationControllerToDataTransmitterAdapter<TData> : IAsyncDataTransmitter<TData>, IDataTransmitter<TData>
     {

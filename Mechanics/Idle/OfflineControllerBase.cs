@@ -22,7 +22,7 @@ namespace ESparrow.Utils.Mechanics.Idle
         public void BecomeOffline()
         {
             var currentTime = GetCurrentTime();
-            SetLastVisit(GetCurrentTime());
+            SetLastVisit(currentTime);
         }
 
         public void BecomeOnline()

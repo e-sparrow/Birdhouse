@@ -1,12 +1,8 @@
-using ESparrow.Utils.Enums;
 using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Mechanics.Idle;
 using ESparrow.Utils.Serialization;
 using ESparrow.Utils.Serialization.Enums;
 using ESparrow.Utils.Serialization.Interfaces;
 using ESparrow.Utils.Tools.Offline.Interfaces;
-using Global;
-using Global.Interfaces;
 using UnityEngine;
 
 namespace ESparrow.Utils.Mechanics.Idle.Examples.Mono
@@ -17,7 +13,6 @@ namespace ESparrow.Utils.Mechanics.Idle.Examples.Mono
         
         private ISerializationController _serializationController;
 
-        private ITimeManager _timeManager;
         private IIdleController _idleController;
         private IOfflineController _offlineController;
 
@@ -28,9 +23,8 @@ namespace ESparrow.Utils.Mechanics.Idle.Examples.Mono
 
             _serializationController = new SerializationController(method, directory);
 
-            _timeManager = new TimeManager();
             _idleController = new IdleController();
-            _offlineController = new OfflineController(_timeManager, _idleController);  
+            _offlineController = new OfflineController(TenseHelper.Controllers.NowTenseController, _idleController);  
         }
 
         private void Start()

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using ESparrow.Utils.Assertions;
 using Random = UnityEngine.Random;
 
 namespace ESparrow.Utils.Tools.Flickering
@@ -42,8 +41,6 @@ namespace ESparrow.Utils.Tools.Flickering
 
         private void Update()
         {
-            AssertionProvider.IsNullOrEmpty(code, gameObject).AsError().Assert();
-
             int currentTimeStep = (int) ((_offset + Time.time) / step);
             int currentCharIndex = currentTimeStep % code.Length;
 

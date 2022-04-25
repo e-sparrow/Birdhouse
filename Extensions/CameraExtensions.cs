@@ -26,5 +26,23 @@ namespace ESparrow.Utils.Extensions
         {
             return camera.GetWorldRect().center;
         }
+
+        public static void DrawRectOnCameraScreen(this Camera camera, Rect rect, float range = 1f)
+        {
+            var minX = rect.xMin;
+            var minY = rect.yMin;
+            var maxX = rect.xMax;
+            var maxY = rect.yMax;
+
+            var topLeft = camera.ScreenToWorldPoint(new Vector3(minX, maxY, range));
+            var topRight = camera.ScreenToWorldPoint(new Vector3(maxX, maxY, range));
+            var lowerRight = camera.ScreenToWorldPoint(new Vector3(maxX, minY, range));
+            var lowerLeft = camera.ScreenToWorldPoint(new Vector3(minX, minY, range));
+            
+            Gizmos.DrawLine(topLeft, topRight);
+            Gizmos.DrawLine(topLeft, lowerRight);
+            Gizmos.DrawLine(lowerRight, lowerLeft);
+            Gizmos.DrawLine(lowerLeft, topLeft);
+        }
     }
 }

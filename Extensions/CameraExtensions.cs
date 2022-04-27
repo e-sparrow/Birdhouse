@@ -40,7 +40,7 @@ namespace ESparrow.Utils.Extensions
             var lowerLeft = camera.ScreenToWorldPoint(new Vector3(minX, minY, range));
             
             Gizmos.DrawLine(topLeft, topRight);
-            Gizmos.DrawLine(topLeft, lowerRight);
+            Gizmos.DrawLine(topRight, lowerRight);
             Gizmos.DrawLine(lowerRight, lowerLeft);
             Gizmos.DrawLine(lowerLeft, topLeft);
         }

@@ -744,5 +744,10 @@ namespace ESparrow.Utils.Extensions
 
             return angle;
         }
+
+        public static Vector2 ProjectTopDown(this Vector3 self)
+        {
+            return new Vector2(self.x, self.z);
+        }
     }
 }

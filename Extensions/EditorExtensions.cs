@@ -16,7 +16,7 @@ namespace ESparrow.Utils.Extensions
         public static FieldInfo GetFieldInfo(this SerializedProperty self)
         {
             var parentType = self.GetParentType();
-            var fieldInfo = parentType.GetField(self.propertyPath);
+            var fieldInfo = parentType.GetFieldViaPath(self.propertyPath);
             
             return fieldInfo;
         }
@@ -37,7 +37,6 @@ namespace ESparrow.Utils.Extensions
         public static void SetValue(this SerializedProperty self, object value)
         {
             var fieldInfo = self.GetFieldInfo();
-            
             fieldInfo.SetValue(self.serializedObject.targetObject, value);
         }
         

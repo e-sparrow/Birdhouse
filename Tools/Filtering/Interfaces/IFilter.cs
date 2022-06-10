@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace ESparrow.Utils.Tools.Strings.Searching.Interfaces
+namespace ESparrow.Utils.Tools.Strings.Filtering.Interfaces
 {
-    public interface ISearcher<TDesired>
+    public interface IFilter<T>
     {
-        IEnumerable<string>
+        IEnumerable<T> Filtrate(IEnumerable<T> source);
     }
 }

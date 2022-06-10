@@ -14,12 +14,14 @@ namespace ESparrow.Utils.Serialization
 
         protected override Stream GetStreamToWrite()
         {
-            return new FileStream(_directory, FileMode.OpenOrCreate, FileAccess.Write);
+            var stream = new FileStream(_directory, FileMode.OpenOrCreate, FileAccess.Write);
+            return stream;
         }
 
         protected override Stream GetStreamToRead()
         {
-            return new FileStream(_directory, FileMode.OpenOrCreate, FileAccess.Read);
+            var stream = new FileStream(_directory, FileMode.OpenOrCreate, FileAccess.Read);
+            return stream;
         }
     }
 }

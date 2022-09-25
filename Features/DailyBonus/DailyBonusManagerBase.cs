@@ -8,7 +8,7 @@ using Birdhouse.Mechanics.Streaks.Interfaces;
 using Birdhouse.Tools.Generalization.Summation.Interfaces;
 
 //TODO:TODO:TODO:TODO:
-namespace Birdhouse.Mechanics.DailyBonus
+namespace Birdhouse.Features.DailyBonus
 {
     public abstract class DailyBonusManagerBase<TReward> : IDailyBonusManager<TReward>
     {

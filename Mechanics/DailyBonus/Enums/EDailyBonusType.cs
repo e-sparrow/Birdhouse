@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Mechanics.DailyBonus.Enums
+﻿namespace Birdhouse.Mechanics.DailyBonus.Enums
 {
     public enum EDailyBonusType
     {

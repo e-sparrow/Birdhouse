@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
-namespace ESparrow.Utils.Tools.Screenshots.Interfaces
+namespace Birdhouse.Tools.Screenshots.Interfaces
 {
     public interface IScreenshotSettings
     {

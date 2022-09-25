@@ -1,9 +1,8 @@
 ﻿using System;
-using ESparrow.Utils.Serialization.Interfaces;
-using ESparrow.Utils.Tools.Offline.Interfaces;
+using Birdhouse.Mechanics.Idle.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public abstract class OfflineControllerBase : IOfflineController
     {

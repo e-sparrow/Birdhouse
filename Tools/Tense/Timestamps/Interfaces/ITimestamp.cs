@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Tense.Timestamps.Interfaces
+namespace Birdhouse.Tools.Tense.Timestamps.Interfaces
 {
     public interface ITimestamp
     {

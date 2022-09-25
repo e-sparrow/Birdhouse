@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Tense.Expiration.Enums;
+using Birdhouse.Tools.Tense.Expiration.Enums;
 
-namespace ESparrow.Utils.Tools.Tense.Expiration.Interfaces
+namespace Birdhouse.Tools.Tense.Expiration.Interfaces
 {
     public interface ITermInfo
     {

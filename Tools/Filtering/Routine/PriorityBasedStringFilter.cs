@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace ESparrow.Utils.Tools.Filtering.Routine
+namespace Birdhouse.Tools.Filtering.Routine
 {
     public class PriorityBasedStringFilter : PriorityBasedFilterBase<string>
     {

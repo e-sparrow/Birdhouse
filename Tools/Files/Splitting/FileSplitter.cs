@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ESparrow.Utils.Tools.Files.Splitting.Interfaces;
+using Birdhouse.Tools.Files.Splitting.Interfaces;
 
-namespace ESparrow.Utils.Tools.Files.Splitting
+namespace Birdhouse.Tools.Files.Splitting
 {
     public class FileSplitter : IFileSplitter
     {

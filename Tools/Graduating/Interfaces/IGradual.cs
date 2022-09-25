@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ESparrow.Utils.Tools.Graduating.Interfaces
+namespace Birdhouse.Tools.Graduating.Interfaces
 {
     public interface IGradual
     {

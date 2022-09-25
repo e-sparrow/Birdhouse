@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Easing
+﻿namespace Birdhouse.Tools.Easing
 {
     public delegate T Easing<out T>(float progress);
 }

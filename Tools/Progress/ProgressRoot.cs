@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ESparrow.Utils.Tools.Progress.Interfaces;
+using Birdhouse.Tools.Progress.Interfaces;
 
-namespace ESparrow.Utils.Tools.Progress
+namespace Birdhouse.Tools.Progress
 {
     public class ProgressRoot : ProgressBase
     {

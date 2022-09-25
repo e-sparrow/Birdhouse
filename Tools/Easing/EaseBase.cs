@@ -1,6 +1,6 @@
-using ESparrow.Utils.Tools.Easing.Interfaces;
+using Birdhouse.Tools.Easing.Interfaces;
 
-namespace ESparrow.Utils.Tools.Easing
+namespace Birdhouse.Tools.Easing
 {
     public abstract class EaseBase : IEase
     {

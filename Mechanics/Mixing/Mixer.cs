@@ -1,8 +1,8 @@
-﻿using ESparrow.Utils.Tools.Interpolation.Interfaces;
-using ESparrow.Utils.Tools.Interpolation.Mixing.Interfaces;
-using ESparrow.Utils.Mechanics.Mixing.Structs;
+﻿using Birdhouse.Mechanics.Mixing.Interfaces;
+using Birdhouse.Mechanics.Mixing.Structs;
+using Birdhouse.Tools.Interpolation.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Mixing
+namespace Birdhouse.Mechanics.Mixing
 {
     public class Mixer<T> : MixerBase<T>
     {

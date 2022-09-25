@@ -1,6 +1,6 @@
-﻿using ESparrow.Utils.Tools.Interpolation.Mixing.Interfaces;
+﻿using Birdhouse.Mechanics.Mixing.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Mixing.Structs
+namespace Birdhouse.Mechanics.Mixing.Structs
 {
     public readonly struct MixingPart<T> : IMixingPart<T>
     {

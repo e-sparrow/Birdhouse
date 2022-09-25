@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Tense.Timestamps.Interfaces;
+using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
-namespace ESparrow.Utils.Tools.Tense.Timestamps
+namespace Birdhouse.Tools.Tense.Timestamps
 {
     public abstract class TimestampBase : ITimestamp
     {

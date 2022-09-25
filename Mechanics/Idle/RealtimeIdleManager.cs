@@ -1,10 +1,9 @@
 ﻿using System;
-using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Tools.Offline.Interfaces;
-using ESparrow.Utils.Tools.Tense.Timestamps;
+using Birdhouse.Common.Helpers;
+using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Tools.Tense.Timestamps;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public class RealtimeIdleManager : RealtimeIdleManagerBase
     {

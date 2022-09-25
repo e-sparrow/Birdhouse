@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ESparrow.Utils.Tools.Interpolation.Mixing.Interfaces 
+namespace Birdhouse.Mechanics.Mixing.Interfaces 
 {
     public interface IMixer<TPart>
     {

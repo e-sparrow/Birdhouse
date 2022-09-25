@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Substitution.Interfaces
+﻿namespace Birdhouse.Tools.Substitution.Interfaces
 {
     public interface ISubstitutionController<in TElement>
     {

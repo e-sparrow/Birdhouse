@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ESparrow.Utils.Tools.Strings.Filtering.Interfaces
+namespace Birdhouse.Tools.Filtering.Interfaces
 {
     public interface IFilter<T>
     {

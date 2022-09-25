@@ -1,7 +1,7 @@
-﻿using ESparrow.Utils.Tools.Substitution.Enums;
-using ESparrow.Utils.Tools.Substitution.Interfaces;
+﻿using Birdhouse.Tools.Substitution.Enums;
+using Birdhouse.Tools.Substitution.Interfaces;
 
-namespace ESparrow.Utils.Tools.Substitution.Methods
+namespace Birdhouse.Tools.Substitution.Methods
 {
     public abstract class SubstitutionMethodBase<TElement> : ISubstitutionMethod<TElement>
     {

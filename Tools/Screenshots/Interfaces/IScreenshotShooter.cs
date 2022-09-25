@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Screenshots.Interfaces
+namespace Birdhouse.Tools.Screenshots.Interfaces
 {
     public interface IScreenshotShooter
     {

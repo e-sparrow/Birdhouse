@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using ESparrow.Utils.Patterns.Listening;
-using ESparrow.Utils.Patterns.Listening.Interfaces;
-using ESparrow.Utils.Asynchronous.Services;
-using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Inputs.Services;
-using ESparrow.Utils.Patterns.Listening.Services.Interfaces;
-using ESparrow.Utils.Services.Interfaces;
+using Birdhouse.Common.Helpers;
+using Birdhouse.Education.Patterns.Listening;
+using Birdhouse.Education.Patterns.Listening.Interfaces;
+using Birdhouse.Education.Patterns.Listening.Services;
+using Birdhouse.Tools.Inputs.Services;
+using Birdhouse.Tools.Inputs.Services.Interfaces;
+using Birdhouse.Tools.Inputs.Services.Listeners;
 using UnityEngine;
 
-namespace ESparrow.Utils.Mono.Modules
+namespace Birdhouse.Mono.Modules
 {
     public class MonoInputModule : MonoBehaviour
     {

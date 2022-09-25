@@ -1,6 +1,6 @@
-﻿using ESparrow.Utils.Tools.Substitution.Interfaces;
+﻿using Birdhouse.Tools.Substitution.Interfaces;
 
-namespace ESparrow.Utils.Tools.Substitution.Methods
+namespace Birdhouse.Tools.Substitution.Methods
 {
     public class CapaciousSubstitutionMethod<TElement> : CapaciousSubstitutionMethodBase<TElement>
     {

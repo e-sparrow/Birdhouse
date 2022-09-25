@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Easing.Interfaces;
+using Birdhouse.Tools.Easing.Interfaces;
 
-namespace ESparrow.Utils.Tools.Graduating.Interfaces
+namespace Birdhouse.Tools.Graduating.Interfaces
 {
     public interface IGradualSettings : ITweeningSettings
     {

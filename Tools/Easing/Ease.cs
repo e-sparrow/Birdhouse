@@ -1,8 +1,8 @@
 using System;
-using ESparrow.Utils.Helpers;
+using Birdhouse.Common.Helpers;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Easing
+namespace Birdhouse.Tools.Easing
 {
     public class Ease : EaseBase
     {

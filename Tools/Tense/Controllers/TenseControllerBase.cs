@@ -1,6 +1,6 @@
-﻿using ESparrow.Utils.Tools.Tense.Controllers.Interfaces;
+﻿using Birdhouse.Tools.Tense.Controllers.Interfaces;
 
-namespace ESparrow.Utils.Tools.Tense.Controllers
+namespace Birdhouse.Tools.Tense.Controllers
 {
     public abstract class TenseControllerBase<TTense> : ITenseController<TTense>
     {

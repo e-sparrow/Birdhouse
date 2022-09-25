@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Tools.Strings.Filtering.Interfaces;
+using Birdhouse.Common.Extensions;
+using Birdhouse.Tools.Filtering.Interfaces;
 
-namespace ESparrow.Utils.Tools.Filtering
+namespace Birdhouse.Tools.Filtering
 {
     public abstract class PriorityBasedFilterBase<T> : IFilter<T>
     {

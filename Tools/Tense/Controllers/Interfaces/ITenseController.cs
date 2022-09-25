@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Tense.Controllers.Interfaces
+﻿namespace Birdhouse.Tools.Tense.Controllers.Interfaces
 {
     public interface ITenseController<out TTense>
     {

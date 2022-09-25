@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Tense.Timestamps
+namespace Birdhouse.Tools.Tense.Timestamps
 {
     public class Timestamp : TimestampBase
     {

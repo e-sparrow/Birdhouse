@@ -1,8 +1,8 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Easing.Interfaces;
-using ESparrow.Utils.Tools.Graduating.Interfaces;
+using Birdhouse.Tools.Easing.Interfaces;
+using Birdhouse.Tools.Graduating.Interfaces;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     public readonly struct GradualSettings : IGradualSettings
     {

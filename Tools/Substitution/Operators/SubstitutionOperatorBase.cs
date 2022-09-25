@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ESparrow.Utils.Tools.Substitution.Interfaces;
+using Birdhouse.Tools.Substitution.Interfaces;
 
-namespace ESparrow.Utils.Tools.Substitution.Operators
+namespace Birdhouse.Tools.Substitution.Operators
 {
     public abstract class SubstitutionOperatorBase<TEnumerable, TElement> : ISubstitutionOperator<TElement>
         where TEnumerable : IEnumerable<TElement>

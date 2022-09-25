@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace ESparrow.Utils.Tools.Tense.Pendulums.Interfaces
+namespace Birdhouse.Tools.Tense.Pendulums.Interfaces
 {
     public interface IPendulum
     {

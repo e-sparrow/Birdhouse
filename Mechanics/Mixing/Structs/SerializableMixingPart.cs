@@ -1,8 +1,8 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Interpolation.Mixing.Interfaces;
+using Birdhouse.Mechanics.Mixing.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Mechanics.Mixing.Structs
+namespace Birdhouse.Mechanics.Mixing.Structs
 {
     [Serializable]
     public struct SerializableMixingPart<T> : IMixingPart<T>

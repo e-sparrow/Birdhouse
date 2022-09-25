@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Easing.Interfaces
+namespace Birdhouse.Tools.Easing.Interfaces
 {
     public interface IEaseApplier<out T>
     {

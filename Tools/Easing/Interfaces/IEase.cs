@@ -1,4 +1,4 @@
-namespace ESparrow.Utils.Tools.Easing.Interfaces
+namespace Birdhouse.Tools.Easing.Interfaces
 {
     public interface IEase
     {

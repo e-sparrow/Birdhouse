@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Files.Splitting.Interfaces
+namespace Birdhouse.Tools.Files.Splitting.Interfaces
 {
     public interface IFileSplittingSettings
     {

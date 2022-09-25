@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Tense.Expiration.Interfaces;
+using Birdhouse.Tools.Tense.Expiration.Interfaces;
 
-namespace ESparrow.Utils.Tools.Tense.Expiration
+namespace Birdhouse.Tools.Tense.Expiration
 {
     public class Term : TermBase
     {

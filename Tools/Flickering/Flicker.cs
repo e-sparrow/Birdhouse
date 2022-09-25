@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-namespace ESparrow.Utils.Tools.Flickering
+namespace Birdhouse.Tools.Flickering
 {
     public class Flicker : MonoBehaviour
     {

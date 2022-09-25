@@ -1,7 +1,6 @@
 using System;
-using ESparrow.Utils.Tools.Offline.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Idle.Interfaces
+namespace Birdhouse.Mechanics.Idle.Interfaces
 {
     public interface IRealtimeIdleManager 
     {

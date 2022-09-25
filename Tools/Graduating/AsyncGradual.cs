@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     public class AsyncGradual : AsyncGradualBase
     {

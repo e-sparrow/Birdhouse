@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using ESparrow.Utils.Tools.Graduating.Interfaces;
+using Birdhouse.Tools.Graduating.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     public abstract class GradualBase : IGradual
     {

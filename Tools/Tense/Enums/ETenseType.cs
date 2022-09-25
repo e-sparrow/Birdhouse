@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Tense.Enums
+﻿namespace Birdhouse.Tools.Tense.Enums
 {
     public enum ETenseType
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public class IdleController : IdleControllerBase
     {

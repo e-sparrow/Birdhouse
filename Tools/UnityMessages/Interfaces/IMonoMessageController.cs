@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.UnityMessages
+namespace Birdhouse.Tools.UnityMessages.Interfaces
 {
     public interface IMonoMessageController
     {

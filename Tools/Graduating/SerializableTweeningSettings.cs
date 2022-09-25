@@ -1,10 +1,10 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Easing;
-using ESparrow.Utils.Tools.Easing.Interfaces;
-using ESparrow.Utils.Tools.Graduating.Interfaces;
+using Birdhouse.Tools.Easing;
+using Birdhouse.Tools.Easing.Interfaces;
+using Birdhouse.Tools.Graduating.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     [Serializable]
     public class SerializableTweeningSettings : ITweeningSettings

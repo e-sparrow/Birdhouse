@@ -1,16 +1,14 @@
 ﻿// Цепочка бонусов может прерываться, бонус может быть активен только день. 
 using System;
 using System.Collections.Generic;
-using ESparrow.Utils.Extensions;
-using ESparrow.Utils.Generalization.Summation.Interfaces;
-using ESparrow.Utils.Mechanics.DailyBonus.Interfaces;
-using ESparrow.Utils.Mechanics.Streaks;
-using ESparrow.Utils.Mechanics.Streaks.Interfaces;
-using ESparrow.Utils.Serialization.Interfaces;
-using ESparrow.Utils.Tools.Offline.Interfaces;
+using Birdhouse.Common.Extensions;
+using Birdhouse.Mechanics.DailyBonus.Interfaces;
+using Birdhouse.Mechanics.Streaks;
+using Birdhouse.Mechanics.Streaks.Interfaces;
+using Birdhouse.Tools.Generalization.Summation.Interfaces;
 
 //TODO:TODO:TODO:TODO:
-namespace ESparrow.Utils.Mechanics.DailyBonus
+namespace Birdhouse.Mechanics.DailyBonus
 {
     public abstract class DailyBonusManagerBase<TReward> : IDailyBonusManager<TReward>
     {

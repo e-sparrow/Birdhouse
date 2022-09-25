@@ -1,9 +1,9 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Graduating.Interfaces;
+using Birdhouse.Tools.Graduating.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     [Serializable]
     public class SerializableGradualSettings : SerializableTweeningSettings, IGradualSettings

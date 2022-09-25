@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Flickering.Examples
+namespace Birdhouse.Tools.Flickering.Examples
 {
     public class LightFlickerExample : Flicker
     {

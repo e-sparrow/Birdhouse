@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Offline.Interfaces
+﻿namespace Birdhouse.Mechanics.Idle.Interfaces
 {
     public interface IOfflineController
     {

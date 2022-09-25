@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Offline.Interfaces;
+using Birdhouse.Mechanics.Idle.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public abstract class IdleControllerBase : IIdleController
     {

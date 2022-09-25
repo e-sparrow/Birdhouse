@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Progress.Interfaces
+﻿namespace Birdhouse.Tools.Progress.Interfaces
 {
     public interface ISettableProgress : IProgress
     {

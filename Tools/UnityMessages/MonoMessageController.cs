@@ -1,9 +1,8 @@
 ﻿using System;
-using ESparrow.Utils.Patterns.Singleton;
-using ESparrow.Utils.Patterns.Singleton.Mono;
-using ESparrow.Utils.Tools.UnityMessages;
+using Birdhouse.Education.Patterns.Singleton.Mono;
+using Birdhouse.Tools.UnityMessages.Interfaces;
 
-namespace ESparrow.Utils.Mono
+namespace Birdhouse.Tools.UnityMessages
 {
     public sealed class MonoMessageController : MonoSingleton<MonoMessageController>, IMonoMessageController
     {

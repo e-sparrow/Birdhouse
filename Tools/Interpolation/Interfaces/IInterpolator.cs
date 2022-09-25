@@ -1,6 +1,4 @@
-using ESparrow.Utils.Generalization.Interfaces;
-
-namespace ESparrow.Utils.Tools.Interpolation.Interfaces
+namespace Birdhouse.Tools.Interpolation.Interfaces
 {
     public interface IInterpolator<T>
     { 

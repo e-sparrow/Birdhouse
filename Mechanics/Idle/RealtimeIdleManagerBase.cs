@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ESparrow.Utils.Mechanics.Idle.Interfaces;
-using ESparrow.Utils.Tools.Offline.Interfaces;
-using ESparrow.Utils.Tools.Tense.Timestamps.Interfaces;
+using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public abstract class RealtimeIdleManagerBase : IRealtimeIdleManager
     {

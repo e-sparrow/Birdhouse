@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ESparrow.Utils.Tools.Substitution.Operators.Adapters
+namespace Birdhouse.Tools.Substitution.Operators.Adapters
 {
     public class DictionaryToSubstitutionOperatorAdapter<TKey, TValue> : SubstitutionOperatorBase<IDictionary<TKey, TValue>, KeyValuePair<TKey, TValue>>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ESparrow.Utils.Tools.Tense.Pendulums.Interfaces;
+using Birdhouse.Tools.Tense.Pendulums.Interfaces;
 
-namespace ESparrow.Utils.Tools.Tense.Pendulums
+namespace Birdhouse.Tools.Tense.Pendulums
 {
     public abstract class AsyncPendulumBase : IPendulum
     {

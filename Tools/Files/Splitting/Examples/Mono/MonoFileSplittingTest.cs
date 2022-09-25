@@ -1,11 +1,11 @@
 ﻿using System.IO;
-using ESparrow.Utils.Helpers;
-using ESparrow.Utils.Serialization.Enums;
-using ESparrow.Utils.Serialization.Interfaces;
-using ESparrow.Utils.Tools.Files.Splitting.Interfaces;
+using Birdhouse.Common.Helpers;
+using Birdhouse.Tools.Files.Splitting.Interfaces;
+using Birdhouse.Tools.Serialization.Enums;
+using Birdhouse.Tools.Serialization.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Files.Splitting.Examples.Mono
+namespace Birdhouse.Tools.Files.Splitting.Examples.Mono
 {
     public class MonoFileSplittingTest : MonoBehaviour
     {

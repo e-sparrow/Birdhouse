@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Tense.Expiration.Interfaces
+﻿namespace Birdhouse.Tools.Tense.Expiration.Interfaces
 {
     public interface ITerm
     {

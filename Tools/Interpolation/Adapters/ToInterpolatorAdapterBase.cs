@@ -1,6 +1,6 @@
-using ESparrow.Utils.Tools.Interpolation.Interfaces;
+using Birdhouse.Tools.Interpolation.Interfaces;
 
-namespace ESparrow.Utils.Tools.Interpolation.Adapters
+namespace Birdhouse.Tools.Interpolation.Adapters
 {
     public abstract class ToInterpolatorAdapterBase<T> : IInterpolator<T>
     {

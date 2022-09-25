@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Offline.Interfaces
+namespace Birdhouse.Mechanics.Idle.Interfaces
 {
     public interface IIdleController
     {

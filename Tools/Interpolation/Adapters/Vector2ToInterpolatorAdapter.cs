@@ -1,8 +1,7 @@
-using ESparrow.Utils.Generalization.Types.Enums;
-using ESparrow.Utils.Tools;
+using Birdhouse.Tools;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Interpolation.Adapters
+namespace Birdhouse.Tools.Interpolation.Adapters
 {
     public class Vector2ToInterpolatorAdapter : ToInterpolatorAdapterBase<Vector2>
     {

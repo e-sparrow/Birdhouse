@@ -1,7 +1,7 @@
 ﻿using System;
-using ESparrow.Utils.Tools.Files.Splitting.Interfaces;
+using Birdhouse.Tools.Files.Splitting.Interfaces;
 
-namespace ESparrow.Utils.Tools.Files.Splitting
+namespace Birdhouse.Tools.Files.Splitting
 {
     public readonly struct FileSplittingSettings : IFileSplittingSettings
     {

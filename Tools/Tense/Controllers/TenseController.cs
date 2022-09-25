@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESparrow.Utils.Tools.Tense.Controllers
+namespace Birdhouse.Tools.Tense.Controllers
 {
     public class TenseController<TTense> : TenseControllerBase<TTense>
     {

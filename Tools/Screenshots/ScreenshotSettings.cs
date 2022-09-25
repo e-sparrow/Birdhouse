@@ -1,7 +1,7 @@
-﻿using ESparrow.Utils.Tools.Screenshots.Interfaces;
+﻿using Birdhouse.Tools.Screenshots.Interfaces;
 using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Screenshots
+namespace Birdhouse.Tools.Screenshots
 {
     public readonly struct ScreenshotSettings : IScreenshotSettings
     {

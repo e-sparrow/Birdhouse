@@ -1,10 +1,9 @@
 ﻿using System;
-using ESparrow.Utils.Data.Interfaces;
-using ESparrow.Utils.Serialization.Interfaces;
-using ESparrow.Utils.Tools.Offline.Interfaces;
-using ESparrow.Utils.Tools.Tense.Controllers.Interfaces;
+using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Tools.Data.Transmission.Interfaces;
+using Birdhouse.Tools.Tense.Controllers.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Idle
+namespace Birdhouse.Mechanics.Idle
 {
     public class OfflineController : OfflineControllerBase
     {

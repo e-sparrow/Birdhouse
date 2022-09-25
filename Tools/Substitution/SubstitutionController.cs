@@ -1,6 +1,6 @@
-﻿using ESparrow.Utils.Tools.Substitution.Interfaces;
+﻿using Birdhouse.Tools.Substitution.Interfaces;
 
-namespace ESparrow.Utils.Tools.Substitution
+namespace Birdhouse.Tools.Substitution
 {
     public class SubstitutionController<TElement> : SubstitutionControllerBase<TElement>
     {

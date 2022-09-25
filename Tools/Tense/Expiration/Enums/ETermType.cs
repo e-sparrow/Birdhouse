@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Tense.Expiration.Enums
+﻿namespace Birdhouse.Tools.Tense.Expiration.Enums
 {
     public enum ETermType
     {

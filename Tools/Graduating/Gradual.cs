@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ESparrow.Utils.Tools.Graduating
+namespace Birdhouse.Tools.Graduating
 {
     public class Gradual : GradualBase
     {

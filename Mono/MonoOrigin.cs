@@ -1,7 +1,7 @@
-using ESparrow.Utils.Patterns.Singleton.Mono;
+using Birdhouse.Education.Patterns.Singleton.Mono;
 using UnityEngine;
 
-namespace ESparrow.Utils.Mono
+namespace Birdhouse.Mono
 {
     [AddComponentMenu("ESparrow/Utils/Mono/Origin")]
     public class MonoOrigin : MonoSingleton<MonoOrigin>

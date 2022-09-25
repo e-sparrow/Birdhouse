@@ -1,7 +1,7 @@
-﻿using ESparrow.Utils.Generalization.Summation.Interfaces;
-using ESparrow.Utils.Mechanics.Streaks.Interfaces;
+﻿using Birdhouse.Mechanics.Streaks.Interfaces;
+using Birdhouse.Tools.Generalization.Summation.Interfaces;
 
-namespace ESparrow.Utils.Mechanics.Streaks
+namespace Birdhouse.Mechanics.Streaks
 {
     public abstract class StreakBase<TSelf, TSummable> : IStreak<TSelf> where TSummable : ISummable<TSelf>
     {

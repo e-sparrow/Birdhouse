@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ESparrow.Utils.Tools.Substitution.Operators.Adapters
+namespace Birdhouse.Tools.Substitution.Operators.Adapters
 {
     public sealed class ListToSubstitutionOperatorAdapter<T> : SubstitutionOperatorBase<IList<T>, T>
     {

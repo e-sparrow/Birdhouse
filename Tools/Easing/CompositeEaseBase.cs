@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ESparrow.Utils.Tools.Easing.Interfaces;
+using Birdhouse.Tools.Easing.Interfaces;
 
-namespace ESparrow.Utils.Tools.Easing
+namespace Birdhouse.Tools.Easing
 {
     public abstract class CompositeEaseBase : ICompositeEase
     {

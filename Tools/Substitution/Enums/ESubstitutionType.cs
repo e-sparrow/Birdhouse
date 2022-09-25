@@ -1,4 +1,4 @@
-﻿namespace ESparrow.Utils.Tools.Substitution.Enums
+﻿namespace Birdhouse.Tools.Substitution.Enums
 {
     public enum ESubstitutionType
     {

@@ -8,13 +8,15 @@ namespace Birdhouse.Common.Extensions
     {
         public static ISubstitutionOperator<T> AsSubstitutionOperator<T>(this IList<T> list)
         {
-            return SubstitutionHelper.CreateSubstitutionOperator(list);
+            var result = SubstitutionHelper.CreateSubstitutionOperator(list);
+            return result;
         }
 
         public static ISubstitutionOperator<KeyValuePair<TKey, TValue>> AsSubstitutionOperator<TKey, TValue>
             (this IDictionary<TKey, TValue> dictionary)
         {
-            return SubstitutionHelper.CreateSubstitutionOperator(dictionary);
+            var result = SubstitutionHelper.CreateSubstitutionOperator(dictionary);
+            return result;
         }
     }
 }

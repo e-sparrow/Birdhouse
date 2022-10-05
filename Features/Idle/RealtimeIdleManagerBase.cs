@@ -7,12 +7,12 @@ namespace Birdhouse.Mechanics.Idle
 {
     public abstract class RealtimeIdleManagerBase : IRealtimeIdleManager
     {
-        protected RealtimeIdleManagerBase(ITimestamp timestamp)
+        protected RealtimeIdleManagerBase(ITimestamp<TimeSpan> timestamp)
         {
             _timestamp = timestamp;
         }
         
-        private readonly ITimestamp _timestamp;
+        private readonly ITimestamp<TimeSpan> _timestamp;
         private readonly List<IIdleController> _controllers = new List<IIdleController>();
 
         protected abstract void Execute(IIdleController controller, TimeSpan timeSpan); 

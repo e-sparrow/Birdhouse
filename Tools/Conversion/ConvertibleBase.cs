@@ -15,7 +15,8 @@ namespace Birdhouse.Tools.Conversion
 
         public TTo Convert()
         {
-            return ConvertFrom(_value);
+            var result = ConvertFrom(_value);
+            return result;
         }
     }
 }

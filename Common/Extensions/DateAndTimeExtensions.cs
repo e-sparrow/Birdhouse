@@ -1,5 +1,6 @@
 ﻿using System;
 using Birdhouse.Common.Helpers;
+using Birdhouse.Tools.Tense;
 
 namespace Birdhouse.Common.Extensions
 {
@@ -7,12 +8,12 @@ namespace Birdhouse.Common.Extensions
     {
         public static long ToUnix(this DateTime self)
         {
-            return TenseHelper.Unix.ToUnix(self);
+            return UnixHelper.ToUnix(self);
         }
 
         public static DateTime FromUnix(this long self)
         {
-            return TenseHelper.Unix.FromUnix(self);
+            return UnixHelper.FromUnix(self);
         }
 
         public static TimeSpan ToUnixTimeSpan(this DateTime self)

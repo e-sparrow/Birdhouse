@@ -5,7 +5,7 @@ namespace Birdhouse.Tools.Conversion
 {
     public readonly struct TypedConversionInfo : ITypedConversionInfo
     {
-        public TypedConversionInfo(Type originalType, Type finalType, Conversion<object, object> conversion)
+        public TypedConversionInfo(Type originalType, Type finalType, Conversion conversion)
         {
             OriginalType = originalType;
             FinalType = finalType;
@@ -22,7 +22,7 @@ namespace Birdhouse.Tools.Conversion
             get;
         }
 
-        public Conversion<object, object> Conversion
+        public Conversion Conversion
         {
             get;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Birdhouse.Common.Helpers;
+using Birdhouse.Tools.Tense;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
 namespace Birdhouse.Tools.Instructions.Kinds
@@ -8,7 +9,7 @@ namespace Birdhouse.Tools.Instructions.Kinds
     {
         public DelayInstruction
         (
-            ITimestamp timestamp,
+            ITimestamp<TimeSpan> timestamp,
             Action action, 
             Action onDestroy = default,
             TimeSpan delay = default
@@ -23,7 +24,7 @@ namespace Birdhouse.Tools.Instructions.Kinds
             Action action, 
             Action onDestroy = default,
             TimeSpan delay = default
-        ) : this(TenseHelper.Unix.CreateDefaultUnixTimestamp(), action, onDestroy, delay)
+        ) : this(UnixHelper.CreateDefaultUnixTimestamp(), action, onDestroy, delay)
         {
             _delay = delay;
         }
@@ -39,7 +40,7 @@ namespace Birdhouse.Tools.Instructions.Kinds
         }
         
         private readonly TimeSpan _delay;
-        private readonly ITimestamp _timestamp;
+        private readonly ITimestamp<TimeSpan> _timestamp;
         
         private TimeSpan _currentTime;
 

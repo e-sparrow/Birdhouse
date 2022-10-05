@@ -15,7 +15,10 @@ namespace Birdhouse.Tools.Conversion.Adapters
 
         protected override object Convert(ConstructorInfo converter, object value)
         {
-            return converter.Invoke(value.AsSingleEnumerable().ToArray());
+            var parameter = value.AsSingleEnumerable().ToArray();
+            
+            var result = converter.Invoke(parameter);
+            return result;
         }
 
         protected override Type GetOriginalType(ConstructorInfo converter)
@@ -26,13 +29,15 @@ namespace Birdhouse.Tools.Conversion.Adapters
                 throw new WtfException("Count of parameters of conversion constructor must equal 1");
 
             var parameter = parameters.First();
-            
-            return parameter.ParameterType;
+
+            var result = parameter.ParameterType;
+            return result;
         }
 
         protected override Type GetFinalType(ConstructorInfo converter)
         {
-            return converter.DeclaringType;
+            var result = converter.DeclaringType;
+            return result;
         }
     }
 }

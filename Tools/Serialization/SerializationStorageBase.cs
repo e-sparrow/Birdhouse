@@ -23,17 +23,20 @@ namespace Birdhouse.Tools.Serialization
 
         public bool HasKey(TKey key)
         {
-            return _dictionary.ContainsKey(key);
+            var result = _dictionary.ContainsKey(key);
+            return result;
         }
         
         public T Get<T>(TKey key)
         {
-            return (T) _dictionary[key];
+            var result = (T) _dictionary[key];
+            return result;
         }
 
         public T Get<T>(TKey key, T defaultValue)
         {
-            return Get<T>(key) ?? defaultValue;
+            var result = Get<T>(key) ?? defaultValue;
+            return result;
         }
 
         public void Set(TKey key, object subject)

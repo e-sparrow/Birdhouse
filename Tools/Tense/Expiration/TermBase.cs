@@ -1,6 +1,6 @@
 ﻿using System;
 using Birdhouse.Common.Exceptions;
-using Birdhouse.Tools.Tense.Expiration.Enums;
+using Birdhouse.Tools.Tense.Enums;
 using Birdhouse.Tools.Tense.Expiration.Interfaces;
 
 namespace Birdhouse.Tools.Tense.Expiration

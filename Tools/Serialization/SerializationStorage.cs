@@ -20,7 +20,14 @@ namespace Birdhouse.Tools.Serialization
 
         protected override async Task<Dictionary<TKey, object>> LoadDictionary()
         {
-            return await _serializationController.Deserialize<Dictionary<TKey, object>>();
+            if (_serializationController.IsExist())
+            {
+                var value = await _serializationController.Deserialize<Dictionary<TKey, object>>();
+                return value;
+            }
+
+            var empty = new Dictionary<TKey, object>();
+            return empty;
         }
     }
 }

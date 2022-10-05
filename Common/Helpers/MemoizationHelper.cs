@@ -1,6 +1,7 @@
 ﻿using System;
 using Birdhouse.Tools.Optimization.Memoization;
 using Birdhouse.Tools.Optimization.Memoization.Interfaces;
+using Birdhouse.Tools.Tense;
 using Birdhouse.Tools.Tense.Expiration.Interfaces;
 
 namespace Birdhouse.Common.Helpers
@@ -11,7 +12,7 @@ namespace Birdhouse.Common.Helpers
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>()
         {
-            return new MemoizationBuffer<TKey, TValue>(TenseHelper.Terms.CreateTermInfo);
+            return new MemoizationBuffer<TKey, TValue>(TermHelper.CreateTermInfo);
         }
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>(TimeSpan elementLifetime)
@@ -20,7 +21,7 @@ namespace Birdhouse.Common.Helpers
 
             ITermInfo CreateTermInfoWithLifetime()
             {
-                return TenseHelper.Terms.CreateTermInfo(elementLifetime);
+                return TermHelper.CreateTermInfo(elementLifetime);
             }
         }
 

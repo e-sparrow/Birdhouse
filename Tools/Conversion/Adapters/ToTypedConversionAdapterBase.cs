@@ -19,9 +19,19 @@ namespace Birdhouse.Tools.Conversion.Adapters
         
         public object Convert(object value)
         {
-            return Convert(_converter, value);
+            var result = Convert(_converter, value);
+            return result;
+        }
+        
+        private ITypedConversionInfo GetInfo()
+        {
+            var original = GetOriginalType(_converter);
+            var final = GetFinalType(_converter);
+            
+            var result = new TypedConversionInfo(original, final, Convert);
+            return result;
         }
 
-        public ITypedConversionInfo Info => new TypedConversionInfo(GetOriginalType(_converter), GetFinalType(_converter), Convert);
+        public ITypedConversionInfo Info => GetInfo();
     }
 }

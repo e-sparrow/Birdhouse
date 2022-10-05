@@ -4,7 +4,7 @@ using Birdhouse.Tools.Serialization.Interfaces;
 
 namespace Birdhouse.Tools.Data.Transmission.Adapters
 {
-    public class SerializationControllerToDataTransmitterAdapter<TData> : IAsyncDataTransmitter<TData>, IDataTransmitter<TData>
+    public class SerializationControllerToDataTransmitterAdapter<TData> : IAsyncDataTransmitter<TData>
     {
         public SerializationControllerToDataTransmitterAdapter(ISerializationController serializationController)
         {
@@ -12,32 +12,24 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
         }
 
         private readonly ISerializationController _serializationController;
-
-        void IDataTransmitter<TData>.SetData(TData data)
+        
+        public bool IsValid()
         {
-            _serializationController.Serialize(data);
+            var result = _serializationController.IsExist();
+            return result;
         }
-
-        TData IDataTransmitter<TData>.GetData()
-        {
-            if (_serializationController.IsExist())
-            {
-                return _serializationController.Deserialize<TData>().Result;
-            }
-
-            return default;
-        }
-
-        async Task IAsyncDataTransmitter<TData>.SetData(TData data)
+        
+        public async Task SetData(TData data)
         { 
             await _serializationController.Serialize(data);
         }
 
-        async Task<TData> IAsyncDataTransmitter<TData>.GetData()
+        public async Task<TData> GetData()
         {
             if (_serializationController.IsExist())
             {
-                return await _serializationController.Deserialize<TData>();
+                var result = await _serializationController.Deserialize<TData>();
+                return result;
             }
 
             return default;

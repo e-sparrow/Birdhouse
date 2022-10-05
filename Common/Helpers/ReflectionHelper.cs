@@ -7,6 +7,7 @@ using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Operators;
 using Birdhouse.Common.Reflection.Operators.Enums;
 using Birdhouse.Common.Reflection.Operators.Interfaces;
+using Birdhouse.Tools.Conversion;
 
 namespace Birdhouse.Common.Helpers
 {
@@ -43,41 +44,59 @@ namespace Birdhouse.Common.Helpers
             
             public static IEnumerable<IUnaryOperatorInfo> GetUnaryOperatorInfos(Type type)
             {
-                return GetOperatorInfos(type, EOperatorType.Unary).Select(value => value.Inheritor<IOperatorInfo, UnaryOperatorInfo>());
+                var infos = GetOperatorInfos(type, EOperatorType.Unary);
+                
+                var result = infos.SelectInheritor<IOperatorInfo, UnaryOperatorInfo>();
+                return result; 
             }
 
             public static IEnumerable<IUnaryOperatorInfo> GetUnaryOperatorInfos(Type type, EUnaryOperatorType operatorTypes)
             {
-                return GetUnaryOperatorInfos(type).Where(HasTargetFlag);
+                var infos = GetUnaryOperatorInfos(type);
+
+                var result = infos.Where(HasTargetFlag);
+                return result;
 
                 bool HasTargetFlag(IUnaryOperatorInfo info)
                 {
-                    return operatorTypes.HasFlag(info.UnaryOperatorType);
+                    var hasFlag = operatorTypes.HasFlag(info.UnaryOperatorType);
+                    return hasFlag;
                 }
             }
 
             public static IEnumerable<IBinaryOperatorInfo> GetBinaryOperatorInfos(Type type)
             {
-                return GetOperatorInfos(type, EOperatorType.Binary).Select(value => value.Inheritor<IOperatorInfo, BinaryOperatorInfo>());
+                var infos = GetOperatorInfos(type, EOperatorType.Binary);
+
+                var result = infos.Select(value => value.Inheritor<IOperatorInfo, BinaryOperatorInfo>());
+                return result;
             }
 
             public static IEnumerable<IBinaryOperatorInfo> GetBinaryOperatorInfos(Type type, EBinaryOperatorType operatorTypes)
             {
-                return GetBinaryOperatorInfos(type).Where(HasTargetFlag);
+                var infos = GetBinaryOperatorInfos(type);
+                
+                var result = infos.Where(HasTargetFlag);
+                return result;
 
                 bool HasTargetFlag(IBinaryOperatorInfo info)
                 {
-                    return operatorTypes.HasFlag(info.BinaryOperatorType);
+                    var hasFlag = operatorTypes.HasFlag(info.BinaryOperatorType);
+                    return hasFlag;
                 }
             }
 
             public static IEnumerable<IOperatorInfo> GetOperatorInfos(Type type, EOperatorType operatorTypes)
             {
-                return GetAllOperatorInfos(type).Where(HasTargetFlag);
+                var infos = GetAllOperatorInfos(type);
+                
+                var result = infos.Where(HasTargetFlag);
+                return result;
 
                 bool HasTargetFlag(IOperatorInfo info)
                 {
-                    return operatorTypes.HasFlag(info.OperatorType);
+                    var hasFlag = operatorTypes.HasFlag(info.OperatorType);
+                    return hasFlag;
                 }
             }
 
@@ -93,28 +112,37 @@ namespace Birdhouse.Common.Helpers
                 var binaryOperatorMethods = GetBinaryOperatorMethods(except);
                 var binaryOperatorInfos = binaryOperatorMethods.Select(CreateBinaryOperator);
 
-                return unaryOperatorInfos.SelectBase<UnaryOperatorInfo, IOperatorInfo>().Concat(binaryOperatorInfos);
+                var result = unaryOperatorInfos
+                    .SelectBase<UnaryOperatorInfo, IOperatorInfo>()
+                    .Concat(binaryOperatorInfos);
+                
+                return result;
             }
 
             private static IEnumerable<MethodInfo> GetOperatorMethods(IEnumerable<MethodInfo> methods)
             {
-                var fits = methods.Where(DelegateHelper.All<MethodInfo>(IsFitByProperties, IsFitByAttributes, IsFitByName));
+                var predicate = new Predicate<MethodInfo>(IsFitByProperties).And(IsFitByAttributes).And(IsFitByName);
+                
+                var fits = methods.Where(predicate.Invoke);
                 return fits;
             }
 
             private static bool IsFitByProperties(MethodInfo method)
             {
-                return method.IsSpecialName && method.IsHideBySig;
+                var result = method.IsSpecialName && method.IsHideBySig;
+                return result;
             }
 
             private static bool IsFitByAttributes(MethodInfo method)
             {
-                return method.Attributes == DefaultOperatorAttributesValue;
+                var result = method.Attributes == DefaultOperatorAttributesValue;
+                return result;
             }
 
             private static bool IsFitByName(MethodInfo method)
             {
-                return DefaultOperatorRegex.IsMatch(method.Name);
+                var result = DefaultOperatorRegex.IsMatch(method.Name);
+                return result;
             }
 
             private static IEnumerable<MethodInfo> GetUnaryOperatorMethods(IEnumerable<MethodInfo> methods)
@@ -154,12 +182,14 @@ namespace Birdhouse.Common.Helpers
 
             private static bool IsUnary(MethodInfo methodInfo)
             {
-                return methodInfo.GetParameters().Length == 1;
+                var result = methodInfo.GetParameters().Length == 1;
+                return result;
             }
 
             private static bool IsBinary(MethodInfo methodInfo)
             {
-                return methodInfo.GetParameters().Length == 2;
+                var result = methodInfo.GetParameters().Length == 2;
+                return result;
             }
         }
     }

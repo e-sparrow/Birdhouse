@@ -20,7 +20,8 @@ namespace Birdhouse.Tools.Serialization
 
         public override async Task<T> Deserialize<T>(Stream stream)
         {
-            return await _formatter.Read<T>(stream);
+            var result = await _formatter.Read<T>(stream);
+            return result;
         }
     }
 }

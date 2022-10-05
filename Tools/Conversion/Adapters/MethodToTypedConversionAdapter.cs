@@ -12,17 +12,20 @@ namespace Birdhouse.Tools.Conversion.Adapters
 
         protected override object Convert(MethodInfo converter, object value)
         {
-            return converter.Invoke(value, null);
+            var result = converter.Invoke(value, null);
+            return result;
         }
 
         protected override Type GetOriginalType(MethodInfo converter)
         {
-            return converter.DeclaringType;
+            var result = converter.DeclaringType;
+            return result;
         }
 
         protected override Type GetFinalType(MethodInfo converter)
         {
-            return converter.ReturnType;
+            var result = converter.ReturnType;
+            return result;
         }
     }
 }

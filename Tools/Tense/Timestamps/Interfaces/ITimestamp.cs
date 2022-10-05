@@ -1,14 +1,7 @@
-﻿using System;
-
-namespace Birdhouse.Tools.Tense.Timestamps.Interfaces
+﻿namespace Birdhouse.Tools.Tense.Timestamps.Interfaces
 {
-    public interface ITimestamp
+    public interface ITimestamp<out T>
     {
-        TimeSpan Stamp();
-
-        TimeSpan LastStamp
-        {
-            get;
-        }
+        T Stamp();
     }
 }

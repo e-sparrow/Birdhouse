@@ -7,8 +7,9 @@ namespace Birdhouse.Tools.Data.Transmission
 {
     public abstract class FileBasedPersistentDataServiceBase<TKey> : IPersistentDataService<TKey>
     {
-        protected FileBasedPersistentDataServiceBase(IDictionary<TKey, ISerializationController> controllers)
+        protected FileBasedPersistentDataServiceBase(IDictionary<TKey, ISerializationController> controllers = null)
         {
+            controllers ??= new Dictionary<TKey, ISerializationController>();
             _controllers = controllers;
         }
 
@@ -16,21 +17,19 @@ namespace Birdhouse.Tools.Data.Transmission
 
         protected abstract ISerializationController CreateController(TKey key);
 
-        public IDataTransmitter<T> GetDataTransmitter<T>(TKey key)
+        public IAsyncDataTransmitter<T> GetDataTransmitter<T>(TKey key)
         {
-            return GetAdapter<T>(key);
-        }
-
-        public IAsyncDataTransmitter<T> GetAsyncDataTransmitter<T>(TKey key)
-        {
-            return GetAdapter<T>(key);
+            var result = GetAdapter<T>(key);
+            return result;
         }
 
         private SerializationControllerToDataTransmitterAdapter<T> GetAdapter<T>(TKey key)
         {
             if (_controllers.ContainsKey(key))
             {
-                var adapter = new SerializationControllerToDataTransmitterAdapter<T>(_controllers[key]);
+                var controller = _controllers[key];
+                
+                var adapter = new SerializationControllerToDataTransmitterAdapter<T>(controller);
                 return adapter;
             }
             else

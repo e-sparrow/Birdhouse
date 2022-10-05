@@ -5,6 +5,7 @@ using System.Linq;
 using Birdhouse.Common.Collections.Generic;
 using Birdhouse.Common.Collections.Generic.Interfaces;
 using Birdhouse.Common.Exceptions;
+using Birdhouse.Tools.Conversion;
 using Random = System.Random;
 
 namespace Birdhouse.Common.Extensions
@@ -540,7 +541,7 @@ namespace Birdhouse.Common.Extensions
         /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
         public static bool Any<T>(this IEnumerable<T> self, Predicate<T> predicate, out T first)
         {
-            var func = predicate.ToFunc();
+            var func = predicate.AsFunc();
             return self.Any(func, out first);
         }
 
@@ -554,7 +555,7 @@ namespace Birdhouse.Common.Extensions
         /// <returns>True if enumerable is contains any elements which matches to predicate and false otherwise</returns>
         public static bool Any<T>(this IEnumerable<T> self, Predicate<T> predicate, out IEnumerable<T> areMatch)
         {
-            var func = predicate.ToFunc();
+            var func = predicate.AsFunc();
             return self.Any(func, out areMatch);
         }
 

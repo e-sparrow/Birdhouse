@@ -7,15 +7,15 @@ namespace Birdhouse.Tools.Inputs.Services
     public class ButtonPressureService : PressureServiceBase<string>
     {
         public ButtonPressureService
-            (ITenseController<float> tenseController)
-            : this(new Dictionary<string, IPressureActivation<IPressureInfo<string>, string>>(), tenseController)
+            (ITenseProvider<float> tenseProvider)
+            : this(new Dictionary<string, IPressureActivation<IPressureInfo<string>, string>>(), tenseProvider)
         {
             
         }
         
         public ButtonPressureService
-            (IDictionary<string, IPressureActivation<IPressureInfo<string>, string>> activations, ITenseController<float> tenseController) 
-            : base(activations, tenseController)
+            (IDictionary<string, IPressureActivation<IPressureInfo<string>, string>> activations, ITenseProvider<float> tenseProvider) 
+            : base(activations, tenseProvider)
         {
 
         }

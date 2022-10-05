@@ -35,7 +35,11 @@ namespace Birdhouse.Tools.Serialization
         public bool IsExist()
         {
             var stream = GetStreamToRead();
-            bool canDeserialize = stream.IsNotEmpty();
+
+            var isNotZeroLength = stream.Length != 0;
+            var isNotEmpty = stream.IsNotEmpty();
+            var canDeserialize = isNotZeroLength && isNotEmpty;
+            
             stream.Close();
             
             return canDeserialize;

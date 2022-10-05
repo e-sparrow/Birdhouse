@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Tools.Tense.Expiration.Enums;
+using Birdhouse.Tools.Tense.Enums;
 
 namespace Birdhouse.Tools.Tense.Expiration.Interfaces
 {

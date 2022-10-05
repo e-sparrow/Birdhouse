@@ -6,25 +6,48 @@ namespace Birdhouse.Tools.Serialization.Adapters.Formatters
 {
     public class JsonFormatterAdapter : SerializationFormatterAdapterBase
     {
-        private static DataContractJsonSerializer GetSerializer<T>()
+        public JsonFormatterAdapter(DataContractJsonSerializerSettings settings = null)
         {
-            return new DataContractJsonSerializer(typeof(T));
+            settings ??= GetDefaultSerializerSettings();
+            _settings = settings;
         }
+
+        private readonly DataContractJsonSerializerSettings _settings;
         
         public override async Task Write<T>(Stream stream, T self)
         {
-            GetSerializer<T>().WriteObject(stream, self);
+            var serializer = GetDefaultSerializer<T>();
+            serializer.WriteObject(stream, self);
             
             await stream.FlushAsync();
         }
 
         public override async Task<T> Read<T>(Stream stream)
         {
-            var subject = (T) GetSerializer<T>().ReadObject(stream);
+            var serializer = GetDefaultSerializer<T>();
+            var subject = serializer.ReadObject(stream);
             
             await stream.FlushAsync();
 
-            return subject;
+            var result = (T) subject;
+            return result;
+        }
+
+        private DataContractJsonSerializerSettings GetDefaultSerializerSettings()
+        {
+            var settings = new DataContractJsonSerializerSettings()
+            {
+                UseSimpleDictionaryFormat = true,
+                SerializeReadOnlyTypes = true
+            };
+
+            return settings;
+        }
+        
+        private DataContractJsonSerializer GetDefaultSerializer<T>()
+        {
+            var serializer = new DataContractJsonSerializer(typeof(T), _settings);
+            return serializer;
         }
     }
 }

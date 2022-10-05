@@ -14,9 +14,18 @@ namespace Birdhouse.Common.Extensions
         /// <param name="func">Func to convert</param>
         /// <typeparam name="T">Type to compare</typeparam>
         /// <returns>Func converted to Comparison</returns>
-        public static Comparison<T> ToComparison<T>(this Func<T, int> func)
+        public static Comparison<T> AsComparison<T>(this Func<T, int> func)
         {
-            return (left, right) => func.Invoke(right) - func.Invoke(left);
+            return Compare;
+
+            int Compare(T left, T right)
+            {
+                var rightValue = func.Invoke(right);
+                var leftValue = func.Invoke(left);
+                
+                var result = rightValue - leftValue;
+                return result;
+            }
         }
 
         /// <summary>
@@ -25,7 +34,7 @@ namespace Birdhouse.Common.Extensions
         /// <param name="predicate">Predicate to convert</param>
         /// <typeparam name="T">Type to predicate</typeparam>
         /// <returns>Predicate converted to Func</returns>
-        public static Func<T, bool> ToFunc<T>(this Predicate<T> predicate)
+        public static Func<T, bool> AsFunc<T>(this Predicate<T> predicate)
         {
             return predicate as Func<T, bool>;
         }
@@ -36,7 +45,7 @@ namespace Birdhouse.Common.Extensions
         /// <param name="func">Func to convert</param>
         /// <typeparam name="T">Type to predicate</typeparam>
         /// <returns>Func converted to Predicate</returns>
-        public static Predicate<T> ToPredicate<T>(this Func<T, bool> func)
+        public static Predicate<T> AsPredicate<T>(this Func<T, bool> func)
         {
             return func as Predicate<T>;
         }
@@ -46,9 +55,10 @@ namespace Birdhouse.Common.Extensions
         /// </summary>
         /// <param name="action">Action to convert</param>
         /// <returns>Action converted to UnityAction</returns>
-        public static UnityAction ToUnityAction(this Action action)
+        public static UnityAction AsUnityAction(this Action action)
         {
-            return new UnityAction(action);
+            var result = new UnityAction(action);
+            return result;
         }
 
         /// <summary>
@@ -56,9 +66,10 @@ namespace Birdhouse.Common.Extensions
         /// </summary>
         /// <param name="action">UnityAction to convert</param>
         /// <returns>UnityAction converted to Action</returns>
-        public static Action ToAction(this UnityAction action)
+        public static Action AsAction(this UnityAction action)
         {
-            return new Action(action);
+            var result = new Action(action);
+            return result;
         }
 
         /// <summary>
@@ -69,18 +80,12 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Function to get variable</returns>
         public static Func<T> Get<T>(this T self)
         {
-            return () => self;
-        }
+            return GetValue;
 
-        /// <summary>
-        /// Gets the value by the function.
-        /// </summary>
-        /// <param name="self">Function to get the value</param>
-        /// <typeparam name="T">Type of the value</typeparam>
-        /// <returns>Specific value by function without arguments</returns>
-        public static T Value<T>(this Func<T> self)
-        {
-            return self.Invoke();
+            T GetValue()
+            {
+                return self;
+            }
         }
         
         public static Func<T, bool> All<T>(this IEnumerable<Func<T, bool>> predicates)
@@ -92,6 +97,72 @@ namespace Birdhouse.Common.Extensions
         {
             return subject => predicates.Any(value => value.Invoke(subject));
         }
-        
+
+        public static Predicate<T> Inverse<T>(this Predicate<T> self)
+        {
+            return IsFit;
+
+            bool IsFit(T value)
+            {
+                var result = !self.Invoke(value);
+                return result;
+            }
+        }
+
+        public static Predicate<T> And<T>(this Predicate<T> self, Predicate<T> other)
+        {
+            return IsFit;
+
+            bool IsFit(T value)
+            {
+                var left = self.Invoke(value);
+                var right = other.Invoke(value);
+
+                var result = left && right;
+                return result;
+            }
+        }
+
+        public static Predicate<T> AndNot<T>(this Predicate<T> self, Predicate<T> other)
+        {
+            return IsFit;
+
+            bool IsFit(T value)
+            {
+                var left = self.Invoke(value);
+                var right = other.Invoke(value);
+
+                var result = left && !right;
+                return result;
+            }
+        }
+
+        public static Predicate<T> Or<T>(this Predicate<T> self, Predicate<T> other)
+        {
+            return IsFit;
+
+            bool IsFit(T value)
+            {
+                var left = self.Invoke(value);
+                var right = other.Invoke(value);
+
+                var result = left || right;
+                return result;
+            }
+        }
+
+        public static Predicate<T> Xor<T>(this Predicate<T> self, Predicate<T> other)
+        {
+            return IsFit;
+
+            bool IsFit(T value)
+            {
+                var left = self.Invoke(value);
+                var right = other.Invoke(value);
+
+                var result = left ^ right;
+                return result;
+            }
+        }
     }
 }

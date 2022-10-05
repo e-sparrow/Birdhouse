@@ -11,21 +11,21 @@ namespace Birdhouse.Tools.Inputs.Services
     public abstract class PressureServiceBase<TPressure> : IPressureService<TPressure>
     {
         protected PressureServiceBase
-            (IDictionary<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> activations, ITenseController<float> tenseController)
+            (IDictionary<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> activations, ITenseProvider<float> tenseProvider)
         {
             _activations = activations;
-            _tenseController = tenseController;
+            _tenseProvider = tenseProvider;
         }
 
         public event Action<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> OnPressureActivated 
             = (pressure, activation) => { };
 
         private readonly IDictionary<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> _activations;
-        private readonly ITenseController<float> _tenseController;
+        private readonly ITenseProvider<float> _tenseProvider;
 
         public void Activate(TPressure pressure)
         {
-            var activation = PressureHelper.CreateActivation(pressure, EPressureState.Pressed, _tenseController.Now());
+            var activation = PressureHelper.CreateActivation(pressure, EPressureState.Pressed, _tenseProvider.Now());
             _activations[pressure] = activation;
             
             OnPressureActivated.Invoke(pressure, activation);

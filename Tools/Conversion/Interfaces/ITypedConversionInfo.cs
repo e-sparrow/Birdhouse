@@ -2,7 +2,7 @@
 {
     public interface ITypedConversionInfo : IConversionInfo
     {
-        Conversion<object, object> Conversion
+        Conversion Conversion
         {
             get;
         }

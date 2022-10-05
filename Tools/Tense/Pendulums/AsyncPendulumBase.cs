@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Birdhouse.Abstractions;
 using Birdhouse.Tools.Tense.Pendulums.Interfaces;
 
 namespace Birdhouse.Tools.Tense.Pendulums
 {
-    public abstract class AsyncPendulumBase : IPendulum
+    public abstract class AsyncPendulumBase : RenewableBase, IPendulum
     {
         protected AsyncPendulumBase(TimeSpan period)
         {
@@ -20,19 +21,21 @@ namespace Birdhouse.Tools.Tense.Pendulums
 
         protected abstract Task Wait(TimeSpan period, CancellationToken token);
 
-        public async void Start()
+        protected override async void SetPausedInternal(bool isPaused)
         {
-            _cancellationTokenSource = new CancellationTokenSource();
-            while (!_cancellationTokenSource.IsCancellationRequested)
+            if (!isPaused)
             {
-                await Wait(_period, _cancellationTokenSource.Token);
-                OnTick.Invoke();
+                _cancellationTokenSource = new CancellationTokenSource();
+                while (!_cancellationTokenSource.IsCancellationRequested)
+                {
+                    await Wait(_period, _cancellationTokenSource.Token);
+                    OnTick.Invoke();
+                }
             }
-        }
-
-        public void Stop()
-        {
-            _cancellationTokenSource.Cancel();
+            else
+            {
+                _cancellationTokenSource.Cancel();
+            }
         }
     }
 }

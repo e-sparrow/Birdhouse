@@ -11,11 +11,12 @@ namespace Birdhouse.Tools.Conversion
             _conversion = Info.Conversion;
         }
 
-        private readonly Conversion<object, object> _conversion;
+        private readonly Conversion _conversion;
 
         public override object Convert(object value)
         {
-            return _conversion.Invoke(value);
+            var result = _conversion.Invoke(value);
+            return result;
         }
 
         public sealed override ITypedConversionInfo Info

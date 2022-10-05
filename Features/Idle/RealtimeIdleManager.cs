@@ -1,13 +1,14 @@
 ﻿using System;
 using Birdhouse.Common.Helpers;
 using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Tools.Tense;
 using Birdhouse.Tools.Tense.Timestamps;
 
 namespace Birdhouse.Mechanics.Idle
 {
     public class RealtimeIdleManager : RealtimeIdleManagerBase
     {
-        public RealtimeIdleManager() : base(TenseHelper.Unix.CreateDefaultUnixTimestamp())
+        public RealtimeIdleManager() : base(UnixHelper.CreateDefaultUnixTimestamp())
         {
             
         }

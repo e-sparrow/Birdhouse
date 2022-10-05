@@ -1,31 +1,30 @@
-﻿using System;
+﻿using Birdhouse.Tools.Tense.Controllers.Interfaces;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
 namespace Birdhouse.Tools.Tense.Timestamps
 {
-    public abstract class TimestampBase : ITimestamp
+    public abstract class TimestampBase<T> : ITimestamp<T>
     {
-        protected TimestampBase(TimeSpan initialTime)
+        protected TimestampBase(ITenseProvider<T> tenseProvider)
         {
-            LastStamp = initialTime;
+            _tenseProvider = tenseProvider;
+            _lastStamp = _tenseProvider.Now();
         }
 
-        protected abstract TimeSpan GetCurrentTime();
+        private readonly ITenseProvider<T> _tenseProvider;
+
+        private T _lastStamp;
+
+        protected abstract T GetDeltaTime(T current, T previous);
         
-        public TimeSpan Stamp()
+        public T Stamp()
         {
-            var current = GetCurrentTime();
-            var delta = current.Subtract(LastStamp);
+            var current = _tenseProvider.Now();
+            var delta = GetDeltaTime(current, _lastStamp);
             
-            LastStamp = current;
-
+            _lastStamp = current;
+            
             return delta;
-        }
-
-        public TimeSpan LastStamp
-        {
-            get; 
-            private set;
         }
     }
 }

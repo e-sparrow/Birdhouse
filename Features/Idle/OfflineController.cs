@@ -7,17 +7,18 @@ namespace Birdhouse.Mechanics.Idle
 {
     public class OfflineController : OfflineControllerBase
     {
-        public OfflineController(ITenseController<DateTime> tenseController, IIdleController idleController) : base(idleController)
+        public OfflineController(ITenseProvider<DateTime> tenseProvider, IIdleController idleController) : base(idleController)
         {
-            _tenseController = tenseController;
+            _tenseProvider = tenseProvider;
         }
 
-        private readonly ITenseController<DateTime> _tenseController;
+        private readonly ITenseProvider<DateTime> _tenseProvider;
         private readonly IDataTransmitter<DateTime> _lastVisitTransmitter;
 
         protected override DateTime GetCurrentTime()
         {
-            return _tenseController.Now();
+            var result =  _tenseProvider.Now();
+            return result;
         }
 
         protected override void SetLastVisit(DateTime lastVisit)

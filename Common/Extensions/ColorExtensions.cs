@@ -1,13 +1,14 @@
 using System;
 using Birdhouse.Tools.Conversion.Interfaces;
-using Birdhouse.Tools.Conversion.Specific;
+using Birdhouse.Tools.Conversion.Routine;
 using UnityEngine;
 
 namespace Birdhouse.Common.Extensions
 {
     public static class ColorExtensions
     {
-        private static readonly IReversibleSpecificTypedConversion<Color, string> Conversion = new ReversibleColorToStringConversion();
+        private static readonly IReversibleSpecificTypedConversion<Color, string> Conversion 
+            = new ReversibleColorToStringConversion();
 
         /// <summary>
         /// Converts a color to string in hexadecimal. 
@@ -16,7 +17,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Hexadecimal code of a color</returns>
         public static string ToHexadecimal(this Color color)
         {
-            return Conversion.Convert(color);
+            var result = Conversion.Convert(color);
+            return result;
         }
 
         /// <summary>
@@ -27,7 +29,8 @@ namespace Birdhouse.Common.Extensions
         /// <exception cref="Exception">Wrong code length</exception>
         public static Color FromHexadecimal(this string hex)
         {
-            return Conversion.Convert(hex);
+            var result = Conversion.Convert(hex);
+            return result;
         }
 
         /// <summary>
@@ -38,7 +41,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Color with modified alpha channel value</returns>
         public static Color SetAlpha(this Color color, float alpha)
         {
-            return new Color(color.r, color.g, color.b, alpha);
+            var result = new Color(color.r, color.g, color.b, alpha);
+            return result;
         }
     }
 }

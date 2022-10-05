@@ -8,16 +8,18 @@ namespace Birdhouse.Tools.Serialization.Adapters.Formatters
     {
         public override async Task Write<T>(Stream stream, T self)
         {
-            new BinaryFormatter().Serialize(stream, self);
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(stream, self);
 
-            await stream.FlushAsync();
+            await stream.DisposeAsync();
         }
 
         public override async Task<T> Read<T>(Stream stream)
         {
-            var subject = new BinaryFormatter().Deserialize(stream);
+            var formatter = new BinaryFormatter();
+            var subject = formatter.Deserialize(stream);
 
-            await stream.FlushAsync();
+            await stream.DisposeAsync();
 
             return (T) subject;
         }

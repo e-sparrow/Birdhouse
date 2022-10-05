@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,20 +66,37 @@ namespace Birdhouse.Common.Extensions
             await AsyncHelper.WaitWhile(() => animator.GetCurrentAnimatorStateInfo(layer).IsName(animationName), token);
         }
 
+        public static T Sync<T>(this Func<Task<T>> self)
+        {
+            var task = Task.Run(self);
+            var awaiter = task.GetAwaiter();
+
+            var result = awaiter.GetResult();
+            return result;
+        }
+        
         public static T Sync<T>(this Task<T> task)
         {
-            task.Start();
-            task.Wait();
-            return task.Result;
+            var result = task
+                .Get()
+                .Sync();
+            
+            return result;
         }
 
-        public static void Sync(this Task task, bool wait)
+        public static void Sync(this Func<Task> self)
         {
-            task.Start();
-            if (wait)
-            {
-                task.Wait();
-            }
+            var task = Task.Run(self);
+            var awaiter = task.GetAwaiter();
+
+            awaiter.GetResult();
+        }
+
+        public static void Sync(this Task task)
+        {
+            task
+                .Get()
+                .Sync();
         }
     }
 }

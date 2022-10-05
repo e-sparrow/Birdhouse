@@ -34,7 +34,8 @@ namespace Birdhouse.Common.Helpers
         /// <returns>Formatter by method type if it's exist</returns>
         public static ISerializationFormatter GetDefaultSerializationFormatter(ESerializationMethod method)
         {
-            return Formatters[method];
+            var result = Formatters[method];
+            return result;
         }
 
         /// <summary>
@@ -44,7 +45,8 @@ namespace Birdhouse.Common.Helpers
         /// <returns>Method by method type if it's exist</returns>
         public static ISerializationMethod GetDefaultSerializationMethod(ESerializationMethod method)
         {
-            return new SerializationMethod(GetDefaultSerializationFormatter(method));
+            var result = new SerializationMethod(GetDefaultSerializationFormatter(method));
+            return result;
         }
 
         /// <summary>
@@ -55,7 +57,8 @@ namespace Birdhouse.Common.Helpers
         /// <returns>Controller by method type if it's exist</returns>
         public static ISerializationController GetDefaultSerializationController(ESerializationMethod method, string directory)
         {
-            return new SerializationController(GetDefaultSerializationMethod(method), directory);
+            var result = new SerializationController(GetDefaultSerializationMethod(method), directory);
+            return result;
         }
         
         /// <summary>
@@ -66,7 +69,8 @@ namespace Birdhouse.Common.Helpers
         /// <returns>Storage by method type if it's exist</returns>
         public static ISerializationStorage<TKey> GetDefaultSerializationStorage<TKey>(ESerializationMethod method, string directory)
         {
-            return new SerializationStorage<TKey>(GetDefaultSerializationController(method, directory));
+            var result = new SerializationStorage<TKey>(GetDefaultSerializationController(method, directory));
+            return result;
         }
     }
 }

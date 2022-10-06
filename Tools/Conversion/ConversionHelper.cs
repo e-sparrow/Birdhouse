@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Birdhouse.Abstractions;
+using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Operators.Enums;
 using Birdhouse.Common.Reflection.Operators.Interfaces;
 using Birdhouse.Tools.Conversion;
@@ -15,8 +16,32 @@ namespace Birdhouse.Common.Helpers
 {
     public static class ConversionHelper
     {
-        private static readonly List<ITypedConversionInfo> TypedConversionInfos = new List<ITypedConversionInfo>();
-        private static readonly Lazy<List<ITypedConversion>> Conversions = new Lazy<List<ITypedConversion>>(InitializeConversions);
+        private static readonly Lazy<List<ITypedConversion>> Conversions = new Lazy<List<ITypedConversion>>();
+
+        public static ISpecificTypedConversion<TFrom, TTo> GetDefaultConversion<TFrom, TTo>()
+        {
+            var conversion = new SpecificTypedConversion<TFrom, TTo>(Convert);
+            return conversion;
+
+            TTo Convert(TFrom value)
+            {
+                if (TryConvert<TFrom, TTo>(value, out var result))
+                {
+                    return result;
+                }
+
+                throw new ArgumentException($"Can't find some possible ways to convert {typeof(TFrom)} to {typeof(TTo)}");
+            }
+        }
+
+        public static IReversibleSpecificTypedConversion<TFrom, TTo> GetDefaultReversibleConversion<TFrom, TTo>()
+        {
+            var forward = GetDefaultConversion<TFrom, TTo>();
+            var back = GetDefaultConversion<TTo, TFrom>();
+
+            var result = forward.Combine(back);
+            return result;
+        }
 
         public static bool TryConvert<TFrom, TTo>(TFrom self, out TTo result, EConversionType conversionType = EConversionType.All)
         {
@@ -39,67 +64,26 @@ namespace Birdhouse.Common.Helpers
             return false;
         }
 
-        public static IDisposable RegisterConversionInfo(ITypedConversionInfo info)
+        public static IDisposable RegisterTypedConversion(ITypedConversion conversion)
         {
-            if (!Conversions.IsValueCreated)
-            {
-                TypedConversionInfos.Add(info);
-            }
-            else
-            {
-                var conversion = new TypedConversion(info);
-                Conversions.Value.Add(conversion);
-            }
-
-            var disposable = new CallbackDisposable(Unregister);
-            return disposable;
-
-            void Unregister()
-            {
-                if (!Conversions.IsValueCreated)
-                {
-                    TypedConversionInfos.Remove(info);
-                }
-                else
-                {
-                    var conversion = Conversions.Value.Find(value => value.Info == info);
-                    Conversions.Value.Remove(conversion);
-                }
-            }
-        }
-
-        public static IDisposable RegisterConversion(ITypedConversion conversion)
-        {
-            if (!Conversions.IsValueCreated)
-            {
-                TypedConversionInfos.Add(conversion.Info);
-            }
-            else
-            {
-                Conversions.Value.Add(conversion);
-            }
-
-            var disposable = new CallbackDisposable(Unregister);
-            return disposable;
-
-            void Unregister()
-            {
-                if (!Conversions.IsValueCreated)
-                {
-                    TypedConversionInfos.Remove(conversion.Info);
-                }
-                else
-                {
-                    Conversions.Value.Remove(conversion);
-                }
-            }
+            var result = conversion.AddAsDisposable(Conversions.Value);
+            return result;
         }
 
         public static IDisposable RegisterSpecificTypedConversion<TFrom, TTo>(ISpecificTypedConversion<TFrom, TTo> conversion)
         {
-            var nonSpecific = conversion.NonSpecific();
+            var result = conversion
+                .NonSpecific()
+                .AddAsDisposable(Conversions.Value);
             
-            var disposable = RegisterConversion(nonSpecific);
+            return result;
+        }
+
+        public static IDisposable RegisterReversibleSpecificTypedConversion<TFrom, TTo>(IReversibleSpecificTypedConversion<TFrom, TTo> conversion)
+        {
+            var conversions = conversion.Split();
+             
+            var disposable = conversions.AddAsDisposables(Conversions.Value);
             return disposable;
         }
 
@@ -211,15 +195,6 @@ namespace Birdhouse.Common.Helpers
                 var result = suitableParametersCount && suitableParameterType;
                 return result;
             }
-        }
-
-        private static List<ITypedConversion> InitializeConversions()
-        {
-            var typedConversions = TypedConversionInfos
-                .Select(value => new TypedConversion(value))
-                .Cast<ITypedConversion>();
-            
-            return typedConversions.ToList();
         }
 
         private static bool HasConversion(Type originalType, Type finalType)

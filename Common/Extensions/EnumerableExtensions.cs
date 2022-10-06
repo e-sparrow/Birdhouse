@@ -615,7 +615,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>New enumerable with inheritor type values</returns>
         public static IEnumerable<TInheritor> SelectInheritor<TBase, TInheritor>(this IEnumerable<TBase> self) where TInheritor : TBase
         {
-            return self.Select(value => value.Inheritor<TBase, TInheritor>());
+            var result = self.Select(value => value.Inheritor<TBase, TInheritor>());
+            return result;
         }
 
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>
@@ -716,7 +717,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>True if count of not repeating elements is more than specified count and false otherwise</returns>
         private static bool HasNonRepeating<T>(this IEnumerable<T> enumerable, int count, out IEnumerable<T> distinct)
         {
-            return HasNonRepeating(enumerable, count, Enumerable.Distinct, out distinct);
+            var result = HasNonRepeating(enumerable, count, Enumerable.Distinct, out distinct);
+            return result;
         }
     }
 }

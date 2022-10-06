@@ -1,19 +1,44 @@
 ﻿using System;
-using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Features.Idle.Interfaces;
+using Birdhouse.General;
+using Birdhouse.Tools.Conversion;
+using Birdhouse.Tools.Conversion.Routine;
+using Birdhouse.Tools.Data.Transmission;
 using Birdhouse.Tools.Data.Transmission.Interfaces;
+using Birdhouse.Tools.Tense;
 using Birdhouse.Tools.Tense.Controllers.Interfaces;
 
-namespace Birdhouse.Mechanics.Idle
+namespace Birdhouse.Features.Idle
 {
     public class OfflineController : OfflineControllerBase
     {
-        public OfflineController(ITenseProvider<DateTime> tenseProvider, IIdleController idleController) : base(idleController)
+        public OfflineController
+        (
+            IIdleController idleController, 
+            ITenseProvider<DateTime> tenseProvider = null,
+            IDataTransmitter<DateTime> lastVisitTransmitter = null
+        ) : base(idleController)
         {
+            tenseProvider ??= TenseHelper.UtcNowTenseProvider;
+            lastVisitTransmitter ??= GetDefaultVisitTransmitter();
+            
             _tenseProvider = tenseProvider;
+            _lastVisitTransmitter = lastVisitTransmitter;
         }
 
         private readonly ITenseProvider<DateTime> _tenseProvider;
         private readonly IDataTransmitter<DateTime> _lastVisitTransmitter;
+
+        private static IDataTransmitter<DateTime> GetDefaultVisitTransmitter()
+        {
+            const string key = FeatureConstants.OfflineControllerDataKey;
+            
+            var transmitter = new PlayerPrefsDataTransmitter(key);
+            var conversion = new ReversibleDateTimeToStringConversion().Swap();
+            
+            var result = transmitter.Convert<string, DateTime>(conversion);
+            return result;
+        }
 
         protected override DateTime GetCurrentTime()
         {
@@ -23,12 +48,20 @@ namespace Birdhouse.Mechanics.Idle
 
         protected override void SetLastVisit(DateTime lastVisit)
         {
-            throw new NotImplementedException();
+            _lastVisitTransmitter.SetData(lastVisit);
         }
 
         protected override bool TryGetLastVisit(out DateTime lastVisit)
         {
-            throw new NotImplementedException();
+            lastVisit = default;
+            
+            var isValid = _lastVisitTransmitter.IsValid();
+            if (isValid)
+            {
+                lastVisit = _lastVisitTransmitter.GetData();
+            }
+
+            return isValid;
         }
     }
 }

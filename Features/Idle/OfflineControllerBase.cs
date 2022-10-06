@@ -1,8 +1,8 @@
 ﻿using System;
-using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Features.Idle.Interfaces;
 using UnityEngine;
 
-namespace Birdhouse.Mechanics.Idle
+namespace Birdhouse.Features.Idle
 {
     public abstract class OfflineControllerBase : IOfflineController
     {
@@ -28,7 +28,7 @@ namespace Birdhouse.Mechanics.Idle
         {
             if (!TryGetLastVisit(out var lastVisit))
             {
-                Debug.Log("No info about previous visit");
+                Debug.Log("There is no info about previous visit");
                 return;
             }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Features.Idle.Interfaces;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
-namespace Birdhouse.Mechanics.Idle
+namespace Birdhouse.Features.Idle
 {
     public abstract class RealtimeIdleManagerBase : IRealtimeIdleManager
     {

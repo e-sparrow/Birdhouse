@@ -1,11 +1,12 @@
 ﻿using System;
 
-namespace Birdhouse.Abstractions
+namespace Birdhouse.Abstractions.Disposables
 {
     public class CallbackDisposable : DisposableBase
     {
-        public CallbackDisposable(Action callback)
+        public CallbackDisposable(Action callback = null)
         {
+            callback ??= () => { };
             _callback = callback;
         }
 

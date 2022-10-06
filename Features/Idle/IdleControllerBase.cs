@@ -1,16 +1,10 @@
 ﻿using System;
-using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Features.Idle.Interfaces;
 
-namespace Birdhouse.Mechanics.Idle
+namespace Birdhouse.Features.Idle
 {
     public abstract class IdleControllerBase : IIdleController
     {
-        protected abstract void Reward(float seconds);
-        
-        public void IdleFor(TimeSpan time)
-        {
-            var seconds = (float) time.TotalSeconds;
-            Reward(seconds);
-        }
+        public abstract void IdleFor(TimeSpan time);
     }
 }

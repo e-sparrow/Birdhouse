@@ -1,10 +1,8 @@
 ﻿using System;
-using Birdhouse.Common.Helpers;
-using Birdhouse.Mechanics.Idle.Interfaces;
+using Birdhouse.Features.Idle.Interfaces;
 using Birdhouse.Tools.Tense;
-using Birdhouse.Tools.Tense.Timestamps;
 
-namespace Birdhouse.Mechanics.Idle
+namespace Birdhouse.Features.Idle
 {
     public class RealtimeIdleManager : RealtimeIdleManagerBase
     {

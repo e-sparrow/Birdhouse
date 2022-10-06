@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Abstractions
+namespace Birdhouse.Abstractions.Disposables
 {
     public abstract class DisposableBase : IDisposable
     {

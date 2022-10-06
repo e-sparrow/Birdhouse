@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Mechanics.Idle.Interfaces
+namespace Birdhouse.Features.Idle.Interfaces
 {
     public interface IIdleController
     {

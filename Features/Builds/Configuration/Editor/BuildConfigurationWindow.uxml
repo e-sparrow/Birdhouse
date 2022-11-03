@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Birdhouse/Features/Builds/Configuration/Editor/BuildConfigurationWindow.uss?fileID=7433441132597879392&amp;guid=6cdccc846e867d841bb8da8a05f1c9c8&amp;type=3#BuildConfigurationWindow" />
+    <ui:VisualElement name="Root" style="flex-direction: row; justify-content: flex-end; height: 100%; min-width: 100%; max-width: 100%; max-height: 100%; min-height: 100%; width: 100%; align-items: flex-start;">
+        <ui:ListView focusable="true" selection-type="Single" show-border="true" virtualization-method="FixedHeight" tooltip="Build Variants" name="Builds" style="height: 100%; flex-wrap: nowrap; opacity: 1; transform-origin: center; flex-shrink: 0; width: 50%; min-height: 100%; max-width: 50%; max-height: 100%; min-width: 50%; align-items: stretch; left: 0; top: 0; right: 0; bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+        <ui:VisualElement name="FieldsContainer" style="flex-shrink: 0; left: 0; top: 0; right: 0; bottom: 0; max-width: 50%; max-height: 100%; min-height: 100%; min-width: 50%; width: 50%; height: 100%; align-items: auto; justify-content: space-around; flex-direction: column;">
+            <ui:ListView focusable="true" selection-type="Single" show-border="true" virtualization-method="FixedHeight" tooltip="Build Variants" name="Fields" style="height: 90%; flex-wrap: nowrap; opacity: 1; transform-origin: center; flex-shrink: 0; width: 100%; min-height: 90%; max-width: 100%; max-height: 90%; min-width: 100%; align-items: stretch; left: 0; top: 0; right: 0; bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+            <ui:Button text="Refresh" display-tooltip-when-elided="true" style="min-width: 50%; max-width: 50%; width: 50%; -unity-text-align: upper-center; white-space: nowrap;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

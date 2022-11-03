@@ -1,0 +1,7 @@
+Label {
+    font-size: 20px;
+    -unity-font-style: normal;
+    color: rgb(231, 231, 231);
+    -unity-text-align: middle-center;
+    white-space: normal;
+}

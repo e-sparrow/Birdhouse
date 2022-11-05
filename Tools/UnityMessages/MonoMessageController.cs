@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Education.Patterns.Singleton.Mono;
+using Birdhouse.Common.Singleton.Mono;
 using Birdhouse.Tools.UnityMessages.Interfaces;
 
 namespace Birdhouse.Tools.UnityMessages

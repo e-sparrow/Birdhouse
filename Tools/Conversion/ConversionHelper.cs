@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Birdhouse.Abstractions;
+using Birdhouse.Common.Extensions;
+using Birdhouse.Common.Helpers;
 using Birdhouse.Common.Reflection.Operators.Enums;
 using Birdhouse.Common.Reflection.Operators.Interfaces;
-using Birdhouse.Tools.Conversion;
 using Birdhouse.Tools.Conversion.Adapters;
 using Birdhouse.Tools.Conversion.Enums;
 using Birdhouse.Tools.Conversion.Interfaces;
-using Birdhouse.Tools.Optimization.Memoization.Interfaces;
 
-namespace Birdhouse.Common.Helpers
+namespace Birdhouse.Tools.Conversion
 {
     public static class ConversionHelper
     {
@@ -41,65 +40,24 @@ namespace Birdhouse.Common.Helpers
 
         public static IDisposable RegisterConversionInfo(ITypedConversionInfo info)
         {
-            if (!Conversions.IsValueCreated)
-            {
-                TypedConversionInfos.Add(info);
-            }
-            else
-            {
-                var conversion = new TypedConversion(info);
-                Conversions.Value.Add(conversion);
-            }
-
-            var disposable = new CallbackDisposable(Unregister);
-            return disposable;
-
-            void Unregister()
-            {
-                if (!Conversions.IsValueCreated)
-                {
-                    TypedConversionInfos.Remove(info);
-                }
-                else
-                {
-                    var conversion = Conversions.Value.Find(value => value.Info == info);
-                    Conversions.Value.Remove(conversion);
-                }
-            }
+            var result = conversion.AddAsDisposableTo(Conversions.Value);
+            return result;
         }
 
         public static IDisposable RegisterConversion(ITypedConversion conversion)
         {
-            if (!Conversions.IsValueCreated)
-            {
-                TypedConversionInfos.Add(conversion.Info);
-            }
-            else
-            {
-                Conversions.Value.Add(conversion);
-            }
-
-            var disposable = new CallbackDisposable(Unregister);
-            return disposable;
-
-            void Unregister()
-            {
-                if (!Conversions.IsValueCreated)
-                {
-                    TypedConversionInfos.Remove(conversion.Info);
-                }
-                else
-                {
-                    Conversions.Value.Remove(conversion);
-                }
-            }
+            var result = conversion
+                .NonSpecific()
+                .AddAsDisposableTo(Conversions.Value);
+            
+            return result;
         }
 
         public static IDisposable RegisterSpecificTypedConversion<TFrom, TTo>(ISpecificTypedConversion<TFrom, TTo> conversion)
         {
-            var nonSpecific = conversion.NonSpecific();
-            
-            var disposable = RegisterConversion(nonSpecific);
+            var conversions = conversion.Split();
+             
+            var disposable = conversions.AddAsDisposablesTo(Conversions.Value);
             return disposable;
         }
 

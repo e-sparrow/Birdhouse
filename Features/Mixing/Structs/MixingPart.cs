@@ -1,6 +1,6 @@
-﻿using Birdhouse.Mechanics.Mixing.Interfaces;
+﻿using Birdhouse.Features.Mixing.Interfaces;
 
-namespace Birdhouse.Mechanics.Mixing.Structs
+namespace Birdhouse.Features.Mixing.Structs
 {
     public readonly struct MixingPart<T> : IMixingPart<T>
     {

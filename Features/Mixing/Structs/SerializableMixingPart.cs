@@ -1,8 +1,8 @@
 ﻿using System;
-using Birdhouse.Mechanics.Mixing.Interfaces;
+using Birdhouse.Features.Mixing.Interfaces;
 using UnityEngine;
 
-namespace Birdhouse.Mechanics.Mixing.Structs
+namespace Birdhouse.Features.Mixing.Structs
 {
     [Serializable]
     public struct SerializableMixingPart<T> : IMixingPart<T>

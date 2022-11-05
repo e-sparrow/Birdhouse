@@ -1,8 +1,8 @@
-﻿using Birdhouse.Customization.Attributes.ReadOnly;
+﻿using Birdhouse.Customization.Attributes.ConditionalHide.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Birdhouse.Tools.Customization.Attributes.ConditionalHide
+namespace Birdhouse.Customization.Attributes.ReadOnly.Editor
 {
     #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]

@@ -1,6 +1,6 @@
 ﻿using System;
 using Birdhouse.Common.Helpers;
-using Birdhouse.Functionality;
+using Birdhouse.Tools.Functionality;
 using Birdhouse.Tools.Optimization.Memoization.Interfaces;
 using Birdhouse.Tools.Tense.Expiration.Interfaces;
 

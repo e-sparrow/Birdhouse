@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Mechanics.Mixing.Interfaces;
+using Birdhouse.Features.Mixing.Interfaces;
 using Birdhouse.Tools.Interpolation.Interfaces;
-using Birdhouse.Mechanics.Mixing.Structs;
 
-namespace Birdhouse.Mechanics.Mixing
+namespace Birdhouse.Features.Mixing
 {
     public abstract class MixerBase<T> : IMixer<T>
     {

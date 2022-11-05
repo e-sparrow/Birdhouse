@@ -2,7 +2,7 @@
 using Birdhouse.Tools.Data.Transmission.Interfaces;
 using Birdhouse.Tools.Serialization.Interfaces;
 
-namespace Birdhouse.Tools.Data.Transmission
+namespace Birdhouse.Tools.Data.Transmission.Routine
 {
     public class StoragePersistentDataService<TKey> : IPersistentDataService<TKey>
     {

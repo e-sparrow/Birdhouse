@@ -606,6 +606,16 @@ namespace Birdhouse.Common.Extensions
             return self.Select(value => value.Base<TInheritor, TBase>());
         }
 
+        public static IEnumerable<T> Foreach<T>(this IEnumerable<T> self, Action<T> action)
+        {
+            foreach (var value in self)
+            {
+                action.Invoke(value);
+            }
+
+            return self;
+        }
+
         /// <summary>
         /// Selects all elements of the enumerable as theirs specific inheritor class
         /// </summary>

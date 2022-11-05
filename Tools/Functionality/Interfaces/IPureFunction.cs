@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Functionality.Interfaces
+﻿namespace Birdhouse.Tools.Functionality.Interfaces
 {
     // TODO: implement
     public interface IPureFunction<in TArgument, out TResult>

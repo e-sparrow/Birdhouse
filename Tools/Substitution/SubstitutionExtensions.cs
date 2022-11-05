@@ -2,7 +2,7 @@
 using Birdhouse.Common.Helpers;
 using Birdhouse.Tools.Substitution.Interfaces;
 
-namespace Birdhouse.Common.Extensions
+namespace Birdhouse.Tools.Substitution
 {
     public static class SubstitutionExtensions
     {

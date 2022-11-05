@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Birdhouse.Abstractions;
+using Birdhouse.Abstractions.Disposables;
 
 namespace Birdhouse.Common.Extensions
 {
@@ -66,16 +68,52 @@ namespace Birdhouse.Common.Extensions
         {
             collection.Remove(self);
             return self;
+        public static IDisposable AddAsDisposableTo<T>(this T self, ICollection<T> collection)
+        {
+            var disposable = new CallbackDisposable(Remove);
+            self.AddTo(collection);
+
+            return disposable;
+
+            void Remove()
+            {
+                self.RemoveFrom(collection);
+            }
+        }
+
+        public static T GetSelf<T>(this object any, T self)
+        {
+            return self;
+        }
+
+        public static IDisposable AddAsDisposablesTo<T>(this IEnumerable<T> self, ICollection<T> collection)
+        {
+            IDisposable result = new CallbackDisposable();
+            foreach (var value in self)
+            {
+                var disposable = value.AddAsDisposableTo(collection);
+                result = result.Combine(disposable);
+            }
+
+            return result;
+        }
+
+        public static bool RemoveFrom<T>(this T self, ICollection<T> collection)
+        {
+            var result = collection.Remove(self);
+            return result;
         }
         
         public static TResult PipeTo<TSource, TResult>(this TSource source, Func<TSource, TResult> func)
         {
-            return func.Invoke(source);
+            var result = func.Invoke(source);
+            return result;
         }
 
         public static T OrDefault<T>(this T self, T defaultValue)
         {
-            return self ?? defaultValue;
+            var result = self ?? defaultValue;
+            return result;
         }
     }
 }

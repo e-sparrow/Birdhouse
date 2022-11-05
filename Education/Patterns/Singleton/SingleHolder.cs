@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Education.Patterns.Singleton
+﻿namespace Birdhouse.Common.Singleton
 {
     public class SingleHolder<T> : SingletonBase<SingleHolder<T>>
     {

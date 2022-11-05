@@ -1,8 +1,8 @@
-﻿using Birdhouse.Mechanics.Mixing.Interfaces;
-using Birdhouse.Mechanics.Mixing.Structs;
+﻿using Birdhouse.Features.Mixing.Interfaces;
+using Birdhouse.Features.Mixing.Structs;
 using Birdhouse.Tools.Interpolation.Interfaces;
 
-namespace Birdhouse.Mechanics.Mixing
+namespace Birdhouse.Features.Mixing
 {
     public class Mixer<T> : MixerBase<T>
     {

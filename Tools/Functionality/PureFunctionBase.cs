@@ -1,8 +1,8 @@
 ﻿using System;
-using Birdhouse.Functionality.Interfaces;
+using Birdhouse.Tools.Functionality.Interfaces;
 using Birdhouse.Tools.Optimization.Memoization.Interfaces;
 
-namespace Birdhouse.Functionality
+namespace Birdhouse.Tools.Functionality
 {
     public abstract class PureFunctionBase<TArgument, TResult> : IPureFunction<TArgument, TResult>
     {

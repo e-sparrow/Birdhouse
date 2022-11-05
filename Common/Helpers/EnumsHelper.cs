@@ -38,7 +38,7 @@ namespace Birdhouse.Common.Helpers
 
         public static T Find(Predicate<T> predicate)
         {
-            return AsEnumerable().FirstOrDefault(predicate.Invoke);
+            return GetValues().FirstOrDefault(predicate.Invoke);
         }
 
         public static void ForEach(Action<T> action)
@@ -49,7 +49,7 @@ namespace Birdhouse.Common.Helpers
             }
         }
 
-        public static IEnumerable<T> AsEnumerable()
+        public static IEnumerable<T> GetValues()
         {
             var list = new List<T>();
             ForEach(value => list.Add(value));

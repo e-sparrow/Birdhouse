@@ -1,7 +1,7 @@
 ﻿using System;
 using Birdhouse.Tools.Optimization.Memoization.Interfaces;
 
-namespace Birdhouse.Functionality
+namespace Birdhouse.Tools.Functionality
 {
     public class PureFunction<TArgument, TResult> : PureFunctionBase<TArgument, TResult>
     {

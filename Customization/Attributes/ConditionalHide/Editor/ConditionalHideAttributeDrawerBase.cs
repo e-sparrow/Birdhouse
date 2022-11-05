@@ -1,8 +1,7 @@
-﻿using Birdhouse.Customization.Attributes.ConditionalHide;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Birdhouse.Tools.Customization.Attributes.ConditionalHide
+namespace Birdhouse.Customization.Attributes.ConditionalHide.Editor
 {
     #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ConditionalHideAttributeBase))]

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Birdhouse.Mechanics.Mixing.Interfaces 
+namespace Birdhouse.Features.Mixing.Interfaces 
 {
     public interface IMixer<TPart>
     {

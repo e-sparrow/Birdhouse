@@ -1,4 +1,4 @@
-namespace Birdhouse.Mechanics.Streaks.Interfaces
+namespace Birdhouse.Features.Streaks.Interfaces
 {
     public interface IStreak<TSelf>
     {

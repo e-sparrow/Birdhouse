@@ -2,7 +2,7 @@
 using Birdhouse.Tools.Serialization.Enums;
 using Birdhouse.Tools.Serialization.Interfaces;
 
-namespace Birdhouse.Tools.Data.Transmission
+namespace Birdhouse.Tools.Data.Transmission.Routine
 {
     public class PathPersistentDataService : FileBasedPersistentDataServiceBase<string>
     {

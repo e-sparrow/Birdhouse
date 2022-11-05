@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Birdhouse.Tools.Customization.MonoDrawer.Editor
+namespace Birdhouse.Customization.MonoDrawer.Editor
 {
     [CustomEditor(typeof(MonoBehaviour), true)]
     public class MonoBehaviourDrawer : UnityEditor.Editor

@@ -1,4 +1,4 @@
-﻿using Birdhouse.Education.Patterns.Singleton;
+﻿using Birdhouse.Common.Singleton;
 
 namespace Birdhouse.Common.Generic.Holders
 {

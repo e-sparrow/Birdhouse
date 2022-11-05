@@ -3,7 +3,7 @@ using System.Linq;
 using Birdhouse.Common.Extensions;
 using UnityEngine;
 
-namespace Birdhouse.Education.Patterns.Singleton.Mono
+namespace Birdhouse.Common.Singleton.Mono
 {
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {

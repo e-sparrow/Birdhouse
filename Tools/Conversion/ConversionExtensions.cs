@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Helpers;
+using Birdhouse.Tools.Conversion.Adapters;
 using Birdhouse.Tools.Conversion.Interfaces;
 using UnityEngine;
 
@@ -8,15 +11,9 @@ namespace Birdhouse.Tools.Conversion
 {
     public static class ConversionExtensions
     {
-        public static IDisposable Register(this ITypedConversionInfo self)
-        {
-            var result = ConversionHelper.RegisterConversionInfo(self);
-            return result;
-        }
-
         public static IDisposable Register(this ITypedConversion self)
         {
-            var result = ConversionHelper.RegisterConversion(self);
+            var result = ConversionHelper.RegisterTypedConversion(self);
             return result;
         }
 
@@ -26,7 +23,7 @@ namespace Birdhouse.Tools.Conversion
             return result;
         }
 
-        public static ITypedConversion NonSpecific<TFrom, TTo>(this ISpecificTypedConversion<TFrom, TTo> self)
+        public static ITypedConversion IsNotSpecific<TFrom, TTo>(this ISpecificTypedConversion<TFrom, TTo> self)
         {
             var original = typeof(TFrom);
             var final = typeof(TTo);
@@ -58,6 +55,54 @@ namespace Birdhouse.Tools.Conversion
             }
 
             throw new ArgumentException($"{"Can't".WithColor(Color.red).Bold()} convert {typeof(TFrom)} to {typeof(TTo)}");
+        }
+
+        public static IReversibleSpecificTypedConversion<TFrom, TTo> Combine<TFrom, TTo>
+        (
+            this ISpecificTypedConversion<TFrom, TTo> self,
+            ISpecificTypedConversion<TTo, TFrom> back)
+        {
+            var result = new SpecificToReversibleDataConversionAdapter<TFrom, TTo>(self, back);
+            return result;
+        }
+
+        public static IReversibleSpecificTypedConversion<TTo, TFrom> Swap<TFrom, TTo>
+            (this IReversibleSpecificTypedConversion<TFrom, TTo> self)
+        {
+            var result = new ReversibleDataConversionSwapper<TFrom, TTo>(self);
+            return result;
+        }
+
+        public static IEnumerable<ITypedConversion> Split<TFrom, TTo>
+            (this IReversibleSpecificTypedConversion<TFrom, TTo> self)
+        {
+            var originalType = typeof(TFrom);
+            var finalType = typeof(TTo);
+
+            var firstInfo = new TypedConversionInfo(originalType, finalType, ConvertToFinal);
+            var secondInfo = new TypedConversionInfo(finalType, originalType, ConvertToOriginal);
+
+            var first = new TypedConversion(firstInfo);
+            var second = new TypedConversion(secondInfo);
+
+            var result = first.ConcatWith(second);
+            return result;
+
+            object ConvertToFinal(object value)
+            {
+                var fromValue = (TFrom) value;
+                
+                var converted = self.Convert(fromValue);
+                return converted;
+            }
+
+            object ConvertToOriginal(object value)
+            {
+                var toValue = (TTo) value;
+                
+                var converted = self.Convert(toValue);
+                return converted;
+            }
         }
 
         public static TBase Base<TInheritor, TBase>(this TInheritor self) where TInheritor : TBase

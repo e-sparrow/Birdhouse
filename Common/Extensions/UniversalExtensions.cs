@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Abstractions;
 using Birdhouse.Abstractions.Disposables;
 
 namespace Birdhouse.Common.Extensions
@@ -64,10 +63,6 @@ namespace Birdhouse.Common.Extensions
             return self;
         }
 
-        public static T RemoveFrom<T>(this T self, ICollection<T> collection)
-        {
-            collection.Remove(self);
-            return self;
         public static IDisposable AddAsDisposableTo<T>(this T self, ICollection<T> collection)
         {
             var disposable = new CallbackDisposable(Remove);

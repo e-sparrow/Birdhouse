@@ -26,15 +26,18 @@ namespace Birdhouse.Tools.Substitution.Operators.Adapters
             enumerable[key] = element.Value;
         }
 
-        protected override void RemoveAt(int index, IDictionary<TKey, TValue> enumerable)
+        protected override bool RemoveAt(int index, IDictionary<TKey, TValue> enumerable)
         {
-            if (_orderDictionary.ContainsKey(index))
+            var result = _orderDictionary.ContainsKey(index);
+            if (result)
             {
                 var key = _orderDictionary[index];
                 enumerable.Remove(key);
 
                 _orderDictionary.Remove(index);
             }
+
+            return result;
         }
     }
 }

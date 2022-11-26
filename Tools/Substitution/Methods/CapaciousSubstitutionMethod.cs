@@ -1,5 +1,4 @@
-﻿using Birdhouse.Tools.Substitution.Enums;
-using Birdhouse.Tools.Substitution.Interfaces;
+﻿using Birdhouse.Tools.Substitution.Interfaces;
 
 namespace Birdhouse.Tools.Substitution.Methods
 {
@@ -12,7 +11,7 @@ namespace Birdhouse.Tools.Substitution.Methods
 
         protected override void ReduceTo(int count, ISubstitutionOperator<TElement> substitutionOperator)
         {
-            for (int index = substitutionOperator.Count; index > count; index--)
+            for (var index = substitutionOperator.Count; index > count; index--)
             {
                 substitutionOperator.RemoveAt(index - 1);
             }

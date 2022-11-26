@@ -13,6 +13,7 @@ namespace Birdhouse.Tools.Substitution.Methods
         }
 
         private readonly int _capacity;
+        
         private readonly ISubstitutionMethod<TElement> _method;
 
         protected abstract void ReduceTo(int count, ISubstitutionOperator<TElement> substitutionOperator);

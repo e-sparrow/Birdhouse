@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Birdhouse.Common.Exceptions;
-using Birdhouse.Tools.Substitution;
 using Birdhouse.Tools.Substitution.Enums;
 using Birdhouse.Tools.Substitution.Interfaces;
 using Birdhouse.Tools.Substitution.Methods;
 using Birdhouse.Tools.Substitution.Operators.Adapters;
 
-namespace Birdhouse.Common.Helpers
+namespace Birdhouse.Tools.Substitution
 {
     public static class SubstitutionHelper
     {
@@ -34,7 +33,7 @@ namespace Birdhouse.Common.Helpers
                     
                 case ESubstitutionType.Update:
                     var substitutionMethod = new UpdateSubstitutionMethod<T>(substitutionOperator);
-                    return substitutionMethod;
+                    return substitutionMethod;  
                     
                 default:
                     throw new WtfException("Not provided substitution type");
@@ -49,7 +48,7 @@ namespace Birdhouse.Common.Helpers
         }
 
         public static ISubstitutionMethod<T> CreateCapaciousSubstitutionMethod<T>
-            (int capacity, ISubstitutionOperator<T> substitutionOperator, ESubstitutionType type)
+            (ISubstitutionOperator<T> substitutionOperator, int capacity, ESubstitutionType type)
         {
             var method = CreateSubstitutionMethod(substitutionOperator, type);
             
@@ -60,6 +59,26 @@ namespace Birdhouse.Common.Helpers
         public static ISubstitutionController<T> CreateSubstitutionController<T>(ISubstitutionMethod<T> method)
         {
             var result = new SubstitutionController<T>(method);
+            return result;
+        }
+
+        public static ISubstitutionController<T> CreateCapaciousSubstitutionController<T>
+            (IList<T> list, int capacity, ESubstitutionType type)
+        {
+            var @operator = CreateSubstitutionOperator(list);
+            var method = CreateCapaciousSubstitutionMethod(@operator, capacity, type);
+
+            var result = CreateSubstitutionController(method);
+            return result;
+        }
+
+        public static ISubstitutionController<KeyValuePair<TKey, TValue>> CreateCapaciousSubstitutionController<TKey, TValue>
+            (IDictionary<TKey, TValue> dictionary, int capacity, ESubstitutionType type)
+        {
+            var @operator = CreateSubstitutionOperator(dictionary);
+            var method = CreateCapaciousSubstitutionMethod(@operator, capacity, type);
+
+            var result = CreateSubstitutionController(method);
             return result;
         }
     }

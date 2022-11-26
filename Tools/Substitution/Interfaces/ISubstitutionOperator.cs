@@ -3,7 +3,7 @@
     public interface ISubstitutionOperator<in TElement>
     {
         void InsertAt(int index, TElement element);
-        void RemoveAt(int index);
+        bool RemoveAt(int index);
 
         int Count
         {

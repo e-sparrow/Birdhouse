@@ -27,14 +27,13 @@ namespace Birdhouse.Tools.Optimization.Memoization
         {
             var substitutionOperator = dictionary.AsSubstitutionOperator();
 
-            ISubstitutionMethod<KeyValuePair<TKey, IMemoizationElement<TValue>>> method = SubstitutionHelper.CreateSubstitutionMethod(substitutionOperator, ESubstitutionType.Forget);
+            var method = SubstitutionHelper.CreateSubstitutionMethod(substitutionOperator, ESubstitutionType.Forget);
             if (capacious)
             {
                 method = SubstitutionHelper.CreateCapaciousSubstitutionMethod(capacity, method, substitutionOperator);
             }
 
             var controller = SubstitutionHelper.CreateSubstitutionController(method);
-
             return controller;
         }
 
@@ -42,12 +41,14 @@ namespace Birdhouse.Tools.Optimization.Memoization
 
         public TValue GetOrCreate(TKey key, Func<TValue> create)
         {
-            return GetOrCreate(key, create, CreateTerm());
+            var result = GetOrCreate(key, create, CreateTerm());
+            return result;
         }
 
         public TValue GetOrCreate(TKey key, Func<TValue> create, ITerm term)
         {
-            if (!_dictionary.ContainsKey(key))
+            var isExist = _dictionary.ContainsKey(key);
+            if (!isExist)
             {
                 var element = new MemoizationElement<TValue>(create.Invoke(), term);
                 var pair = new KeyValuePair<TKey, IMemoizationElement<TValue>>(key, element);
@@ -55,7 +56,8 @@ namespace Birdhouse.Tools.Optimization.Memoization
                 _substitutionController.Add(pair);
             }
             
-            return _dictionary[key].Value;
+            var result = _dictionary[key].Value;
+            return result;
         }
 
         public void Check()

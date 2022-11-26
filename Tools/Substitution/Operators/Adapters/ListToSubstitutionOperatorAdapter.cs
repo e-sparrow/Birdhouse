@@ -14,9 +14,15 @@ namespace Birdhouse.Tools.Substitution.Operators.Adapters
             enumerable.Insert(index, element);
         }
 
-        protected override void RemoveAt(int index, IList<T> enumerable)
+        protected override bool RemoveAt(int index, IList<T> enumerable)
         {
-            enumerable.RemoveAt(index);
+            var result = enumerable.Count > index;
+            if (result)
+            {
+                enumerable.RemoveAt(index);    
+            }
+            
+            return result;
         }
     }
 }

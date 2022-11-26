@@ -15,16 +15,17 @@ namespace Birdhouse.Tools.Substitution.Operators
         private readonly TEnumerable _enumerable;
 
         protected abstract void InsertAt(int index, TElement element, TEnumerable enumerable);
-        protected abstract void RemoveAt(int index, TEnumerable enumerable);
+        protected abstract bool RemoveAt(int index, TEnumerable enumerable);
 
         public void InsertAt(int index, TElement element)
         {
             InsertAt(index, element, _enumerable);
         }
 
-        public void RemoveAt(int index)
+        public bool RemoveAt(int index)
         {
-            RemoveAt(index, _enumerable);   
+            var result = RemoveAt(index, _enumerable);
+            return result;
         }
 
         public int Count => _enumerable.Count();

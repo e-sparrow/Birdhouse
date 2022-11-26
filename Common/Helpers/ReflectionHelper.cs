@@ -160,8 +160,8 @@ namespace Birdhouse.Common.Helpers
             private static UnaryOperatorInfo CreateUnaryOperator(MethodInfo method)
             {
                 var operatorType = GetOperatorTypeByName<EUnaryOperatorType>(method.Name);
+                
                 var result = new UnaryOperatorInfo(method.ReturnType, operatorType);
-
                 return result;
             }
 
@@ -169,8 +169,8 @@ namespace Birdhouse.Common.Helpers
             {
                 var operatorType = GetOperatorTypeByName<EBinaryOperatorType>(method.Name);
                 var anotherArgumentType = method.GetParameters()[0].GetType();
+                
                 var result = new BinaryOperatorInfo(method.ReturnType, operatorType, anotherArgumentType);
-
                 return result;
             }
 

@@ -12,22 +12,26 @@ namespace Birdhouse.Common.Helpers
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>()
         {
-            return new MemoizationBuffer<TKey, TValue>(TermHelper.CreateTermInfo);
+            var result = new MemoizationBuffer<TKey, TValue>(TermHelper.CreateTermInfo);
+            return result;
         }
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>(TimeSpan elementLifetime)
         {
-            return new MemoizationBuffer<TKey, TValue>(CreateTermInfoWithLifetime);
+            var result = new MemoizationBuffer<TKey, TValue>(CreateTermInfoWithLifetime);
+            return result;
 
             ITermInfo CreateTermInfoWithLifetime()
             {
-                return TermHelper.CreateTermInfo(elementLifetime);
+                var info = TermHelper.CreateTermInfo(elementLifetime);
+                return info;
             }
         }
 
         public static IMemoizationBuffer<TKey, TValue> CreateBuffer<TKey, TValue>(Func<ITermInfo> termInfoCreator)
         {
-            return new MemoizationBuffer<TKey, TValue>(termInfoCreator);
+            var result = new MemoizationBuffer<TKey, TValue>(termInfoCreator);
+            return result;
         }
     }
 }

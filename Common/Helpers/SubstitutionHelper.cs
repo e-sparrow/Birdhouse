@@ -12,13 +12,15 @@ namespace Birdhouse.Common.Helpers
     {
         public static ISubstitutionOperator<T> CreateSubstitutionOperator<T>(IList<T> list)
         {
-            return new ListToSubstitutionOperatorAdapter<T>(list);
+            var result = new ListToSubstitutionOperatorAdapter<T>(list);
+            return result;
         }
         
         public static ISubstitutionOperator<KeyValuePair<TKey, TValue>> CreateSubstitutionOperator<TKey, TValue>
             (IDictionary<TKey, TValue> dictionary)
         {
-            return new DictionaryToSubstitutionOperatorAdapter<TKey, TValue>(dictionary);
+            var result = new DictionaryToSubstitutionOperatorAdapter<TKey, TValue>(dictionary);
+            return result;
         }
 
         public static ISubstitutionMethod<T> CreateSubstitutionMethod<T>
@@ -27,9 +29,13 @@ namespace Birdhouse.Common.Helpers
             switch (type)
             {
                 case ESubstitutionType.Forget:
-                    return new ForgetSubstitutionMethod<T>(substitutionOperator);
+                    var forgetMethod = new ForgetSubstitutionMethod<T>(substitutionOperator);
+                    return forgetMethod;
+                    
                 case ESubstitutionType.Update:
-                    return new UpdateSubstitutionMethod<T>(substitutionOperator);
+                    var substitutionMethod = new UpdateSubstitutionMethod<T>(substitutionOperator);
+                    return substitutionMethod;
+                    
                 default:
                     throw new WtfException("Not provided substitution type");
             }
@@ -53,7 +59,8 @@ namespace Birdhouse.Common.Helpers
 
         public static ISubstitutionController<T> CreateSubstitutionController<T>(ISubstitutionMethod<T> method)
         {
-            return new SubstitutionController<T>(method);
+            var result = new SubstitutionController<T>(method);
+            return result;
         }
     }
 }

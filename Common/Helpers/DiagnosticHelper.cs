@@ -12,19 +12,25 @@ namespace Birdhouse.Common.Helpers
         public static TimeSpan MeasureExecutionTime(Action action)
         {
             var stopwatch = MeasureExecution(action);
-            return stopwatch.Elapsed;
+
+            var result = stopwatch.Elapsed;
+            return result;
         }
         
         public static async Task<TimeSpan> MeasureAsyncExecutionTime(Task task)
         {
             var stopwatch = await MeasureAsyncExecution(task);
-            return stopwatch.Elapsed;
+
+            var result = stopwatch.Elapsed;
+            return result;
         }
         
         public static async Task<TimeSpan> MeasureCoroutineExecutionTime(IEnumerator coroutine)
         {
             var stopwatch = await MeasureCoroutineExecution(coroutine);
-            return stopwatch.Elapsed;
+
+            var result = stopwatch.Elapsed;
+            return result;
         }
 
         private static Stopwatch MeasureExecution(Action action)

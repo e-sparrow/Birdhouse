@@ -8,12 +8,19 @@ namespace Birdhouse.Common.Helpers
     {
         public static int GetCount()
         {
-            return typeof(T).GetEnumValues().Length;
+            var result = typeof(T)
+                .GetEnumValues()
+                .Length;
+            
+            return result;
         }
 
         public static T GetRandom(int seed)
         {
-            return GetRandom(new Random(seed));
+            var provider = new Random(seed);
+            
+            var result = GetRandom(provider);
+            return result;
         }
 
         public static T GetRandom(Random random = null)
@@ -23,27 +30,37 @@ namespace Birdhouse.Common.Helpers
                 random = new Random();
             }
 
-            return GetByIndex(random.Next(0, GetCount()));
+            var next = random.Next(0, GetCount());
+            
+            var result = GetByIndex(next);
+            return result;
         }
 
         public static T GetByIndex(int index)
         {
-            return (T) Enum.GetValues(typeof(T)).GetValue(index);
+            var result = (T) Enum
+                .GetValues(typeof(T))
+                .GetValue(index);
+
+            return result;
         }
 
         public static T GetByName(string name)
         {
-            return Find(value => value.ToString() == name);
+            var result = Find(value => value.ToString() == name);
+            return result;
         }
 
         public static T Find(Predicate<T> predicate)
         {
-            return GetValues().FirstOrDefault(predicate.Invoke);
+            var result = GetValues().FirstOrDefault(predicate.Invoke);
+            return result;
         }
 
         public static void ForEach(Action<T> action)
         {
-            foreach (var value in Enum.GetValues(typeof(T)))
+            var values = Enum.GetValues(typeof(T));
+            foreach (var value in values)
             {
                 action.Invoke((T) value);
             }
@@ -51,10 +68,11 @@ namespace Birdhouse.Common.Helpers
 
         public static IEnumerable<T> GetValues()
         {
-            var list = new List<T>();
-            ForEach(value => list.Add(value));
-
-            return list;
+            var values = Enum
+                .GetValues(typeof(T))
+                .Cast<T>();
+            
+            return values;
         }
     }
 }

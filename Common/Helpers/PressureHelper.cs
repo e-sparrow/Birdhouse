@@ -10,8 +10,8 @@ namespace Birdhouse.Common.Helpers
             (TPressure pressure, EPressureState state, float time)
         {
             var info = new PressureInfo<TPressure>(pressure, state);
+            
             var activation = new PressureActivation<PressureInfo<TPressure>, TPressure>(info, time);
-
             return activation;
         }
     }

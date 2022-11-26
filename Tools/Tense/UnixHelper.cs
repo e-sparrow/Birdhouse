@@ -12,12 +12,16 @@ namespace Birdhouse.Tools.Tense
 
         public static long ToUnix(DateTime value)
         {
-            return (long) (value - Origin).TotalSeconds;
+            var delta = value - Origin;
+            
+            var result = (long) delta.TotalSeconds;
+            return result;
         }
 
         public static DateTime FromUnix(long value)
         {
-            return Origin.AddSeconds(value);
+            var result =  Origin.AddSeconds(value);
+            return result;
         }
 
         public static ITimestamp<TimeSpan> CreateDefaultUnixTimestamp()

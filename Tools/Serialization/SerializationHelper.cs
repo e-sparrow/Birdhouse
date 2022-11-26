@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Birdhouse.Tools.Serialization;
 using Birdhouse.Tools.Serialization.Adapters.Formatters;
 using Birdhouse.Tools.Serialization.Enums;
 using Birdhouse.Tools.Serialization.Interfaces;
 
-namespace Birdhouse.Common.Helpers
+namespace Birdhouse.Tools.Serialization
 {
     public static class SerializationHelper
     {

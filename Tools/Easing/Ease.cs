@@ -9,7 +9,7 @@ namespace Birdhouse.Tools.Easing
         /// <summary>
         /// Creates default linear ease.
         /// </summary>
-        public Ease() : base(EasingHelper.Easings.Default)
+        public Ease() : base(EasingHelper.Easings.Linear)
         {
             
         }

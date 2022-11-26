@@ -1,12 +1,12 @@
 ﻿using Birdhouse.Common.Extensions;
 
-namespace Birdhouse.Common.Helpers
+namespace Birdhouse.Tools.Easing
 {
     public static class EasingHelper
     {
         public static class Easings
         {
-            public static float Default(float progress)
+            public static float Linear(float progress)
             {
                 return progress;
             }
@@ -16,37 +16,44 @@ namespace Birdhouse.Common.Helpers
         {
             public static float Increase(float left, float right)
             {
-                return left + right;
+                var result = left + right;
+                return result;
             }
             
             public static float Decrease(float left, float right)
             {
-                return left - right;
+                var result = left - right;
+                return result;
             }
             
             public static float Multiple(float left, float right)
             {
-                return left * right;
+                var result = left * right;
+                return result;
             }
             
             public static float Divide(float left, float right)
             {
-                return left / right;
+                var result = left / right;
+                return result;
             }
             
             public static float Modulus(float left, float right)
             {
-                return left % right;
+                var result = left % right;
+                return result;
             }
 
             public static float Power(float left, float right)
             {
-                return left.Power(right);
+                var result = left.Power(right);
+                return result;
             }
             
             public static float Average(float left, float right)
             {
-                return (left + right) / 2;
+                var result = (left + right) / 2;
+                return result;
             }
         }
     }

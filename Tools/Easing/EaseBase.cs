@@ -15,7 +15,8 @@ namespace Birdhouse.Tools.Easing
 
         public float Evaluate(float progress)
         {
-            return Evaluate(_easing, progress);
+            var result = Evaluate(_easing, progress);
+            return result;
         }
     }
 }

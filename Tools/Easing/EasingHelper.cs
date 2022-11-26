@@ -1,4 +1,5 @@
 ﻿using Birdhouse.Common.Extensions;
+using Birdhouse.Tools.Easing.Interfaces;
 
 namespace Birdhouse.Tools.Easing
 {
@@ -6,6 +7,17 @@ namespace Birdhouse.Tools.Easing
     {
         public static class Easings
         {
+            public static IEase GetFlatEase(float value)
+            {
+                var result = new Ease(GetValue);
+                return result;
+                
+                float GetValue(float progress)
+                {
+                    return value;
+                }
+            }
+            
             public static float Linear(float progress)
             {
                 return progress;

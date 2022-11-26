@@ -4,6 +4,12 @@
     {
         void Enqueue(IEase ease, float length);
         void EnqueueVoid(float length);
+        
         IEase Dequeue();
+
+        float Length
+        {
+            get;
+        }
     }
 }

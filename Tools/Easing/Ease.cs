@@ -34,7 +34,8 @@ namespace Birdhouse.Tools.Easing
 
         protected override float Evaluate(Easing<float> easing, float progress)
         {
-            return easing.Invoke(progress);
+            var result = easing.Invoke(progress);
+            return result;
         }
     }
 }

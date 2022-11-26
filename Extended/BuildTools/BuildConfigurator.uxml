@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Birdhouse/Extended/BuildTools/BuildConfigurator.uss?fileID=7433441132597879392&amp;guid=d4767e1b13dc9af4d8de7723fff4032a&amp;type=3#BuildConfigurator" />
+    <ui:VisualElement name="Root" style="max-width: 100%; max-height: 100%; min-height: 100%; min-width: 100%; justify-content: center; align-items: stretch; flex-direction: row;">
+        <ui:ListView focusable="true" />
+        <ui:ListView focusable="true" />
+    </ui:VisualElement>
+</ui:UXML>

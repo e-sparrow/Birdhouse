@@ -27,7 +27,5 @@ namespace Birdhouse.Tools.Substitution.Methods
             var replace = substitutionOperator.Count == _capacity;
             _method.Apply(element, replace);
         }
-
-        public override ESubstitutionType Type => _method.Type;
     }
 }

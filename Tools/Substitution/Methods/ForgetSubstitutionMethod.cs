@@ -1,5 +1,4 @@
-﻿using Birdhouse.Tools.Substitution.Enums;
-using Birdhouse.Tools.Substitution.Interfaces;
+﻿using Birdhouse.Tools.Substitution.Interfaces;
 
 namespace Birdhouse.Tools.Substitution.Methods
 {
@@ -15,7 +14,5 @@ namespace Birdhouse.Tools.Substitution.Methods
             substitutionOperator.RemoveAt(0);
             substitutionOperator.InsertAt(substitutionOperator.Count, element);
         }
-
-        public override ESubstitutionType Type => ESubstitutionType.Forget;
     }
 }

@@ -21,13 +21,15 @@ namespace Birdhouse.Common.Helpers
         public static IEnumerator Graduate(Action<float> action, float duration, IEase ease = null)
         {
             ease ??= new Ease();
+            
             var settings = new GradualSettings(action, duration, ease);
-            return Graduate(settings);
+            yield return Graduate(settings);
         }
 
         public static IEnumerator Graduate(Action<float> action, ITweeningSettings settings)
         {
-            return Graduate(action, (float) settings.Duration.TotalSeconds, settings.Ease);
+            var duration = (float) settings.Duration.TotalSeconds;
+            yield return Graduate(action, duration, settings.Ease);
         }
 
         public static IEnumerator ExecuteConsistently(IEnumerable<IEnumerator> coroutines, float cooldown = 0f)

@@ -1,6 +1,6 @@
-﻿using Birdhouse.Abstractions.Interfaces;
+﻿using Birdhouse.Abstractions.Renewables.Interfaces;
 
-namespace Birdhouse.Abstractions
+namespace Birdhouse.Abstractions.Renewables
 {
     public abstract class RenewableBase : IRenewable
     {

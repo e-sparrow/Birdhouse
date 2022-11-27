@@ -14,7 +14,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self in specified power</returns>
         public static double Power(this double self, double power)
         {
-            return Math.Pow(self, power);
+            var result = Math.Pow(self, power);
+            return result;
         }
 
         /// <summary>
@@ -24,7 +25,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self value in square power</returns>
         public static double Square(this double self)
         {
-            return self.Power(2);
+            var result = self.Power(2);
+            return result;
         }
 
         /// <summary>
@@ -35,7 +37,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self value in specified root</returns>
         public static double Root(this double self, double root)
         {
-            return self.Power(1f / root);
+            var result = self.Power(1f / root);
+            return result;
         }
 
         /// <summary>
@@ -45,7 +48,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Square root of self value</returns>
         public static double Sqrt(this double self)
         {
-            return Math.Sqrt(self);
+            var result = Math.Sqrt(self);
+            return result;
         }
 
         /// <summary>
@@ -56,7 +60,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self in specified power</returns>
         public static float Power(this float self, float power)
         {
-            return Mathf.Pow(self, power);
+            var result = Mathf.Pow(self, power);
+            return result;
         }
 
         /// <summary>
@@ -66,7 +71,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self value in square power</returns>
         public static float Square(this float self)
         {
-            return self.Power(2);
+            var result = self.Power(2);
+            return result;
         }
 
         /// <summary>
@@ -77,7 +83,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Self value in specified root</returns>
         public static double Root(this float self, float root)
         {
-            return self.Power(1f / root);
+            var result = self.Power(1f / root);
+            return result;
         }
 
         /// <summary>
@@ -88,7 +95,8 @@ namespace Birdhouse.Common.Extensions
 
         public static float Sqrt(this float self)
         {
-            return Mathf.Sqrt(self);
+            var result = Mathf.Sqrt(self);
+            return result;
         }
         
         /// <summary>
@@ -99,7 +107,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Rounded value</returns>
         public static int RoundWithStep(this int self, int step)
         {
-            return self / step * step;
+            var result = self / step * step;
+            return result;
         }
 
         /// <summary>
@@ -110,7 +119,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Rounded value</returns>
         public static double RoundWithStep(this double self, double step)
         {
-            return (int) (self / step) * step;
+            var result = (int) (self / step) * step;
+            return result;
         }
 
         /// <summary>
@@ -121,7 +131,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Rounded value</returns>
         public static float RoundWithStep(this float self, float step)
         {
-            return (int) (self / step) * step;
+            var result = (int) (self / step) * step;
+            return result;
         }
 
         /// <summary>
@@ -133,7 +144,7 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Return looped value</returns>
         public static float LoopBetween(this float self, float min, float max)
         {
-            float delta = max - min;
+            var delta = max - min;
 
             self %= delta;
             self += min;
@@ -155,7 +166,7 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Return looped value</returns>
         public static int LoopBetween(this int self, int min, int max)
         {
-            int delta = max - min;
+            var delta = max - min;
 
             self %= delta;
             self += min;
@@ -166,11 +177,6 @@ namespace Birdhouse.Common.Extensions
             }
 
             return self;
-        }
-
-        public static int Factorial(this int self)
-        {
-            return MathHelper.Factorial(self);
         }
     }
 }

@@ -20,23 +20,5 @@ namespace Birdhouse.Common.Extensions
             
             return dictionary;
         }
-
-        public static IMultiDictionary<TKey, TValue> AsMultiDictionary<TKey, TValue>
-            (this IEnumerable<IPair<TKey, TValue>> self)
-        {
-            var select = self.Select(value => value.AsKeyValuePair());
-            var dictionary = select.ToMultiDictionary();
-
-            return dictionary;
-        }
-
-        public static IMultiDictionary<TKey, TValue> AsMultiDictionary<TKey, TValue>
-            (this IEnumerable<IPair<TKey, IReadOnlyCollection<TValue>>> self)
-        {
-            var select = self.Select(value => value.AsKeyValuePair());
-            var dictionary = select.ToMultiDictionary();
-
-            return dictionary;
-        }
     }
 }

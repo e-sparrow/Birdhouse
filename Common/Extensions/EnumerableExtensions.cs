@@ -651,31 +651,6 @@ namespace Birdhouse.Common.Extensions
             return dictionary;
         }
 
-        public static IMultiDictionary<TKey, TValue> ToMultiDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
-        {
-            var dictionary = new MultiDictionary<TKey, TValue>();
-            foreach (var item in self)
-            {
-                dictionary.Add(item.Key, item.Value);
-            }
-
-            return dictionary;
-        }
-
-        public static IMultiDictionary<TKey, TValue> ToMultiDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, IReadOnlyCollection<TValue>>> self)
-        {
-            var dictionary = new MultiDictionary<TKey, TValue>();
-            foreach (var item in self)
-            {
-                foreach (var value in item.Value)
-                {
-                    dictionary.Add(item.Key, value);
-                }
-            }
-
-            return dictionary;
-        }
-
         public static IMultiDictionary<TKey, TValue> Concat<TKey, TValue>
             (this IMultiDictionary<TKey, TValue> self, IMultiDictionary<TKey, TValue> other)
         {

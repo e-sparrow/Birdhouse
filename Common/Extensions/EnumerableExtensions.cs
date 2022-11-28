@@ -651,28 +651,6 @@ namespace Birdhouse.Common.Extensions
             return dictionary;
         }
 
-        public static IMultiDictionary<TKey, TValue> Concat<TKey, TValue>
-            (this IMultiDictionary<TKey, TValue> self, IMultiDictionary<TKey, TValue> other)
-        {
-            foreach (var item in other)
-            {
-                self.Add(item);
-            }
-            
-            return self;
-        }
-
-        public static IMultiDictionary<TKey, TValue> Add<TKey, TValue>
-            (this IMultiDictionary<TKey, TValue> self, KeyValuePair<TKey, IReadOnlyCollection<TValue>> pair)
-        {
-            foreach (var value in pair.Value)
-            {
-                self.Add(pair.Key, value);
-            }
-
-            return self;
-        }
-
         /// <summary>
         /// Checks for count of not repeating elements.
         /// </summary>

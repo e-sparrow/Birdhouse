@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Birdhouse.Common.Collections.Generic.Interfaces;
 using Birdhouse.Common.Generic.Pairs.Interfaces;
 
 namespace Birdhouse.Common.Extensions

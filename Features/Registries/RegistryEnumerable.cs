@@ -10,11 +10,6 @@ namespace Birdhouse.Features.Registries
     {
         private readonly IList<T> _list = new List<T>();
 
-        public override void Dispose()
-        {
-            _list.Clear();
-        }
-
         public IEnumerator<T> GetEnumerator()
         {
             var result = _list.GetEnumerator();

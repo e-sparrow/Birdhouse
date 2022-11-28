@@ -1,11 +1,9 @@
-using System;
+using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Idle.Interfaces
 {
-    public interface IRealtimeIdleManager 
+    public interface IRealtimeIdleManager : IRegistry<IIdleController>
     {
-        IDisposable Register(IIdleController controller);
-
         void Check();
     }
 }

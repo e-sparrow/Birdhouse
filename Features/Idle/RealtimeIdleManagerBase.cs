@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Idle.Interfaces;
+using Birdhouse.Features.Registries;
+using Birdhouse.Features.Registries.Interfaces;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
 namespace Birdhouse.Features.Idle
@@ -14,23 +16,28 @@ namespace Birdhouse.Features.Idle
         }
         
         private readonly ITimestamp<TimeSpan> _timestamp;
-        private readonly List<IIdleController> _controllers = new List<IIdleController>();
+        private readonly IRegistryEnumerable<IIdleController> _registry = new RegistryEnumerable<IIdleController>();
 
         protected abstract void Execute(IIdleController controller, TimeSpan timeSpan); 
-        
-        public IDisposable Register(IIdleController controller)
-        {
-            var result = controller.AddAsDisposableTo(_controllers);
-            return result;
-        }
 
         public void Check()
         {
             var timeDelta = _timestamp.Stamp();
-            foreach (var controller in _controllers)
+            foreach (var controller in _registry)
             {
                 Execute(controller, timeDelta);
             }
+        }
+
+        public IDisposable Register(IIdleController element)
+        {
+            var result = _registry.Register(element);
+            return result;
+        }
+
+        public void Dispose()
+        {
+            _registry.Dispose();
         }
     }
 }

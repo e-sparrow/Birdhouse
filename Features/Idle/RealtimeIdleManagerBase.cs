@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Idle.Interfaces;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
@@ -17,14 +18,10 @@ namespace Birdhouse.Features.Idle
 
         protected abstract void Execute(IIdleController controller, TimeSpan timeSpan); 
         
-        public void Register(IIdleController controller)
+        public IDisposable Register(IIdleController controller)
         {
-            _controllers.Add(controller);
-        }
-
-        public void Unregister(IIdleController controller)
-        {
-            _controllers.Add(controller);
+            var result = controller.AddAsDisposableTo(_controllers);
+            return result;
         }
 
         public void Check()

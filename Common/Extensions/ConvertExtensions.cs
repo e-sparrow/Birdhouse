@@ -174,7 +174,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector2Int converted to Vector4</returns>
         public static Vector4 ToVector4(this Vector2Int self)
         {
-            return new Vector4(self.x, self.y, 0, 0);
+            var result = new Vector4(self.x, self.y, 0, 0);
+            return result;
         }
 
         /// <summary>
@@ -184,7 +185,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector3Int converted to Vector4</returns>
         public static Vector4 ToVector4(this Vector3Int self)
         {
-            return new Vector4(self.x, self.y, self.z, 0);
+            var result = new Vector4(self.x, self.y, self.z, 0);
+            return result;
         }
 
         /// <summary>
@@ -194,7 +196,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Color converted to Vector4</returns>
         public static Vector4 ToVector4(this Color self)
         {
-            return new Vector4(self.r, self.g, self.b, self.a);
+            var result = new Vector4(self.r, self.g, self.b, self.a);
+            return result;
         }
 
         /// <summary>
@@ -204,7 +207,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Quaternion converted to Vector4</returns>
         public static Vector4 ToVector4(this Quaternion self)
         {
-            return new Vector4(self.x, self.y, self.z, self.w);
+            var result = new Vector4(self.x, self.y, self.z, self.w);
+            return result;
         }
 
         /// <summary>
@@ -214,7 +218,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector2 converted to Vector2Int</returns>
         public static Vector2Int ToVector2Int(this Vector2 self)
         {
-            return new Vector2Int((int) self.x, (int) self.y);
+            var result = new Vector2Int((int) self.x, (int) self.y);
+            return result;
         }
 
         /// <summary>
@@ -224,7 +229,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector3 converted to Vector2Int</returns>
         public static Vector2Int ToVector2Int(this Vector3 self)
         {
-            return new Vector2Int((int) self.x, (int) self.y);
+            var result = new Vector2Int((int) self.x, (int) self.y);
+            return result;
         }
 
         /// <summary>
@@ -234,7 +240,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector4 converted to Vector2Int</returns>
         public static Vector2Int ToVector2Int(this Vector4 self)
         {
-            return new Vector2Int((int) self.x, (int) self.y);
+            var result = new Vector2Int((int) self.x, (int) self.y);
+            return result;
         }
 
         /// <summary>
@@ -254,7 +261,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector2 converted to Vector3Int</returns>
         public static Vector3Int ToVector3Int(this Vector2 self)
         {
-            return new Vector3Int((int) self.x, (int) self.y, 0);
+            var result = new Vector3Int((int) self.x, (int) self.y, 0);
+            return result;
         }
 
         /// <summary>
@@ -264,7 +272,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector3 converted to Vector3Int</returns>
         public static Vector3Int ToVector3Int(this Vector3 self)
         {
-            return new Vector3Int((int) self.x, (int) self.y, (int) self.z);
+            var result = new Vector3Int((int) self.x, (int) self.y, (int) self.z);
+            return result;
         }
 
         /// <summary>
@@ -274,7 +283,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector2Int converted Vector3Int</returns>
         public static Vector3Int ToVector3Int(this Vector2Int self)
         {
-            return new Vector3Int(self.x, self.y, 0);
+            var result = new Vector3Int(self.x, self.y, 0);
+            return result;
         }
 
         /// <summary>
@@ -284,7 +294,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector4 converted to Color</returns>
         public static Color ToColor(this Vector4 self)
         {
-            return new Color(self.x, self.y, self.z, self.w);
+            var result = new Color(self.x, self.y, self.z, self.w);
+            return result;
         }
 
         /// <summary>
@@ -294,7 +305,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Quaternion converted to Color</returns>
         public static Color ToColor(this Quaternion self)
         {
-            return new Color(self.x, self.y, self.z, self.w);
+            var result = new Color(self.x, self.y, self.z, self.w);
+            return result;
         }
 
         /// <summary>
@@ -304,7 +316,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Vector4 converted to Quaternion</returns>
         public static Quaternion ToQuaternion(this Vector4 self)
         {
-            return new Quaternion(self.x, self.y, self.z, self.w);
+            var result = new Quaternion(self.x, self.y, self.z, self.w);
+            return result;
         }
 
         /// <summary>
@@ -314,7 +327,8 @@ namespace Birdhouse.Common.Extensions
         /// <returns>Color converted to Quaternion</returns>
         public static Quaternion ToQuaternion(this Color self)
         {
-            return new Quaternion(self.r, self.g, self.b, self.a);
+            var result = new Quaternion(self.r, self.g, self.b, self.a);
+            return result;
         }
     }
 }

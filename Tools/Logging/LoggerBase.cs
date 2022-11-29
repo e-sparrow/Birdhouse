@@ -15,12 +15,15 @@ namespace Birdhouse.Tools.Logging
                 case ELogType.Message:
                     Debug.Log(message);
                     break;
+                
                 case ELogType.Warning:
                     Debug.LogWarning(message);
                     break;
+                
                 case ELogType.Error:
                     Debug.LogError(message);
                     break;
+                
                 case ELogType.Exception:
                     Debug.LogException(GetException(message));
                     break;

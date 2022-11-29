@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Birdhouse.Tools.Processors;
 
 namespace Birdhouse.Tools.Identification
 {
     public class Unifier<T> : UnifierBase<T>
     {
-        public Unifier(Func<T, T> unify)
+        public Unifier(Evaluator<T> unify)
         {
             _unify = unify;
         }
 
-        private readonly Func<T, T> _unify;
+        private readonly Evaluator<T> _unify;
 
         public override T Unify(T value)
         {
-            return _unify.Invoke(value);
+            var result = _unify.Invoke(value);
+            return result;
         }
     }
 }

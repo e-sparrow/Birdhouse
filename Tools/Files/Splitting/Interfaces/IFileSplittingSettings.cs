@@ -4,12 +4,7 @@ namespace Birdhouse.Tools.Files.Splitting.Interfaces
 {
     public interface IFileSplittingSettings
     {
-        string Directory
-        {
-            get;
-        }
-
-        string FileName
+        string Path
         {
             get;
         }

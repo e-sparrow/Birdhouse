@@ -7,7 +7,8 @@ namespace Birdhouse.Common.Helpers
     {
         public static IUnifier<T> GetBlankUnifier<T>()
         {
-            return new Unifier<T>(value => value);
+            var result = new Unifier<T>(value => value);
+            return result;
         }
     }
 }

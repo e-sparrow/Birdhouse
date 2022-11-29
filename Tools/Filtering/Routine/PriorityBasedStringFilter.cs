@@ -2,9 +2,10 @@
 
 namespace Birdhouse.Tools.Filtering.Routine
 {
-    public class PriorityBasedStringFilter : PriorityBasedFilterBase<string>
+    public class PriorityBasedStringFilter : EnumerablePriorityBasedFilterBase<string>
     {
-        public PriorityBasedStringFilter(string landmark, int count, int minPriority = 0) : base(count, minPriority)
+        public PriorityBasedStringFilter(string landmark, int count = -1, int minPriority = 0) 
+            : base(count, minPriority)
         {
             _landmark = landmark;
         }
@@ -14,7 +15,9 @@ namespace Birdhouse.Tools.Filtering.Routine
         protected override int GetPriority(string self)
         {
             var pattern = @$"/*{_landmark}/*";
-            var count = Regex.Matches(Regex.Escape(self), pattern).Count;
+            var escape = Regex.Escape(self);
+            var matches = Regex.Matches(escape, pattern);
+            var count = matches.Count;
             var priority = pattern.Length * count;
 
             return priority;

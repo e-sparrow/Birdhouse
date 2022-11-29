@@ -12,8 +12,6 @@ namespace Birdhouse.Tools.Files.Splitting.Examples.Mono
     {
         [SerializeField] private string fileName;
         [SerializeField] private string info;
-
-        [SerializeField] private string persistentDataPath;
         
         private readonly IFileSplitter _fileSplitter = new FileSplitter();
 
@@ -53,13 +51,14 @@ namespace Birdhouse.Tools.Files.Splitting.Examples.Mono
 
         private IFileSplittingSettings CreateSettings()
         {
-            return new FileSplittingSettings(Application.persistentDataPath, fileName, GetPartName, 1);
+            var path = Path.Combine(Application.persistentDataPath, fileName);
+                
+            var result = new FileSplittingSettings(path, GetPartName, 1);
+            return result;
         }
         
         private void Start()
         {
-            persistentDataPath = Application.persistentDataPath;
-            
             _serializationController = SerializationHelper.GetDefaultSerializationController(ESerializationMethod.Binary, Directory);
         }
 

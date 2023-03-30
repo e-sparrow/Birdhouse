@@ -7,7 +7,7 @@ using Birdhouse.Tools.Data.Transmission;
 using Birdhouse.Tools.Data.Transmission.Interfaces;
 using Birdhouse.Tools.Data.Transmission.Routine;
 using Birdhouse.Tools.Tense;
-using Birdhouse.Tools.Tense.Controllers.Interfaces;
+using Birdhouse.Tools.Tense.Providers.Interfaces;
 
 namespace Birdhouse.Features.Idle
 {

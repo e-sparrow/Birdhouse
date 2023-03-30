@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Birdhouse.Tools.Inputs.Pressures.Interfaces;
-using Birdhouse.Tools.Tense.Controllers.Interfaces;
+using Birdhouse.Tools.Tense.Providers.Interfaces;
 using UnityEngine;
 
 namespace Birdhouse.Tools.Inputs.Services

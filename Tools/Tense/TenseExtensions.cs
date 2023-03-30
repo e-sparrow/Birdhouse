@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Tools.Tense.Controllers.Interfaces;
+using Birdhouse.Tools.Tense.Providers.Interfaces;
 
 namespace Birdhouse.Tools.Tense
 {

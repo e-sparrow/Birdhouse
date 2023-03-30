@@ -43,7 +43,7 @@ namespace Birdhouse.Common.Coroutines
         /// <param name="routine">Routine to start</param>
         public static void Start(this IEnumerator routine)
         {
-            MonoMessageController.Instance.StartCoroutine(routine);
+            UnityMessageController.Instance.StartCoroutine(routine);
         }
 
         /// <summary>

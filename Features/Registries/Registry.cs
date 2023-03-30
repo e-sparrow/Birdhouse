@@ -13,4 +13,9 @@ namespace Birdhouse.Features.Registries
             return result;
         }
     }
+
+    public class Registry : Registry<object>, IRegistry
+    {
+        
+    }
 }

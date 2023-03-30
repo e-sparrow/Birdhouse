@@ -1,6 +1,5 @@
 ﻿using System;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Tools.Tense.Controllers.Interfaces;
 using Birdhouse.Tools.Tense.Timestamps;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 

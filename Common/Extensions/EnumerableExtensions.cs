@@ -6,6 +6,7 @@ using Birdhouse.Common.Collections.Generic;
 using Birdhouse.Common.Collections.Generic.Interfaces;
 using Birdhouse.Common.Exceptions;
 using Birdhouse.Tools.Conversion;
+using Birdhouse.Tools.Filtering.Interfaces;
 using Random = System.Random;
 
 namespace Birdhouse.Common.Extensions
@@ -375,15 +376,12 @@ namespace Birdhouse.Common.Extensions
             return self.AsSingleEnumerable().Concat(other);
         }
 
-        /// <summary>
-        /// Creates Collection from Enumerable.
-        /// </summary>
-        /// <param name="self">Self enumerable</param>
-        /// <typeparam name="T">Type of elements in enumerable</typeparam>
-        /// <returns>Collection from IEnumerable</returns>
-        public static Collection<T> AsCollection<T>(this IEnumerable<T> self)
+        public static IEnumerable<T> ApplyFilter<T>(this IEnumerable<T> self, IFilter<T> filter)
         {
-            return new Collection<T>(self.ToList());
+            var result = filter
+                .Filtrate(self);
+
+            return result;
         }
 
         /// <summary>
@@ -601,7 +599,9 @@ namespace Birdhouse.Common.Extensions
         /// <typeparam name="TInheritor">Inheritor type</typeparam>
         /// <typeparam name="TBase">Base type of inheritor</typeparam>
         /// <returns>New enumerable with base type values</returns>
-        public static IEnumerable<TBase> SelectBase<TInheritor, TBase>(this IEnumerable<TInheritor> self) where TInheritor : TBase
+        public static IEnumerable<TBase> SelectBase<TInheritor, TBase>
+            (this IEnumerable<TInheritor> self) 
+            where TInheritor : TBase
         {
             return self.Select(value => value.Base<TInheritor, TBase>());
         }
@@ -623,7 +623,9 @@ namespace Birdhouse.Common.Extensions
         /// <typeparam name="TBase">Base type of inheritor</typeparam>
         /// <typeparam name="TInheritor">Specific inheritor type</typeparam>
         /// <returns>New enumerable with inheritor type values</returns>
-        public static IEnumerable<TInheritor> SelectInheritor<TBase, TInheritor>(this IEnumerable<TBase> self) where TInheritor : TBase
+        public static IEnumerable<TInheritor> SelectInheritor<TBase, TInheritor>
+            (this IEnumerable<TBase> self) 
+            where TInheritor : TBase
         {
             var result = self.Select(value => value.Inheritor<TBase, TInheritor>());
             return result;

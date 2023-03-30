@@ -13,7 +13,9 @@ namespace Birdhouse.Common.Extensions
         /// <returns>State of the key</returns>
         public static EPressureState GetKeyState(this KeyCode key)
         {
-            return InputHelper.KeyPressureStateProvider.GetPressureState(key);
+            return InputHelper
+                .KeyPressureStateProvider
+                .GetPressureState(key);
         }
         
         /// <summary>

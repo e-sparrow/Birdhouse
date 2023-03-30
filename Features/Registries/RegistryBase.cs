@@ -3,7 +3,8 @@ using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Registries
 {
-    public abstract class RegistryBase<TElement, TToken> : IRegistry<TElement, TToken>
+    public abstract class RegistryBase<TElement, TToken> 
+        : IRegistry<TElement, TToken>
         where TToken : IDisposable
     {
         protected abstract TToken CreateToken(TElement element);

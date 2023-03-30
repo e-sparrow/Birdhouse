@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Birdhouse.Common.Coroutines.YieldInstructions
 {
-    public class CancellableYieldInstructionBase : YieldInstructionBase, ICancellable
+    public abstract class CancellableYieldInstructionBase : YieldInstructionBase, ICancellable
     {
-        public CancellableYieldInstructionBase(CustomYieldInstruction instruction)
+        protected CancellableYieldInstructionBase(CustomYieldInstruction instruction)
         {
             _instruction = instruction;
         }

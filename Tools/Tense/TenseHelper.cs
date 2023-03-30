@@ -1,7 +1,7 @@
 ﻿using System;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Tools.Tense.Controllers;
-using Birdhouse.Tools.Tense.Controllers.Interfaces;
+using Birdhouse.Tools.Tense.Providers;
+using Birdhouse.Tools.Tense.Providers.Interfaces;
 using UnityEngine;
 
 namespace Birdhouse.Tools.Tense

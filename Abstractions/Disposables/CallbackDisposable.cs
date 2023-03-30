@@ -2,7 +2,7 @@
 
 namespace Birdhouse.Abstractions.Disposables
 {
-    public class CallbackDisposable : DisposableBase
+    public class CallbackDisposable : IDisposable
     {
         public CallbackDisposable(Action callback = null)
         {
@@ -12,7 +12,7 @@ namespace Birdhouse.Abstractions.Disposables
 
         private readonly Action _callback;
         
-        protected override void DisposeInternal()
+        public void Dispose()
         {
             _callback.Invoke();
         }

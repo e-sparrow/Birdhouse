@@ -12,4 +12,9 @@ namespace Birdhouse.Features.Registries.Interfaces
     {
         
     }
+
+    public interface IRegistry : IRegistry<object, IDisposable>
+    {
+        
+    }
 }

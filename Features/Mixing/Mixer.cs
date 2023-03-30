@@ -17,8 +17,9 @@ namespace Birdhouse.Features.Mixing
                 
             var value = interpolator.Interpolate(first.Value, second.Value, first.Proportion / summary);
             var proportion = first.Proportion + second.Proportion;
-                
-            return new MixingPart<T>(value, proportion);
+
+            var result = new MixingPart<T>(value, proportion);
+            return result;
         }
     }
 }

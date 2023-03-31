@@ -15,10 +15,8 @@ namespace Birdhouse.Common.Helpers
             {
                 return () => { };
             }
-            else
-            {
-                return action;
-            }
+
+            return action;
         }
     }
 }

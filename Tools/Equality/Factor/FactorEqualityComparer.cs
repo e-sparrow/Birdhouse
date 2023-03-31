@@ -30,7 +30,7 @@ namespace Birdhouse.Tools.Equality.Factor
             if (other.IsNull()) return false;
             if (self.IsReferencesMatchWith(other)) return true;
             
-            var typesAreMatch = self.IsTypesMatchWith(other);
+            var typesAreMatch = self.AreTypesMatchWith(other);
             var isEquals = Equals(self, (TSelf) other);
 
             return typesAreMatch && isEquals;

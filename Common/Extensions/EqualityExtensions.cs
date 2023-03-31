@@ -39,7 +39,7 @@
         /// <param name="self">Self value</param>
         /// <param name="other">Another value</param>
         /// <returns>True if types are match and false otherwise</returns>
-        public static bool IsTypesMatchWith(this object self, object other)
+        public static bool AreTypesMatchWith(this object self, object other)
         {
             return other.GetType() == self.GetType();
         }

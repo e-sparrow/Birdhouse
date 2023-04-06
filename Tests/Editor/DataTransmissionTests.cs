@@ -21,8 +21,7 @@ namespace Birdhouse.Tests.Editor
         {
             while (true)
             {
-                Thread.Sleep(100);
-                var settings = EditorTestsSettings.instance.DataTransmissionTestsSettings;
+                var settings = EditorTestsSettings.Instance.DataTransmissionTestsSettings;
                 var key = settings.TestPlayerPrefsDataTransmitterKey;
                 var data = settings.TestPlayerPrefsDataTransmitterValue;
 
@@ -61,9 +60,9 @@ namespace Birdhouse.Tests.Editor
 
             void Test(ESerializationMethod method)
             {
-                var root = EditorTestsSettings.instance.RootDirectory;
+                var root = EditorTestsSettings.Instance.RootDirectory;
                 
-                var settings = EditorTestsSettings.instance.DataTransmissionTestsSettings;
+                var settings = EditorTestsSettings.Instance.DataTransmissionTestsSettings;
                 var name = string.Format(root, settings.SerializationStorageFilePath, method);
                 var path = Path.Combine(Application.persistentDataPath, name);
                 

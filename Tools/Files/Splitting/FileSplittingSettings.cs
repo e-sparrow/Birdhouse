@@ -5,20 +5,14 @@ namespace Birdhouse.Tools.Files.Splitting
 {
     public readonly struct FileSplittingSettings : IFileSplittingSettings
     {
-        public FileSplittingSettings(string directory, string fileName, Func<int, string> namingMethod, int maxFileSize)
+        public FileSplittingSettings(string path, Func<int, string> namingMethod, int maxFileSize)
         {
-            Directory = directory;
-            FileName = fileName;
+            Path = path;
             NamingMethod = namingMethod;
             MaxFileSize = maxFileSize;
         }
 
-        public string Directory
-        {
-            get;
-        }
-
-        public string FileName
+        public string Path
         {
             get;
         }

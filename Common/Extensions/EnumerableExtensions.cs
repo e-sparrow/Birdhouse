@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Birdhouse.Common.Collections.Generic;
-using Birdhouse.Common.Collections.Generic.Interfaces;
 using Birdhouse.Common.Exceptions;
 using Birdhouse.Tools.Conversion;
 using Birdhouse.Tools.Filtering.Interfaces;

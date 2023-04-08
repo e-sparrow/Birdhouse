@@ -9,23 +9,24 @@ namespace Birdhouse.Tools.Files.Splitting
     {
         public void Split(IFileSplittingSettings settings)
         {
-            var directory = Path.Combine(settings.Directory, settings.FileName);
-            var file = File.ReadAllBytes(directory);
+            var file = File.ReadAllBytes(settings.Path);
             
             int current = 0;
             for (int i = 0; i < file.Length; i += settings.MaxFileSize)
             {
-                var partBytes = new byte[Math.Min(settings.MaxFileSize, file.Length - i)];
-                for (int j = 0; j < partBytes.Length; j++)
+                var min = Math.Min(settings.MaxFileSize, file.Length - i);
+                var partBytes = new byte[min];
+                for (var j = 0; j < partBytes.Length; j++)
                 {
                     partBytes[j] = file[current];
                     current++;
                 }
 
-                File.WriteAllBytes(Path.Combine(settings.Directory, settings.NamingMethod.Invoke(i)), partBytes);
+                var destination = Path.Combine(settings.Path, settings.NamingMethod.Invoke(i));
+                File.WriteAllBytes(destination, partBytes);
             }
             
-            File.Delete(directory);
+            File.Delete(settings.Path);
         }
 
         public void Merge(IFileSplittingSettings settings)
@@ -35,17 +36,18 @@ namespace Birdhouse.Tools.Files.Splitting
 
             for (int i = 0; ; i++)
             {
-                var partDirectory = Path.Combine(settings.Directory, settings.NamingMethod.Invoke(i));
+                var partDirectory = Path.Combine(settings.Path, settings.NamingMethod.Invoke(i));
                 if (File.Exists(partDirectory))
                 {
-                    bytes.AddRange(File.ReadAllBytes(partDirectory));
+                    var directoryBytes = File.ReadAllBytes(partDirectory);
+                    bytes.AddRange(directoryBytes);
                     partDirectories.Add(partDirectory);
                 }
                 else break;
             }
 
-            var directory = Path.Combine(settings.Directory, settings.FileName);
-            File.WriteAllBytes(directory, bytes.ToArray());
+            var array = bytes.ToArray();
+            File.WriteAllBytes(settings.Path, array);
 
             foreach (var partDirectory in partDirectories)
             {

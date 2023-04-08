@@ -16,9 +16,8 @@ namespace Birdhouse.Tools.Interactions
             if (interactor != null)
             {
                 interactor.EnterTo(this);
+                OnTriggerEnterHandler.Invoke(interactor);
             }
-            
-            OnTriggerEnterHandler.Invoke(interactor);
         }
 
         protected void OnComponentStay(Component component)
@@ -27,9 +26,8 @@ namespace Birdhouse.Tools.Interactions
             if (interactor != null)
             {
                 interactor.StayIn(this);
+                OnTriggerStayHandler.Invoke(interactor);
             }
-            
-            OnTriggerStayHandler.Invoke(interactor);
         }
 
         protected void OnComponentExit(Component component)
@@ -38,9 +36,8 @@ namespace Birdhouse.Tools.Interactions
             if (interactor != null)
             {
                 interactor.ExitFrom(this);
+                OnTriggerExitHandler.Invoke(interactor);
             }
-            
-            OnTriggerExitHandler.Invoke(interactor);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Birdhouse.Features.Idle.Interfaces;
-using Birdhouse.General;
 using Birdhouse.Tools.Conversion;
 using Birdhouse.Tools.Conversion.Routine;
 using Birdhouse.Tools.Data.Transmission;
@@ -32,12 +31,10 @@ namespace Birdhouse.Features.Idle
 
         private static IDataTransmitter<DateTime> GetDefaultVisitTransmitter()
         {
-            const string key = FeatureConstants.OfflineControllerDataKey;
-            
-            var transmitter = new PlayerPrefsStringDataTransmitter(key);
+            var transmitter = new PlayerPrefsStringDataTransmitter(IdleConstants.PlayerPrefsOfflineControllerKey);
             var conversion = new ReversibleDateTimeToStringConversion().Swap();
             
-            var result = transmitter.Convert<string, DateTime>(conversion);
+            var result = transmitter.Convert(conversion);
             return result;
         }
 

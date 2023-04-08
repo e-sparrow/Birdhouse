@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Birdhouse.Common.Coroutines.YieldInstructions;
 using Birdhouse.Common.Extensions;
-using Birdhouse.General;
+using Birdhouse.Common.Singleton.Mono;
 using Birdhouse.Tools.UnityMessages;
 using UnityEngine;
 
@@ -53,7 +53,7 @@ namespace Birdhouse.Common.Coroutines
         /// <param name="token">Token to cancel the routine</param>
         public static async Task StartAsync(this IEnumerator routine, CancellationToken token = new CancellationToken())
         {
-            await BirdhouseOrigin.Instance.StartCoroutineAsync(routine, token);
+            await CoroutineSingleton.Instance.StartCoroutineAsync(routine, token);
         }
 
         /// <summary>
@@ -98,6 +98,16 @@ namespace Birdhouse.Common.Coroutines
         {
             var result = new CancellableYieldInstruction(self);
             return result;
+        }
+
+        private class CoroutineSingleton : MonoSingleton<CoroutineSingleton>
+        {
+            private const string Name = "Coroutines Root";
+            
+            private void Awake()
+            {
+                gameObject.name = Name;
+            }
         }
     }
 }

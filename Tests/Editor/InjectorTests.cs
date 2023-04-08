@@ -1,16 +1,16 @@
 ﻿using System;
 using Birdhouse.Common.Exceptions;
-using Birdhouse.Common.Reflection.Generators;
+using Birdhouse.Common.Reflection.Injectors;
 using Birdhouse.Tools.Identification;
 using NUnit.Framework;
 using UnityEngine;
 
 namespace Birdhouse.Tests.Editor
 {
-    public class GeneratorTests
+    public class InjectorTests
     {
         [Test]
-        public void TestPlayerPrefsGenerator()
+        public void TestPlayerPrefsInjector()
         {
             var unifier = new Unifier<string>(name => $"BirdhouseTests/{name}");
             
@@ -19,8 +19,8 @@ namespace Birdhouse.Tests.Editor
             PlayerPrefs.SetFloat(unifier.Unify("exampleFloat"), 4.20f);
             PlayerPrefs.SetString(unifier.Unify("exampleString"), "That's best example of PlayerPrefs value ever!");
             
-            var generator = new PlayerPrefsGenerator(unifier);
-            if (generator.TryGenerate(typeof(PlayerPrefsTarget), out var value))
+            var generator = new PlayerPrefsInjector(unifier);
+            if (generator.TryInject(typeof(PlayerPrefsTarget), out var value))
             {
                 var result = (PlayerPrefsTarget) value;
                 result.Log();

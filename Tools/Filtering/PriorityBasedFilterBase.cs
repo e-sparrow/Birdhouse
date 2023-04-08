@@ -22,7 +22,11 @@ namespace Birdhouse.Tools.Filtering
         public IEnumerable<T> Filtrate(IEnumerable<T> source)
         {
             var dictionary = source.ToDictionary(value => value, GetPriority);
-            var filtered = dictionary.Where(pair => pair.Value > _minPriority);
+            
+            var filtered = dictionary
+                .Where(pair => pair.Value >= _minPriority)
+                .OrderBy(pair => pair.Value);
+            
             var count = Math.Min(filtered.Count(), _count);
             var counted = filtered.Take(count);
             var result = counted.ToDictionary().Keys;

@@ -12,11 +12,13 @@ namespace Birdhouse.Tools.Functionality
 
             TResult GetOrCreate(TArgument argument)
             {
-                return buffer.GetOrCreate(argument, Create);
+                var value = buffer.GetOrCreate(argument, Create);
+                return value;
 
                 TResult Create()
                 {
-                    return func.Invoke(argument);
+                    var result = func.Invoke(argument);
+                    return result;
                 }
             }
         }
@@ -25,7 +27,8 @@ namespace Birdhouse.Tools.Functionality
 
         public TResult Execute(TArgument argument)
         {
-            return _func.Invoke(argument);
+            var result = _func.Invoke(argument);
+            return result;
         }
     }
 }

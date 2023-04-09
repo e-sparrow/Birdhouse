@@ -374,10 +374,10 @@ namespace Birdhouse.Common.Extensions
             return self.AsSingleEnumerable().Concat(other);
         }
 
-        public static IEnumerable<T> ApplyFilter<T>(this IEnumerable<T> self, IFilter<T> filter)
+        public static IEnumerable<T> ApplyFilter<T>(this IEnumerable<T> self, IFilter<IEnumerable<T>, T> filter)
         {
             var result = filter
-                .Filtrate(self);
+                .Process(self);
 
             return result;
         }

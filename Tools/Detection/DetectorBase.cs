@@ -9,7 +9,7 @@ namespace Birdhouse.Tools.Detection
     {
         protected abstract IEnumerable<T> DetectAll();
 
-        public IEnumerable<T> Detect(IFilter<T> filter)
+        public IEnumerable<T> Detect(IFilter<IEnumerable<T>, T> filter)
         {
             var notFiltered = DetectAll();
             

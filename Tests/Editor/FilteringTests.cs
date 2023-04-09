@@ -34,7 +34,7 @@ namespace Birdhouse.Tests.Editor
             };
 
             var hogFilter = new PriorityBasedLevenshteinFilter("Hog", 10);
-            var hogResult = hogFilter.Filtrate(list);
+            var hogResult = hogFilter.Process(list);
             foreach (var result in hogResult)
             {
                 Debug.Log(result);

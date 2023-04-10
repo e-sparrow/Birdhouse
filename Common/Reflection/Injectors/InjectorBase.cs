@@ -29,6 +29,7 @@ namespace Birdhouse.Common.Reflection.Injectors
                     {
                         isRight = false;
                         parametersList.Clear();
+                        
                         break;
                     }
                 }

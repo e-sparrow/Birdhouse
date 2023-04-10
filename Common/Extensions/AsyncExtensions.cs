@@ -78,7 +78,7 @@ namespace Birdhouse.Common.Extensions
         public static T Sync<T>(this Task<T> task)
         {
             var result = task
-                .Get()
+                .AsFunc()
                 .Sync();
             
             return result;
@@ -95,7 +95,7 @@ namespace Birdhouse.Common.Extensions
         public static void Sync(this Task task)
         {
             task
-                .Get()
+                .AsFunc()
                 .Sync();
         }
     }

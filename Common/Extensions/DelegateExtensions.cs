@@ -78,7 +78,7 @@ namespace Birdhouse.Common.Extensions
         /// <param name="self">The self variable to get by function</param>
         /// <typeparam name="T">Type of variable</typeparam>
         /// <returns>Function to get variable</returns>
-        public static Func<T> Get<T>(this T self)
+        public static Func<T> AsFunc<T>(this T self)
         {
             return GetValue;
 

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Birdhouse.Common.Exceptions;
+using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Injectors;
+using Birdhouse.Common.Reflection.Injectors.Attributes;
+using Birdhouse.Common.Reflection.Injectors.Interfaces;
 using Birdhouse.Tools.Identification;
 using NUnit.Framework;
 using UnityEngine;
@@ -19,15 +22,37 @@ namespace Birdhouse.Tests.Editor
             PlayerPrefs.SetFloat(unifier.Unify("exampleFloat"), 4.20f);
             PlayerPrefs.SetString(unifier.Unify("exampleString"), "That's best example of PlayerPrefs value ever!");
             
-            var generator = new PlayerPrefsInjector(unifier);
-            if (generator.TryInject(typeof(PlayerPrefsTarget), out var value))
+            if (InjectorHelper.TryInjectFromPlayerPrefs<PlayerPrefsTarget>(out var value, unifier))
             {
-                var result = (PlayerPrefsTarget) value;
-                result.Log();
+                value.Log();
             }
             else
             {
-                throw new WtfException($"{TestsConstants.MessagePrefix} GeneratorTests/TestPlayerPrefsGenerator failed");
+                throw new WtfException($"{TestConstants.MessagePrefix} GeneratorTests/TestPlayerPrefsGenerator failed");
+            }
+        }
+
+        [Test]
+        public void TestParametersInjector()
+        {
+            var unifier = IdentificationHelper.GetUpperInvariantCaseUnifier();
+
+            var parameter = new InjectionParameter("Injection parameter");
+            var parameters = new List<IInjectable>()
+            {
+                new IdInjectable<string>("stringValue", "That's value of IdInjectable parameter".AsFunc()),
+                new NamedInjectable<int>("intValue", 666.AsFunc(), unifier),
+                new TypedInjectable<InjectionParameter>(parameter.AsFunc())
+            };
+                
+            var injector = new ParametersInjector(parameters);
+            if (injector.TryInject<InjectionTarget>(out var value))
+            {
+                value.Log();
+            }
+            else
+            {
+                throw new WtfException($"Can not inject to {typeof(InjectionTarget)}");
             }
         }
 
@@ -48,13 +73,55 @@ namespace Birdhouse.Tests.Editor
 
             public void Log()
             {
-                var message = $"<b><color=red>BirdhouseTests</color></b> Created player prefs target by generator... \n" +
+                var message = $"{TestConstants.MessagePrefix} Created player prefs target by injector... \n" +
                               $"exampleBool value = {_exampleBool} \n" +
                               $"exampleInt value = {_exampleInt} \n" +
                               $"exampleFloat value = {_exampleFloat} \n" +
                               $"exampleString value = {_exampleString}";
                 
                 Debug.Log(message);
+            }
+        }
+
+        private class InjectionTarget
+        {
+            public InjectionTarget
+            (
+                [InjectableId("stringValue")] string stringValue, 
+                int intValue, 
+                InjectionParameter parameter
+            )
+            {
+                _stringValue = stringValue;
+                _intValue = intValue;
+                _parameter = parameter;
+            }
+
+            private readonly string _stringValue;
+            private readonly int _intValue;
+            private readonly InjectionParameter _parameter;
+
+            public void Log()
+            {
+                var message = $"{TestConstants.MessagePrefix} Injected values: \n" +
+                              $"stringValue = {_stringValue}\n" +
+                              $"intValue = {_intValue}\n" +
+                              $"Also it have <color=green>InjectionParameter</color> with message: {_parameter.Message}";
+                
+                Debug.Log(message);
+            }
+        }
+
+        private class InjectionParameter
+        {
+            public InjectionParameter(string message)
+            {
+                Message = message;
+            }
+            
+            public string Message
+            {
+                get;
             }
         }
     }

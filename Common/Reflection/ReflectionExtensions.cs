@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Birdhouse.Common.Reflection.MutableMembers;
 using Birdhouse.Common.Reflection.MutableMembers.Adapters;
 using Birdhouse.Common.Reflection.MutableMembers.Interfaces;
@@ -123,6 +124,22 @@ namespace Birdhouse.Common.Extensions
         public static bool IsRealClass(this Type self)
         {
             return !self.IsAbstract && !self.IsGenericTypeDefinition && !self.IsInterface;
+        }
+
+        public static bool TryGetCustomAttribute<T>(this Type type, out T result) where T : Attribute
+        {
+            result = type.GetCustomAttribute<T>();
+
+            var isNotNull = result != null;
+            return isNotNull;
+        }
+
+        public static bool TryGetCustomAttribute<T>(this ParameterInfo parameter, out T result) where T : Attribute
+        {
+            result = parameter.GetCustomAttribute<T>();
+
+            var isNotNull = result != null;
+            return isNotNull;
         }
     }
 }

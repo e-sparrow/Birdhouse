@@ -10,4 +10,13 @@ namespace Birdhouse.Features.FluentLogics
             return root;
         }
     }
+
+    public static class FluentLogic<T>
+    {
+        public static LogicRoot<T> If(Func<bool> condition)
+        {
+            var root = new LogicRoot<T>(condition);
+            return root;
+        }
+    }
 }

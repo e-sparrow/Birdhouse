@@ -23,4 +23,26 @@ namespace Birdhouse.Features.FluentLogics
             return handler;
         }
     }
+
+    public readonly struct SoHandler<T>
+    {
+        public SoHandler(LogicRoot<T> root)
+        {
+            _root = root;
+        }
+
+        private readonly LogicRoot<T> _root;
+        
+        public ElseIfHandler<T> ElseIf(Func<bool> func)
+        {
+            var handler = new ElseIfHandler<T>(_root, func);
+            return handler;
+        }
+
+        public ElseHandler<T> Else()
+        {
+            var handler = new ElseHandler<T>(_root);
+            return handler;
+        }
+    }
 }

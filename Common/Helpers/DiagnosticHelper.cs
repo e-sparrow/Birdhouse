@@ -3,7 +3,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Birdhouse.Common.Coroutines;
-using Birdhouse.Common.Extensions;
 
 namespace Birdhouse.Common.Helpers
 {
@@ -15,6 +14,14 @@ namespace Birdhouse.Common.Helpers
 
             var result = stopwatch.Elapsed;
             return result;
+        }
+
+        public static TimeSpan MeasureExecutionTime<T>(Func<T> func, out T result)
+        {
+            var stopwatch = MeasureExecution(func, out result);
+            
+            var time = stopwatch.Elapsed;
+            return time;
         }
         
         public static async Task<TimeSpan> MeasureAsyncExecutionTime(Task task)
@@ -39,6 +46,17 @@ namespace Birdhouse.Common.Helpers
             
             stopwatch.Start();
             action.Invoke();
+            stopwatch.Stop();
+
+            return stopwatch;
+        }
+
+        private static Stopwatch MeasureExecution<T>(Func<T> func, out T result)
+        {
+            var stopwatch = new Stopwatch();
+            
+            stopwatch.Start();
+            result = func.Invoke();
             stopwatch.Stop();
 
             return stopwatch;

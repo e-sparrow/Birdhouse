@@ -1,18 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Common.Helpers;
 using Birdhouse.Features.FluentLogics;
 using NUnit.Framework;
+using Unity.PerformanceTesting;
 using Debug = UnityEngine.Debug;
 
 namespace Birdhouse.Tests.Editor
 {
     public class FluentLogicTests
     {
-        [Test]
-        public void TestFluentLogic()
+        [Test, Performance]
+        public void TestLogicFluent() => TestLogic(ExecuteFluent);
+
+        [Test, Performance]
+        public void TestLogicNormalWay() => TestLogic(ExecuteNormalWay);
+
+        [Test, Performance]
+        public void TestResultingLogicFluent() => TestResultingLogic(GetResultFluent);
+
+        [Test, Performance]
+        public void TestResultingLogicNormalWay() => TestResultingLogic(GetResultNormalWay);
+
+        public void TestLogic(Action<List<int>, Action, Action, Action> action)
         {
-            ESizeResult result = ESizeResult.None;
+            var result = ESizeResult.None;
             var list = new List<int>();
             
             CheckTooMuch();
@@ -45,38 +58,10 @@ namespace Birdhouse.Tests.Editor
 
             void CheckFor(ESizeResult expectedResult)
             {
-                var normalTime = DiagnosticHelper.MeasureExecutionTime(ExecuteNormalWay);
+                action.Invoke(list, NotifyTooMuch, NotifyTooFew, NotifyOkay);
                 Assert.IsTrue(result == expectedResult);
                 
-                Debug.Log($"Execution time with normal conditional constructions is {normalTime.TotalMilliseconds} ms");
-                
-                var fluentTime = DiagnosticHelper.MeasureExecutionTime(Execute);
-                Assert.IsTrue(result == expectedResult);
-                
-                Debug.Log($"Execution time with fluent conditional constructions is {fluentTime.TotalMilliseconds} ms");
-            }
-
-            void ExecuteNormalWay()
-            {
-                if (list.Count > 10)
-                {
-                    NotifyTooMuch();
-                }
-                else if (list.Count < 5)
-                {
-                    NotifyTooFew();
-                }
-                else
-                {
-                    NotifyOkay();
-                }
-            }
-
-            void Execute()
-            {
-                FluentLogic.If(() => list.Count > 10).So(NotifyTooMuch)
-                    .ElseIf(() => list.Count < 5).So(NotifyTooFew)
-                    .Else().So(NotifyOkay);
+                Measure.Method(() => action.Invoke(list, NotifyTooMuch, NotifyTooFew, NotifyOkay)).Run();
             }
 
             void NotifyTooMuch()
@@ -97,9 +82,32 @@ namespace Birdhouse.Tests.Editor
                 Debug.Log($"Nice, no fault");
             }
         }
+        
+        private void ExecuteFluent(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
+        {
+            FluentLogic
+                .If(() => list.Count > 10).So(notifyTooMuch.Invoke)
+                .ElseIf(() => list.Count < 5).So(notifyTooFew.Invoke)
+                .Else().So(notifyOkay.Invoke);
+        }
 
-        [Test]
-        public void TestGenericFluentLogic()
+        private void ExecuteNormalWay(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
+        {
+            if (list.Count > 10)
+            {
+                notifyTooMuch.Invoke();
+            }
+            else if (list.Count < 5)
+            {
+                notifyTooFew.Invoke();
+            }
+            else
+            {
+                notifyOkay.Invoke();
+            }
+        }
+
+        private void TestResultingLogic(Func<List<int>, ESizeResult> func)
         {
             var list = new List<int>();
             
@@ -133,37 +141,36 @@ namespace Birdhouse.Tests.Editor
 
             void CheckFor(ESizeResult expectedResult)
             {
-                var normalWayResult = GetResultNormalWay();
-                Assert.IsTrue(normalWayResult == expectedResult);
-                
-                var result = GetResult();
+                var result = func.Invoke(list);
                 Assert.IsTrue(result == expectedResult);
+                
+                Measure.Method(() => func.Invoke(list)).Run();
             }
+        }
 
-            ESizeResult GetResult()
+        private ESizeResult GetResultFluent(List<int> list)
+        {
+            var result = FluentLogic<ESizeResult>
+                .If(() => list.Count > 10).SoReturn(() => ESizeResult.TooMuch)
+                .ElseIf(() => list.Count < 5).SoReturn(() => ESizeResult.TooFew)
+                .Else().SoReturn(() => ESizeResult.Okay);
+
+            return result;   
+        }
+
+        private ESizeResult GetResultNormalWay(List<int> list)
+        {
+            if (list.Count > 10)
             {
-                var result = FluentLogic<ESizeResult>
-                    .If(() => list.Count > 10).SoReturn(() => ESizeResult.TooMuch)
-                    .ElseIf(() => list.Count < 5).SoReturn(() => ESizeResult.TooFew)
-                    .Else().SoReturn(() => ESizeResult.Okay);
-
-                return result;
+                return ESizeResult.TooMuch;
             }
-
-            ESizeResult GetResultNormalWay()
+            else if (list.Count < 5)
             {
-                if (list.Count > 10)
-                {
-                    return ESizeResult.TooMuch;
-                }
-                else if (list.Count < 5)
-                {
-                    return ESizeResult.TooFew;
-                }
-                else
-                {
-                    return ESizeResult.Okay;
-                }
+                return ESizeResult.TooFew;
+            }
+            else
+            {
+                return ESizeResult.Okay;
             }
         }
 

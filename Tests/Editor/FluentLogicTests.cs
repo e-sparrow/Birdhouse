@@ -45,7 +45,7 @@ namespace Birdhouse.Tests.Editor
 
             void CheckFor(ESizeResult expectedResult)
             {
-                var normalTime = DiagnosticHelper.MeasureExecutionTime(ExecuteNormal);
+                var normalTime = DiagnosticHelper.MeasureExecutionTime(ExecuteNormalWay);
                 Assert.IsTrue(result == expectedResult);
                 
                 Debug.Log($"Execution time with normal conditional constructions is {normalTime.TotalMilliseconds} ms");
@@ -56,7 +56,7 @@ namespace Birdhouse.Tests.Editor
                 Debug.Log($"Execution time with fluent conditional constructions is {fluentTime.TotalMilliseconds} ms");
             }
 
-            void ExecuteNormal()
+            void ExecuteNormalWay()
             {
                 if (list.Count > 10)
                 {
@@ -133,12 +133,37 @@ namespace Birdhouse.Tests.Editor
 
             void CheckFor(ESizeResult expectedResult)
             {
+                var normalWayResult = GetResultNormalWay();
+                Assert.IsTrue(normalWayResult == expectedResult);
+                
+                var result = GetResult();
+                Assert.IsTrue(result == expectedResult);
+            }
+
+            ESizeResult GetResult()
+            {
                 var result = FluentLogic<ESizeResult>
                     .If(() => list.Count > 10).SoReturn(() => ESizeResult.TooMuch)
                     .ElseIf(() => list.Count < 5).SoReturn(() => ESizeResult.TooFew)
                     .Else().SoReturn(() => ESizeResult.Okay);
 
-                Assert.IsTrue(result == expectedResult);
+                return result;
+            }
+
+            ESizeResult GetResultNormalWay()
+            {
+                if (list.Count > 10)
+                {
+                    return ESizeResult.TooMuch;
+                }
+                else if (list.Count < 5)
+                {
+                    return ESizeResult.TooFew;
+                }
+                else
+                {
+                    return ESizeResult.Okay;
+                }
             }
         }
 

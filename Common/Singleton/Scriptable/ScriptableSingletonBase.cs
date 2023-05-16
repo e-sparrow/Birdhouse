@@ -39,9 +39,9 @@ namespace Birdhouse.Common.Singleton.Scriptable
 
             instance = CreateInstance<T>();
             UnityEditor.AssetDatabase.CreateAsset(instance, $"Assets/Resources/{filePath}.asset");
+#endif
 
             return instance;
-#endif
         }
 
         private static string GetResourcePath()

@@ -34,5 +34,10 @@ namespace Birdhouse.Features.Idle
             var result = _registry.Register(element);
             return result;
         }
+
+        public void Dispose()
+        {
+            _registry.Dispose();
+        }
     }
 }

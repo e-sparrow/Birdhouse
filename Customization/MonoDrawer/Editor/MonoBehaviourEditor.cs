@@ -1,7 +1,8 @@
-using UnityEditor;
-using UnityEditor.UIElements;
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEditor.UIElements;
 
 namespace Birdhouse.Customization.MonoDrawer.Editor
 {
@@ -34,3 +35,4 @@ namespace Birdhouse.Customization.MonoDrawer.Editor
         }
     }
 }
+#endif

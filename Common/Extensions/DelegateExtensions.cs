@@ -72,6 +72,28 @@ namespace Birdhouse.Common.Extensions
             return result;
         }
 
+        public static void Repeat(this Action action, int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                action.Invoke();
+            }
+        }
+
+        public static void RepeatWhile(this Action action, Func<bool> whileFunc)
+        {
+            while (whileFunc.Invoke())
+            {
+                action.Invoke();
+            }
+        }
+
+        public static void RepeatUntil(this Action action, Func<bool> untilFunc)
+        {
+            var whileFunc = untilFunc.Inverse();
+            RepeatWhile(action, whileFunc);
+        }
+
         /// <summary>
         /// Gets the function to get the value by specific value.
         /// </summary>
@@ -87,7 +109,13 @@ namespace Birdhouse.Common.Extensions
                 return self;
             }
         }
-        
+
+        public static Func<bool> Inverse(this Func<bool> func)
+        {
+            var result = new Func<bool>(() => !func.Invoke());
+            return result;
+        }
+
         public static Func<T, bool> All<T>(this IEnumerable<Func<T, bool>> predicates)
         {
             return DelegateHelper.All(predicates.ToArray());

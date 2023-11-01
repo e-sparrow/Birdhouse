@@ -1,7 +1,7 @@
 ﻿using System;
 using Birdhouse.Features.Idle.Interfaces;
-using Birdhouse.Tools.Conversion;
-using Birdhouse.Tools.Conversion.Routine;
+using Birdhouse.Common.Reflection.Conversions;
+using Birdhouse.Common.Reflection.Conversions.Routine;
 using Birdhouse.Tools.Data.Transmission;
 using Birdhouse.Tools.Data.Transmission.Interfaces;
 using Birdhouse.Tools.Data.Transmission.Routine;

@@ -1,30 +1,34 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Registries
 {
-    public class RegistryEnumerable<T> : RegistryBase<T, IDisposable>, IRegistryEnumerable<T>
+    public class RegistryEnumerable<T> 
+        : RegistryEnumerableBase<T, IDisposable>, IRegistryEnumerable<T>
     {
-        private readonly IList<T> _list = new List<T>();
-
-        public IEnumerator<T> GetEnumerator()
+        protected override IDisposable CreateToken(T value, ICollection<T> destination)
         {
-            var result = _list.GetEnumerator();
+            var result = value.AddAsDisposableTo(destination);
             return result;
         }
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
+    public class RegistryEnumerable<T, TToken>
+        : RegistryEnumerableBase<T, TToken>
+        where TToken : IDisposable
+    {
+        public RegistryEnumerable(Func<T, ICollection<T>, TToken> func)
         {
-            var result = GetEnumerator();
-            return result;
+            _func = func;
         }
 
-        protected override IDisposable CreateToken(T element)
+        private readonly Func<T, ICollection<T>, TToken> _func;
+
+        protected override TToken CreateToken(T value, ICollection<T> destination)
         {
-            var result = element.AddAsDisposableTo(_list);
+            var result = _func.Invoke(value, destination);
             return result;
         }
     }

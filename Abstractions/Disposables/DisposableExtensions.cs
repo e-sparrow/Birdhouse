@@ -1,37 +1,34 @@
 ﻿using System;
+using Birdhouse.Abstractions.Disposables.Interfaces;
 using Birdhouse.Common.Extensions;
 
 namespace Birdhouse.Abstractions.Disposables
 {
     public static class DisposableExtensions
     {
-        public static IDisposable Combine(this IDisposable self, IDisposable other)
+        public static ICompositeDisposable Combine(this IDisposable self, IDisposable other)
         {
-            var disposables = self.ConcatWith(other);
-            
-            var composite = new DisposableComposite(disposables);
-            return composite;
+            var disposables = self
+                .ConcatWith(other)
+                .AsCollection();
+
+            var result = new CompositeDisposable(disposables);
+            return result;
         }
 
-        public static IDisposable CombineByList(this IDisposable self, IDisposable other)
+        public static ICompositeDisposable OnDispose(this IDisposable self, Action callback)
         {
-            if (self is DisposableList list)
-            {
-                list.Values.Add(other);
-                return list;
-            }
-            
-            if (other is DisposableList otherList)
-            {
-                otherList.Values.Add(self);
-                return otherList;
-            }
+            var callbackDisposable = new CallbackDisposable(callback);
 
-            var result = new DisposableList();
-            
-            result.Values.Add(self);
-            result.Values.Add(other);
+            var result = self.Combine(callbackDisposable);
+            return result;
+        }
 
+        public static ICompositeDisposable OnDispose(this ICompositeDisposable self, Action callback)
+        {
+            var callbackDisposable = new CallbackDisposable(callback);
+
+            var result = self.Append(callbackDisposable);
             return result;
         }
     }

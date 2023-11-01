@@ -1,6 +1,6 @@
 ﻿using Birdhouse.Common.Helpers;
-using Birdhouse.Tools.Conversion;
-using Birdhouse.Tools.Conversion.Interfaces;
+using Birdhouse.Common.Reflection.Conversions;
+using Birdhouse.Common.Reflection.Conversions.Interfaces;
 using Birdhouse.Tools.Data.Transmission.Adapters;
 using Birdhouse.Tools.Data.Transmission.Interfaces;
 using Birdhouse.Tools.Data.Transmission.Routine;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Birdhouse.Common.Generic.Pairs;
 using Birdhouse.Common.Generic.Pairs.Interfaces;
 using UnityEngine;
@@ -8,12 +9,14 @@ namespace Birdhouse.Tools.Storages.Scriptable
     public class ScriptableStorageGeneric<TKey, TValue> : ScriptableStorageBase<TKey, TValue>
     {
         [SerializeField] private List<SerializablePair<TKey, TValue>> data;
-
-        protected override bool IsFit(TKey key, IPair<TKey, TValue> pair)
+        
+        public override TValue GetValue(TKey key)
         {
-            return pair.Key.Equals(key);
-        }
+            var result = data
+                .First(value => value.Key.Equals(key))
+                .Value;
 
-        protected override IEnumerable<IPair<TKey, TValue>> Data => data as IEnumerable<IPair<TKey, TValue>>;
+            return result;
+        }
     }
 }

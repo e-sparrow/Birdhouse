@@ -7,6 +7,8 @@ namespace Birdhouse.Features.Registries
         : IRegistry<TElement, TToken>
         where TToken : IDisposable
     {
+        public abstract void Dispose();
+        
         protected abstract TToken CreateToken(TElement element);
 
         public TToken Register(TElement element)

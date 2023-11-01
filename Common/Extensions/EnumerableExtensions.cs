@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Birdhouse.Common.Exceptions;
-using Birdhouse.Tools.Conversion;
+using Birdhouse.Common.Reflection.Conversions;
 using Birdhouse.Tools.Filtering.Interfaces;
 using Random = System.Random;
 
@@ -649,6 +649,42 @@ namespace Birdhouse.Common.Extensions
             }
 
             return dictionary;
+        }
+
+        public static T Single<T>
+        (this IEnumerable<T> self, Predicate<T> predicate, Exception multipleException = null,
+            Exception nothingException = null)
+        {
+            var hasResult = false;
+
+            T result = default;
+            foreach (var item in self)
+            {
+                if (predicate.Invoke(item))
+                {
+                    if (!hasResult)
+                    {
+                        result = item;
+                        hasResult = true;
+                    }
+                    else
+                    {
+                        if (multipleException != null)
+                        {
+                            throw multipleException;
+                        }
+
+                        return result;
+                    }
+                }
+            }
+
+            if (nothingException != null)
+            {
+                throw nothingException;
+            }
+
+            return default;
         }
 
         /// <summary>

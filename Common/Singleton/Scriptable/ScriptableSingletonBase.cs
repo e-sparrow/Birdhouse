@@ -1,4 +1,6 @@
-﻿using Birdhouse.Common.Singleton.Scriptable.Attributes;
+﻿using System.IO;
+using System.Linq;
+using Birdhouse.Common.Singleton.Scriptable.Attributes;
 using UnityEngine;
 
 namespace Birdhouse.Common.Singleton.Scriptable
@@ -23,25 +25,40 @@ namespace Birdhouse.Common.Singleton.Scriptable
 
         private static T CreateOrLoadInstance()
         {
-            var instance = default(T);
+            T instance;
+#if UNITY_EDITOR
+            var resources = Resources.FindObjectsOfTypeAll<T>();
+            if (resources.Length > 0)
+            {
+                instance = resources.First();
+                if (resources.Length > 1)
+                {
+                    for (var i = 1; i < resources.Length; i++)
+                    {
+                        var resource = resources[i];
+                        DestroyImmediate(resource);
+                    }
+                }
+
+                return instance;
+            }
 
             var filePath = GetResourcePath();
             if (!string.IsNullOrEmpty(filePath))
             {
-                instance = Resources.Load<T>(filePath);
-            }
-
-#if UNITY_EDITOR
-            if (instance != null)
-            {
-                return instance;
+                var resource = Resources.Load<T>(filePath);
+                if (resource != null)
+                {
+                    return resource;
+                }
             }
 
             instance = CreateInstance<T>();
             UnityEditor.AssetDatabase.CreateAsset(instance, $"Assets/Resources/{filePath}.asset");
+#else
+            instance = CreateInstance<T>();
 #endif
-
-            return instance;
+            return default;
         }
 
         private static string GetResourcePath()
@@ -76,10 +93,10 @@ namespace Birdhouse.Common.Singleton.Scriptable
         {
 #if UNITY_EDITOR
             if (Application.isPlaying) return;
+
             if (_instance == null || _instance == this) return;
 
             Debug.LogError($"An instance of {typeof(T)} already exist.");
-            DestroyImmediate(this, true);
 #endif
         }
     }

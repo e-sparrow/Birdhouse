@@ -7,6 +7,11 @@ namespace Birdhouse.Features.Registries
     {
         private readonly IRegistryEnumerable<TElement> _registry = new RegistryEnumerable<TElement>();
 
+        public override void Dispose()
+        {
+            _registry.Dispose();
+        }
+
         protected override IDisposable CreateToken(TElement element)
         {
             var result = _registry.Register(element);

@@ -7,7 +7,7 @@ using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Operators;
 using Birdhouse.Common.Reflection.Operators.Enums;
 using Birdhouse.Common.Reflection.Operators.Interfaces;
-using Birdhouse.Tools.Conversion;
+using Birdhouse.Common.Reflection.Conversions;
 
 namespace Birdhouse.Common.Helpers
 {

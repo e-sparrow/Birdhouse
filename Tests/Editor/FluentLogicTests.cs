@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Birdhouse.Common.Extensions;
 using Birdhouse.Features.FluentLogics;
 using NUnit.Framework;
 using Unity.PerformanceTesting;
@@ -22,7 +23,7 @@ namespace Birdhouse.Tests.Editor
         [Test, Performance]
         public void TestResultingLogicNormalWay() => TestResultingLogic(GetResultNormalWay);
 
-        public void TestLogic(Action<List<int>, Action, Action, Action> action)
+        private static void TestLogic(Action<List<int>, Action, Action, Action> action)
         {
             var result = ESizeResult.None;
             var list = new List<int>();
@@ -82,7 +83,7 @@ namespace Birdhouse.Tests.Editor
             }
         }
         
-        private void ExecuteFluent(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
+        private static void ExecuteFluent(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
         {
             FluentLogic
                 .If(() => list.Count > 10).So(notifyTooMuch.Invoke)
@@ -90,7 +91,7 @@ namespace Birdhouse.Tests.Editor
                 .Else().So(notifyOkay.Invoke);
         }
 
-        private void ExecuteNormalWay(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
+        private static void ExecuteNormalWay(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
         {
             if (list.Count > 10)
             {
@@ -106,7 +107,7 @@ namespace Birdhouse.Tests.Editor
             }
         }
 
-        private void TestResultingLogic(Func<List<int>, ESizeResult> func)
+        private static void TestResultingLogic(Func<List<int>, ESizeResult> func)
         {
             var list = new List<int>();
             
@@ -147,7 +148,7 @@ namespace Birdhouse.Tests.Editor
             }
         }
 
-        private ESizeResult GetResultFluent(List<int> list)
+        private static ESizeResult GetResultFluent(List<int> list)
         {
             var result = FluentLogic<ESizeResult>
                 .If(() => list.Count > 10).SoReturn(() => ESizeResult.TooMuch)
@@ -157,20 +158,14 @@ namespace Birdhouse.Tests.Editor
             return result;   
         }
 
-        private ESizeResult GetResultNormalWay(List<int> list)
+        private static ESizeResult GetResultNormalWay(List<int> list)
         {
-            if (list.Count > 10)
+            return list.Count switch
             {
-                return ESizeResult.TooMuch;
-            }
-            else if (list.Count < 5)
-            {
-                return ESizeResult.TooFew;
-            }
-            else
-            {
-                return ESizeResult.Okay;
-            }
+                > 10 => ESizeResult.TooMuch,
+                < 5 => ESizeResult.TooFew,
+                _ => ESizeResult.Okay
+            };
         }
 
         private enum ESizeResult

@@ -31,5 +31,11 @@ namespace Birdhouse.Abstractions.Disposables
             var result = self.Append(callbackDisposable);
             return result;
         }
+
+        public static IReplaceableDisposable AsReplaceable(this IDisposable self)
+        {
+            var result = new ReplaceableDisposable(self);
+            return result;
+        }
     }
 }

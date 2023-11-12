@@ -25,7 +25,10 @@ namespace Birdhouse.Tools.Tense
 
         public static ITimestamp<TimeSpan> CreateDefaultUnixTimestamp()
         {
-            var tenseController = TenseHelper.UtcNowTenseProvider.AsTimeSpanUnix();
+            var tenseController = TenseHelper
+                .UtcNowTenseProvider
+                .Value
+                .AsTimeSpanUnix();
             
             var result = new TimeSpanTimestamp(tenseController);
             return result;

@@ -10,8 +10,7 @@ namespace Birdhouse.Tools.Generalization.Summation.Adapters
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            
-            
+
             return obj.GetType() == GetType() && Equals((ISummable<T>) obj);
         }
 

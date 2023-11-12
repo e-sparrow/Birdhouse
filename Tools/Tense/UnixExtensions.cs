@@ -1,5 +1,6 @@
 ﻿using System;
 using Birdhouse.Common.Extensions;
+using Birdhouse.Tools.Tense.Providers;
 using Birdhouse.Tools.Tense.Providers.Interfaces;
 
 namespace Birdhouse.Tools.Tense
@@ -8,7 +9,7 @@ namespace Birdhouse.Tools.Tense
     {
         public static ITenseProvider<long> AsUnix(this ITenseProvider<DateTime> tenseProvider)
         {
-            var result = TenseHelper.CreateTenseController(GetCurrentTime);
+            var result = new TenseProvider<long>(GetCurrentTime);
             return result;
 
             long GetCurrentTime()
@@ -23,7 +24,7 @@ namespace Birdhouse.Tools.Tense
 
         public static ITenseProvider<TimeSpan> AsTimeSpanUnix(this ITenseProvider<DateTime> tenseProvider)
         {
-            var result = TenseHelper.CreateTenseController(GetCurrentTime);
+            var result = new TenseProvider<TimeSpan>(GetCurrentTime);
             return result;
 
             TimeSpan GetCurrentTime()

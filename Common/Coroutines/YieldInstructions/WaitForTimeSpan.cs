@@ -18,7 +18,11 @@ namespace Birdhouse.Common.Coroutines.YieldInstructions
 
             static ITenseProvider<TimeSpan> GetDefaultTenseController()
             {
-                var result = TenseHelper.UtcNowTenseProvider.AsTimeSpanUnix();
+                var result = TenseHelper
+                    .UtcNowTenseProvider
+                    .Value
+                    .AsTimeSpanUnix();
+                
                 return result;
             }
         }

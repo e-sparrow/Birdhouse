@@ -4,9 +4,8 @@ namespace Birdhouse.Abstractions.Disposables
 {
     public class CallbackDisposable : IDisposable
     {
-        public CallbackDisposable(Action callback = null)
+        public CallbackDisposable(Action callback)
         {
-            callback ??= () => { };
             _callback = callback;
         }
 

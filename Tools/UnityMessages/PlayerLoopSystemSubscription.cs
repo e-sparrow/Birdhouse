@@ -3,15 +3,19 @@ using UnityEngine.LowLevel;
 
 namespace Birdhouse.Tools.UnityMessages
 {
-    internal class PlayerLoopSystemSubscription<T> : IDisposable
+    public class PlayerLoopSystemSubscription
+        : IDisposable
     {
-        public PlayerLoopSystemSubscription(Action callback)
+        public PlayerLoopSystemSubscription(Type type, Action action)
         {
-            _callback = callback;
+            _type = type;
+            _action = action;
+            
             Subscribe();
         }
-        
-        private readonly Action _callback;
+
+        private readonly Type _type;
+        private readonly Action _action;
 
         public void Dispose()
         {
@@ -20,13 +24,13 @@ namespace Birdhouse.Tools.UnityMessages
 
         private void Invoke()
         {
-            _callback.Invoke();
+            _action.Invoke();
         }
 
         private void Subscribe()
         {
             var loop = PlayerLoop.GetCurrentPlayerLoop();
-            ref var system = ref loop.Find<T>();
+            ref var system = ref loop.Find(_type);
             system.updateDelegate += Invoke;
             PlayerLoop.SetPlayerLoop(loop);
         }
@@ -34,9 +38,25 @@ namespace Birdhouse.Tools.UnityMessages
         private void Unsubscribe()
         {
             var loop = PlayerLoop.GetCurrentPlayerLoop();
-            ref var system = ref loop.Find<T>();
+            ref var system = ref loop.Find(_type);
             system.updateDelegate -= Invoke;
             PlayerLoop.SetPlayerLoop(loop);
+        }
+    }
+
+    public class PlayerLoopSystemSubscription<T>
+        : IDisposable
+    {
+        public PlayerLoopSystemSubscription(Action action)
+        {
+            _inner = new PlayerLoopSystemSubscription(typeof(T), action);
+        }
+
+        private readonly PlayerLoopSystemSubscription _inner;
+
+        public void Dispose()
+        {
+            _inner.Dispose();
         }
     }
 }

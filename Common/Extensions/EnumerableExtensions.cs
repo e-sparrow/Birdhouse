@@ -652,8 +652,7 @@ namespace Birdhouse.Common.Extensions
         }
 
         public static T Single<T>
-        (this IEnumerable<T> self, Predicate<T> predicate, Exception multipleException = null,
-            Exception nothingException = null)
+            (this IEnumerable<T> self, Predicate<T> predicate, Exception multipleException = null, Exception nothingException = null)
         {
             var hasResult = false;
 
@@ -685,6 +684,36 @@ namespace Birdhouse.Common.Extensions
             }
 
             return default;
+        }
+
+        public static T WithMin<T>(this IEnumerable<T> self, Func<T, float> evaluator)
+        {
+            var result = self.Aggregate(GetMin);
+            return result;
+
+            T GetMin(T left, T right)
+            {
+                var leftResult = evaluator.Invoke(left);
+                var rightResult = evaluator.Invoke(right);
+
+                var min = leftResult < rightResult ? left : right;
+                return min;
+            }
+        }
+
+        public static T WithMax<T>(this IEnumerable<T> self, Func<T, float> evaluator)
+        {
+            var result = self.Aggregate(GetMax);
+            return result;
+
+            T GetMax(T left, T right)
+            {
+                var leftResult = evaluator.Invoke(left);
+                var rightResult = evaluator.Invoke(right);
+
+                var min = leftResult > rightResult ? left : right;
+                return min;
+            }
         }
 
         /// <summary>

@@ -4,4 +4,9 @@
     {
         void Execute();
     }
+    
+    public interface IExecutor<in T>
+    {
+        void Execute(T input);
+    }
 }

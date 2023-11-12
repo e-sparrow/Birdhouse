@@ -7,8 +7,9 @@ namespace Birdhouse.Abstractions.Disposables
     public class CompositeDisposable 
         : ICompositeDisposable
     {
-        public CompositeDisposable(ICollection<IDisposable> disposables)
+        public CompositeDisposable(ICollection<IDisposable> disposables = null)
         {
+            disposables ??= new List<IDisposable>();
             _disposables = disposables;
         }
 

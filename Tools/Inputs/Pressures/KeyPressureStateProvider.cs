@@ -2,21 +2,25 @@
 
 namespace Birdhouse.Tools.Inputs.Pressures
 {
-    public class KeyPressureStateProvider : PressureStateProviderBase<KeyCode>
+    public class KeyPressureStateProvider 
+        : PressureStateProviderBase<KeyCode>
     {
         protected override bool IsPressed(KeyCode pressure)
         {
-            return Input.GetKeyDown(pressure);
+            var result = Input.GetKeyDown(pressure);
+            return result;
         }
 
         protected override bool IsHolden(KeyCode pressure)
         {
-            return Input.GetKey(pressure);
+            var result = Input.GetKey(pressure);
+            return result;
         }
 
         protected override bool IsReleased(KeyCode pressure)
         {
-            return Input.GetKeyUp(pressure);
+            var result = Input.GetKeyUp(pressure);
+            return result;
         }
     }
 }

@@ -6,17 +6,20 @@ namespace Birdhouse.Tools.Inputs.Pressures
     {
         protected override bool IsPressed(int pressure)
         {
-            return Input.GetMouseButtonDown(pressure);
+            var result = Input.GetMouseButtonDown(pressure);
+            return result;
         }
 
         protected override bool IsHolden(int pressure)
         {
-            return Input.GetMouseButton(pressure);
+            var result = Input.GetMouseButton(pressure);
+            return result;
         }
 
         protected override bool IsReleased(int pressure)
         {
-            return Input.GetMouseButtonUp(pressure);
+            var result = Input.GetMouseButtonUp(pressure);
+            return result;
         }
     }
 }

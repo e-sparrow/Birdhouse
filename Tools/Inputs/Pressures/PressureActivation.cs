@@ -2,7 +2,9 @@
 
 namespace Birdhouse.Tools.Inputs.Pressures
 {
-    public readonly struct PressureActivation<TInfo, T> : IPressureActivation<TInfo, T> where TInfo : IPressureInfo<T>
+    public class PressureActivation<TInfo, T> 
+        : IPressureActivation<TInfo, T> 
+        where TInfo : IPressureInfo<T>
     {
         public PressureActivation(TInfo info, float activationTime)
         {

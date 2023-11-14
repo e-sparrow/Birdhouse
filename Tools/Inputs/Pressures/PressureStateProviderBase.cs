@@ -12,11 +12,19 @@ namespace Birdhouse.Tools.Inputs.Pressures
         public EPressureState GetPressureState(TPressure pressure)
         {
             if (IsPressed(pressure))
+            {
                 return EPressureState.Pressed;
+            }
+
             if (IsHolden(pressure))
+            {
                 return EPressureState.Holden;
+            }
+
             if (IsReleased(pressure))
+            {
                 return EPressureState.Released;
+            }
 
             return EPressureState.Untouched;
         }

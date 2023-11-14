@@ -18,7 +18,7 @@ namespace Birdhouse.Tools.Inputs.Services
         }
 
         public event Action<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> OnPressureActivated 
-            = (pressure, activation) => { };
+            = (_, _) => { };
 
         private readonly IDictionary<TPressure, IPressureActivation<IPressureInfo<TPressure>, TPressure>> _activations;
         private readonly ITenseProvider<float> _tenseProvider;

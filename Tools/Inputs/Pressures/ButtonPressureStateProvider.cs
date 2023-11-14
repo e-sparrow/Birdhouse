@@ -11,7 +11,7 @@ namespace Birdhouse.Tools.Inputs.Pressures
             return result;
         }
 
-        protected override bool IsHolden(string pressure)
+        protected override bool IsHeld(string pressure)
         {
             var result = Input.GetButton(pressure);
             return result;

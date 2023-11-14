@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Birdhouse.Common.Extensions
 {
@@ -11,6 +12,13 @@ namespace Birdhouse.Common.Extensions
             {
                 self.Add(item);
             }
+        }
+
+        public static IDisposable AddAsDisposable<TKey, TValue>
+            (this IDictionary<TKey, TValue> self, TKey key, TValue value)
+        {
+            var result = self.AddAsDisposable(new KeyValuePair<TKey, TValue>(key, value));
+            return result;
         }
     }
 }

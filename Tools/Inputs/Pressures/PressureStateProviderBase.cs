@@ -6,7 +6,7 @@ namespace Birdhouse.Tools.Inputs.Pressures
     public abstract class PressureStateProviderBase<TPressure> : IPressureStateProvider<TPressure>
     {
         protected abstract bool IsPressed(TPressure pressure);
-        protected abstract bool IsHolden(TPressure pressure);
+        protected abstract bool IsHeld(TPressure pressure);
         protected abstract bool IsReleased(TPressure pressure);
         
         public EPressureState GetPressureState(TPressure pressure)
@@ -16,7 +16,7 @@ namespace Birdhouse.Tools.Inputs.Pressures
                 return EPressureState.Pressed;
             }
 
-            if (IsHolden(pressure))
+            if (IsHeld(pressure))
             {
                 return EPressureState.Holden;
             }

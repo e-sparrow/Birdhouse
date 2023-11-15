@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Tools.UnityMessages
+namespace Birdhouse.Tools.Ticks.Unity
 {
     public class UnityTickProvider 
         : UnityTickProviderBase

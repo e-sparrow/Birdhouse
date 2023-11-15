@@ -1,4 +1,5 @@
-﻿using Birdhouse.Abstractions.Observables.Interfaces;
+﻿using System;
+using Birdhouse.Abstractions.Observables.Interfaces;
 using Birdhouse.Tools.Inputs.Pressures;
 using Birdhouse.Tools.Inputs.Pressures.Interfaces;
 using Birdhouse.Tools.Inputs.Remapping.Interfaces;
@@ -23,10 +24,14 @@ namespace Birdhouse.Tools.Inputs.Remapping.Decorators
 
         public IObservableDisposableValue<PressureStateChange<TTime>> Listen(TTo key)
         {
-            var realKey = _remapper.GetValue(key);
-            
-            var result = _pressureListener.Listen(realKey.Value);
-            return result;
+            var hasValue = _remapper.TryGetValue(key, out var realKey);
+            if (hasValue)
+            {
+                var result = _pressureListener.Listen(realKey.Value);
+                return result;
+            }
+
+            throw new ArgumentException($"Remapper is not contains necessary key: {key}");
         }
     }
 }

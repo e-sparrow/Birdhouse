@@ -1,8 +1,7 @@
-using Birdhouse.Common.Helpers;
 using Birdhouse.Tools.Inputs.Pressures.Enums;
 using UnityEngine;
 
-namespace Birdhouse.Common.Extensions
+namespace Birdhouse.Tools.Inputs.Unity
 {
     public static class InputExtensions
     {
@@ -13,8 +12,9 @@ namespace Birdhouse.Common.Extensions
         /// <returns>State of the key</returns>
         public static EPressureState GetKeyState(this KeyCode key)
         {
-            return InputHelper
-                .KeyPressureStateProvider
+            return UnityInputHelper
+                .KeyCodeStateProvider
+                .Value
                 .GetPressureState(key);
         }
         

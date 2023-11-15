@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Birdhouse.Common.Helpers;
 
 namespace Birdhouse.Tools.Inputs.Remapping
 {
     public class EnumRemapper<TKey, TValue>
         : RemapperBase<TKey, TValue>
         where TKey : Enum
+        where TValue : Enum
     {
-        public EnumRemapper(IDictionary<TKey, TValue> initialValues)
-        {
-            _initialValues = initialValues;
-        }
-
-        private readonly IDictionary<TKey, TValue> _initialValues;
-
         protected override IDictionary<TKey, TValue> GetInitialDictionary()
         {
-            return _initialValues;
+            var result = EnumsHelper<TKey>
+                .GetValues()
+                .ToDictionary(value => value, value => (TValue) Convert.ChangeType(value, typeof(long)));
+
+            return result;
         }
     }
 }

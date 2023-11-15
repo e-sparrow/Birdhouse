@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Birdhouse.Tools.UnityMessages.Enums;
 using UnityEngine.PlayerLoop;
 
-namespace Birdhouse.Tools.UnityMessages
+namespace Birdhouse.Tools.Ticks.Unity
 {
     public class UnityTickMessagesHelper
     {

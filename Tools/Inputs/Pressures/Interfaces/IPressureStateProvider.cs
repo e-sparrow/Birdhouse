@@ -2,8 +2,8 @@
 
 namespace Birdhouse.Tools.Inputs.Pressures.Interfaces
 {
-    public interface IPressureStateProvider<in TPressure>
+    public interface IPressureStateProvider<in TKey>
     {
-        EPressureState GetPressureState(TPressure pressure);
+        EPressureState GetPressureState(TKey key);
     }
 }

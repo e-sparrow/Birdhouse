@@ -6,16 +6,17 @@ using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Registries;
 using Birdhouse.Features.Registries.Interfaces;
 using Birdhouse.Tools.Ticks.Interfaces;
+using Birdhouse.Tools.UnityMessages;
 using UnityEngine.LowLevel;
 
-namespace Birdhouse.Tools.UnityMessages
+namespace Birdhouse.Tools.Ticks.Unity
 {
     public abstract class UnityTickProviderBase 
         : ITickProvider
     {
         public UnityTickProviderBase(Type subsystemType)
-        {_ticks 
-                = new RegistryEnumerable<Action<float>, IDisposable>(CreateTickSubscription);
+        {
+            _ticks = new RegistryEnumerable<Action<float>, IDisposable>(CreateTickSubscription);
             _subsystemType = subsystemType;
         }
 

@@ -41,9 +41,17 @@ namespace Birdhouse.Tools.Inputs.Remapping
             return result;
         }
 
-        public IObservableValue<TValue> GetValue(TKey key)
+        public bool TryGetValue(TKey key, out IObservableValue<TValue> value)
         {
-            var result = _observables[key];
+            value = null;
+            
+            // TODO: How to make it look better? Fucking out parameters have no possibility to make implicit converts
+            var result = _observables.TryGetValue(key, out var output);
+            if (result)
+            {
+                value = output;
+            }
+            
             return result;
         }
 
@@ -63,6 +71,12 @@ namespace Birdhouse.Tools.Inputs.Remapping
 
             _observables[key].SetValue(value);
             return true;
+        }
+
+        public void Dispose()
+        {
+            _exceptions.Dispose();
+            _observables.Clear();
         }
 
         private sealed class ObservableValue

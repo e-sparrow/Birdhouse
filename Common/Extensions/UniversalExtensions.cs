@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Birdhouse.Abstractions.Disposables;
 using Birdhouse.Abstractions.Disposables.Interfaces;
-using Birdhouse.Features.LogicSlicing;
-using Birdhouse.Features.LogicSlicing.Interfaces;
 
 namespace Birdhouse.Common.Extensions
 {

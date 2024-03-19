@@ -19,7 +19,10 @@ namespace Birdhouse.Features.Idle
             IDataTransmitter<DateTime> lastVisitTransmitter = null
         ) : base(idleController)
         {
-            tenseProvider ??= TenseHelper.UtcNowTenseProvider;
+            tenseProvider ??= TenseHelper
+                .UtcNowTenseProvider
+                .Value;
+            
             lastVisitTransmitter ??= GetDefaultVisitTransmitter();
             
             _tenseProvider = tenseProvider;

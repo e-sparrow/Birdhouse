@@ -6,12 +6,13 @@ namespace Birdhouse.Common.Coroutines.YieldInstructions
 {
     public class WaitForDateTime : FlowableYieldInstructionBase
     {
-        public WaitForDateTime(DateTime expiration, ITenseProvider<DateTime> tenseProvider = null) : base(1f)
+        public WaitForDateTime(DateTime expiration, ITenseProvider<DateTime> tenseProvider = null) 
+            : base(1f)
         {
+            tenseProvider ??= TenseHelper.UtcNowTenseProvider.Value;
+            
             _expiration = expiration;
             _tenseProvider = tenseProvider;
-
-            _tenseProvider ??= TenseHelper.UtcNowTenseProvider;
             _tempValue = _tenseProvider.Now();
         }
 

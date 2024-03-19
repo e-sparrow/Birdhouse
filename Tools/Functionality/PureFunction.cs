@@ -18,4 +18,12 @@ namespace Birdhouse.Tools.Functionality
             
         }
     }
+
+    public class PureFunction : PureFunction<object[], object>
+    {
+        public PureFunction(IMemoizationBuffer<object[], object> buffer, Func<object[], object> func) : base(buffer, func)
+        {
+            
+        }
+    }
 }

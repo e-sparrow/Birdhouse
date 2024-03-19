@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Birdhouse.Abstractions.Disposables;
+using Birdhouse.Abstractions.Disposables.Interfaces;
+using Birdhouse.Features.LogicSlicing;
+using Birdhouse.Features.LogicSlicing.Interfaces;
 
 namespace Birdhouse.Common.Extensions
 {
@@ -63,31 +66,32 @@ namespace Birdhouse.Common.Extensions
             return self;
         }
 
-        public static IDisposable AddAsDisposableTo<T>(this T self, ICollection<T> collection)
+        public static IDisposable AddAsDisposable<T>(this ICollection<T> self, T value)
         {
             var disposable = new CallbackDisposable(Remove);
-            self.AddTo(collection);
+            value.AddTo(self);
 
             return disposable;
 
             void Remove()
             {
-                self.RemoveFrom(collection);
+                value.RemoveFrom(self);
             }
         }
 
-        public static T GetSelf<T>(this object any, T self)
+        public static IDisposable AddAsDisposableTo<T>(this T self, ICollection<T> collection)
         {
-            return self;
+            var result = collection.AddAsDisposable(self);
+            return result;
         }
 
         public static IDisposable AddAsDisposablesTo<T>(this IEnumerable<T> self, ICollection<T> collection)
         {
-            IDisposable result = new CallbackDisposable();
+            ICompositeDisposable result = new CompositeDisposable();
             foreach (var value in self)
             {
                 var disposable = value.AddAsDisposableTo(collection);
-                result = result.Combine(disposable);
+                result = result.Append(disposable);
             }
 
             return result;

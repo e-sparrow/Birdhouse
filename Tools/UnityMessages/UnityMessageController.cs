@@ -8,7 +8,8 @@ using UnityEngine;
 namespace Birdhouse.Tools.UnityMessages
 {
     [ExecuteAlways]
-    public sealed class UnityMessageController : MonoSingleton<UnityMessageController>, IMonoMessageController
+    public sealed class UnityMessageController 
+        : MonoSingleton<UnityMessageController>, IMonoMessageController
     {
         public event Action<EUnityMessage> OnMessageCalled = _ => { };
         public event Action<EUnityEntryMessage> OnEntryMessageCalled = _ => { } ;
@@ -25,7 +26,10 @@ namespace Birdhouse.Tools.UnityMessages
 
             void Call(EUnityMessage type)
             {
-                if (type != message) return; 
+                if (type != message)
+                {
+                    return;
+                } 
                 
                 callback.Invoke();
             }
@@ -45,7 +49,10 @@ namespace Birdhouse.Tools.UnityMessages
 
             void Call(EUnityEntryMessage type)
             {
-                if (type != message) return; 
+                if (type != message)
+                {
+                    return;
+                } 
                 
                 callback.Invoke();
             }

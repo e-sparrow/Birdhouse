@@ -1,6 +1,5 @@
 ﻿using System;
-using Birdhouse.Abstractions.Initializables;
-using Birdhouse.Abstractions.Initializables.Interfaces;
+using Birdhouse.Abstractions.Interfaces;
 using Birdhouse.Abstractions.Observables.Interfaces;
 
 namespace Birdhouse.Tools.Inputs.Remapping.Interfaces

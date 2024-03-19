@@ -1,4 +1,4 @@
-﻿using Birdhouse.Abstractions.Initializables.Interfaces;
+﻿using Birdhouse.Abstractions.Interfaces;
 
 namespace Birdhouse.Abstractions.Initializables
 {

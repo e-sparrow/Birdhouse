@@ -1,6 +1,5 @@
 ﻿using System;
 using Birdhouse.Tools.Ticks.Interfaces;
-using Birdhouse.Tools.Ticks.Unity.Routine;
 
 namespace Birdhouse.Tools.Ticks.Unity
 {

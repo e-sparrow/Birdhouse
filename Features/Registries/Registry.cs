@@ -3,7 +3,8 @@ using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Registries
 {
-    public class Registry<TElement> : RegistryBase<TElement, IDisposable>
+    public class Registry<TElement> 
+        : RegistryBase<TElement, IDisposable>
     {
         private readonly IRegistryEnumerable<TElement> _registry = new RegistryEnumerable<TElement>();
 
@@ -19,7 +20,8 @@ namespace Birdhouse.Features.Registries
         }
     }
 
-    public class Registry : Registry<object>, IRegistry
+    public class Registry 
+        : Registry<object>, IRegistry
     {
         
     }

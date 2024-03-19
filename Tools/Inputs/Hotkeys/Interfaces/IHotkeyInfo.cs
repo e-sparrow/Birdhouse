@@ -1,26 +1,10 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace Birdhouse.Tools.Inputs.Hotkeys.Interfaces
 {
-    public interface IHotkeyInfo
+    public interface IHotkeyInfo<out TKey>
     {
-        IEnumerable<KeyCode> Keys
-        {
-            get;
-        }
-
-        bool Sequence
-        {
-            get;
-        }
-
-        bool AllowHold
-        {
-            get;
-        }
-
-        bool AllowExcess
+        IEnumerable<TKey> Keys
         {
             get;
         }

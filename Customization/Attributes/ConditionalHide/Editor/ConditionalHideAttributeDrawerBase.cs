@@ -5,7 +5,8 @@ namespace Birdhouse.Customization.Attributes.ConditionalHide.Editor
 {
     #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ConditionalHideAttributeBase))]
-    public abstract class ConditionalHideAttributeDrawerBase : PropertyDrawer
+    public abstract class ConditionalHideAttributeDrawerBase 
+        : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

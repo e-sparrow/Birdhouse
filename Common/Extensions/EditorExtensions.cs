@@ -40,15 +40,22 @@ namespace Birdhouse.Common.Extensions
             fieldInfo.SetValue(self.serializedObject.targetObject, value);
         }
         
-        public static FieldInfo GetFieldViaPath(this Type type, string path)
+        public static FieldInfo GetFieldViaPath(this Type type, string path, BindingFlags? flags = null)
         {
+            const BindingFlags DefaultFlags = BindingFlags.Default | BindingFlags.GetField |
+                                              BindingFlags.SetField | BindingFlags.Public |
+                                              BindingFlags.Public | BindingFlags.NonPublic | 
+                                              BindingFlags.Instance;
+
+            flags ??= DefaultFlags;
+            
             var fieldInfo = type.GetField(path);
             var names = path.Split('.');
 
             var currentType = type;
-            foreach (string name in names)
+            foreach (var name in names)
             {
-                fieldInfo = currentType.GetField(name);
+                fieldInfo = currentType.GetField(name, flags.Value);
 
                 if (fieldInfo != null)
                 {

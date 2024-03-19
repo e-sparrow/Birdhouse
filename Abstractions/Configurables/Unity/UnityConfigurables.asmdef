@@ -1,0 +1,19 @@
+{
+    "name": "UnityConfigurables",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9d6c7830d9ab746a7a12f144bdeeee7c",
+        "GUID:385e37bd626c29e4cb5d336caf16a299"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

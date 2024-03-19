@@ -18,13 +18,13 @@ namespace Birdhouse.Tools.Data.Transmission.Routine
             return result;
         }
 
-        public string GetData()
+        public string DownloadData()
         {
             var result = PlayerPrefs.GetString(_key);
             return result;
         }
 
-        public void SetData(string data)
+        public void UploadData(string data)
         {
             PlayerPrefs.SetString(_key, data);
         }

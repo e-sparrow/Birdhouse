@@ -28,7 +28,7 @@ namespace Birdhouse.Tests.Editor
                 var transmitter = new PlayerPrefsStringDataTransmitter(key);
                 if (transmitter.IsValid())
                 {
-                    var value = transmitter.GetData();
+                    var value = transmitter.DownloadData();
 
                     Debug.Log($"PlayerPrefs data transmitter contains message: {value.WithColor(Color.blue)}");
                     var isCorrect = value == data;
@@ -38,7 +38,7 @@ namespace Birdhouse.Tests.Editor
                 else
                 {
                     Debug.Log($"PlayerPrefs data transmitter have no value. Setting it to default...");
-                    transmitter.SetData(data);
+                    transmitter.UploadData(data);
 
                     Debug.Log($"Trying again...");
                     continue;
@@ -77,13 +77,13 @@ namespace Birdhouse.Tests.Editor
                     var isValid = transmitter.IsValid();
                     if (isValid)
                     {
-                        var value = transmitter.GetData();
+                        var value = transmitter.DownloadData();
                         Debug.Log($"Value of transmitter is: {value}");
                     }
                     else
                     {
                         var value = settings.TestPlayerPrefsDataTransmitterValue;
-                        transmitter.SetData(value);
+                        transmitter.UploadData(value);
                         Debug.Log($"Can't find value of transmitter. Settings it to default...");
                         
                         continue;

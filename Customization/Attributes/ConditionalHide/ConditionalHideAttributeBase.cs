@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Birdhouse.Customization.Attributes.ConditionalHide
 {
-    public abstract class ConditionalHideAttributeBase : PropertyAttribute
+    public abstract class ConditionalHideAttributeBase 
+        : PropertyAttribute
     {
 #if UNITY_EDITOR
         protected ConditionalHideAttributeBase(Predicate<SerializedProperty> predicate, string conditionalSourceField, bool hideInInspector)

@@ -4,7 +4,7 @@ namespace Birdhouse.Tools.Data.Transmission.Interfaces
     {
         bool IsValid();
         
-        TData GetData();
-        void SetData(TData data);
+        TData DownloadData();
+        void UploadData(TData data);
     }
 }

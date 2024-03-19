@@ -10,6 +10,111 @@ namespace Birdhouse.Common.Extensions
 {
     public static class ReflectionExtensions
     {
+        public static bool TryGetEmptyConstructor(this Type self, out ConstructorInfo result)
+        {
+            result = self
+                .GetConstructors()
+                .FirstOrDefault(value => !value.GetParameters().Any());
+
+            var isNotNull = result != null;
+            return isNotNull;
+        }
+        
+        public static bool HasEmptyConstructors(this Type self)
+        {
+            var result = self
+                .GetConstructors()
+                .Any(value => !value.GetParameters().Any());
+
+            return result;
+        }
+        
+        public static bool HasCustomAttribute<T>(this Type self) 
+            where T : Attribute
+        {
+            var result = self.GetCustomAttribute<T>() != null;
+            return result;
+        }
+        
+        public static bool HasCustomAttribute<T>(this MemberInfo self) 
+            where T : Attribute
+        {
+            var result = self.GetCustomAttribute<T>() != null;
+            return result;
+        }
+        
+        public static bool IsStatic(this Type type)
+        {
+            // This is really strange thing but static types are declared as abstract and sealed at the same time at IL level
+            var result = type.IsAbstract && type.IsSealed;
+            return result;
+        }
+
+        public static IEnumerable<MethodInfo> GetEmptyMethods(this Type self)
+        {
+            var result = self
+                .GetMethods()
+                .Where(value => value.GetParameters().Length == 0 && value.ReturnType == typeof(void));
+
+            return result;
+        }
+
+        public static IEnumerable<IWritable> GetWritableMembers(this Type self)
+        {
+            var list = new List<IWritable>();
+
+            var fields = self.GetFields().Where(MutableValidator.IsWritable);
+            foreach (var field in fields)
+            {
+                var writableField = new FieldToWritableAdapter(field);
+                list.Add(writableField);
+            }
+            
+            var properties = self.GetProperties().Where(MutableValidator.IsWritable);
+            foreach (var property in properties)
+            {
+                var writableProperty = new PropertyToWritableAdapter(property);
+                list.Add(writableProperty);
+            }
+
+            var methods = self.GetMethods().Where(MutableValidator.IsWritable);
+            foreach (var method in methods)
+            {
+                var writableMethod = new MethodToWritableAdapter(method);
+                list.Add(writableMethod);
+            }
+
+            return list;
+        }
+
+        public static IEnumerable<IReadable> GetReadableMembers(this Type self)
+        {
+            var list = new List<IReadable>();
+            
+            var fields = self.GetFields();
+            foreach (var field in fields)
+            {
+                var readableField = new FieldToReadableAdapter(field);
+                list.Add(readableField);
+            }
+            
+            var properties = self.GetProperties().Where(MutableValidator.IsReadable);
+            foreach (var property in properties)
+            {
+                var readableProperty = new PropertyToReadableAdapter(property);
+                list.Add(readableProperty);
+            }
+
+            var methods = self.GetMethods().Where(MutableValidator.IsReadable);
+            foreach (var method in methods)
+            {
+                var readableMethod = new MethodToReadableAdapter(method);
+                list.Add(readableMethod);
+            }
+
+            return list;
+        }
+        
         /// <summary>
         /// Gets all the mutable members of self type.
         /// </summary>
@@ -19,14 +124,14 @@ namespace Birdhouse.Common.Extensions
         {
             var list = new List<IMutable>();
             
-            var fields = self.GetFields().Where(MutableValidator.IsValidField);
+            var fields = self.GetFields().Where(MutableValidator.IsMutable);
             foreach (var field in fields)
             {
                 var mutableField = new FieldToMutableAdapter(field);
                 list.Add(mutableField);
             }
             
-            var properties = self.GetProperties().Where(MutableValidator.IsValidProperty);
+            var properties = self.GetProperties().Where(MutableValidator.IsMutable);
             foreach (var property in properties)
             {
                 var mutableProperty = new PropertyToMutableAdapter(property);
@@ -46,27 +151,21 @@ namespace Birdhouse.Common.Extensions
         public static bool TryGetMutableMember(this Type self, string name, out IMutable mutable)
         {
             mutable = default;
-            if (IsField())
-            {
-                var field = self.GetField(name);
-                mutable = new FieldToMutableAdapter(field);
-            }
-            else if (IsProperty())
-            {
-                var property = self.GetProperty(name);
-                mutable = new PropertyToMutableAdapter(property);
-            }
-
-            return false;
             
-            bool IsField()
+            switch (self.MemberType)
             {
-                return MutableValidator.IsValidField(self.GetField(name));
-            }
-
-            bool IsProperty()
-            {
-                return MutableValidator.IsValidProperty(self.GetProperty(name));
+                case MemberTypes.Field:
+                    var field = self.GetField(name);
+                    var isMutableField = field.TryCreateMutable(out mutable);
+                    return isMutableField;
+                
+                case MemberTypes.Property:
+                    var property = self.GetProperty(name);
+                    var isMutableProperty = property.TryCreateMutable(out mutable);
+                    return isMutableProperty;
+                
+                default:
+                    return false;
             }
         }
 

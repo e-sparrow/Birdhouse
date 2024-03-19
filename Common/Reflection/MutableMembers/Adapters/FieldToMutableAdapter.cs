@@ -1,22 +1,29 @@
 ﻿using System.Reflection;
+using Birdhouse.Common.Reflection.MutableMembers.Interfaces;
 
 namespace Birdhouse.Common.Reflection.MutableMembers.Adapters
 {
-    public class FieldToMutableAdapter : ToMutableAdapterBase<FieldInfo>
+    public sealed class FieldToMutableAdapter
+        : IMutable
     {
-        public FieldToMutableAdapter(FieldInfo mutable) : base(mutable, mutable.Name)
+        public FieldToMutableAdapter(FieldInfo fieldInfo)
         {
-            
-        }
-        
-        protected override void SetValue(FieldInfo mutable, object subject, object value)
-        {
-            mutable.SetValue(subject, value);
+            _writable = new FieldToWritableAdapter(fieldInfo);
+            _readable = new FieldToReadableAdapter(fieldInfo);
         }
 
-        protected override object GetValue(FieldInfo mutable, object subject)
+        private readonly IWritable _writable;
+        private readonly IReadable _readable;
+        
+        public void SetValue(object target, object value)
         {
-            return mutable.GetValue(subject);
+            _writable.SetValue(target, value);
+        }
+
+        public object GetValue(object target)
+        {
+            var result = _readable.GetValue(target);
+            return result;
         }
     }
 }

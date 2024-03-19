@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Tools.Filtering.Interfaces;
-using Birdhouse.Tools.Processors;
+using Birdhouse.Features.Processors;
 
 namespace Birdhouse.Tools.Filtering
 {

@@ -17,4 +17,31 @@ namespace Birdhouse.Features.Registries
             return result;
         }
     }
+
+    public abstract class RegistryBase<TElement, TToken, TOut>
+        : IRegistry<TElement, TToken, TOut>
+        where TToken : IDisposable
+    {
+        protected RegistryBase(IRegistry<TElement, TToken> registry)
+        {
+            _registry = registry;
+        }
+
+        private readonly IRegistry<TElement, TToken> _registry;
+
+        protected abstract TOut GetResult(TElement element);
+        
+        public TToken Register(TElement element, out TOut result)
+        {
+            result = GetResult(element);
+
+            var token = _registry.Register(element);
+            return token;
+        }
+
+        public void Dispose()
+        {
+            _registry.Dispose();
+        }
+    }
 }

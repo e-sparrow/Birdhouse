@@ -1,35 +1,17 @@
 ﻿using System.Collections.Generic;
 using Birdhouse.Tools.Inputs.Hotkeys.Interfaces;
-using UnityEngine;
 
 namespace Birdhouse.Tools.Inputs.Hotkeys
 {
-    public readonly struct HotkeyInfo : IHotkeyInfo
+    public class HotkeyInfo<TKey>
+        : IHotkeyInfo<TKey>
     {
-        public HotkeyInfo(IEnumerable<KeyCode> keys, bool sequence, bool allowHold, bool allowExcess)
+        public HotkeyInfo(IEnumerable<TKey> keys)
         {
             Keys = keys;
-            Sequence = sequence;
-            AllowHold = allowHold;
-            AllowExcess = allowExcess;
         }
 
-        public IEnumerable<KeyCode> Keys
-        {
-            get;
-        }
-
-        public bool Sequence
-        {
-            get;
-        }
-
-        public bool AllowHold
-        {
-            get;
-        }
-
-        public bool AllowExcess
+        public IEnumerable<TKey> Keys
         {
             get;
         }

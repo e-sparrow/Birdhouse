@@ -20,18 +20,18 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public TTo GetData()
+        public TTo DownloadData()
         {
-            var data = _transmitter.GetData();
+            var data = _transmitter.DownloadData();
 
             var result = _conversion.Convert(data);
             return result;
         }
 
-        public void SetData(TTo data)
+        public void UploadData(TTo data)
         {
             var converted = _conversion.Convert(data);
-            _transmitter.SetData(converted);
+            _transmitter.UploadData(converted);
         }
     }
 }

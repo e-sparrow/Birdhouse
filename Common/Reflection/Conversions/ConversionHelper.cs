@@ -4,8 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Helpers;
-using Birdhouse.Abstractions;
-using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Conversions.Adapters;
 using Birdhouse.Common.Reflection.Conversions.Enums;
 using Birdhouse.Common.Reflection.Conversions.Interfaces;

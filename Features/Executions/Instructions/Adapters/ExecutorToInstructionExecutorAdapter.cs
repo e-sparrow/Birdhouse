@@ -23,9 +23,9 @@ namespace Birdhouse.Features.Executions.Instructions.Adapters
             throw new NotImplementedException();
         }
 
-        public IDisposable AppendInstruction(IExecutionInstruction instruction)
+        public void AppendInstruction(IExecutionInstruction instruction)
         {
-            throw new NotImplementedException();
+            // TODO:
         }
     }
 }

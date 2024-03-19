@@ -1,8 +1,10 @@
-﻿using Birdhouse.Abstractions.Interfaces;
+﻿using Birdhouse.Abstractions.Misc.Interfaces;
+using Birdhouse.Abstractions.Interfaces;
 
 namespace Birdhouse.Common.Coroutines.YieldInstructions
 {
-    public abstract class FlowableYieldInstructionBase : YieldInstructionBase, IFlowable
+    public abstract class FlowableYieldInstructionBase 
+        : YieldInstructionBase, IFlowable
     {
         protected FlowableYieldInstructionBase(float duration)
         {
@@ -21,15 +23,10 @@ namespace Birdhouse.Common.Coroutines.YieldInstructions
             return result;
         }
 
-        public void SetSpeed(float speed)
-        {
-            Speed = speed;
-        }
-
         public float Speed
         {
             get;
-            private set;
+            set;
         }
     }
 }

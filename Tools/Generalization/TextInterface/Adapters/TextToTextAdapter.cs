@@ -2,7 +2,8 @@ using UnityEngine.UI;
 
 namespace Birdhouse.Tools.Generalization.TextInterface.Adapters
 {
-    public class TextToTextAdapter : ToTextAdapterBase
+    public class TextToTextAdapter 
+        : ToTextAdapterBase
     {
         private readonly Text _text;
 

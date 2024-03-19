@@ -18,7 +18,7 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public T GetData()
+        public T DownloadData()
         {
             var result = _dataTransmitter
                 .GetData()
@@ -27,7 +27,7 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public void SetData(T data)
+        public void UploadData(T data)
         {
             _dataTransmitter
                 .SetData(data)

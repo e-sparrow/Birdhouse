@@ -14,7 +14,10 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "Cyriller.dll",
+        "Cyriller.Model.dll",
+        "Cyriller.Rule.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

@@ -18,7 +18,7 @@ namespace Birdhouse.Common.Extensions
             action.Invoke(self);
             return self;
         }
-
+        
         /// <summary>
         /// Gets the TOut in the TIn variable.
         /// </summary>

@@ -16,7 +16,7 @@ namespace Birdhouse.Features.Executions.Instructions
         {
             foreach (var instruction in _instructions)
             {
-                
+                instruction.Execute();
             }
         }
 
@@ -26,9 +26,10 @@ namespace Birdhouse.Features.Executions.Instructions
             return result;
         }
 
-        public IDisposable AppendInstruction(IExecutionInstruction instruction)
+        public void AppendInstruction(IExecutionInstruction instruction)
         {
-            throw new NotImplementedException();
+            _instructionsQueue.Enqueue(instruction);
+            // TODO:
         }
     }
 }

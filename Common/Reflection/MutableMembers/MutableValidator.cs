@@ -4,24 +4,46 @@ namespace Birdhouse.Common.Reflection.MutableMembers
 {
     public static class MutableValidator
     {
-        /// <summary>
-        /// Checks is specified field info valid.
-        /// </summary>
-        /// <param name="fieldInfo">Specified field info</param>
-        /// <returns>True if it's valid and false otherwise</returns>
-        public static bool IsValidField(FieldInfo fieldInfo)
+        public static bool IsWritable(FieldInfo fieldInfo)
         {
-            return !fieldInfo.IsInitOnly;
+            var result = !fieldInfo.IsInitOnly;
+            return result;
+        }
+        
+        public static bool IsWritable(PropertyInfo propertyInfo)
+        {
+            var result = propertyInfo.CanWrite;
+            return result;
         }
 
-        /// <summary>
-        /// Checks is specified property info valid.
-        /// </summary>
-        /// <param name="propertyInfo">Specified property info</param>
-        /// <returns>True if it's valid and false otherwise</returns>
-        public static bool IsValidProperty(PropertyInfo propertyInfo)
+        public static bool IsWritable(MethodInfo methodInfo)
         {
-            return propertyInfo.CanRead && propertyInfo.CanWrite;
+            var result = methodInfo.GetParameters().Length == 1;
+            return result;
+        }
+        
+        public static bool IsReadable(PropertyInfo propertyInfo)
+        {
+            var result = propertyInfo.CanRead;
+            return result;
+        }
+
+        public static bool IsReadable(MethodInfo methodInfo)
+        {
+            var result = methodInfo.ReturnType != typeof(void) && methodInfo.GetParameters().Length == 0;
+            return result;
+        }
+        
+        public static bool IsMutable(FieldInfo fieldInfo)
+        {
+            var result = IsWritable(fieldInfo);
+            return result;
+        }
+
+        public static bool IsMutable(PropertyInfo propertyInfo)
+        {
+            var result = IsWritable(propertyInfo) && IsReadable(propertyInfo);
+            return result;
         }
     }
 }

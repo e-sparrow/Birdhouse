@@ -1,11 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Birdhouse.Common.Extensions;
 
 namespace Birdhouse.Common.Helpers
 {
-    public static class EnumsHelper<T> where T : Enum
+    public static class EnumsHelper<T>
+        where T : Enum
     {
+        public static T WithAllFlags()
+        {
+            var isFlagEnum = typeof(T).HasCustomAttribute<FlagsAttribute>();
+            if (!isFlagEnum)
+            {
+                var isNotFlagMessage = $"Enum with name {typeof(T).Name} is not flags enum!";
+                throw new ArgumentException(isNotFlagMessage);
+            }
+
+            long numericResult = 0;
+
+            var targetType = Enum.GetUnderlyingType(typeof(T));
+            
+            var items = Enum
+                .GetValues(typeof(T))
+                .Cast<IEnumerable<T>>()
+                .Select(value => Convert.ChangeType(value, targetType))
+                .ToArray();
+            
+            foreach (var item in items)
+            {
+                numericResult |= (long) item;
+            }
+
+            var result = (T)Enum.ToObject(typeof(T), numericResult);
+            return result;
+        }
+        
         public static int GetCount()
         {
             var result = typeof(T)

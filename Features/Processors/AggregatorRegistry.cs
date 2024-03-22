@@ -8,14 +8,14 @@ namespace Birdhouse.Features.Processors
     public class AggregatorRegistry<T>
         : IReadOnlyProcessor<T>, IRegistry<Aggregator<T>>
     {
-        private readonly IRegistryEnumerable<Aggregator<T>> _evaluators 
+        private readonly IRegistryEnumerable<Aggregator<T>> _aggregators 
             = new RegistryEnumerable<Aggregator<T>>();
         
         public T Process(T source)
         {
-            foreach (var evaluator in _evaluators)
+            foreach (var aggregator in _aggregators)
             {
-                source = evaluator.Invoke(source);
+                source = aggregator.Invoke(source);
             }
 
             return source;
@@ -23,13 +23,13 @@ namespace Birdhouse.Features.Processors
 
         public IDisposable Register(Aggregator<T> element)
         {
-            var result = _evaluators.Register(element);
+            var result = _aggregators.Register(element);
             return result;
         }
 
         public void Dispose()
         {
-            _evaluators.Dispose();
+            _aggregators.Dispose();
         }
     }
 }

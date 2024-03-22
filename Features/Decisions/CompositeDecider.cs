@@ -4,7 +4,7 @@ using Birdhouse.Features.Decisions.Interfaces;
 
 namespace Birdhouse.Features.Decisions
 {
-    public class CompositeDecider<TOut>
+    public sealed class CompositeDecider<TOut>
         : ICompositeDecider<TOut>
     {
         public event Action<TOut> OnDecide = _ => { };

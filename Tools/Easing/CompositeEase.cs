@@ -60,11 +60,11 @@ namespace Birdhouse.Tools.Easing
             if (_pieces.TryPeek(out var last))
             {
                 var lastValue = last.Ease.Evaluate(1);
-                ease = EasingHelper.Easings.GetFlatEase(lastValue);
+                ease = new Ease(_ => lastValue);
             }
             else
             {
-                ease = EasingHelper.Easings.GetFlatEase(0);
+                ease = new Ease(_ => 0f);
             }
             
             var piece = new EasePiece(ease, length);

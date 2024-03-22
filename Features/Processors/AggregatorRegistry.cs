@@ -5,11 +5,11 @@ using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Processors
 {
-    public class ProcessorRegistry<T>
-        : IReadOnlyProcessor<T>, IRegistry<Evaluator<T>>
+    public class AggregatorRegistry<T>
+        : IReadOnlyProcessor<T>, IRegistry<Aggregator<T>>
     {
-        private readonly IRegistryEnumerable<Evaluator<T>> _evaluators 
-            = new RegistryEnumerable<Evaluator<T>>();
+        private readonly IRegistryEnumerable<Aggregator<T>> _evaluators 
+            = new RegistryEnumerable<Aggregator<T>>();
         
         public T Process(T source)
         {
@@ -21,7 +21,7 @@ namespace Birdhouse.Features.Processors
             return source;
         }
 
-        public IDisposable Register(Evaluator<T> element)
+        public IDisposable Register(Aggregator<T> element)
         {
             var result = _evaluators.Register(element);
             return result;

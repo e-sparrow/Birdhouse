@@ -5,23 +5,22 @@ using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Ticks
 {
-    public abstract class TickFlowBase  
+    public sealed class TickFlowWrapper
         : IFlow
     {
-        private IDisposable _tickToken;
-
-        protected abstract void Tick(float deltaTime);
-
-        protected virtual ITickProvider GetTickProvider()
+        public TickFlowWrapper(ITickable tickable, ITickProvider provider)
         {
-            var result = TickHelper.GetDefaultTickProvider();
-            return result;
+            _tickable = tickable;
+            
+            _provider = provider;
         }
+        
+        private readonly ITickable _tickable;
 
-        // These methods made to make sure tick token will be initialized and disposed correctly in inheritors
-        protected virtual void OnInitialize() { }
-        protected virtual void OnDispose() { }
-
+        private readonly ITickProvider _provider;
+        
+        private IDisposable _tickToken;
+        
         public void Initialize()
         {
             if (_tickToken != null)
@@ -29,10 +28,7 @@ namespace Birdhouse.Tools.Ticks
                 throw new AlreadyInitializedException($"Tick flow of type {GetType()} is already initialized!");
             }
             
-            _tickToken = GetTickProvider()
-                .RegisterTick(Tick);
-            
-            OnInitialize();
+            _tickToken = _tickable.ConnectTo(_provider);
         }
         
         public void Dispose()
@@ -43,8 +39,6 @@ namespace Birdhouse.Tools.Ticks
             }
             
             _tickToken.Dispose();
-            
-            OnDispose();
         }
     }
 }

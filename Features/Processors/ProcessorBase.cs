@@ -6,13 +6,13 @@ namespace Birdhouse.Features.Processors
     public abstract class ProcessorBase<T> 
         : IProcessor<T>
     {
-        public event Evaluator<T> OnProcess
+        public event Aggregator<T> OnProcess
         {
             add => _evaluators.Add(value);
             remove => _evaluators.Remove(value);
         }
 
-        private readonly IList<Evaluator<T>> _evaluators = new List<Evaluator<T>>();
+        private readonly IList<Aggregator<T>> _evaluators = new List<Aggregator<T>>();
 
         protected abstract T ProcessInternal(T source);
         

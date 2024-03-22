@@ -2,7 +2,8 @@ using Birdhouse.Tools.Easing.Interfaces;
 
 namespace Birdhouse.Tools.Easing
 {
-    public abstract class EaseBase : IEase
+    public abstract class EaseBase 
+        : IEase
     {
         protected EaseBase(Easing<float> easing)
         {

@@ -4,12 +4,12 @@ namespace Birdhouse.Tools.Identification
 {
     public class Unifier<T> : UnifierBase<T>
     {
-        public Unifier(Evaluator<T> unify)
+        public Unifier(Aggregator<T> unify)
         {
             _unify = unify;
         }
 
-        private readonly Evaluator<T> _unify;
+        private readonly Aggregator<T> _unify;
 
         public override T Unify(T value)
         {

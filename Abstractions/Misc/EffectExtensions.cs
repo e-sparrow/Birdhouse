@@ -6,7 +6,7 @@ using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Abstractions.Misc
 {
-    public static class EffectsExtensions
+    public static class EffectExtensions
     {
         public static IFlow Flow
         (

@@ -5,25 +5,6 @@ namespace Birdhouse.Tools.Easing
 {
     public static class EasingHelper
     {
-        public static class Easings
-        {
-            public static IEase GetFlatEase(float value)
-            {
-                var result = new Ease(GetValue);
-                return result;
-                
-                float GetValue(float progress)
-                {
-                    return value;
-                }
-            }
-            
-            public static float Linear(float progress)
-            {
-                return progress;
-            }
-        }
-
         public static class Operations
         {
             public static float Increase(float left, float right)

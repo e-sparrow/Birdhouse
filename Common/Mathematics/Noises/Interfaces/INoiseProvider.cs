@@ -7,7 +7,7 @@ namespace Birdhouse.Common.Mathematics.Noises.Interfaces
     public interface INoiseProvider
         : IProvider<Vector2, float>
     {
-        event Evaluator<Vector2> OnProcessPosition; 
-        event Evaluator<float> OnProcessValue;
+        event Aggregator<Vector2> OnProcessPosition; 
+        event Aggregator<float> OnProcessValue;
     }
 }

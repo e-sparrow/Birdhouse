@@ -15,7 +15,7 @@ namespace Birdhouse.Tools.Filtering
             _minPriority = minPriority;
         }
 
-        public event Evaluator<IEnumerable<T>> OnProcess = _ => _;
+        public event Aggregator<IEnumerable<T>> OnProcess = _ => _;
         
         private readonly int _count;
         private readonly int _minPriority;

@@ -7,8 +7,8 @@ namespace Birdhouse.Common.Mathematics.Noises
     public class PerlinNoiseProvider
         : INoiseProvider
     {
-        public event Evaluator<Vector2> OnProcessPosition = value => value;
-        public event Evaluator<float> OnProcessValue = value => value;
+        public event Aggregator<Vector2> OnProcessPosition = value => value;
+        public event Aggregator<float> OnProcessValue = value => value;
         
         public float GetValue(Vector2 position)
         {

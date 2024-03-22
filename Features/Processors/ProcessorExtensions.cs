@@ -6,7 +6,7 @@ namespace Birdhouse.Features.Processors
 {
     public static class ProcessorExtensions
     {
-        public static IDisposable AddAsDisposable<T>(this IProcessor<T> self, Evaluator<T> value)
+        public static IDisposable AddAsDisposable<T>(this IProcessor<T> self, Aggregator<T> value)
         {
             self.OnProcess += value;
             
@@ -19,9 +19,9 @@ namespace Birdhouse.Features.Processors
             }
         }
 
-        public static Evaluator<T> AsEvaluator<T>(this IProcessor<T> self)
+        public static Aggregator<T> AsEvaluator<T>(this IProcessor<T> self)
         {
-            var result = new Evaluator<T>(self.Process);
+            var result = new Aggregator<T>(self.Process);
             return result;
         }
     }

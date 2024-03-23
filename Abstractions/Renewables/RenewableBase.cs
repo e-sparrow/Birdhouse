@@ -2,20 +2,21 @@
 
 namespace Birdhouse.Abstractions.Renewables
 {
-    public abstract class RenewableBase : IRenewable
+    public abstract class RenewableBase 
+        : IRenewable
     {
-        protected abstract void SetPausedInternal(bool isPaused);
+        private bool _isPaused = false;
         
-        public void SetPaused(bool isPaused)
-        {
-            SetPausedInternal(isPaused);
-            IsPaused = isPaused;
-        }
+        protected abstract void SetPausedInternal(bool isPaused);
 
         public bool IsPaused
         {
-            get;
-            private set;
+            get => _isPaused;
+            set
+            {
+                _isPaused = value;
+                SetPausedInternal(_isPaused);
+            }
         }
     }
 }

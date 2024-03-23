@@ -6,9 +6,7 @@ namespace Birdhouse.Abstractions.Renewables
     {
         public static T Toggle<T>(this T self) where T : IRenewable
         {
-            var target = !self.IsPaused;
-            
-            self.SetPaused(target);
+            self.IsPaused = !self.IsPaused;
             return self;
         }
     }

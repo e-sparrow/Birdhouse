@@ -3,7 +3,7 @@
 namespace Birdhouse.Features.Aggregators.Interfaces
 {
     public interface IAggregationBuilder<out TSelf, T>
-        : IBuilder<IAggregator<T>>
+        : IBuilder<IAggregationBuilder<TSelf, T >, IAggregator<T>>
         where TSelf : IAggregationBuilder<TSelf, T>
     {
         TSelf Then(IAggregator<T> aggregator);

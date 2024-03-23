@@ -3,8 +3,8 @@ using Birdhouse.Tools.Tweening.Abstractions;
 
 namespace Birdhouse.Tools.Tweening
 {
-    public class TweenerBuilder<ITweener>
-        : IBuilder<ITweener>
+    public sealed class TweenerBuilder
+        : IBuilder<TweenerBuilder, ITweener>
     {
         public ITweener Build()
         {

@@ -29,7 +29,13 @@ namespace Birdhouse.Tools.Tweening
         public bool IsPaused
         {
             get;
-            private set;
+            set;
+        }
+
+        public float Progress
+        {
+            get; 
+            set;
         }
 
         public float TargetValue
@@ -43,17 +49,10 @@ namespace Birdhouse.Tools.Tweening
             
         }
 
-        public void SetPaused(bool isPaused)
-        {
-            throw new System.NotImplementedException();
-        }
-
         private void ChangeTargetValue(float value)
         {
             _startValue = _currentValue;
             _targetValue = value;
         }
-
-        public float Progress { get; set; }
     }
 }

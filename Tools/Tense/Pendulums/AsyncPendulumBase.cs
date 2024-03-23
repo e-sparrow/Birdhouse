@@ -7,7 +7,8 @@ using Birdhouse.Tools.Tense.Pendulums.Interfaces;
 
 namespace Birdhouse.Tools.Tense.Pendulums
 {
-    public abstract class AsyncPendulumBase : RenewableBase, IPendulum
+    public abstract class AsyncPendulumBase 
+        : RenewableBase, IPendulum
     {
         protected AsyncPendulumBase(TimeSpan period)
         {

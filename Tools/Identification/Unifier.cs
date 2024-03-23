@@ -1,15 +1,16 @@
-﻿using Birdhouse.Features.Processors;
+﻿using Birdhouse.Features.Aggregators;
 
 namespace Birdhouse.Tools.Identification
 {
-    public class Unifier<T> : UnifierBase<T>
+    public class Unifier<T> 
+        : UnifierBase<T>
     {
-        public Unifier(Aggregator<T> unify)
+        public Unifier(Aggregation<T> unify)
         {
             _unify = unify;
         }
 
-        private readonly Aggregator<T> _unify;
+        private readonly Aggregation<T> _unify;
 
         public override T Unify(T value)
         {

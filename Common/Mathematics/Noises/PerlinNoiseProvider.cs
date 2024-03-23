@@ -1,5 +1,5 @@
 ﻿using Birdhouse.Common.Mathematics.Noises.Interfaces;
-using Birdhouse.Features.Processors;
+using Birdhouse.Features.Aggregators;
 using UnityEngine;
 
 namespace Birdhouse.Common.Mathematics.Noises
@@ -7,8 +7,8 @@ namespace Birdhouse.Common.Mathematics.Noises
     public class PerlinNoiseProvider
         : INoiseProvider
     {
-        public event Aggregator<Vector2> OnProcessPosition = value => value;
-        public event Aggregator<float> OnProcessValue = value => value;
+        public event Aggregation<Vector2> OnProcessPosition = value => value;
+        public event Aggregation<float> OnProcessValue = value => value;
         
         public float GetValue(Vector2 position)
         {

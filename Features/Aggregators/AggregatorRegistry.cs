@@ -1,15 +1,15 @@
 ﻿using System;
-using Birdhouse.Features.Processors.Interfaces;
+using Birdhouse.Features.Aggregators.Interfaces;
 using Birdhouse.Features.Registries;
 using Birdhouse.Features.Registries.Interfaces;
 
-namespace Birdhouse.Features.Processors
+namespace Birdhouse.Features.Aggregators
 {
     public class AggregatorRegistry<T>
-        : IReadOnlyProcessor<T>, IRegistry<Aggregator<T>>
+        : IReadOnlyAggregator<T>, IRegistry<Aggregation<T>>
     {
-        private readonly IRegistryEnumerable<Aggregator<T>> _aggregators 
-            = new RegistryEnumerable<Aggregator<T>>();
+        private readonly IRegistryEnumerable<Aggregation<T>> _aggregators 
+            = new RegistryEnumerable<Aggregation<T>>();
         
         public T Process(T source)
         {
@@ -21,7 +21,7 @@ namespace Birdhouse.Features.Processors
             return source;
         }
 
-        public IDisposable Register(Aggregator<T> element)
+        public IDisposable Register(Aggregation<T> element)
         {
             var result = _aggregators.Register(element);
             return result;

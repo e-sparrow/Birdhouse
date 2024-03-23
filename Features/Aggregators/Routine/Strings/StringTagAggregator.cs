@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Features.Processors.Interfaces;
-using Birdhouse.Features.Processors.Routine.Strings.Interfaces;
+using Birdhouse.Features.Aggregators.Interfaces;
+using Birdhouse.Features.Aggregators.Routine.Strings.Interfaces;
 using Birdhouse.Features.Registries;
 using Birdhouse.Features.Registries.Interfaces;
 
-namespace Birdhouse.Features.Processors.Routine.Strings
+namespace Birdhouse.Features.Aggregators.Routine.Strings
 {
-    public class StringTagProcessor
-        : IRegistry<ITagModel>, IReadOnlyProcessor<string>
+    public class StringTagAggregator
+        : IRegistry<ITagModel>, IReadOnlyAggregator<string>
     {
-        public StringTagProcessor(ITagPatternModel pattern)
+        public StringTagAggregator(ITagPatternModel pattern)
         {
             _pattern = pattern;
         }

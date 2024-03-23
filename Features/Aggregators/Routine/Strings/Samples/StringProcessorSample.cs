@@ -4,7 +4,7 @@ using Birdhouse.Customization.Attributes.ReadOnly;
 using TMPro;
 using UnityEngine;
 
-namespace Birdhouse.Features.Processors.Routine.Strings.Samples
+namespace Birdhouse.Features.Aggregators.Routine.Strings.Samples
 {
     public class StringProcessorSample
         : MonoBehaviour

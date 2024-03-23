@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Birdhouse.Features.Processors.Routine.Strings.Interfaces
+namespace Birdhouse.Features.Aggregators.Routine.Strings.Interfaces
 {
     public interface ITagPatternModel
     {

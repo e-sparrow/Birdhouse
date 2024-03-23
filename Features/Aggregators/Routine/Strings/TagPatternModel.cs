@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Features.Processors.Routine.Strings
+﻿namespace Birdhouse.Features.Aggregators.Routine.Strings
 {
     public readonly struct TagPatternModel
     {

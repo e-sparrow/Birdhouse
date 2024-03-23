@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Tools.Filtering.Interfaces;
-using Birdhouse.Features.Processors;
+using Birdhouse.Features.Aggregators;
 
 namespace Birdhouse.Tools.Filtering
 {
-    public abstract class PriorityBasedFilterBase<T> : IFilter<IEnumerable<T>, T>
+    public abstract class PriorityBasedFilterBase<T> 
+        : IFilter<IEnumerable<T>, T>
     {
         protected PriorityBasedFilterBase(int count, int minPriority)
         {
@@ -15,7 +16,7 @@ namespace Birdhouse.Tools.Filtering
             _minPriority = minPriority;
         }
 
-        public event Aggregator<IEnumerable<T>> OnProcess = _ => _;
+        public event Aggregation<IEnumerable<T>> OnProcess = value => value;
         
         private readonly int _count;
         private readonly int _minPriority;

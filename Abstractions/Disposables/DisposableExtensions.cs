@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
 using Birdhouse.Abstractions.Disposables.Interfaces;
 using Birdhouse.Common.Extensions;
 
@@ -36,6 +38,18 @@ namespace Birdhouse.Abstractions.Disposables
         {
             var result = new ReplaceableDisposable(self);
             return result;
+        }
+
+        public static IEnumerator DisposeAfter(this IDisposable self, IEnumerator coroutine)
+        {
+            yield return coroutine;
+            self.Dispose();
+        }
+
+        public static async Task DisposeAfter(this IDisposable self, Task task)
+        {
+            await task;
+            self.Dispose();
         }
     }
 }

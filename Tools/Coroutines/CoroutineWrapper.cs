@@ -16,7 +16,6 @@ namespace Birdhouse.Tools.Coroutines
         
         public IEnumerator<ICoroutineInstruction> Wrap(IEnumerator input)
         {
-            input.Reset();
             while (input.MoveNext())
             {
                 var canWrap = _wrapper.TryWrap(input.Current, out var result);

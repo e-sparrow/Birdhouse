@@ -10,7 +10,7 @@ namespace Birdhouse.Tools.Coroutines
     {
         public TickCoroutineStarter(ITickProvider provider)
         {
-            _tickToken = provider.RegisterTick(Invoke);
+            _tickToken = provider.RegisterTick(Tick);
         }
 
         private readonly IDisposable _tickToken;
@@ -23,7 +23,7 @@ namespace Birdhouse.Tools.Coroutines
             _runners.Add(runner);
         }
  
-        private void Invoke(float deltaTime)
+        private void Tick(float deltaTime)
         {
             var incomingRunners = new List<ICoroutineInstruction>(_runners);
             foreach (var runner in incomingRunners)

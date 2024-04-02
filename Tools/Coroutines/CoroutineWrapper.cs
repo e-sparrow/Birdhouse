@@ -23,6 +23,15 @@ namespace Birdhouse.Tools.Coroutines
                 {
                     yield return result;
                 }
+                else if (input.Current is IEnumerator enumerator)
+                {
+                    // TODO: Избавиться от рекурсии
+                    var wrapped = Wrap(enumerator);
+                    while (wrapped.MoveNext())
+                    {
+                        yield return wrapped.Current;
+                    }
+                }
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace Birdhouse.Abstractions.Misc.Interfaces
 {
     public interface ICompositeFlow
-        : IFlow
+        : IFlow, IComposite<ICompositeFlow, IFlow>
     {
-        ICompositeFlow Append(IFlow other);
+        
     }
 }

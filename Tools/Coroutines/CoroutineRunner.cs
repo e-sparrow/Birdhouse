@@ -3,7 +3,7 @@ using Birdhouse.Tools.Coroutines.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines
 {
-    public class CoroutineRunner 
+    public readonly struct CoroutineRunner 
         : ICoroutineInstruction
     {
         public CoroutineRunner(IEnumerator<ICoroutineInstruction> instructions)

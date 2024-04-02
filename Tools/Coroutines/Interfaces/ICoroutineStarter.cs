@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Birdhouse.Tools.Coroutines.Interfaces
+﻿namespace Birdhouse.Tools.Coroutines.Interfaces
 {
-    public interface ICoroutineStarter
+    public interface ICoroutineStarter<in TCoroutine>
     {
-        void Start(IEnumerator<ICoroutineInstruction> coroutine);
+        void Start(TCoroutine coroutine);
     }
 }

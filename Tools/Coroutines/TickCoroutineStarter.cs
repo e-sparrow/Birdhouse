@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines
 {
-    public class TickCoroutineStarter
-        : ICoroutineStarter, IDisposable
+    public sealed class TickCoroutineStarter
+        : ICoroutineStarter<IEnumerator<ICoroutineInstruction>>, IDisposable
     {
         public TickCoroutineStarter(ITickProvider provider)
         {

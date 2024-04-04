@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Features.FluentLogics
+namespace Birdhouse.Experimental.FluentLogics
 {
     public static class FluentLogicExtensions
     {

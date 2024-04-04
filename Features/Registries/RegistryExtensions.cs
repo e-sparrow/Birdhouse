@@ -14,5 +14,20 @@ namespace Birdhouse.Features.Registries
             token = self.Register(element);
             return self;
         }
+
+        public static bool TryGetValue<TKey, TValue>
+            (this IRegistryDictionary<TKey, TValue> self, TKey key, out TValue value)
+        {
+            value = default;
+            
+            var result = self.ContainsKey(key);
+            if (result)
+            {
+                value = self[key];
+                return true;
+            }
+
+            return false;
+        }
     }
 }

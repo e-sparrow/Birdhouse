@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Features.FluentLogics
+namespace Birdhouse.Experimental.FluentLogics
 {
     public readonly struct ElseIfHandler
     {
@@ -15,7 +15,7 @@ namespace Birdhouse.Features.FluentLogics
 
         public SoHandler So(Action action)
         {
-            var construction = new ConditionConstruction(_condition, action);
+            var construction = new ConditionalConstruction(_condition, action);
             _root.Add(construction);
 
             var handler = new SoHandler(_root);

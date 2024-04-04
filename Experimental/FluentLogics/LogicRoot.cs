@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Birdhouse.Features.FluentLogics
+namespace Birdhouse.Experimental.FluentLogics
 {
     public class LogicRoot
     {
         public LogicRoot(Func<bool> func)
         {
             _func = func;
-            _constructions = new List<ConditionConstruction>();
+            _constructions = new List<ConditionalConstruction>();
         }
 
         private readonly Func<bool> _func;
-        private readonly IList<ConditionConstruction> _constructions;
+        private readonly IList<ConditionalConstruction> _constructions;
 
-        public void Add(ConditionConstruction construction)
+        public void Add(ConditionalConstruction construction)
         {
             _constructions.Add(construction);
         }
@@ -34,7 +34,7 @@ namespace Birdhouse.Features.FluentLogics
 
         public SoHandler So(Action action)
         {
-            var construction = new ConditionConstruction(_func, action);
+            var construction = new ConditionalConstruction(_func, action);
             Add(construction);
 
             var handler = new SoHandler(this);

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Birdhouse.Features.FluentLogics
+namespace Birdhouse.Experimental.FluentLogics
 {
-    public readonly struct ConditionConstruction
+    public readonly struct ConditionalConstruction
     {
-        public ConditionConstruction(Func<bool> func, Action action)
+        public ConditionalConstruction(Func<bool> func, Action action)
         {
             _func = func;
             _action = action;

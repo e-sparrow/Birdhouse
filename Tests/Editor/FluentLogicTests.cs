@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Birdhouse.Common.Extensions;
 using Birdhouse.Experimental.FluentLogics;
 using NUnit.Framework;
 using Unity.PerformanceTesting;

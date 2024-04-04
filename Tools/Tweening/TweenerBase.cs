@@ -8,17 +8,21 @@ using Birdhouse.Tools.Tweening.Abstractions;
 namespace Birdhouse.Tools.Tweening
 {
     public abstract class TweenerBase
-        : TickFlowBase, ITweener, IProgressive
+        : TickFlowBase, ITweener
     {
-        protected TweenerBase(float startValue, float duration, bool resetEase = false, IEase ease = null)
+        protected TweenerBase(IProgressive target, float startValue, float duration, bool resetEase = false, IEase ease = null)
         {
             ease ??= new Ease();
+
+            _target = target;
             
             _startValue = startValue;
             _currentValue = startValue;
             
             _ease = ease;
         }
+
+        private readonly IProgressive _target;
 
         private float _startValue;
         private float _currentValue;

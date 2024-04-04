@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using Birdhouse.Common.Extensions;
+using Birdhouse.Common.Helpers;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,7 +28,7 @@ namespace Birdhouse.Customization.Attributes.OnChanged.Editor
                 .targetObject
                 .GetType();
             
-            var methods = type.GetMethods();
+            var methods = type.GetMethods(EnumsHelper<BindingFlags>.WithAllFlags());
 
             var hasMethod = methods.TryGetFirst(value => value.Name == onChangedAttribute.MethodName, out var method);
             if (hasMethod)

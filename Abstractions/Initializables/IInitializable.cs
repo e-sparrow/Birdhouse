@@ -4,4 +4,14 @@
     {
         void Initialize();
     }
+
+    public interface IInitializable<in TInput>
+    {
+        void Initialize(TInput input);
+    }
+
+    public interface IInitializable<in TInput, out TOutput>
+    {
+        TOutput Initialize(TInput input);
+    }
 }

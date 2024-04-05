@@ -1,4 +1,5 @@
-﻿using Birdhouse.Tools.Features.Abstractions;
+﻿using System;
+using Birdhouse.Tools.Features.Abstractions;
 
 namespace Birdhouse.Tools.Features
 {
@@ -15,6 +16,12 @@ namespace Birdhouse.Tools.Features
             }
 
             return hasFeature;
+        }
+
+        public static IDisposable RegisterParameter<T>(this IFeatureFactory self, object parameter)
+        {
+            var result = self.RegisterParameter(typeof(T), parameter);
+            return result;
         }
     }
 }

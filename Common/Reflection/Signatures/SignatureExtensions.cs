@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Birdhouse.Common.Reflection.Signatures.Enums;
 
@@ -8,24 +9,27 @@ namespace Birdhouse.Common.Reflection.Signatures
     {
         public static Signature GetSignature(this MethodInfo self)
         {
-            var accessModifier = 
+            var accessModifier = self.GetAccessModifier();
+            var isStatic = self.IsStatic;
             var returnType = self.ReturnType;
             var parameters = self
                 .GetParameters()
                 .Select(value => value.GetInfo());
 
-            var result = new Signature(returnType, parameters);
+            var result = new Signature(accessModifier, isStatic, returnType, parameters);
             return result;
         }
 
         public static Signature GetSignature(this ConstructorInfo self)
         {
+            var accessModifier = self.GetAccessModifier();
+            var isStatic = self.IsStatic;
             var returnType = self.DeclaringType;
             var parameters = self
                 .GetParameters()
                 .Select(value => value.GetInfo());
 
-            var result = new Signature(returnType, parameters);
+            var result = new Signature(accessModifier, isStatic, returnType, parameters);
             return result;
         }
 
@@ -59,6 +63,22 @@ namespace Birdhouse.Common.Reflection.Signatures
         {
             var result = self.IsOut && self.IsIn && self.ParameterType.IsByRef;
             return result;
+        }
+
+        public static EAccessModifiers GetAccessModifier(this MethodBase self)
+        {
+            if (self.IsPrivate)
+                return EAccessModifiers.Private;
+            if (self.IsFamily)
+                return EAccessModifiers.Protected;
+            if (self.IsFamilyOrAssembly)
+                return EAccessModifiers.ProtectedInternal;
+            if (self.IsAssembly)
+                return EAccessModifiers.Internal;
+            if (self.IsPublic)
+                return EAccessModifiers.Public;
+
+            throw new ArgumentException($"Unknown access modifier found in method {self}!");
         }
     }
 }

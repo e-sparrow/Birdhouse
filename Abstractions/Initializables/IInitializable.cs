@@ -14,4 +14,9 @@
     {
         TOutput Initialize(TInput input);
     }
+
+    public interface IResultingInitializable<out TOutput>
+    {
+        TOutput Initialize();
+    }
 }

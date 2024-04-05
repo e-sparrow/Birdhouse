@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Birdhouse.Common.Exceptions;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Operators;
 using Birdhouse.Common.Reflection.Operators.Enums;
 using Birdhouse.Common.Reflection.Operators.Interfaces;
 using Birdhouse.Common.Reflection.Conversions;
+using Birdhouse.Experimental.FluentExceptions;
 
 namespace Birdhouse.Common.Helpers
 {
@@ -36,6 +38,23 @@ namespace Birdhouse.Common.Helpers
             BindingFlags.IgnoreReturn;
 
         private const MethodAttributes DefaultOperatorAttributesValue = (MethodAttributes) 2198;
+
+        public static bool TryCreateDelegate<TDelegate>(this MethodInfo self, object target, out TDelegate result)
+            where TDelegate : Delegate
+        {
+            var isSuccess = new Func<TDelegate>(CreateDelegate)
+                .FalseIfCatchType<TDelegate, ArgumentException>()
+                .ElseThrow()
+                .TryHandle(out result);
+
+            return isSuccess;
+
+            TDelegate CreateDelegate()
+            {
+                var result = (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), target, self, true);
+                return result;
+            }
+        }
 
         public static class OperatorHelper
         {

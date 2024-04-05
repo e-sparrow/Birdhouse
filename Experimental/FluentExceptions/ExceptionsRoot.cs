@@ -19,7 +19,7 @@ namespace Birdhouse.Experimental.FluentExceptions
             return handler;
         }
 
-        public IReadOnlyCatchHandler<TException> CaughtType<TException>(Action<TException> onCatch)
+        public IReadOnlyCatchHandler<TException> CatchType<TException>(Action<TException> onCatch)
             where TException : Exception
         {
             var handler = new CatchHandler<TException>(this, onCatch);
@@ -59,7 +59,7 @@ namespace Birdhouse.Experimental.FluentExceptions
             return result;
         }
 
-        public IReadOnlyResultingCatchHandler<TResult, TException> CaughtType<TException>(Func<TException, TResult> onCatch) 
+        public IReadOnlyResultingCatchHandler<TResult, TException> CatchType<TException>(Func<TException, TResult> onCatch) 
             where TException : Exception
         {
             var result = new ResultingCatchHandler<TResult, TException>(this, onCatch);

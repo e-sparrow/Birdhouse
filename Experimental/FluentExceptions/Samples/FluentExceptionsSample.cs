@@ -15,7 +15,7 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
             {
                 FluentExceptions
                     .Try(Try)
-                    .CaughtType<FirstException>(CatchFirst)
+                    .CatchType<FirstException>(CatchFirst)
                     .Or<SecondException>(CatchSecond)
                     .Or<ThirdException>(CatchThird)
                     .Default(CatchOther)
@@ -78,7 +78,7 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
             {
                 var code = FluentExceptions<EResultCode>
                     .Try(Try)
-                    .CaughtType<FirstException>(CatchFirst)
+                    .CatchType<FirstException>(CatchFirst)
                     .Or<SecondException>(CatchSecond)
                     .Or<ThirdException>(CatchThird)
                     .Default(CatchOther)

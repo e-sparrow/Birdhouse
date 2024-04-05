@@ -1,4 +1,4 @@
-﻿using Birdhouse.Features.FluentLogics;
+﻿using Birdhouse.Experimental.FluentLogics;
 
 namespace Birdhouse.Common.Assertions
 {

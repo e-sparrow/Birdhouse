@@ -23,5 +23,11 @@ namespace Birdhouse.Tools.Features
             var result = self.RegisterParameter(typeof(T), parameter);
             return result;
         }
+
+        public static IFeatureContainer AsContainer(this IFeatureFactory self)
+        {
+            var result = new FeatureFactoryToContainerAdapter(self);
+            return result;
+        }
     }
 }

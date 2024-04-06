@@ -1,8 +1,14 @@
 ﻿namespace Birdhouse.Abstractions.Builders.Abstractions
 {
-    public interface IBuilder<out TSelf, out T>
-        where TSelf : IBuilder<TSelf, T>
+    public interface IBuilder<out TSelf, out TResult>
+        : IBuilder<TResult>
+        where TSelf : IBuilder<TSelf, TResult>
     {
-        T Build();
+        
+    }
+
+    public interface IBuilder<out TResult>
+    {
+        TResult Build();
     }
 }

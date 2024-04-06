@@ -159,12 +159,16 @@ namespace Birdhouse.Tests.Editor
 
         private static ESizeResult GetResultNormalWay(List<int> list)
         {
-            return list.Count switch
+            if (list.Count > 10)
             {
-                > 10 => ESizeResult.TooMuch,
-                < 5 => ESizeResult.TooFew,
-                _ => ESizeResult.Okay
-            };
+                return ESizeResult.TooMuch;
+            }
+            else if (list.Count < 5)
+            {
+                return ESizeResult.TooFew;
+            }
+
+            return ESizeResult.Okay;
         }
 
         private enum ESizeResult

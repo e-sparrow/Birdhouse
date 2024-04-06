@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Abstractions.Disposables.Interfaces;
+using Birdhouse.Abstractions.Composites.Abstractions;
 
 namespace Birdhouse.Abstractions.Disposables
 {
     public class CompositeDisposable 
-        : ICompositeDisposable
+        : ICreatableComposite<CompositeDisposable, IDisposable>, IDisposable
     {
-        public CompositeDisposable(ICollection<IDisposable> disposables = null)
+        public CompositeDisposable()
         {
-            disposables ??= new List<IDisposable>();
-            _disposables = disposables;
+            _disposables = new List<IDisposable>();
         }
 
+        public CompositeDisposable(IEnumerable<IDisposable> disposables)
+        {
+            _disposables = new List<IDisposable>(disposables);
+        }
+        
         private readonly ICollection<IDisposable> _disposables;
 
-        public ICompositeDisposable Append(IDisposable other)
+        public CompositeDisposable Append(IDisposable other)
         {
             _disposables.Add(other);
             return this;

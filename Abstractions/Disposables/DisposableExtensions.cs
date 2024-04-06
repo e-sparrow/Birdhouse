@@ -8,7 +8,7 @@ namespace Birdhouse.Abstractions.Disposables
 {
     public static class DisposableExtensions
     {
-        public static ICompositeDisposable Combine(this IDisposable self, IDisposable other)
+        public static CompositeDisposable Append(this IDisposable self, IDisposable other)
         {
             var disposables = self
                 .ConcatWith(other)
@@ -18,15 +18,15 @@ namespace Birdhouse.Abstractions.Disposables
             return result;
         }
 
-        public static ICompositeDisposable OnDispose(this IDisposable self, Action callback)
+        public static CompositeDisposable OnDispose(this IDisposable self, Action callback)
         {
             var callbackDisposable = new CallbackDisposable(callback);
 
-            var result = self.Combine(callbackDisposable);
+            var result = self.Append(callbackDisposable);
             return result;
         }
 
-        public static ICompositeDisposable OnDispose(this ICompositeDisposable self, Action callback)
+        public static CompositeDisposable OnDispose(this CompositeDisposable self, Action callback)
         {
             var callbackDisposable = new CallbackDisposable(callback);
 

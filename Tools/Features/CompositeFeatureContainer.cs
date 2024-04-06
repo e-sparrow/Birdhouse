@@ -7,7 +7,7 @@ using Birdhouse.Tools.Features.Abstractions;
 namespace Birdhouse.Tools.Features
 {
     public sealed class CompositeFeatureContainer
-        : IFeatureContainer, IComposite<CompositeFeatureContainer, IFeatureContainer>
+        : IFeatureContainer, ICreatableComposite<CompositeFeatureContainer, IFeatureContainer>
     {
         private readonly ICollection<IFeatureContainer> _containers
             = new List<IFeatureContainer>();

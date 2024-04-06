@@ -6,7 +6,7 @@ namespace Birdhouse.Abstractions.Composites
     {
         public static TComposite Append<TComposite, TAppendable>
             (this TAppendable self, TAppendable other)
-            where TComposite : IComposite<TComposite, TAppendable>, new()
+            where TComposite : ICreatableComposite<TComposite, TAppendable>, TAppendable, new()
         {
             var result = new TComposite()
                 .Append(self)
@@ -17,7 +17,7 @@ namespace Birdhouse.Abstractions.Composites
 
         public static TComposite Append<TComposite, TAppendable>
             (this TComposite self, TAppendable other)
-            where TComposite : IComposite<TComposite, TAppendable>
+            where TComposite : ICreatableComposite<TComposite, TAppendable>, TAppendable, new()
         {
             var result = self.Append(other);
             return result;

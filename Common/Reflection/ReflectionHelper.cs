@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -51,7 +52,7 @@ namespace Birdhouse.Common.Helpers
 
             TDelegate CreateDelegate()
             {
-                var result = (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), target, self, true);
+                var result = (TDelegate) Delegate.CreateDelegate(typeof(TDelegate), target, self, true);
                 return result;
             }
         }

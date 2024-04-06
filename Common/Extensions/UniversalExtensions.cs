@@ -1,12 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Birdhouse.Abstractions.Disposables;
 using Birdhouse.Abstractions.Disposables.Interfaces;
+using Birdhouse.Experimental.FluentExceptions;
+using UnityEngine;
 
 namespace Birdhouse.Common.Extensions
 {
     public static class UniversalExtensions
     {
+        public static bool TryParse<T>(this string value, out T result)
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+            
+            var isSuccess = new Func<T>(Parse)
+                .FalseIfCatchType<T, NotSupportedException>()
+                .ElseThrow()
+                .TryHandle(out result);
+
+            return isSuccess;
+
+            T Parse()
+            {
+                var result = (T) converter.ConvertFromInvariantString(value);
+                return result;
+            }
+        }
+        
         /// <summary>
         /// Uses the element and returns it.
         /// </summary>
@@ -85,7 +106,7 @@ namespace Birdhouse.Common.Extensions
 
         public static IDisposable AddAsDisposablesTo<T>(this IEnumerable<T> self, ICollection<T> collection)
         {
-            ICompositeDisposable result = new CompositeDisposable();
+            var result = new CompositeDisposable();
             foreach (var value in self)
             {
                 var disposable = value.AddAsDisposableTo(collection);

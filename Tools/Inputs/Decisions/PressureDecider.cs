@@ -24,7 +24,7 @@ namespace Birdhouse.Tools.Inputs.Decisions
 
                 onDispose += () => observer.OnValueChanged -= Decide;
                 
-                _token = _token.Combine(observer);
+                _token = _token.Append(observer);
 
                 void Decide(PressureStateChange<TTime> stateChange)
                 {

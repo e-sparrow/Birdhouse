@@ -18,7 +18,42 @@ namespace Birdhouse.Tools.Features
             return hasFeature;
         }
 
-        public static IDisposable RegisterParameter<T>(this IFeatureFactory self, object parameter)
+        public static void UseFeature<T>(this IFeatureContainer self, Action<T> callback, Action onAbsent = null)
+        {
+            onAbsent ??= () => { };
+
+            var hasFeature = self.TryGetFeature<T>(out var feature);
+            if (hasFeature)
+            {
+                callback.Invoke(feature);
+            }
+            else
+            {
+                onAbsent.Invoke();
+            }
+        }
+
+        public static void UseFeatureOrThrow<T>(this IFeatureContainer self, Action<T> callback, Func<Exception> onAbsent)
+        {
+            self.UseFeature(callback, HandleAbsent);
+
+            void HandleAbsent()
+            {
+                throw onAbsent.Invoke();
+            }
+        }
+
+        public static void UseFeatureOrThrow<T>(this IFeatureContainer self, Action<T> callback, Exception onAbsent)
+        {
+            self.UseFeature(callback, HandleAbsent);
+
+            void HandleAbsent()
+            {
+                throw onAbsent;
+            }
+        }
+
+        public static IDisposable RegisterParameter<T>(this IFeatureFactory self, T parameter)
         {
             var result = self.RegisterParameter(typeof(T), parameter);
             return result;

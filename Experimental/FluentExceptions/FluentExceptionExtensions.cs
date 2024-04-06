@@ -48,31 +48,6 @@ namespace Birdhouse.Experimental.FluentExceptions
             return result;
         }
 
-        public static bool Catch<TResult>(this Func<TResult> self, ConditionalFunc<Exception, TResult> onCatch, out TResult result)
-        {
-            var handleResult = FluentExceptions<(bool, TResult)>
-                .Try(Success)
-                .Catch(Fail)
-                .Handle();
-
-            result = handleResult.Item2;
-            return handleResult.Item1;
-
-            (bool, TResult) Success()
-            {
-                var successResult = new ValueTuple<bool, TResult>(true, self.Invoke());
-                return successResult;
-            }
-
-            (bool, TResult) Fail(Exception exception)
-            {
-                var isSuccess = onCatch.Invoke(exception, out var catchResult);
-                
-                var resultTuple = new ValueTuple<bool, TResult>(isSuccess, catchResult);
-                return resultTuple;
-            }
-        }
-
         public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> CatchType<TResult, TException>
             (this Func<TResult> self, ConditionalFunc<TException, TResult> onCatch)
             where TException : Exception
@@ -158,9 +133,10 @@ namespace Birdhouse.Experimental.FluentExceptions
             }
         }
 
-        public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> Or<TResult, TException>
-            (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self, ConditionalFunc<TException, TResult> onCatch)
+        public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> Or<TResult, TPrevious, TException>
+            (this IReadOnlyResultingCatchHandler<(bool, TResult), TPrevious> self, ConditionalFunc<TException, TResult> onCatch)
             where TException : Exception
+            where TPrevious : Exception
         {
             var result = self
                 .Or<TException>(HandleCatch);

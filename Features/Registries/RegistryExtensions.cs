@@ -5,16 +5,15 @@ namespace Birdhouse.Features.Registries
 {
     public static class RegistryExtensions
     {
-        // Fluent variant of "Register" method for registries
-        public static TRegistry Register<TRegistry, TElement, TToken>
-            (this TRegistry self, TElement element, out TToken token)
-            where TRegistry : IRegistry<TElement, TToken>
-            where TToken : IDisposable
+        public static IFluentRegistrationBuilder<TIn> RegisterAndAppend<TIn>
+            (this IRegistry<TIn> self, TIn value)
         {
-            token = self.Register(element);
-            return self;
+            var result = new FluentRegistrationBuilder<TIn>(self)
+                .RegisterAndAppend(value);
+            
+            return result;
         }
-
+        
         public static bool TryGetValue<TKey, TValue>
             (this IRegistryDictionary<TKey, TValue> self, TKey key, out TValue value)
         {

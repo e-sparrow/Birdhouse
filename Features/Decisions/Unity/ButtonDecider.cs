@@ -13,13 +13,13 @@ namespace Birdhouse.Features.Decisions.Unity
         {
             _dictionary = dictionary;
 
-            foreach (var (button, value) in dictionary)
+            foreach (var pair in dictionary)
             {
-                button.AddDisposableListener(Decide);
+                pair.Key.AddDisposableListener(Decide);
 
                 void Decide()
                 {
-                    OnDecide.Invoke(value);
+                    OnDecide.Invoke(pair.Value);
                 }
             }
         }

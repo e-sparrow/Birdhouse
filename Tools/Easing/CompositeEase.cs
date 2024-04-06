@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Birdhouse.Common.Collections;
 using Birdhouse.Tools.Easing.Interfaces;
 
 namespace Birdhouse.Tools.Easing

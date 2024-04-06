@@ -6,6 +6,8 @@ namespace Birdhouse.Common.Collections
     public abstract class LazyBufferBase<TKey, TValue> 
         : ILazyBuffer<TKey, TValue>
     {
+        public TValue this[TKey key] => GetOrCreate(key);
+        
         private readonly IDictionary<TKey, TValue> _dictionary = new Dictionary<TKey, TValue>();
 
         protected abstract TValue CreateValue(TKey key);

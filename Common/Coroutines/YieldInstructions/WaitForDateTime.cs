@@ -26,7 +26,7 @@ namespace Birdhouse.Common.Coroutines.YieldInstructions
             var delta = _expiration - _tempValue;
             var currentDelta = _expiration - _tenseProvider.Now();
 
-            var result = (float) (currentDelta / delta);
+            var result = (float) (currentDelta.TotalDays / delta.TotalDays);
             return result;
         }
     }

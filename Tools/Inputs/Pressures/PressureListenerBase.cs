@@ -54,17 +54,17 @@ namespace Birdhouse.Tools.Inputs.Pressures
         private void Update(float deltaTime)
         {
             var incoming = new Dictionary<TKey, PressureStateListener>(_listeners);
-            foreach (var (key, value) in incoming)
+            foreach (var pair in incoming)
             {
-                var state = _stateProvider.GetPressureState(key);
+                var state = _stateProvider.GetPressureState(pair.Key);
                 
-                var isChanged = state != value.Value.State;
+                var isChanged = state != pair.Value.Value.State;
                 if (isChanged)
                 {
                     var time = _tenseProvider.Now();
                     
                     var newState = new PressureStateChange<TTime>(state, time);
-                    value.SetValue(newState);
+                    pair.Value.SetValue(newState);
                 }
             }
         }

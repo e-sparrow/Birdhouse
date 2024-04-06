@@ -11,7 +11,8 @@ namespace Birdhouse.Tools.Serialization.Adapters.Formatters
             var formatter = new BinaryFormatter();
             formatter.Serialize(stream, self);
 
-            await stream.DisposeAsync();
+            await stream.FlushAsync();
+            stream.Dispose();
         }
 
         public override async Task<T> Read<T>(Stream stream)
@@ -19,7 +20,8 @@ namespace Birdhouse.Tools.Serialization.Adapters.Formatters
             var formatter = new BinaryFormatter();
             var subject = formatter.Deserialize(stream);
 
-            await stream.DisposeAsync();
+            await stream.FlushAsync();
+            stream.Dispose();
 
             return (T) subject;
         }

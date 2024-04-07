@@ -1,5 +1,5 @@
-﻿using Birdhouse.Abstractions.Misc.Interfaces;
-using Birdhouse.Abstractions.Renewables.Interfaces;
+﻿using Birdhouse.Abstractions.Misc;
+using Birdhouse.Abstractions.Renewables;
 
 namespace Birdhouse.Tools.Tweening.Abstractions
 {

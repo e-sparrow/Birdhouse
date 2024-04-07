@@ -1,6 +1,6 @@
 ﻿using System;
 using Birdhouse.Abstractions.Initializables;
-using Birdhouse.Abstractions.Misc.Interfaces;
+using Birdhouse.Abstractions.Misc;
 using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Ticks

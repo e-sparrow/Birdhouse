@@ -1,4 +1,4 @@
-﻿using Birdhouse.Abstractions.Renewables.Interfaces;
+﻿using Birdhouse.Abstractions.Renewables;
 using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Ticks

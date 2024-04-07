@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Abstractions.Observables.Interfaces;
+using Birdhouse.Abstractions.Observables;
 using Birdhouse.Tools.Inputs.Pressures;
 using Birdhouse.Tools.Inputs.Pressures.Interfaces;
 using Birdhouse.Tools.Inputs.Remapping.Interfaces;

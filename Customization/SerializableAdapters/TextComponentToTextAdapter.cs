@@ -1,4 +1,4 @@
-﻿using Birdhouse.Abstractions.Adapters.Interfaces;
+﻿using Birdhouse.Abstractions.Adapters;
 using Birdhouse.Tools.Generalization.TextInterface.Interfaces;
 using UnityEngine.UI;
 

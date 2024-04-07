@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Birdhouse.Abstractions.Providers.Interfaces;
+using Birdhouse.Abstractions.Providers;
 using Birdhouse.Features.Aggregators;
 
 namespace Birdhouse.Common.Mathematics.Noises.Interfaces

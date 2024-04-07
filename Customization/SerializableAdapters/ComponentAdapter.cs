@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Abstractions.Adapters.Interfaces;
+using Birdhouse.Abstractions.Adapters;
 using UnityEngine;
 
 namespace Birdhouse.Customization.SerializableAdapters

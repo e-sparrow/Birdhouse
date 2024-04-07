@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Abstractions.Initializables;
-using Birdhouse.Abstractions.Observables.Interfaces;
+using Birdhouse.Abstractions.Observables;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Registries;
 using Birdhouse.Features.Registries.Interfaces;

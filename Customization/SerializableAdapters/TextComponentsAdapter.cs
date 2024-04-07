@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Birdhouse.Abstractions.Adapters;
-using Birdhouse.Abstractions.Adapters.Interfaces;
 using Birdhouse.Common.Collections;
 using Birdhouse.Tools.Generalization.TextInterface.Interfaces;
 using UnityEngine.UI;

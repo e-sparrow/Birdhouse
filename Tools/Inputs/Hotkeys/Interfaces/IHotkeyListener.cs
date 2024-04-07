@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Abstractions.Observables.Interfaces;
+using Birdhouse.Abstractions.Observables;
 
 namespace Birdhouse.Tools.Inputs.Hotkeys.Interfaces
 {

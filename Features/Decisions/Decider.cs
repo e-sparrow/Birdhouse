@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Abstractions.Observables.Interfaces;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Decisions.Interfaces;
 

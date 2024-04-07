@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Abstractions.Builders.Abstractions;
+using Birdhouse.Abstractions.Builders;
 
 namespace Birdhouse.Features.Registries.Interfaces
 {

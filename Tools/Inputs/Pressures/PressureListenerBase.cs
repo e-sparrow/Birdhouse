@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Birdhouse.Abstractions.Disposables.Interfaces;
-using Birdhouse.Abstractions.Observables.Interfaces;
+using Birdhouse.Abstractions.Observables;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Tools.Inputs.Pressures.Interfaces;
 using Birdhouse.Tools.Tense.Providers.Interfaces;

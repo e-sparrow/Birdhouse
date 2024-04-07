@@ -1,5 +1,5 @@
-﻿using Birdhouse.Abstractions.Misc.Interfaces;
-using Birdhouse.Abstractions.Renewables.Interfaces;
+﻿using Birdhouse.Abstractions.Misc;
+using Birdhouse.Abstractions.Renewables;
 using Birdhouse.Tools.Easing;
 using Birdhouse.Tools.Easing.Interfaces;
 using Birdhouse.Tools.Ticks;

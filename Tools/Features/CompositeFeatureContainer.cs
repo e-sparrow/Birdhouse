@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Abstractions.Composites.Abstractions;
-using Birdhouse.Abstractions.Misc.Interfaces;
+using Birdhouse.Abstractions.Composites;
 using Birdhouse.Tools.Features.Abstractions;
 
 namespace Birdhouse.Tools.Features

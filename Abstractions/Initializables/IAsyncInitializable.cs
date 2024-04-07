@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Birdhouse.Abstractions.Interfaces;
 
-namespace Birdhouse.Abstractions.Initializables.Interfaces
+namespace Birdhouse.Abstractions.Initializables
 {
     public interface IAsyncInitializable
     {

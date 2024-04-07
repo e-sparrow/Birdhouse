@@ -1,6 +1,6 @@
-﻿using Birdhouse.Abstractions.Composites.Abstractions;
+﻿using Birdhouse.Abstractions.Composites;
 
-namespace Birdhouse.Abstractions.Misc.Interfaces
+namespace Birdhouse.Abstractions.Misc
 {
     public interface ICompositeFlow
         : IFlow, IComposite<ICompositeFlow, IFlow>

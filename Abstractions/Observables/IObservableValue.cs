@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Abstractions.Observables.Interfaces
+namespace Birdhouse.Abstractions.Observables
 {
     public interface IObservableValue<out TValue>
     {

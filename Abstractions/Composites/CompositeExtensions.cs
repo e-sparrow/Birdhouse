@@ -1,6 +1,4 @@
-﻿using Birdhouse.Abstractions.Composites.Abstractions;
-
-namespace Birdhouse.Abstractions.Composites
+﻿namespace Birdhouse.Abstractions.Composites
 {
     public static class CompositeExtensions
     {

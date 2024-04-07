@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Builders.Abstractions
+﻿namespace Birdhouse.Abstractions.Builders
 {
     public interface IBuilder<out TSelf, out TResult>
         : IBuilder<TResult>

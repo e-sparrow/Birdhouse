@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Abstractions.Composites.Abstractions;
+using Birdhouse.Abstractions.Composites;
 
 namespace Birdhouse.Abstractions.Disposables
 {

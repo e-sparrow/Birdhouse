@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Adapters.Interfaces
+﻿namespace Birdhouse.Abstractions.Adapters
 {
     public interface IAdapter<TTo>
     {

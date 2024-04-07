@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Birdhouse.Abstractions.Detectors.Interfaces;
 using Birdhouse.Features.Registries;
 using Birdhouse.Features.Registries.Interfaces;
 

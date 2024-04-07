@@ -1,9 +1,9 @@
 ﻿using System;
-using Birdhouse.Abstractions.Observables.Interfaces;
 
 namespace Birdhouse.Abstractions.Observables
 {
-    public abstract class ObservableActionBase : IObservableAction
+    public abstract class ObservableActionBase 
+        : IObservableAction
     {
         public event Action OnInvoke = () => { };
 

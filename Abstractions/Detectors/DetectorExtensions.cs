@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Birdhouse.Abstractions.Detectors.Interfaces;
 
 namespace Birdhouse.Abstractions.Detectors
 {

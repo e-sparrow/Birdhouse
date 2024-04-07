@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Parsers.Interfaces
+﻿namespace Birdhouse.Abstractions.Parsers
 {
     public interface IParser<in TIn, TOut>
     {

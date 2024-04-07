@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Composites.Abstractions
+﻿namespace Birdhouse.Abstractions.Composites
 {
     public interface IComposite<out TSelf, in TElement>
         where TSelf : IComposite<TSelf, TElement>, TElement

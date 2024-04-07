@@ -1,4 +1,4 @@
-﻿using Birdhouse.Abstractions.Renewables.Interfaces;
+﻿using Birdhouse.Abstractions.Renewables;
 
 namespace Birdhouse.Abstractions.Renewables
 {

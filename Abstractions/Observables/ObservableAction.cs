@@ -2,7 +2,8 @@
 
 namespace Birdhouse.Abstractions.Observables
 {
-    public class ObservableAction : ObservableActionBase
+    public class ObservableAction 
+        : ObservableActionBase
     {
         public ObservableAction(Action action = null)
         {

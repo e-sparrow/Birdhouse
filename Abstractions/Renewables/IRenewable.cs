@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Renewables.Interfaces
+﻿namespace Birdhouse.Abstractions.Renewables
 {
     public interface IRenewable
     {

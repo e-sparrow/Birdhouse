@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Misc.Interfaces
+﻿namespace Birdhouse.Abstractions.Misc
 {
     public interface IFlowable
     {

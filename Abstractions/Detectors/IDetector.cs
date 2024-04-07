@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Birdhouse.Abstractions.Detectors.Interfaces
+namespace Birdhouse.Abstractions.Detectors
 {
     public interface IDetector<T> 
         : IDisposable

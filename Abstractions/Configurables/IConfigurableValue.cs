@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Configurables.Interfaces
+﻿namespace Birdhouse.Abstractions.Configurables
 {
     public interface IConfigurableValue<T>
     {

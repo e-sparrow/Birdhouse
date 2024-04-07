@@ -1,6 +1,4 @@
-﻿using Birdhouse.Abstractions.Misc.Interfaces;
-
-namespace Birdhouse.Abstractions.Misc
+﻿namespace Birdhouse.Abstractions.Misc
 {
     public static class FlowExtensions
     {

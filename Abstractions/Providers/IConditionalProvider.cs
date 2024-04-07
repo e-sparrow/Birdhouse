@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Abstractions.Providers.Interfaces
+﻿namespace Birdhouse.Abstractions.Providers
 {
     public interface IConditionalProvider<TOut>
     {

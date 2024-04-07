@@ -1,7 +1,7 @@
-﻿ using System;
-using Birdhouse.Abstractions.Initializables.Interfaces;
+﻿using System;
+using Birdhouse.Abstractions.Initializables;
 
-namespace Birdhouse.Abstractions.Configurables.Interfaces
+namespace Birdhouse.Abstractions.Configurables
 {
     public interface IRemoteConfigInitializer
         : IAsyncInitializable

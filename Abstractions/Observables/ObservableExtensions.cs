@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Birdhouse.Abstractions.Observables.Interfaces;
 
 namespace Birdhouse.Abstractions.Observables
 {

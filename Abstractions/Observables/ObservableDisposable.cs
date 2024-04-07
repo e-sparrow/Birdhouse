@@ -1,9 +1,9 @@
 ﻿using System;
-using Birdhouse.Abstractions.Observables.Interfaces;
 
 namespace Birdhouse.Abstractions.Observables
 {
-    public class ObservableDisposable : IObservableDisposable
+    public class ObservableDisposable 
+        : IObservableDisposable
     {
         public ObservableDisposable(IDisposable disposable)
         {

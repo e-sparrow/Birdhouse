@@ -1,5 +1,4 @@
-﻿using Birdhouse.Abstractions.Adapters.Interfaces;
-using Birdhouse.Common.Delegates;
+﻿using Birdhouse.Common.Delegates;
 
 namespace Birdhouse.Abstractions.Adapters
 {

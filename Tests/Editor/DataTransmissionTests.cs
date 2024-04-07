@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Helpers;
 using Birdhouse.Tests.Editor.Settings;
@@ -9,7 +8,6 @@ using Birdhouse.Tools.Data.Transmission.Routine;
 using Birdhouse.Tools.Serialization;
 using Birdhouse.Tools.Serialization.Enums;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 
 namespace Birdhouse.Tests.Editor

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Birdhouse.Common.Exceptions;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Common.Reflection.Operators;
 using Birdhouse.Common.Reflection.Operators.Enums;

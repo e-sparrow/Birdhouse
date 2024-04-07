@@ -4,7 +4,7 @@ using Birdhouse.Tools.Coroutines.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines.Unity
 {
-    public static class UnityCoroutineHelper
+    public static class UnityCoroutinesHelper
     {
         private static readonly Lazy<IInstructionWrapper> LazyInstructionWrapper 
             = new Lazy<IInstructionWrapper>(() => new UnityInstructionWrapper());

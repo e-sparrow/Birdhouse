@@ -2,12 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Birdhouse.Tools.Coroutines.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines
 {
     public static class CoroutineExtensions
     {
+        public static Task StartAsync(this IEnumerator<ICoroutineInstruction> self)
+        {
+            var source = new TaskCompletionSource<bool>();
+            
+            self.Append(Complete()).Start();
+
+            return source.Task;
+            
+            IEnumerator<ICoroutineInstruction> Complete()
+            {
+                source.SetResult(true);
+                yield break;
+            }
+        }
+
+        public static void Start(this IEnumerator<ICoroutineInstruction> self)
+        {
+            CoroutinesHelper
+                .CoroutineStarter
+                .Start(self);
+        }
+        
         public static ICompositeInstructionWrapper Append<TFrom>
         (
             this IInstructionWrapper self,

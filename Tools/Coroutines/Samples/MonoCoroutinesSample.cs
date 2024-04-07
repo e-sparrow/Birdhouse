@@ -24,7 +24,7 @@ namespace Birdhouse.Tools.Coroutines.Samples
         [ContextMenu("Start alternative")]
         private void StartAlternative()
         {
-            UnityCoroutineHelper
+            UnityCoroutinesHelper
                 .CoroutineStarter
                 .Start(SampleCoroutine()
                     .Measure(stopwatch => Debug.Log($"Coroutine elapsed {stopwatch.Elapsed.Seconds} seconds")));

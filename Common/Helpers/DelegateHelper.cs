@@ -5,6 +5,12 @@ namespace Birdhouse.Common.Helpers
 {
     public static class DelegateHelper
     {
+        public static Func<bool> Reverse(this Func<bool> self)
+        {
+            var result = new Func<bool>(() => !self.Invoke());
+            return result;
+        }
+        
         /// <summary>
         /// Returns new function that return true if all the specific predicates return true.
         /// </summary>

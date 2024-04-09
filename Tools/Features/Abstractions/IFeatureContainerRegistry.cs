@@ -2,7 +2,7 @@
 
 namespace Birdhouse.Tools.Features.Abstractions
 {
-    public interface IFeatureRegistry
+    public interface IFeatureContainerRegistry
         : IFeatureContainer, IRegistry<IFeatureContainer>
     {
         

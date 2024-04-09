@@ -3,7 +3,8 @@
 namespace Birdhouse.Common.Singleton.Scriptable.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ScriptableSingletonPathAttribute : Attribute
+    public class ScriptableSingletonPathAttribute 
+        : Attribute
     {
         public ScriptableSingletonPathAttribute(string path)
         {

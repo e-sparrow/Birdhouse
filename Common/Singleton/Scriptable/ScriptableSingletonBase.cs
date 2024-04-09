@@ -1,12 +1,12 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Birdhouse.Common.Singleton.Scriptable.Attributes;
 using UnityEngine;
 
 namespace Birdhouse.Common.Singleton.Scriptable
 {
     public abstract class ScriptableSingletonBase<T>
-        : ScriptableObject where T : ScriptableSingletonBase<T>
+        : ScriptableObject
+        where T : ScriptableSingletonBase<T>
     {
         public static T Instance
         {
@@ -52,7 +52,7 @@ namespace Birdhouse.Common.Singleton.Scriptable
                     return resource;
                 }
             }
-
+            
             instance = CreateInstance<T>();
             UnityEditor.AssetDatabase.CreateAsset(instance, $"Assets/Resources/{filePath}.asset");
 #else

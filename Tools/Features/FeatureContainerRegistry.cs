@@ -5,8 +5,8 @@ using Birdhouse.Tools.Features.Abstractions;
 
 namespace Birdhouse.Tools.Features
 {
-    public sealed class FeatureRegistry
-        : IFeatureRegistry
+    public sealed class FeatureContainerRegistry
+        : IFeatureContainerRegistry
     {
         private readonly IRegistryEnumerable<IFeatureContainer> _containers
             = new RegistryEnumerable<IFeatureContainer>();

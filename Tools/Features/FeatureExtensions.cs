@@ -61,8 +61,7 @@ namespace Birdhouse.Tools.Features
 
         public static IFeatureContainer AsContainer(this IFeatureFactory self)
         {
-            var result = new FeatureFactoryToContainerAdapter(self);
-            return result;
+            return self;
         }
     }
 }

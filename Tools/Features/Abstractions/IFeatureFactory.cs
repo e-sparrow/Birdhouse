@@ -3,10 +3,8 @@
 namespace Birdhouse.Tools.Features.Abstractions
 {
     public interface IFeatureFactory
-        : IDisposable
+        : IFeatureContainer, IDisposable
     {
         IDisposable RegisterParameter(Type type, object parameter);
-        
-        public bool TryGetOrCreateFeature(Type featureType, out object result);
     }
 }

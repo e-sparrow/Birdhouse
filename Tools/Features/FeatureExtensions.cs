@@ -1,4 +1,5 @@
 ﻿using System;
+using Birdhouse.Abstractions.Disposables;
 using Birdhouse.Tools.Features.Abstractions;
 
 namespace Birdhouse.Tools.Features
@@ -59,9 +60,30 @@ namespace Birdhouse.Tools.Features
             return result;
         }
 
+        public static IDisposable RegisterBase<T, TBase>(this IFeatureFactory self, T parameter)
+            where T : TBase
+        {
+            var result = self.RegisterParameter(typeof(TBase), parameter);
+            return result;
+        }
+
+        public static IDisposable RegisterInterfaces<T>(this IFeatureFactory self, T parameter)
+        {
+            var result = new CompositeDisposable();
+
+            var interfaces = typeof(T).GetInterfaces();
+            foreach (var @interface in interfaces)
+            {
+                var token = self.RegisterParameter(@interface, parameter);
+                result.Append(token);
+            }
+
+            return result;
+        }
+
         public static IFeatureContainer AsContainer(this IFeatureFactory self)
         {
             return self;
         }
     }
-}
+}   

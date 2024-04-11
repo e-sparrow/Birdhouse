@@ -37,7 +37,7 @@ namespace Birdhouse.Common.Helpers
             BindingFlags.IgnoreReturn;
 
         private const MethodAttributes DefaultOperatorAttributesValue = (MethodAttributes) 2198;
-
+        
         public static bool TryCreateDelegate<TDelegate>(this MethodInfo self, object target, out TDelegate result)
             where TDelegate : Delegate
         {

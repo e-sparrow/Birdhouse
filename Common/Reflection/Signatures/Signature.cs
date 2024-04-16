@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Common.Reflection.Signatures.Enums;
+using Birdhouse.Common.Reflection.Misc.Enums;
 
 namespace Birdhouse.Common.Reflection.Signatures
 {

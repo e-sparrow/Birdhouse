@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Birdhouse.Common.Reflection.Signatures.Enums;
+using Birdhouse.Common.Reflection.Misc.Enums;
 
 namespace Birdhouse.Common.Reflection.Signatures
 {

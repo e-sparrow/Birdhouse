@@ -32,5 +32,15 @@ namespace Birdhouse.Common.Extensions
 
             return self;
         }
+
+        public static ICollection<T> AddRange<T>(this ICollection<T> self, IEnumerable<T> other)
+        {
+            foreach (var item in other)
+            {
+                self.Add(item);
+            }
+
+            return self;
+        }
     }
 }

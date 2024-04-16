@@ -1,7 +1,7 @@
 ﻿using System;
-using Birdhouse.Common.Reflection.IntegralNumerics.Enums;
+using Birdhouse.Common.Reflection.Misc.Enums;
 
-namespace Birdhouse.Common.Reflection.IntegralNumerics
+namespace Birdhouse.Common.Reflection.Misc
 {
     public static class IntegralNumericExtensions
     {

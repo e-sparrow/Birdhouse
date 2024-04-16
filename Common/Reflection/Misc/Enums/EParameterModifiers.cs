@@ -1,4 +1,4 @@
-﻿namespace Birdhouse.Common.Reflection.Signatures.Enums
+﻿namespace Birdhouse.Common.Reflection.Misc.Enums
 {
     public enum EParameterModifiers
     {

@@ -1,4 +1,6 @@
-﻿using Birdhouse.Common.Constants;
+﻿using System;
+using System.Collections.Generic;
+using Birdhouse.Common.Constants;
 using Birdhouse.Common.Helpers;
 using UnityEngine;
 
@@ -6,6 +8,32 @@ namespace Birdhouse.Common.Extensions
 {
     public static class StringExtension
     {
+        public static IEnumerator<string> SplitCamelCase(this string self)
+        {
+            var isInvalid = string.IsNullOrEmpty(self);
+            if (isInvalid)
+            {
+                throw new ArgumentException($"Can't split null or empty string!");
+            }
+            
+            var currentWord = string.Empty;
+
+            var previousCharacter = self[0];
+            for (var i = 1; i < self.Length; i++)
+            {
+                var currentCharacter = self[i];
+                
+                var nextWord = char.IsLower(previousCharacter) && char.IsUpper(currentCharacter);
+                if (nextWord)
+                {
+                    yield return currentWord;
+                    currentWord = string.Empty;
+                }
+
+                currentWord += currentCharacter;
+            }
+        }
+        
         /// <summary>
         /// Gets a part of string by specified share
         /// </summary>

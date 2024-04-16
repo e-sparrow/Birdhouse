@@ -1,6 +1,7 @@
-﻿namespace Birdhouse.Common.Reflection.IntegralNumerics.Enums
+﻿namespace Birdhouse.Common.Reflection.Misc.Enums
 {
     public enum EIntegralNumericType
+        : byte
     {
         SByte,
         Byte,
@@ -9,8 +10,6 @@
         Int,
         UInt,
         Long,
-        ULong,
-        IntPtr,
-        UIntPtr
+        ULong
     }
 }

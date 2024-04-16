@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Common.Reflection.IntegralNumerics.Enums;
+using Birdhouse.Common.Reflection.Misc.Enums;
 
-namespace Birdhouse.Common.Reflection.IntegralNumerics
+namespace Birdhouse.Common.Reflection.Misc
 {
     public static class IntegralNumericsHelper
     {
@@ -42,10 +42,7 @@ namespace Birdhouse.Common.Reflection.IntegralNumerics
                 { EIntegralNumericType.Int, typeof(int) },
                 { EIntegralNumericType.UInt, typeof(uint) },
                 { EIntegralNumericType.Long, typeof(long) },
-                { EIntegralNumericType.ULong, typeof(ulong) },
-                { EIntegralNumericType.IntPtr, typeof(IntPtr) },
-                { EIntegralNumericType.UIntPtr, typeof(UIntPtr) }
-                
+                { EIntegralNumericType.ULong, typeof(ulong) }
             };
 
             return result;

@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Birdhouse.LogicSlicing.Samples;
-using Birdhouse.LogicSlicing.Unity;
 using Birdhouse.Tools.Coroutines.Instructions;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using Birdhouse.Tools.Coroutines.Unity;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Birdhouse.Tools.Coroutines.Samples
 {

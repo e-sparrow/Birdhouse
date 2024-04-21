@@ -56,23 +56,6 @@ namespace Birdhouse.Common.Helpers
             }
         }
 
-        public static bool TryCreateDelegate<TDelegate>(this MethodInfo self, object target, out TDelegate result)
-            where TDelegate : Delegate
-        {
-            var isSuccess = new Func<TDelegate>(CreateDelegate)
-                .FalseIfCatchType<TDelegate, ArgumentException>()
-                .ElseThrow()
-                .TryHandle(out result);
-
-            return isSuccess;
-
-            TDelegate CreateDelegate()
-            {
-                var result = (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), target, self, true);
-                return result;
-            }
-        }
-
         public static class OperatorHelper
         {
             private const string OperatorPrefix = "op_";

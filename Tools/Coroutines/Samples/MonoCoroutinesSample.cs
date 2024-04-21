@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Birdhouse.Extended.LogicSlicing.Unity;
-using Birdhouse.Features.LogicSlicing.Samples;
-using Birdhouse.Features.LogicSlicing.Unity;
+using Birdhouse.LogicSlicing.Samples;
+using Birdhouse.LogicSlicing.Unity;
 using Birdhouse.Tools.Coroutines.Instructions;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using Birdhouse.Tools.Coroutines.Unity;
@@ -27,17 +26,6 @@ namespace Birdhouse.Tools.Coroutines.Samples
             UnityCoroutinesHelper
                 .CoroutineStarter
                 .Start(SampleCoroutine()
-                    .Measure(stopwatch => Debug.Log($"Coroutine elapsed {stopwatch.Elapsed.Seconds} seconds")));
-        }
-
-        [ContextMenu("Start sliced")]
-        private void StartSliced()
-        {
-            UnityLogicSlicingHelper
-                .SmartLogicSlicers[typeof(Update)]
-                .GetOrCreate(5)
-                .GetOrRegisterGroup(typeof(SlicedCoroutineSample).GetHashCode())
-                .StartCoroutine(SampleCoroutine()
                     .Measure(stopwatch => Debug.Log($"Coroutine elapsed {stopwatch.Elapsed.Seconds} seconds")));
         }
 

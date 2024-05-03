@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_INCLUDE_TESTS && ENABLE_MARSHALLING_TESTS
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Experimental.FluentLogics;
@@ -180,3 +181,4 @@ namespace Birdhouse.Tests.Editor
         }
     }
 }
+#endif

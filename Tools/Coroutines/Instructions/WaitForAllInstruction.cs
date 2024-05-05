@@ -4,7 +4,7 @@ using Birdhouse.Tools.Coroutines.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines.Instructions
 {
-    public class WaitForAllInstruction 
+    public sealed class WaitForAllInstruction 
         : CoroutineInstructionBase
     {
         public WaitForAllInstruction(params ICoroutineInstruction[] instructions) 

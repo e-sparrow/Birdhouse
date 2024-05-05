@@ -2,7 +2,7 @@
 
 namespace Birdhouse.Tools.Coroutines.Instructions
 {
-    public class WaitForTimeSpanInstruction 
+    public sealed class WaitForTimeSpanInstruction 
         : CoroutineInstructionBase
     {
         public WaitForTimeSpanInstruction(TimeSpan time)

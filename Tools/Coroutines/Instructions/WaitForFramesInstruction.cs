@@ -1,6 +1,6 @@
 ﻿namespace Birdhouse.Tools.Coroutines.Instructions
 {
-    public class WaitForFramesInstruction 
+    public sealed class WaitForFramesInstruction 
         : CoroutineInstructionBase
     {
         public WaitForFramesInstruction(int amount)

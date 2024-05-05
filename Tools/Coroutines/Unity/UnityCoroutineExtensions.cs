@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
+using Birdhouse.Tools.Coroutines.Interfaces;
+using UnityEngine;
 
 namespace Birdhouse.Tools.Coroutines.Unity
 {
@@ -31,6 +33,18 @@ namespace Birdhouse.Tools.Coroutines.Unity
         {
             yield return self;
             yield return other;
+        }
+
+        public static CustomYieldInstruction ToUnityInstruction(this ICoroutineInstruction self)
+        {
+            var result = new ToUnityCoroutineInstructionAdapter(self);
+            return result;
+        }
+        
+        public static ICoroutineInstruction FromUnityInstruction(this CustomYieldInstruction self)
+        {
+            var result = new FromUnityCoroutineInstructionAdapter(self);
+            return result;
         }
     }
 }

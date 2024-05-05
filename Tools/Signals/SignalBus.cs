@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Abstractions.Disposables;
-
 namespace Birdhouse.Tools.Signals
 {
     public class SignalBus<TBase>

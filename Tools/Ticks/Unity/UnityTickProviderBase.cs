@@ -60,7 +60,9 @@ namespace Birdhouse.Tools.Ticks.Unity
         private void Invoke()
         {
             var deltaTime = GetDeltaTime();
-            foreach (var tick in _ticks)
+
+            var incoming = new List<Action<float>>(_ticks);
+            foreach (var tick in incoming)
             {
                 tick.Invoke(deltaTime);
             }

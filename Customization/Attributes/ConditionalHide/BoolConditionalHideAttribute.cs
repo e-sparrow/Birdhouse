@@ -5,10 +5,11 @@ using UnityEditor;
 namespace Birdhouse.Customization.Attributes.ConditionalHide
 {
     [AttributeUsage(AttributesHelper.DefaultMembers)]
-    public class BoolConditionalHideAttribute : ConditionalHideAttributeBase
-    {
 #if UNITY_EDITOR
-        public BoolConditionalHideAttribute(string conditionalSourceField, bool inverse = false,  bool hideInInspector = false) : base(CreatePredicate(inverse), conditionalSourceField, hideInInspector)
+    public class BoolConditionalHideAttribute 
+        : ConditionalHideAttributeBase
+    {
+        public BoolConditionalHideAttribute(string conditionalSourceField, bool inverse = false, bool hideInInspector = false) : base(CreatePredicate(inverse), conditionalSourceField, hideInInspector)
         {
             
         }
@@ -27,9 +28,12 @@ namespace Birdhouse.Customization.Attributes.ConditionalHide
             }
         }
 #else
+    public class BoolConditionalHideAttribute
+        : Attribute
+    {
         public BoolConditionalHideAttribute(string conditionalSourceField, bool inverse = false,  bool hideInInspector = false)
         {
-            
+
         }
 #endif
     }

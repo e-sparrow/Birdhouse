@@ -1,9 +1,9 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace Birdhouse.Customization.Attributes.ConditionalHide.Editor
 {
-    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ConditionalHideAttributeBase))]
     public abstract class ConditionalHideAttributeDrawerBase 
         : PropertyDrawer
@@ -58,5 +58,5 @@ namespace Birdhouse.Customization.Attributes.ConditionalHide.Editor
             return enabled;
         }
     }
-    #endif
 }
+#endif

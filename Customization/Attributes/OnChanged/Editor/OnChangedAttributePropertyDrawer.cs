@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using Birdhouse.Common.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -50,3 +51,4 @@ namespace Birdhouse.Customization.Attributes.OnChanged.Editor
         }
     }
 }
+#endif

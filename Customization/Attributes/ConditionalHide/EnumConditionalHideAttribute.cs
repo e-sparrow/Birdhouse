@@ -5,9 +5,10 @@ using UnityEditor;
 namespace Birdhouse.Customization.Attributes.ConditionalHide
 {
     [AttributeUsage(AttributesHelper.DefaultMembers)]
-    public class EnumConditionalHideAttribute : ConditionalHideAttributeBase
-    {
 #if UNITY_EDITOR
+    public class EnumConditionalHideAttribute 
+        : ConditionalHideAttributeBase
+    {
         public EnumConditionalHideAttribute(string conditionalSourceField, Enum value, bool hideInInspector = false) : base(CreatePredicate(value), conditionalSourceField, hideInInspector)
         {
             
@@ -29,6 +30,9 @@ namespace Birdhouse.Customization.Attributes.ConditionalHide
             }
         }
 #else
+    public class EnumConditionalHideAttribute 
+        : Attribute
+    {
         public EnumConditionalHideAttribute(string conditionalSourceField, object value, bool hideInInspector = false)
         {
             

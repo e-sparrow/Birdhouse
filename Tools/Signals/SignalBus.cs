@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Abstractions.Disposables;
+using Birdhouse.Tools.Signals.Abstractions;
+
 namespace Birdhouse.Tools.Signals
 {
     public class SignalBus<TBase>
+        : ISignalBus<TBase>
     {
         private readonly IDictionary<Type, ICollection<Action<object>>> _handlers 
             = new Dictionary<Type, ICollection<Action<object>>>(); 

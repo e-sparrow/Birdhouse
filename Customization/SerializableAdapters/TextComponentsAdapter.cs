@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Birdhouse.Abstractions.Adapters;
-using Birdhouse.Common.Collections;
 using Birdhouse.Tools.Generalization.TextInterface.Interfaces;
-using UnityEngine.UI;
 
 namespace Birdhouse.Customization.SerializableAdapters
 {

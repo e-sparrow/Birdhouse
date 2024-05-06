@@ -1,4 +1,4 @@
-﻿using Birdhouse.Common.Extensions;
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +8,6 @@ namespace Birdhouse.Customization.SerializableAdapters.Editor
     public class ComponentAdapterEditor
         : PropertyDrawer
     {
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             DropAreaGUI(position, property);
@@ -56,3 +55,4 @@ namespace Birdhouse.Customization.SerializableAdapters.Editor
         }
     }
 }
+#endif

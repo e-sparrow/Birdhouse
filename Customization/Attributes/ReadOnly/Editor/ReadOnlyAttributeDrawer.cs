@@ -1,10 +1,10 @@
-﻿using Birdhouse.Customization.Attributes.ConditionalHide.Editor;
+﻿#if UNITY_EDITOR
+using Birdhouse.Customization.Attributes.ConditionalHide.Editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Birdhouse.Customization.Attributes.ReadOnly.Editor
 {
-    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyAttributeDrawer : ConditionalHideAttributeDrawerBase
     {
@@ -17,5 +17,5 @@ namespace Birdhouse.Customization.Attributes.ReadOnly.Editor
             GUI.enabled = temp;
         }
     }
-    #endif
 }
+#endif

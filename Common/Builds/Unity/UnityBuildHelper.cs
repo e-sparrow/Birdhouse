@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using Birdhouse.Abstractions.Providers;
 using UnityEditor;
 
@@ -13,3 +14,4 @@ namespace Birdhouse.Common.Builds.Unity
             => LazyDefaultOptionsProvider.Value;
     }
 }
+#endif

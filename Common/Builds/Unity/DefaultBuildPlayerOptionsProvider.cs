@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#if UNITY_EDITOR
+using System.Reflection;
 using Birdhouse.Abstractions.Providers;
 using UnityEditor;
 
@@ -25,3 +26,4 @@ namespace Birdhouse.Common.Builds.Unity
         }
     }
 }
+#endif

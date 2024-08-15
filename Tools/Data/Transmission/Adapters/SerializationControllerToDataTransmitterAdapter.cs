@@ -4,7 +4,8 @@ using Birdhouse.Tools.Serialization.Interfaces;
 
 namespace Birdhouse.Tools.Data.Transmission.Adapters
 {
-    public class SerializationControllerToDataTransmitterAdapter<TData> : IAsyncDataTransmitter<TData>
+    public class SerializationControllerToDataTransmitterAdapter<TData> 
+        : IAsyncDataTransmitter<TData>
     {
         public SerializationControllerToDataTransmitterAdapter(ISerializationController serializationController)
         {

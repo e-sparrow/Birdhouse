@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections;
+using System.Text;
 
 namespace Birdhouse.Common.Binaries
 {
@@ -20,16 +22,27 @@ namespace Birdhouse.Common.Binaries
             return result;
         }
 
-        public static byte[] ToBytes(this bool self)
+        // https://stackoverflow.com/a/560131
+        public static byte ConvertToByte(this BitArray self)
         {
-            var result = new byte[] { (byte) (self ? 1 : 0) };
-            return result;
+            if (self.Count != 8)
+            {
+                throw new ArgumentException();
+            }
+            
+            var bytes = new byte[1];
+            self.CopyTo(bytes, 0);
+            
+            return bytes[0];
         }
 
-        public static bool BytesToBool(this byte[] self)
+        // TODO: Check
+        public static byte[] ConvertToBytes(this BitArray self)
         {
-            var result = self.Length != 0 && self[0] == 1;
-            return result;
+            var bytes = new byte[(int) Math.Ceiling(self.Count / 8.0)];
+            self.CopyTo(bytes, 0);
+
+            return bytes;
         }
     }
 }

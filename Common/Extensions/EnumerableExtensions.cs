@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Birdhouse.Common.Delegates;
 using Birdhouse.Common.Exceptions;
 using Birdhouse.Common.Reflection.Conversions;
 using Birdhouse.Tools.Filtering.Interfaces;
@@ -49,6 +50,22 @@ namespace Birdhouse.Common.Extensions
             }
 
             throw new WtfException("Algorithm error in GetWeighedRandom method", typeof(EnumerableExtensions));
+        }
+
+        public static IEnumerable<TResult> TrySelect<T, TResult>
+            (this IEnumerable<T> self, ConditionalFunc<T, TResult> func)
+        {
+            var list = new List<TResult>();
+            foreach (var item in self)
+            {
+                var isValid = func.Invoke(item, out var result);
+                if (isValid)
+                {
+                    list.Add(result);
+                }
+            }
+
+            return list;
         }
 
         /// <summary>

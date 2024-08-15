@@ -3,7 +3,8 @@ using Birdhouse.Tools.Data.Transmission.Interfaces;
 
 namespace Birdhouse.Tools.Data.Transmission.Adapters
 {
-    public class ConvertDataTransmitterAdapter<TFrom, TTo> : IDataTransmitter<TTo>
+    public class ConvertDataTransmitterAdapter<TFrom, TTo> 
+        : IDataTransmitter<TTo>
     {
         public ConvertDataTransmitterAdapter(IDataTransmitter<TFrom> transmitter, IReversibleSpecificTypedConversion<TFrom, TTo> conversion)
         {
@@ -20,18 +21,18 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public TTo DownloadData()
+        public TTo Download()
         {
-            var data = _transmitter.DownloadData();
+            var data = _transmitter.Download();
 
             var result = _conversion.Convert(data);
             return result;
         }
 
-        public void UploadData(TTo data)
+        public void Upload(TTo data)
         {
             var converted = _conversion.Convert(data);
-            _transmitter.UploadData(converted);
+            _transmitter.Upload(converted);
         }
     }
 }

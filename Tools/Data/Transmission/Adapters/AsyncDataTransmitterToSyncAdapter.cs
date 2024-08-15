@@ -3,7 +3,8 @@ using Birdhouse.Tools.Data.Transmission.Interfaces;
 
 namespace Birdhouse.Tools.Data.Transmission.Adapters
 {
-    public class AsyncDataTransmitterToSyncAdapter<T> : IDataTransmitter<T>
+    public class AsyncDataTransmitterToSyncAdapter<T> 
+        : IDataTransmitter<T>
     {
         public AsyncDataTransmitterToSyncAdapter(IAsyncDataTransmitter<T> dataTransmitter)
         {
@@ -18,7 +19,7 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public T DownloadData()
+        public T Download()
         {
             var result = _dataTransmitter
                 .GetData()
@@ -27,7 +28,7 @@ namespace Birdhouse.Tools.Data.Transmission.Adapters
             return result;
         }
 
-        public void UploadData(T data)
+        public void Upload(T data)
         {
             _dataTransmitter
                 .SetData(data)

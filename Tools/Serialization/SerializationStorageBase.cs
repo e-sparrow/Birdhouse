@@ -4,7 +4,8 @@ using Birdhouse.Tools.Serialization.Interfaces;
 
 namespace Birdhouse.Tools.Serialization
 {
-    public abstract class SerializationStorageBase<TKey> : ISerializationStorage<TKey>
+    public abstract class SerializationStorageBase<TKey> 
+        : ISerializationStorage<TKey>
     {
         private Dictionary<TKey, object> _dictionary = new Dictionary<TKey, object>();
         

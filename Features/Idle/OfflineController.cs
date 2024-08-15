@@ -49,7 +49,7 @@ namespace Birdhouse.Features.Idle
 
         protected override void SetLastVisit(DateTime lastVisit)
         {
-            _lastVisitTransmitter.UploadData(lastVisit);
+            _lastVisitTransmitter.Upload(lastVisit);
         }
 
         protected override bool TryGetLastVisit(out DateTime lastVisit)
@@ -59,7 +59,7 @@ namespace Birdhouse.Features.Idle
             var isValid = _lastVisitTransmitter.IsValid();
             if (isValid)
             {
-                lastVisit = _lastVisitTransmitter.DownloadData();
+                lastVisit = _lastVisitTransmitter.Download();
             }
 
             return isValid;

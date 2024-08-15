@@ -126,6 +126,60 @@ namespace Birdhouse.Common.Extensions
             return subject => predicates.Any(value => value.Invoke(subject));
         }
 
+        public static Func<object[], object> AsTypeless<TIn, TOut>(this Func<TIn, TOut> self)
+        {
+            var result = new Func<object[], object>(Handle);
+            return result;
+            
+            object Handle(object[] input)
+            {
+                var isValid = input.Length == 1 && input[0] is TIn;
+                if (!isValid)
+                {
+                    throw new ArgumentException();
+                }
+                
+                var output = self.Invoke((TIn) input[0]);
+                return output;
+            }
+        }
+
+        public static Func<object[], object> AsTypeless<TIn1, TIn2, TOut>(this Func<TIn1, TIn2, TOut> self)
+        {
+            var result = new Func<object[], object>(Handle);
+            return result;
+            
+            object Handle(object[] input)
+            {
+                var isValid = input.Length == 2 && input[0] is TIn1 && input[1] is TIn2;
+                if (!isValid)
+                {
+                    throw new ArgumentException();
+                }
+                
+                var output = self.Invoke((TIn1) input[0], (TIn2) input[1]);
+                return output;
+            }
+        }
+
+        public static Func<object[], object> AsTypeless<TIn1, TIn2, TIn3, TOut>(this Func<TIn1, TIn2, TIn3, TOut> self)
+        {
+            var result = new Func<object[], object>(Handle);
+            return result;
+            
+            object Handle(object[] input)
+            {
+                var isValid = input.Length == 3 && input[0] is TIn1 && input[1] is TIn2 && input[2] is TIn3;
+                if (!isValid)
+                {
+                    throw new ArgumentException();
+                }
+                
+                var output = self.Invoke((TIn1) input[0], (TIn2) input[1], (TIn3) input[2]);
+                return output;
+            }
+        }
+
         public static Predicate<T> Inverse<T>(this Predicate<T> self)
         {
             return IsFit;

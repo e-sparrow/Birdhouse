@@ -42,6 +42,15 @@ namespace Birdhouse.Common.Extensions
             var result = self.GetCustomAttribute<T>() != null;
             return result;
         }
+
+        public static bool TryGetCustomAttribute<T>(this MemberInfo self, out T result)
+            where T : Attribute
+        {
+            result = self.GetCustomAttribute<T>();
+            
+            var isExist = result != null;
+            return isExist;
+        }
         
         public static bool IsStatic(this Type type)
         {

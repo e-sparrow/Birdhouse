@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace Birdhouse.Tools.Serialization.Adapters.Formatters
 {
-    public class JsonFormatterAdapter : SerializationFormatterAdapterBase
+    public class JsonFormatterAdapter 
+        : SerializationFormatterAdapterBase
     {
         public JsonFormatterAdapter(DataContractJsonSerializerSettings settings = null)
         {

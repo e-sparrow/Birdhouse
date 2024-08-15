@@ -2,9 +2,15 @@
 
 namespace Birdhouse.Tools.Features.Abstractions
 {
-    public interface IFeatureFactory
+    public interface IFeatureFactory<out TResult>
         : IFeatureContainer, IDisposable
     {
-        IDisposable RegisterParameter(Type type, object parameter);
+        TResult Register(Type type, Func<object> value);
+    }
+
+    public interface IFeatureFactory
+        : IFeatureFactory<IDisposable>
+    {
+        
     }
 }

@@ -1,19 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using Birdhouse.Features.Registries.Interfaces;
 
 namespace Birdhouse.Features.Registries
 {
-    public sealed class RegistryDecorator<TElement, TToken>
-        : RegistryBase<TElement, TToken> 
+    // TODO:
+    public sealed class RegistryEnumerableDecorator<TElement, TToken>
+        : RegistryEnumerableBase<TElement, TToken> 
         where TToken : IDisposable
     {
-        public RegistryDecorator(IRegistry<TElement, TToken> inner)
+        public RegistryEnumerableDecorator(IRegistry<TElement, TToken> inner)
         {
             _inner = inner;
         }
 
         private readonly IRegistry<TElement, TToken> _inner;
-        
+
+        protected override ICollection<TElement> CreateCollection()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override TToken CreateToken(TElement value, ICollection<TElement> destination)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override TToken CreateToken(TElement element)
         {
             throw new NotImplementedException();

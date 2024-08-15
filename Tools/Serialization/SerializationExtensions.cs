@@ -6,6 +6,13 @@ namespace Birdhouse.Tools.Serialization
 {
     public static class SerializationExtensions
     {
+        public static TResult GetOrDefault<TKey, TResult>
+            (this ISerializationStorage<TKey> self, TKey key, TResult @default)
+        {
+            var result = self.HasKey(key) ? self.Get<TResult>(key) : @default;
+            return result;
+        }
+        
         public static async Task Serialize<T>(this T self, ISerializationController controller)
         {
             await controller.Serialize(self);

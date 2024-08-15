@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Birdhouse.Tools.Data.Transmission.Routine
 {
-    public class PlayerPrefsStringDataTransmitter : IDataTransmitter<string>
+    public class PlayerPrefsStringDataTransmitter 
+        : IDataTransmitter<string>
     {
         public PlayerPrefsStringDataTransmitter(string key)
         {
@@ -18,13 +19,13 @@ namespace Birdhouse.Tools.Data.Transmission.Routine
             return result;
         }
 
-        public string DownloadData()
+        public string Download()
         {
             var result = PlayerPrefs.GetString(_key);
             return result;
         }
 
-        public void UploadData(string data)
+        public void Upload(string data)
         {
             PlayerPrefs.SetString(_key, data);
         }

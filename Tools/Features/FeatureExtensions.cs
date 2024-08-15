@@ -54,27 +54,91 @@ namespace Birdhouse.Tools.Features
             }
         }
 
-        public static IDisposable RegisterParameter<T>(this IFeatureFactory self, T parameter)
+        public static IDisposable RegisterValue(this IFeatureFactory self, object value)
         {
-            var result = self.RegisterParameter(typeof(T), parameter);
+            var result = self.Register(value.GetType(), () => value);
             return result;
         }
 
-        public static IDisposable RegisterBase<T, TBase>(this IFeatureFactory self, T parameter)
+        public static IDisposable RegisterValue<T>(this IFeatureFactory self, T value)
+        {
+            var result = self.Register(typeof(T), () => value);
+            return result;
+        }
+
+        public static T1 RegisterValue<T1, T2>(this IFeatureFactory<T1> self, T2 value)
+        {
+            var result = self.Register(typeof(T2), () => value);
+            return result;
+        }
+
+        public static IDisposable RegisterValue<T, TBase>(this IFeatureFactory self, T value)
             where T : TBase
         {
-            var result = self.RegisterParameter(typeof(TBase), parameter);
+            var result = self.Register(typeof(TBase), () => value);
             return result;
         }
 
-        public static IDisposable RegisterInterfaces<T>(this IFeatureFactory self, T parameter)
+        public static IDisposable RegisterWithCallback<T>(this IFeatureFactory self, Func<T> func, Action<T> callback)
+        {
+            var result = self.Register(typeof(T), CreateValue);
+            return result;
+
+            object CreateValue()
+            {
+                var value = func.Invoke();
+                callback.Invoke(value);
+
+                return value;
+            }
+        }
+
+        public static IDisposable RegisterWithCallback<T>(this IFeatureFactory self, T value, Action<T> callback)
+        {
+            var result = self.Register(typeof(T), CreateValue);
+            return result;
+
+            object CreateValue()
+            {
+                callback.Invoke(value);
+                return value;
+            }
+        }
+
+        public static IDisposable RegisterWithCallback<T>(this IFeatureFactory self, Func<T> func, Action callback)
+        {
+            var result = self.Register(typeof(T), CreateValue);
+            return result;
+
+            object CreateValue()
+            {
+                var value = func.Invoke();
+                callback.Invoke();
+
+                return value;
+            }
+        }
+
+        public static IDisposable RegisterWithCallback<T>(this IFeatureFactory self, T value, Action callback)
+        {
+            var result = self.Register(typeof(T), CreateValue);
+            return result;
+
+            object CreateValue()
+            {
+                callback.Invoke();
+                return value;
+            }
+        }
+
+        public static IDisposable RegisterInterfaces<T>(this IFeatureFactory self, T value)
         {
             var result = new CompositeDisposable();
 
             var interfaces = typeof(T).GetInterfaces();
             foreach (var @interface in interfaces)
             {
-                var token = self.RegisterParameter(@interface, parameter);
+                var token = self.Register(@interface, () => value);
                 result.Append(token);
             }
 
@@ -82,6 +146,11 @@ namespace Birdhouse.Tools.Features
         }
 
         public static IFeatureContainer AsContainer(this IFeatureFactory self)
+        {
+            return self;
+        }
+
+        public static IFeatureContainer AsContainer<T>(this IFeatureFactory<T> self)
         {
             return self;
         }

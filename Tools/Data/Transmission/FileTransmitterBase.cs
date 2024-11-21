@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Birdhouse.Tools.Data.Transmission.Interfaces;
 
@@ -38,6 +39,14 @@ namespace Birdhouse.Tools.Data.Transmission
             if (IsValid())
             {
                 File.Delete(_path);
+            }
+            else
+            {
+                var directory = Path.GetDirectoryName(_path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
             }
 
             return File.WriteAllBytesAsync(_path, binary);

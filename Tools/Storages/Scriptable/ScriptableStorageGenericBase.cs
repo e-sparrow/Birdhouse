@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace Birdhouse.Tools.Storages.Scriptable
 {
-    public class ScriptableStorageGeneric<TKey, TValue> : ScriptableStorageBase<TKey, TValue>
+    public abstract class ScriptableStorageGenericBase<TKey, TValue> 
+        : ScriptableStorageBase<TKey, TValue>
     {
         [SerializeField] private List<SerializablePair<TKey, TValue>> data;
         

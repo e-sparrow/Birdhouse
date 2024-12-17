@@ -54,6 +54,20 @@ namespace Birdhouse.Common.Extensions
             return func.Invoke(self);
         }
 
+        public static T GetIndex<T>(this IEnumerable<T> self, int index)
+        {
+            var enumerator = self.GetEnumerator();
+            for (var i = 0; i < index; i++)
+            {
+                if (!enumerator.MoveNext())
+                {
+                    throw new ArgumentException();
+                }
+            }
+
+            return enumerator.Current;
+        }
+
         /// <summary>
         /// Modifies a variable by func and returns it.
         /// </summary>

@@ -728,6 +728,19 @@ namespace Birdhouse.Common.Extensions
             }
         }
 
+        public static bool TryGetFirst<T>(this IEnumerable<T> self, out T value)
+        {
+            value = default;
+            
+            var result = self.Any();
+            if (result)
+            {
+                value = self.First();
+            }
+            
+            return result;
+        }
+
         public static bool TryGetFirst<T>(this IEnumerable<T> self, Func<T, bool> predicate, out T value)
         {
             value = default;

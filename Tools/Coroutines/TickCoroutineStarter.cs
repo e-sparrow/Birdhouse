@@ -5,6 +5,7 @@ using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines
 {
+    // TODO: Cancellation tokens for coroutine starters
     public sealed class TickCoroutineStarter
         : ICoroutineStarter<IEnumerator<ICoroutineInstruction>>, IDisposable
     {

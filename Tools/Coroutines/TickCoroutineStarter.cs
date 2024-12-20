@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Birdhouse.Common.Extensions;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using Birdhouse.Tools.Ticks.Interfaces;
 
 namespace Birdhouse.Tools.Coroutines
 {
-    // TODO: Cancellation tokens for coroutine starters
     public sealed class TickCoroutineStarter
-        : ICoroutineStarter<IEnumerator<ICoroutineInstruction>>, IDisposable
+        : ICoroutineStarter<IEnumerator<ICoroutineInstruction>, IDisposable>, ICoroutineStarter<IEnumerator<ICoroutineInstruction>>, IDisposable
     {
         public TickCoroutineStarter(ITickProvider provider)
         {
@@ -18,11 +18,17 @@ namespace Birdhouse.Tools.Coroutines
         
         private readonly IList<ICoroutineInstruction> _runners = new List<ICoroutineInstruction>();
 
-        // TODO: Start coroutine with disposable tokens
-        public void Start(IEnumerator<ICoroutineInstruction> coroutine)
+        
+        public IDisposable Start(IEnumerator<ICoroutineInstruction> coroutine)
         {
             var runner = new CoroutineRunner(coroutine);
-            _runners.Add(runner);
+            var token = _runners.AddAsDisposable(runner);
+            return token;
+        }
+
+        void ICoroutineStarter<IEnumerator<ICoroutineInstruction>>.Start(IEnumerator<ICoroutineInstruction> coroutine)
+        {
+            Start(coroutine);
         }
  
         private void Tick(float deltaTime)

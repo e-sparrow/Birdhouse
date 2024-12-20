@@ -18,6 +18,7 @@ namespace Birdhouse.Tools.Coroutines
         
         private readonly IList<ICoroutineInstruction> _runners = new List<ICoroutineInstruction>();
 
+        // TODO: Start coroutine with disposable tokens
         public void Start(IEnumerator<ICoroutineInstruction> coroutine)
         {
             var runner = new CoroutineRunner(coroutine);

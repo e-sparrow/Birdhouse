@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Birdhouse.Common.Collections;
 using Birdhouse.Common.Collections.Interfaces;
 using Birdhouse.Tools.Signals.Abstractions;
+using UnityEngine;
 
 namespace Birdhouse.Tools.Signals
 {
@@ -13,19 +14,18 @@ namespace Birdhouse.Tools.Signals
 
         public static ISignalBus<T> GetOrCreateBus<T>()
         {
-            SignalBus<T> result = null;
-
             var hasCached = Buses.TryGetValue(typeof(T), out var value);
             if (!hasCached)
             {
-                result = new SignalBus<T>();
+                var result = new SignalBus<T>();
                 Buses[typeof(T)] = new SignalBusWrapper(typeof(T), result);
+                return result;
             }
 
             var isValid = value.Bus is ISignalBus<T>;
             if (isValid)
             {
-                return result;
+                return value.Bus as ISignalBus<T>;
             }
 
             throw new ArgumentException();

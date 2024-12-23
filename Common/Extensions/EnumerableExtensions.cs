@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Birdhouse.Common.Delegates;
 using Birdhouse.Common.Exceptions;
@@ -12,6 +11,14 @@ namespace Birdhouse.Common.Extensions
 {
     public static class EnumerableExtensions
     {
+        public static IEnumerable<T> ToEnumerable<T>(this IEnumerator<T> enumerator) 
+        {
+            while (enumerator.MoveNext()) 
+            {
+                yield return enumerator.Current;
+            }
+        }
+        
         /// <summary>
         /// Gets a random element of enumerable.
         /// </summary>

@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Birdhouse.Tools.Conditions
 {
     [Serializable]
-    public abstract class SerializableConditionBase<T> : ICondition<T>
+    public abstract class SerializableConditionBase<T> 
+        : ICondition<T>
     {
         [SerializeField] private T origin;
         [SerializeField] private EConditionType type;

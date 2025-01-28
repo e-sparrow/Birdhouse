@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using Birdhouse.Tools.Ticks;
+using Birdhouse.Tools.Ticks.Interfaces;
 using UnityEngine;
 
 namespace Birdhouse.Tools.Coroutines
@@ -25,7 +26,14 @@ namespace Birdhouse.Tools.Coroutines
 
         public static ICoroutineStarter<IEnumerator<ICoroutineInstruction>> RuntimeCoroutineStarter =>
             LazyRuntimeCoroutineStarter.Value;
-        
+
+        public static TickCoroutineStarter FromTickProvider(ITickProvider provider)
+        {
+            // TODO: Cache???
+            var result = new TickCoroutineStarter(provider);
+            return result;
+        }
+
         private static TickCoroutineStarter CreateCoroutineStarter()
         {
             var result = new TickCoroutineStarter(TickHelper.GetDefaultTickProvider());

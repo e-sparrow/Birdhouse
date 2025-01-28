@@ -13,7 +13,9 @@ namespace Birdhouse.Tools.Coroutines
         {
             var source = new TaskCompletionSource<bool>();
             
-            self.Append(Complete()).Start();
+            self
+                .Append(Complete())
+                .Start();
 
             return source.Task;
             

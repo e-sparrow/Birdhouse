@@ -6,12 +6,6 @@ namespace Birdhouse.Tools.Tense
 {
     public static class TenseHelper
     {
-        public static readonly Lazy<ITenseProvider<float>> InGameTenseProvider 
-            = new Lazy<ITenseProvider<float>>(() => new UnityTimeTenseProvider());
-
-        public static readonly Lazy<ITenseProvider<float>> RealtimeTenseProvider
-            = new Lazy<ITenseProvider<float>>(() => new UnityRealtimeTenseProvider());
-
         public static readonly Lazy<ITenseProvider<DateTime>> NowTenseProvider
             = new Lazy<ITenseProvider<DateTime>>(() => new NowTenseProvider());
 

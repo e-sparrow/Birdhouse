@@ -6,7 +6,8 @@ namespace Birdhouse.Features.Idle
 {
     public class RealtimeIdleManager : RealtimeIdleManagerBase
     {
-        public RealtimeIdleManager() : base(UnixHelper.CreateDefaultUnixTimestamp())
+        public RealtimeIdleManager() 
+            : base(UnixHelper.CreateDefaultUnixTimestamp())
         {
             
         }

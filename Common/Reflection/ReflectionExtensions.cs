@@ -178,16 +178,19 @@ namespace Birdhouse.Common.Extensions
             }
         }
 
-        /// <summary>
-        /// Gets subclasses of self type.
-        /// </summary>
-        /// <param name="self">Self type</param>
-        /// <param name="nesting">Get nested subclasses or not</param>
-        /// <returns>Subclasses of self type</returns>
-        public static IEnumerable<Type> GetSubclasses(this Type self, bool nesting = false)
+        public static IEnumerable<Type> GetSubclasses(this Type self, bool nesting = false, bool allAssemblies = false)
         {
-            var assembly = self.Assembly;
-            var types = assembly.GetTypes().Where(IsSubclass).ToArray();
+            var assemblies = allAssemblies ? 
+                AppDomain
+                    .CurrentDomain
+                    .GetAssemblies() :
+                self
+                    .Assembly
+                    .AsSingleArray();
+
+            var types = assemblies
+                .SelectMany(value => value.GetTypes())
+                .Where(IsSubclass);
 
             return types;
 
@@ -199,8 +202,31 @@ namespace Birdhouse.Common.Extensions
                 }
                 else
                 {
-                    return type.BaseType.Equals(self);
+                    return type.BaseType != null && type.BaseType == self;
                 }
+            }
+        }
+
+        public static IEnumerable<Type> GetAssignables(this Type self, IEnumerable<Assembly> assemblies = null)
+        {
+            assemblies ??= self.Assembly.AsSingleArray();
+            
+            var isValid = self.IsInterface;
+            if (!isValid)
+            {
+                throw new ArgumentException();
+            }
+
+            var types = assemblies
+                .SelectMany(value => value.GetTypes())
+                .Where(IsAssignable);
+            
+            return types;
+
+            bool IsAssignable(Type type)
+            {
+                var result = self.IsAssignableFrom(type);
+                return result;
             }
         }
 

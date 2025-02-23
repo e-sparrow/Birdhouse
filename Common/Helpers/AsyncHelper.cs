@@ -7,8 +7,69 @@ using Birdhouse.Tools.Graduating.Interfaces;
 
 namespace Birdhouse.Common.Helpers
 {
+    public delegate ref Action ActionRef();
+    public delegate ref Action<T> ActionRef<T>();
+    public delegate ref Action<T1, T2> ActionRef<T1, T2>();
+    public delegate ref Action<T1, T2, T3> ActionRef<T1, T2, T3>();
+    
     public static class AsyncHelper
     {
+        public static Task AwaitAction(ActionRef self)
+        {
+            var source = new TaskCompletionSource<bool>();
+            
+            self.Invoke() += Handle;
+            return source.Task;
+
+            void Handle()
+            {
+                self.Invoke() -= Handle;
+                source.SetResult(true);
+            }
+        }
+        
+        public static Task<T> AwaitEvent<T>(ActionRef<T> self)
+        {
+            var source = new TaskCompletionSource<T>();
+            
+            self.Invoke() += Handle;
+            return source.Task;
+
+            void Handle(T value)
+            {
+                self.Invoke() -= Handle;
+                source.SetResult(value);
+            }
+        }
+        
+        public static Task<(T1, T2)> AwaitEvent<T1, T2>(ActionRef<T1, T2> self)
+        {
+            var source = new TaskCompletionSource<(T1, T2)>();
+            
+            self.Invoke() += Handle;
+            return source.Task;
+
+            void Handle(T1 value1, T2 value2)
+            {
+                self.Invoke() -= Handle;
+                source.SetResult((value1, value2));
+            }
+        }
+        
+        public static Task<(T1, T2, T3)> AwaitEvent<T1, T2, T3>(ActionRef<T1, T2, T3> self)
+        {
+            var source = new TaskCompletionSource<(T1, T2, T3)>();
+            
+            self.Invoke() += Handle;
+            return source.Task;
+
+            void Handle(T1 value1, T2 value2, T3 value3)
+            {
+                self.Invoke() -= Handle;
+                source.SetResult((value1, value2, value3));
+            }
+        }
+        
         public static async Task Graduate(IGradualSettings settings, TimeSpan step)
         {
             var gradual = new AsyncGradual(step);

@@ -6,15 +6,15 @@ namespace Birdhouse.Customization.Attributes.ConditionalHide
 {
     [AttributeUsage(AttributesHelper.DefaultMembers)]
 #if UNITY_EDITOR
-    public class EnumConditionalHideAttribute 
+    public class EnumConditionalHideAttribute
         : ConditionalHideAttributeBase
     {
-        public EnumConditionalHideAttribute(string conditionalSourceField, Enum value, bool hideInInspector = false) : base(CreatePredicate(value), conditionalSourceField, hideInInspector)
+        public EnumConditionalHideAttribute(string conditionalSourceField, object value, bool hideInInspector = false) : base(CreatePredicate(value), conditionalSourceField, hideInInspector)
         {
             
         }
         
-        private static Predicate<SerializedProperty> CreatePredicate(Enum value)
+        private static Predicate<SerializedProperty> CreatePredicate(object value)
         {
             return IsFit;   
             

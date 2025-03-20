@@ -41,10 +41,17 @@ namespace Birdhouse.Tools.Ticks.Unity
         
         private IDisposable CreateTickSubscription(Action<float> action, ICollection<Action<float>> destination)
         {
+            var isEmpty = !_ticks.Any();
+            
             var result = action
                 .AddAsDisposableTo(destination)
                 .OnDispose(CheckRegistry);
 
+            if (isEmpty)
+            {
+                Subscribe();
+            }
+            
             return result;
         }
 

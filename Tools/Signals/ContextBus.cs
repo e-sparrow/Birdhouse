@@ -47,4 +47,22 @@ namespace Birdhouse.Tools.Signals
             }
         }
     }
+
+    public static class TypedContextBus<TContext>
+    {
+        private static readonly Lazy<ISignalBus<TContext>> LazyBus 
+            = new Lazy<ISignalBus<TContext>>(CreateBus);
+
+        public static ISignalBus<TContext> GetOrCreateBus()
+        {
+            var result = LazyBus.Value;
+            return result;
+        }
+
+        private static ISignalBus<TContext> CreateBus()
+        {
+            var result = new SignalBus<TContext>();
+            return result;
+        }
+    }
 }

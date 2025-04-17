@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Birdhouse.Tools.Coroutines.Interfaces;
 using UnityEngine;
@@ -35,6 +37,12 @@ namespace Birdhouse.Tools.Coroutines.Unity
             yield return other;
         }
 
+        public static IEnumerator Append(this IEnumerator self, Action callback)
+        {
+            yield return self;
+            callback.Invoke();
+        }
+
         public static CustomYieldInstruction ToUnityInstruction(this ICoroutineInstruction self)
         {
             var result = new ToUnityCoroutineInstructionAdapter(self);
@@ -44,6 +52,12 @@ namespace Birdhouse.Tools.Coroutines.Unity
         public static ICoroutineInstruction FromUnityInstruction(this CustomYieldInstruction self)
         {
             var result = new FromUnityCoroutineInstructionAdapter(self);
+            return result;
+        }
+
+        public static IEnumerator<ICoroutineInstruction> Wrap(this IEnumerator self)
+        {
+            var result = UnityCoroutinesHelper.CoroutineWrapper.Wrap(self);
             return result;
         }
     }

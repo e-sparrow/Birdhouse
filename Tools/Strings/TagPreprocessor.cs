@@ -70,9 +70,10 @@ namespace Birdhouse.Tools.Strings
                 {
                     if (!isSelfClosingTag)
                     {
-                        var nextStartTagIndex = currentContent.IndexOf('<', endTagIndex + 1);
+                        var nextStartTagIndex = currentContent.IndexOf($"</{tagName}", endTagIndex + 1, StringComparison.Ordinal);
                         var tagContent = currentContent.Substring(endTagIndex + 1, nextStartTagIndex - endTagIndex - 1);
-                        result += tag.Process(tagContent, parameters);
+                        var processedContent = Process(tagContent);
+                        result += tag.Process(processedContent, parameters);
                         index = nextStartTagIndex;
                     }
                     else
@@ -90,4 +91,4 @@ namespace Birdhouse.Tools.Strings
             return result;
         }
     }
-}
+}  

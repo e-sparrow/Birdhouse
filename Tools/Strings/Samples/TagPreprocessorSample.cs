@@ -38,6 +38,8 @@ namespace Birdhouse.Tools.Strings.Samples
         {
             public string Process(string input, IDictionary<string, string> parameters = null)
             {
+                Debug.Log($"Processing lower tag with input: {input}. Parameters: ");
+                
                 foreach (var parameter in parameters)
                 {
                     Debug.Log($"{parameter.Key}: {parameter.Value}");

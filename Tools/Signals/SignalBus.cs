@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Birdhouse.Abstractions.Disposables;
 using Birdhouse.Tools.Signals.Abstractions;
@@ -18,7 +19,8 @@ namespace Birdhouse.Tools.Signals
             var hasHandlers = _handlers.TryGetValue(typeof(T), out var handlers);
             if (hasHandlers)
             {
-                foreach (var handler in handlers)
+                var incoming = new List<Action<object>>(handlers);
+                foreach (var handler in incoming)
                 {
                     handler.Invoke(argument);
                 }

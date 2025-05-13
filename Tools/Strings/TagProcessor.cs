@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace Birdhouse.Tools.Strings
 {
-    public sealed class TagPreprocessor
-        : ITagPreprocessor
+    public sealed class TagProcessor
+        : ITagProcessor
     {
         private readonly IRegistryDictionary<string, ITag> _tags = new RegistryDictionary<string, ITag>();
 

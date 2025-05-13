@@ -2,10 +2,8 @@
 
 namespace Birdhouse.Tools.Strings.Abstractions
 {
-    public interface ITagPreprocessor
+    public interface IWriteOnlyTagProcessor
     {
         IDisposable RegisterTag(string name, ITag tag);
-
-        string Process(string input);
     }
 }

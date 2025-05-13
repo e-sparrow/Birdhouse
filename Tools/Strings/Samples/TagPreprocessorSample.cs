@@ -10,7 +10,7 @@ namespace Birdhouse.Tools.Strings.Samples
         [ContextMenu("Test")]
         private void Test()
         {
-            var preprocessor = new TagPreprocessor();
+            var preprocessor = new TagProcessor();
             preprocessor.RegisterTag("name", new NameTag("Женёк"));
             preprocessor.RegisterTag("lower", new LowerTag());
             

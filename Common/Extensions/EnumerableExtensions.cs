@@ -192,6 +192,18 @@ namespace Birdhouse.Common.Extensions
             return enumerable.Shuffle(random);
         }
 
+        public static void FisherYatesShuffle<T>(this IList<T> self)
+        {
+            var count = self.Count;
+
+            var random = new Random();
+            for (var i = count - 1; i > 0; i--)
+            {
+                var j = random.Next(0, i + 1);
+                (self[i], self[j]) = (self[j], self[i]);
+            }
+        }
+
         /// <summary>
         /// Shuffles the enumerable by random with specified seed.
         /// </summary>

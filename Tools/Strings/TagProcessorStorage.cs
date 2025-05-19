@@ -7,6 +7,11 @@ namespace Birdhouse.Tools.Strings
 {
     public static class TagProcessorStorage
     {
+        static TagProcessorStorage()
+        {
+            TagProcessorHelper.ForceRegisterProcessor();
+        }
+        
         public static readonly ITagProcessor DefaultProcessor = new TagProcessor();
         
         private static readonly IRegistryDictionary<string, IReadOnlyTagProcessor> Processors 

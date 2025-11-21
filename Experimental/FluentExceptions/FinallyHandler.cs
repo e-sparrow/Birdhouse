@@ -17,10 +17,7 @@ namespace Birdhouse.Experimental.FluentExceptions
         private readonly IWriteOnlyCatchHandler _catchHandler;
         private readonly Action _onFinally;
 
-        public void Handle()
-        {
-            _root.Execute(_catchHandler, _onFinally);
-        }
+        public void Handle() => _root.Execute(_catchHandler, _onFinally);
     }
     
     public sealed class ResultingFinallyHandler<TResult>
@@ -42,10 +39,6 @@ namespace Birdhouse.Experimental.FluentExceptions
         private readonly IWriteOnlyResultingCatchHandler<TResult> _catchHandler;
         private readonly Action _onFinally;
         
-        public TResult Handle()
-        {
-            var result = _root.Execute(_catchHandler, _onFinally);
-            return result;
-        }
+        public TResult Handle() => _root.Execute(_catchHandler, _onFinally);
     }
 }

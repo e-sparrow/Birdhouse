@@ -5,31 +5,12 @@ namespace Birdhouse.Experimental.FluentLogics
 {
     public static class FluentLogicExtensions
     {
-        public static SoHandler IfTrue(this bool self, Action action)
-        {
-            var result = new LogicRoot(() => self).So(action);
-            return result;
-        }
+        public static BranchingSoHandler IfTrue(this bool self, Action action) => new BranchingRoot(() => self).So(action);
+        public static BranchingSoHandler IfTrue(this Func<bool> self, Action action) => new BranchingRoot(self).So(action);
+        public static BranchingSoHandler IfFalse(this bool self, Action action) => new BranchingRoot(() => !self).So(action);
+        public static BranchingSoHandler IfFalse(this Func<bool> self, Action action) => new BranchingRoot(self.Reverse()).So(action);
 
-        public static SoHandler IfTrue(this Func<bool> self, Action action)
-        {
-            var result = new LogicRoot(self).So(action);
-            return result;
-        }
-        
-        public static SoHandler IfFalse(this bool self, Action action)
-        {
-            var result = new LogicRoot(() => !self).So(action);
-            return result;
-        }
-
-        public static SoHandler IfFalse(this Func<bool> self, Action action)
-        {
-            var result = new LogicRoot(self.Reverse()).So(action);
-            return result;
-        }
-
-        public static SoHandler ThrowIfTrue(this Func<bool> self, Func<Exception> onFail = null)
+        public static BranchingSoHandler ThrowIfTrue(this Func<bool> self, Func<Exception> onFail = null)
         {
             onFail ??= () => new ArgumentException();
 
@@ -43,7 +24,7 @@ namespace Birdhouse.Experimental.FluentLogics
             }
         }
 
-        public static SoHandler ThrowIfTrue(this bool self, Func<Exception> onFail = null)
+        public static BranchingSoHandler ThrowIfTrue(this bool self, Func<Exception> onFail = null)
         {
             onFail ??= () => new ArgumentException();
 
@@ -57,7 +38,7 @@ namespace Birdhouse.Experimental.FluentLogics
             }
         }
 
-        public static SoHandler ThrowIfFalse(this Func<bool> self, Func<Exception> onFail = null)
+        public static BranchingSoHandler ThrowIfFalse(this Func<bool> self, Func<Exception> onFail = null)
         {
             onFail ??= () => new ArgumentException();
 
@@ -71,7 +52,7 @@ namespace Birdhouse.Experimental.FluentLogics
             }
         }
 
-        public static SoHandler ThrowIfFalse(this bool self, Func<Exception> onFail = null)
+        public static BranchingSoHandler ThrowIfFalse(this bool self, Func<Exception> onFail = null)
         {
             onFail ??= () => new ArgumentException();
 
@@ -85,28 +66,9 @@ namespace Birdhouse.Experimental.FluentLogics
             }
         }
 
-        public static SoHandler ThrowIfTrue(this Func<bool> self, Exception exception)
-        {
-            var result = self.ThrowIfTrue(() => exception);
-            return result;
-        }
-
-        public static SoHandler ThrowIfTrue(this bool self, Exception exception)
-        {
-            var result = self.ThrowIfTrue(() => exception);
-            return result;
-        }
-
-        public static SoHandler ThrowIfFalse(this Func<bool> self, Exception exception)
-        {
-            var result = self.ThrowIfFalse(() => exception);
-            return result;
-        }
-
-        public static SoHandler ThrowIfFalse(this bool self, Exception exception)
-        {
-            var result = self.ThrowIfFalse(() => exception);
-            return result;
-        }
+        public static BranchingSoHandler ThrowIfTrue(this Func<bool> self, Exception exception) => self.ThrowIfTrue(() => exception);
+        public static BranchingSoHandler ThrowIfTrue(this bool self, Exception exception) => self.ThrowIfTrue(() => exception);
+        public static BranchingSoHandler ThrowIfFalse(this Func<bool> self, Exception exception) => self.ThrowIfFalse(() => exception);
+        public static BranchingSoHandler ThrowIfFalse(this bool self, Exception exception) => self.ThrowIfFalse(() => exception);
     }
 }

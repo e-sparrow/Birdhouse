@@ -7,130 +7,66 @@ namespace Birdhouse.Experimental.FluentExceptions
 {
     public static class FluentExceptionExtensions
     {
-        public static IReadOnlyCatchHandler Catch(this Action self, Action<Exception> onCatch)
-        {
-            var result = FluentExceptions
-                .Try(self)
-                .Catch(onCatch);
-
-            return result;
-        }
+        public static IReadOnlyCatchHandler Catch(this Action self, Action<Exception> onCatch) 
+            => FluentExceptions.Try(self).Catch(onCatch);
 
         public static IReadOnlyCatchHandler<TException> CatchType<TException>
             (this Action self, Action<TException> onCatch)
-            where TException : Exception
-        {
-            var result = FluentExceptions
-                .Try(self)
-                .CatchType(onCatch);
-
-            return result;
-        }
-
+            where TException : Exception => FluentExceptions.Try(self).CatchType(onCatch);
+            
         public static IReadOnlyResultingCatchHandler<TResult> Catch<TResult>
-            (this Func<TResult> self, Func<Exception, TResult> onCatch)
-        {
-            var result = FluentExceptions<TResult>
-                .Try(self)
-                .CatchType(onCatch);
-
-            return result;
-        }
+            (this Func<TResult> self, Func<Exception, TResult> onCatch) => FluentExceptions<TResult>.Try(self).CatchType(onCatch);
 
         public static IReadOnlyResultingCatchHandler<TResult, TException> CatchType<TResult, TException>
             (this Func<TResult> self, Func<TException, TResult> onCatch)
-            where TException : Exception
-        {
-            var result = FluentExceptions<TResult>
-                .Try(self)
-                .CatchType(onCatch);
-
-            return result;
-        }
+            where TException : Exception => FluentExceptions<TResult>.Try(self).CatchType(onCatch);
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> CatchType<TResult, TException>
             (this Func<TResult> self, ConditionalFunc<TException, TResult> onCatch)
             where TException : Exception
         {
-            var result = FluentExceptions<(bool, TResult)>
+            return FluentExceptions<(bool, TResult)>
                 .Try(Success)
                 .CatchType<TException>(Fail);
 
-            return result;
-
-            (bool, TResult) Success()
-            {
-                var successResult = new ValueTuple<bool, TResult>(true, self.Invoke());
-                return successResult;
-            }
-
+            (bool, TResult) Success() => new ValueTuple<bool, TResult>(true, self.Invoke());
             (bool, TResult) Fail(TException exception)
             {
                 var isSuccess = onCatch.Invoke(exception, out var catchResult);
-                
-                var resultTuple = new ValueTuple<bool, TResult>(isSuccess, catchResult);
-                return resultTuple;
+                return new ValueTuple<bool, TResult>(isSuccess, catchResult);
             }
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult)> FalseIfCatch<TResult>(this Func<TResult> self)
         {
-            var result = FluentExceptions<(bool, TResult)>
+            return FluentExceptions<(bool, TResult)>
                 .Try(Success)
                 .Catch(HandleCatch);
 
-            return result;
-
-            (bool, TResult) Success()
-            {
-                var successResult = new ValueTuple<bool, TResult>(true, self.Invoke());
-                return successResult;
-            }
-
-            (bool, TResult) HandleCatch(Exception exception)
-            {
-                var resultTuple = new ValueTuple<bool, TResult>(false, default);
-                return resultTuple;
-            }
+            (bool, TResult) Success() => new ValueTuple<bool, TResult>(true, self.Invoke());
+            (bool, TResult) HandleCatch(Exception exception) => new ValueTuple<bool, TResult>(false, default);
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> FalseIfCatchType<TResult, TException>
             (this Func<TResult> self) 
             where TException : Exception
         {
-            var result = FluentExceptions<(bool, TResult)>
+            return FluentExceptions<(bool, TResult)>
                 .Try(Success)
                 .CatchType<TException>(HandleCatch);
 
-            return result;
-
-            (bool, TResult) Success()
-            {
-                var successResult = new ValueTuple<bool, TResult>(true, self.Invoke());
-                return successResult;
-            }
-
-            (bool, TResult) HandleCatch(TException exception)
-            {
-                var resultTuple = new ValueTuple<bool, TResult>(false, default);
-                return resultTuple;
-            }
+            (bool, TResult) Success() => new ValueTuple<bool, TResult>(true, self.Invoke());
+            (bool, TResult) HandleCatch(TException exception) => new ValueTuple<bool, TResult>(false, default);
+            
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> FalseIfCatchType<TResult, TException>
             (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self) 
             where TException : Exception
         {
-            var result = self
-                .Or<TException>(HandleCatch);
+            return self.Or<TException>(HandleCatch);
 
-            return result;
-
-            (bool, TResult) HandleCatch(TException exception)
-            {
-                var resultTuple = new ValueTuple<bool, TResult>(false, default);
-                return resultTuple;
-            }
+            (bool, TResult) HandleCatch(TException exception) => new ValueTuple<bool, TResult>(false, default);
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult), TException> Or<TResult, TPrevious, TException>
@@ -138,17 +74,12 @@ namespace Birdhouse.Experimental.FluentExceptions
             where TException : Exception
             where TPrevious : Exception
         {
-            var result = self
-                .Or<TException>(HandleCatch);
-
-            return result;
+            return self.Or<TException>(HandleCatch);
 
             (bool, TResult) HandleCatch(TException exception)
             {
                 var isSuccess = onCatch.Invoke(exception, out var catchResult);
-                
-                var resultTuple = new ValueTuple<bool, TResult>(isSuccess, catchResult);
-                return resultTuple;
+                return new ValueTuple<bool, TResult>(isSuccess, catchResult);
             }
         }
 
@@ -156,17 +87,12 @@ namespace Birdhouse.Experimental.FluentExceptions
             (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self, ConditionalFunc<Exception, TResult> onCatch) 
             where TException : Exception
         {
-            var result = self
-                .Default(HandleCatch);
-
-            return result;
+            return self.Default(HandleCatch);
 
             (bool, TResult) HandleCatch(Exception exception)
             {
                 var isSuccess = onCatch.Invoke(exception, out var catchResult);
-                
-                var resultTuple = new ValueTuple<bool, TResult>(isSuccess, catchResult);
-                return resultTuple;
+                return new ValueTuple<bool, TResult>(isSuccess, catchResult);
             }
         }
 
@@ -174,49 +100,27 @@ namespace Birdhouse.Experimental.FluentExceptions
             (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self) 
             where TException : Exception
         {
-            var result = self
-                .Default(HandleCatch);
-
-            return result;
-
-
-            (bool, TResult) HandleCatch(Exception exception)
-            {
-                var resultTuple = new ValueTuple<bool, TResult>(false, default);
-                return resultTuple;
-            }
+            return self.Default(HandleCatch);
+            
+            (bool, TResult) HandleCatch(Exception exception) => new ValueTuple<bool, TResult>(false, default);
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult)> ElseThrow<TResult, TException>
             (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self, Func<Exception> exceptionCreator)
             where TException : Exception
         {
-            var result = self
-                .Default(HandleCatch);
-
-            return result;
-
-
-            (bool, TResult) HandleCatch(Exception exception)
-            {
-                throw exceptionCreator.Invoke();
-            }
+            return self.Default(HandleCatch);;
+            
+            (bool, TResult) HandleCatch(Exception exception) => throw exceptionCreator.Invoke();
         }
 
         public static IReadOnlyResultingCatchHandler<(bool, TResult)> ElseThrow<TResult, TException>
             (this IReadOnlyResultingCatchHandler<(bool, TResult), TException> self)
             where TException : Exception
         {
-            var result = self
-                .Default(HandleCatch);
-
-            return result;
-
-
-            (bool, TResult) HandleCatch(Exception exception)
-            {
-                throw exception;
-            }
+            return self.Default(HandleCatch);
+            
+            (bool, TResult) HandleCatch(Exception exception) => throw exception;
         }
 
         public static bool TryHandle<TResult>

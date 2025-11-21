@@ -27,46 +27,20 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
 
             void Try()
             {
-                switch (counter % 10)
+                throw (counter % 10) switch
                 {
-                    case 0:
-                        throw new FirstException();
-                    
-                    case 1:
-                        throw new SecondException();
-                    
-                    case 2:
-                        throw new ThirdException();
-                    
-                    default:
-                        throw new Exception();
-                }
+                    0 => new FirstException(),
+                    1 => new SecondException(),
+                    2 => new ThirdException(),
+                    _ => new Exception()
+                };
             }
 
-            void CatchFirst(FirstException exception)
-            {
-                Debug.LogWarning($"We caught the first exception!");
-            }
-
-            void CatchSecond(SecondException exception)
-            {
-                Debug.LogWarning($"We caught the second exception!");
-            }
-
-            void CatchThird(ThirdException exception)
-            {
-                Debug.LogWarning($"We caught the third exception!");
-            }
-
-            void CatchOther(Exception exception)
-            {
-                Debug.LogWarning($"Hm. We caught an unknown exception");
-            }
-
-            void Finally()
-            {
-                Debug.Log($"Finally block just executed");
-            }
+            void CatchFirst(FirstException exception) => Debug.LogWarning($"We caught the first exception!");
+            void CatchSecond(SecondException exception) => Debug.LogWarning($"We caught the second exception!");
+            void CatchThird(ThirdException exception) => Debug.LogWarning($"We caught the third exception!");
+            void CatchOther(Exception exception) => Debug.LogWarning($"Hm. We caught an unknown exception");
+            void Finally() => Debug.Log($"Finally block just executed");
         }
 
         [ContextMenu("Execute resulting sample")]
@@ -94,20 +68,11 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
             {
                 switch (counter % 10)
                 {
-                    case 0:
-                        break;
-                    
-                    case 1:
-                        throw new FirstException();
-                    
-                    case 2:
-                        throw new SecondException();
-                    
-                    case 3:
-                        throw new ThirdException();
-                    
-                    default:
-                        throw new Exception();
+                    case 0: break;
+                    case 1: throw new FirstException();
+                    case 2: throw new SecondException();
+                    case 3: throw new ThirdException();
+                    default: throw new Exception();
                 }
 
                 return EResultCode.Success;
@@ -118,11 +83,7 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
             EResultCode CatchThird(ThirdException exception) => EResultCode.ThirdException;
             EResultCode CatchOther(Exception exception) => EResultCode.UnknownException;
             
-
-            void Finally()
-            {
-                Debug.Log($"Finally block just executed");
-            }
+            void Finally() => Debug.Log($"Finally block just executed");
         }
 
         private enum EResultCode
@@ -134,22 +95,8 @@ namespace Birdhouse.Experimental.FluentExceptions.Samples
             UnknownException
         }
 
-        private sealed class FirstException
-            : Exception
-        {
-            
-        }
-
-        private sealed class SecondException
-            : Exception
-        {
-            
-        }
-
-        private sealed class ThirdException
-            : Exception
-        {
-            
-        }
+        private sealed class FirstException : Exception { }
+        private sealed class SecondException : Exception { }
+        private sealed class ThirdException : Exception { }
     }
 }

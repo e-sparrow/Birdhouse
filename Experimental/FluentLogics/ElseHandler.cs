@@ -4,12 +4,12 @@ namespace Birdhouse.Experimental.FluentLogics
 {
     public readonly struct ElseHandler
     {
-        public ElseHandler(LogicRoot root)
+        public ElseHandler(BranchingRoot root)
         {
             _root = root;
         }
 
-        private readonly LogicRoot _root;
+        private readonly BranchingRoot _root;
 
         public void So(Action action)
         {
@@ -19,12 +19,12 @@ namespace Birdhouse.Experimental.FluentLogics
     
     public readonly struct ElseHandler<T>
     {
-        public ElseHandler(LogicRoot<T> root)
+        public ElseHandler(BranchingRoot<T> root)
         {
             _root = root;
         }
 
-        private readonly LogicRoot<T> _root;
+        private readonly BranchingRoot<T> _root;
 
         public T SoReturn(Func<T> func)
         {

@@ -16,11 +16,7 @@ namespace Birdhouse.Experimental.FluentLogics
         public bool Check()
         {
             var result = _func.Invoke();
-            if (result)
-            {
-                _action.Invoke();
-            }
-
+            if (result) _action.Invoke();
             return result;
         }
     }
@@ -41,11 +37,7 @@ namespace Birdhouse.Experimental.FluentLogics
             value = default;
             
             var result = _condition.Invoke();
-            if (result)
-            {
-                value = _func.Invoke();
-            }
-
+            if (result) value = _func.Invoke();
             return result;
         }
     }

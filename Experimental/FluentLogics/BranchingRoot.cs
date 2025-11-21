@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Birdhouse.Experimental.FluentLogics
 {
-    public class LogicRoot
+    public class BranchingRoot
     {
-        public LogicRoot(Func<bool> func)
+        public BranchingRoot(Func<bool> func)
         {
             _func = func;
             _constructions = new List<ConditionalConstruction>();
@@ -14,37 +15,27 @@ namespace Birdhouse.Experimental.FluentLogics
         private readonly Func<bool> _func;
         private readonly IList<ConditionalConstruction> _constructions;
 
-        public void Add(ConditionalConstruction construction)
-        {
-            _constructions.Add(construction);
-        }
-
+        public void Add(ConditionalConstruction construction) => _constructions.Add(construction);
+        
         public void Execute(Action elseAction)
         {
-            foreach (var construction in _constructions)
-            {
-                if (construction.Check())
-                {
-                    return;
-                }
-            }
-            
+            if (_constructions.Any(construction => construction.Check())) return;
             elseAction.Invoke();
         }
-
-        public SoHandler So(Action action)
+ 
+        public BranchingSoHandler So(Action action)
         {
             var construction = new ConditionalConstruction(_func, action);
             Add(construction);
 
-            var handler = new SoHandler(this);
+            var handler = new BranchingSoHandler(this);
             return handler;
         }
     }
 
-    public class LogicRoot<T>
+    public class BranchingRoot<T>
     {
-        public LogicRoot(Func<bool> condition)
+        public BranchingRoot(Func<bool> condition)
         {
             _condition = condition;
             _constructions = new List<ConditionConstruction<T>>();
@@ -53,31 +44,24 @@ namespace Birdhouse.Experimental.FluentLogics
         private readonly Func<bool> _condition;
         private readonly IList<ConditionConstruction<T>> _constructions;
 
-        public void Add(ConditionConstruction<T> construction)
-        {
-            _constructions.Add(construction);
-        }
+        public void Add(ConditionConstruction<T> construction) => _constructions.Add(construction);
 
         public T Execute(Func<T> elseFunc)
         {
             foreach (var construction in _constructions)
-            {
                 if (construction.Check(out var value))
-                {
                     return value;
-                }
-            }
-
+                
             var result = elseFunc.Invoke();
             return result;
         }
 
-        public SoHandler<T> SoReturn(Func<T> func)
+        public BranchingSoHandler<T> SoReturn(Func<T> func)
         {
             var construction = new ConditionConstruction<T>(_condition, func);
             Add(construction);
 
-            var handler = new SoHandler<T>(this);
+            var handler = new BranchingSoHandler<T>(this);
             return handler;
         }
     }

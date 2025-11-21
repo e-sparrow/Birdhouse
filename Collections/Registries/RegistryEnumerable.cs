@@ -16,23 +16,9 @@ namespace Birdhouse.Collections.Registries
         
         private readonly Func<ICollection<T>> _collectionCreator;
 
-        protected override ICollection<T> CreateCollection()
-        {
-            var result = _collectionCreator.Invoke();
-            return result;
-        }
-
-        protected override IDisposable CreateToken(T value, ICollection<T> destination)
-        {
-            var result = value.AddAsDisposableTo(destination);
-            return result;
-        }
-
-        private static ICollection<T> CreateHashSet()
-        {
-            var result = new HashSet<T>();
-            return result;
-        }
+        protected override ICollection<T> CreateCollection() => _collectionCreator.Invoke();
+        protected override IDisposable CreateToken(T value, ICollection<T> destination) => value.AddAsDisposableTo(destination);
+        private static ICollection<T> CreateHashSet() => new HashSet<T>();
     }
 
     public class RegistryEnumerable<T, TToken>
@@ -50,22 +36,8 @@ namespace Birdhouse.Collections.Registries
         private readonly Func<T, ICollection<T>, TToken> _func;
         private readonly Func<ICollection<T>> _collectionCreator;
 
-        protected override ICollection<T> CreateCollection()
-        {
-            var result = _collectionCreator.Invoke();
-            return result;
-        }
-
-        protected override TToken CreateToken(T value, ICollection<T> destination)
-        {
-            var result = _func.Invoke(value, destination);
-            return result;
-        }
-
-        private static ICollection<T> CreateHashSet()
-        {
-            var result = new HashSet<T>();
-            return result;
-        }
+        protected override ICollection<T> CreateCollection() => _collectionCreator.Invoke();
+        protected override TToken CreateToken(T value, ICollection<T> destination) => _func.Invoke(value, destination);
+        private static ICollection<T> CreateHashSet() => new HashSet<T>();
     }
 }

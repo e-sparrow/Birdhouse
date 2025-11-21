@@ -12,15 +12,9 @@ namespace Birdhouse.Collections.Registries
         public IDisposable RegisterBlocker()
         {
             _blockersCount++;
-            
-            var result = new CallbackDisposable(() => _blockersCount--);
-            return result;
+            return new CallbackDisposable(() => _blockersCount--);
         }
 
-        public bool IsBlocked()
-        {
-            var result = _blockersCount > 0;
-            return result;
-        }
+        public bool IsBlocked() => _blockersCount > 0;
     }
 }

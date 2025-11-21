@@ -5,14 +5,8 @@ namespace Birdhouse.Collections.Registries.Abstractions
 {
     public interface IRegistryEnumerable<TElement, out TToken> 
         : IRegistry<TElement, TToken>, IEnumerable<TElement>
-        where TToken : IDisposable
-    {
-        
-    }
+        where TToken : IDisposable { }
 
     public interface IRegistryEnumerable<TElement>
-        : IRegistryEnumerable<TElement, IDisposable>
-    {
-        
-    }
+        : IRegistryEnumerable<TElement, IDisposable> { }
 }

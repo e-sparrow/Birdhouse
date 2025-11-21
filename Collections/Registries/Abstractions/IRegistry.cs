@@ -3,7 +3,7 @@ using System;
 namespace Birdhouse.Collections.Registries.Abstractions
 {
     public interface IRegistry<in TElement, out TToken, TOut>
-        : IDisposable
+        : IDisposable 
         where TToken : IDisposable
     {
         TToken Register(TElement element, out TOut result);
@@ -15,16 +15,10 @@ namespace Birdhouse.Collections.Registries.Abstractions
     {
         TToken Register(TElement element);
     }
-
+    
     public interface IRegistry<in TElement> 
-        : IRegistry<TElement, IDisposable>
-    {
-        
-    }
-
+        : IRegistry<TElement, IDisposable> { }
+    
     public interface IRegistry 
-        : IRegistry<object, IDisposable>
-    {
-        
-    }
+        : IRegistry<object, IDisposable> { }
 }

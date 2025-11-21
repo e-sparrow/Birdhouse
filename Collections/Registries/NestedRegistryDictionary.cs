@@ -10,17 +10,15 @@ namespace Birdhouse.Collections.Registries
     public sealed class NestedRegistryDictionary<TKey, TValue>
         : INestedRegistryDictionary<TKey, TValue>
     {
+        public IRegistryEnumerable<TValue> this[TKey key] => _inner[key];
+        
         private readonly IDictionary<TKey, IDisposable> _registryTokens 
             = new Dictionary<TKey, IDisposable>();
 
         private readonly IRegistryDictionary<TKey, IRegistryEnumerable<TValue>> _inner 
             = new RegistryDictionary<TKey, IRegistryEnumerable<TValue>>();
 
-        public IDisposable Register(KeyValuePair<TKey, IRegistryEnumerable<TValue>> element)
-        {
-            var result = _inner.Register(element);
-            return result;
-        }
+        public IDisposable Register(KeyValuePair<TKey, IRegistryEnumerable<TValue>> element) => _inner.Register(element);
 
         public IDisposable Register(KeyValuePair<TKey, TValue> element)
         {
@@ -52,11 +50,7 @@ namespace Birdhouse.Collections.Registries
             }
         }
 
-        public IDisposable Register(TKey key, TValue value)
-        {
-            var result = Register(new KeyValuePair<TKey, TValue>(key, value));
-            return result;
-        }
+        public IDisposable Register(TKey key, TValue value) => Register(new KeyValuePair<TKey, TValue>(key, value));
 
         public void Dispose()
         {
@@ -64,35 +58,10 @@ namespace Birdhouse.Collections.Registries
             _inner.Dispose();
         }
 
-        public IEnumerator<KeyValuePair<TKey, IRegistryEnumerable<TValue>>> GetEnumerator()
-        {
-            var result = _inner.GetEnumerator();
-            return result;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IRegistryEnumerable<TValue> this[TKey key] => _inner[key];
-
-        public IDisposable Register(TKey key, IRegistryEnumerable<TValue> value)
-        {
-            var result = Register(new KeyValuePair<TKey, IRegistryEnumerable<TValue>>(key, value));
-            return result;
-        }
-
-        public bool TryGetValue(TKey key, out IRegistryEnumerable<TValue> value)
-        {
-            var result = _inner.TryGetValue(key, out value);
-            return result;
-        }
-
-        public bool ContainsKey(TKey key)
-        {
-            var result = _inner.ContainsKey(key);
-            return result;
-        }
+        public IEnumerator<KeyValuePair<TKey, IRegistryEnumerable<TValue>>> GetEnumerator() => _inner.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IDisposable Register(TKey key, IRegistryEnumerable<TValue> value) => Register(new KeyValuePair<TKey, IRegistryEnumerable<TValue>>(key, value));
+        public bool TryGetValue(TKey key, out IRegistryEnumerable<TValue> value) => _inner.TryGetValue(key, out value);
+        public bool ContainsKey(TKey key) => _inner.ContainsKey(key);
     }
 }

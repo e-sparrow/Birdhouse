@@ -22,10 +22,7 @@ namespace Birdhouse.Collections.Registries
         : IRegistry<TElement, TToken, TOut>
         where TToken : IDisposable
     {
-        protected RegistryBase(IRegistry<TElement, TToken> registry)
-        {
-            _registry = registry;
-        }
+        protected RegistryBase(IRegistry<TElement, TToken> registry) => _registry = registry;
 
         private readonly IRegistry<TElement, TToken> _registry;
 
@@ -34,14 +31,9 @@ namespace Birdhouse.Collections.Registries
         public TToken Register(TElement element, out TOut result)
         {
             result = GetResult(element);
-
-            var token = _registry.Register(element);
-            return token;
+            return _registry.Register(element);
         }
 
-        public void Dispose()
-        {
-            _registry.Dispose();
-        }
+        public void Dispose() =>_registry.Dispose();
     }
 }

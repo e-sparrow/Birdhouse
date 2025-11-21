@@ -7,10 +7,7 @@ namespace Birdhouse.Collections.Registries.Abstractions
         : IRegistryEnumerable<KeyValuePair<TKey, TValue>>
         where TToken : IDisposable
     {
-        TValue this[TKey key]
-        {
-            get;
-        }
+        TValue this[TKey key] { get; }
 
         TToken Register(TKey key, TValue value);
 
@@ -19,8 +16,5 @@ namespace Birdhouse.Collections.Registries.Abstractions
     }
 
     public interface IRegistryDictionary<TKey, TValue>
-        : IRegistryDictionary<TKey, TValue, IDisposable>
-    {
-        
-    }
+        : IRegistryDictionary<TKey, TValue, IDisposable> { }
 }

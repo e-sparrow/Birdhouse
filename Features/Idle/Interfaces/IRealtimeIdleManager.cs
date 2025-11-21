@@ -1,4 +1,4 @@
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
 namespace Birdhouse.Features.Idle.Interfaces
 {

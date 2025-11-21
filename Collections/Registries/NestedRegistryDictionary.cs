@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Birdhouse.Abstractions.Disposables;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     public sealed class NestedRegistryDictionary<TKey, TValue>
         : INestedRegistryDictionary<TKey, TValue>

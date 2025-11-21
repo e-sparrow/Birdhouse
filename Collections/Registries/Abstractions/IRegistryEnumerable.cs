@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Birdhouse.Features.Registries.Interfaces
+namespace Birdhouse.Collections.Registries.Abstractions
 {
     public interface IRegistryEnumerable<TElement, out TToken> 
         : IRegistry<TElement, TToken>, IEnumerable<TElement>

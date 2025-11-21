@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     public abstract class RegistryEnumerableBase<T, TToken> 
         : RegistryBase<T, TToken>, IRegistryEnumerable<T, TToken>

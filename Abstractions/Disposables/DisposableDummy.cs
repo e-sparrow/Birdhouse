@@ -5,9 +5,6 @@ namespace Birdhouse.Abstractions.Disposables
     public class DisposableDummy 
         : IDisposable
     {
-        public void Dispose()
-        {
-            
-        }
+        public void Dispose() { }
     }
 }

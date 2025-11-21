@@ -1,5 +1,5 @@
 ﻿using System;
-using Birdhouse.Features.Registries;
+using Birdhouse.Collections.Registries;
 using Birdhouse.Tools.Features.Abstractions;
 
 namespace Birdhouse.Tools.Features

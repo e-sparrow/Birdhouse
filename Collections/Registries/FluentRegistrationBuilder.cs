@@ -1,8 +1,8 @@
 ﻿using System;
 using Birdhouse.Abstractions.Disposables;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     public sealed class FluentRegistrationBuilder<TIn>
         : IFluentRegistrationBuilder<TIn>

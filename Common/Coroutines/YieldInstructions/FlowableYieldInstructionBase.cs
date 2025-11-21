@@ -1,5 +1,4 @@
-﻿using Birdhouse.Abstractions.Interfaces;
-using Birdhouse.Abstractions.Misc;
+﻿using Birdhouse.Abstractions.Misc;
 
 namespace Birdhouse.Common.Coroutines.YieldInstructions
 {

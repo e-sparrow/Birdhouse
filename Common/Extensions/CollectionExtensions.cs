@@ -22,13 +22,8 @@ namespace Birdhouse.Common.Extensions
         public static ICollection<T> RemoveWhere<T>(this ICollection<T> self, Predicate<T> predicate)
         {
             foreach (var value in self)
-            {
-                var result = predicate.Invoke(value);
-                if (!result)
-                {
+                if (!predicate.Invoke(value)) 
                     self.Remove(value);
-                }
-            }
 
             return self;
         }
@@ -36,9 +31,7 @@ namespace Birdhouse.Common.Extensions
         public static ICollection<T> AddRange<T>(this ICollection<T> self, IEnumerable<T> other)
         {
             foreach (var item in other)
-            {
                 self.Add(item);
-            }
 
             return self;
         }

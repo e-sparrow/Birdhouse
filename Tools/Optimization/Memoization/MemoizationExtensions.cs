@@ -7,50 +7,36 @@ using Birdhouse.Tools.Tense.Expiration.Interfaces;
 
 namespace Birdhouse.Tools.Optimization.Memoization
 {
-    public static class MemoizationExtensions
+    public static class PureHelper
     {
         public static Func<TArgument, TResult> AsPure<TArgument, TResult>
             (this Func<TArgument, TResult> func, IMemoizationBuffer<TArgument, TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>();
+            var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(TArgument argument)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>();
-                var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
-
-                return pureFunction.Execute(argument);
-            }
+            TResult Execute(TArgument argument) => pureFunction.Execute(argument);
         }   
         
         public static Func<TArgument, TResult> AsPure<TArgument, TResult>
             (this Func<TArgument, TResult> func, TimeSpan elementLifetime, IMemoizationBuffer<TArgument, TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>(elementLifetime);
+            var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(TArgument argument)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>(elementLifetime);
-                var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
-
-                var result = pureFunction.Execute(argument);
-                return result;
-            }
+            TResult Execute(TArgument argument) => pureFunction.Execute(argument);
         }
         
         public static Func<TArgument, TResult> AsPure<TArgument, TResult>
             (this Func<TArgument, TResult> func, Func<ITermInfo> termInfoCreator, IMemoizationBuffer<TArgument, TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>(termInfoCreator);
+            var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(TArgument argument)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<TArgument, TResult>(termInfoCreator);
-                var pureFunction = new PureFunction<TArgument, TResult>(buffer, func);
-
-                var result = pureFunction.Execute(argument);
-                return result;
-            }
+            TResult Execute(TArgument argument) => pureFunction.Execute(argument);
         }
 
         public static Func<T1, T2, TResult> AsPure<T1, T2, TResult>
@@ -248,43 +234,31 @@ namespace Birdhouse.Tools.Optimization.Memoization
         private static Func<object[], TResult> AsPure<TResult>
             (this Func<object[], TResult> func, IMemoizationBuffer<object[], TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>();
+            var pureFunction = new PureFunction<object[], TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(object[] argument)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>();
-                var pureFunction = new PureFunction<object[], TResult>(buffer, func);
-
-                var result = pureFunction.Execute(argument);
-                return result;
-            }
+            TResult Execute(object[] argument) => pureFunction.Execute(argument);
         }   
         
         private static Func<object[], TResult> AsPure<TResult>
             (this Func<object[], TResult> func, TimeSpan elementLifetime, IMemoizationBuffer<object[], TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>(elementLifetime);
+            var pureFunction = new PureFunction<object[], TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(object[] argument)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>(elementLifetime);
-                var pureFunction = new PureFunction<object[], TResult>(buffer, func);
-
-                return pureFunction.Execute(argument);
-            }
+            TResult Execute(object[] argument) => pureFunction.Execute(argument);
         }
+        
         private static Func<object[], TResult> AsPure<TResult>
             (this Func<object[], TResult> func, Func<ITermInfo> termInfoCreator, IMemoizationBuffer<object[], TResult> buffer = default)
         {
+            buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>(termInfoCreator);
+            var pureFunction = new PureFunction<object[], TResult>(buffer, func);
             return Execute;
 
-            TResult Execute(object[] arguments)
-            {
-                buffer ??= MemoizationHelper.CreateBuffer<object[], TResult>(termInfoCreator);
-                var pureFunction = new PureFunction<object[], TResult>(buffer, func);
-
-                return pureFunction.Execute(arguments);
-            }
+            TResult Execute(object[] arguments) => pureFunction.Execute(arguments);
         }
     }
 }

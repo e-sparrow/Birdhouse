@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Birdhouse.Features.Registries.Interfaces
+namespace Birdhouse.Collections.Registries.Abstractions
 {
     public interface IBlockerRegistry
     {

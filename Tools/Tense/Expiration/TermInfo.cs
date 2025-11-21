@@ -4,7 +4,8 @@ using Birdhouse.Tools.Tense.Expiration.Interfaces;
 
 namespace Birdhouse.Tools.Tense.Expiration
 {
-    public readonly struct TermInfo : ITermInfo
+    public readonly struct TermInfo 
+        : ITermInfo
     {
         public TermInfo(ETermType type, DateTime absoluteExpiration, TimeSpan slidingExpiration)
         {
@@ -14,41 +15,19 @@ namespace Birdhouse.Tools.Tense.Expiration
         }
         
         public TermInfo(ETermType type = ETermType.Eternal) 
-            : this(type, default, default)
-        {
-            
-        }
+            : this(type, default, default) { }
+        
         public TermInfo(DateTime absoluteExpiration) 
-            : this(ETermType.AbsoluteExpiration, absoluteExpiration, default)
-        {
-            
-        }
+            : this(ETermType.AbsoluteExpiration, absoluteExpiration, default) { }
 
         public TermInfo(TimeSpan slidingExpiration) 
-            : this(ETermType.SlidingExpiration, default, slidingExpiration)
-        {
-            
-        }
-
+            : this(ETermType.SlidingExpiration, default, slidingExpiration) { }
+        
         public TermInfo(DateTime absoluteExpiration, TimeSpan slidingExpiration) 
-            : this(ETermType.Combined, absoluteExpiration, slidingExpiration)
-        {
-            
-        }
+            : this(ETermType.Combined, absoluteExpiration, slidingExpiration) { }
 
-        public ETermType Type
-        {
-            get;
-        }
-
-        public DateTime AbsoluteExpiration
-        {
-            get;
-        }
-
-        public TimeSpan SlidingExpiration
-        {
-            get;
-        }
+        public ETermType Type { get; }
+        public DateTime AbsoluteExpiration { get; }
+        public TimeSpan SlidingExpiration { get; }
     }
 }

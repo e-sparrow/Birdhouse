@@ -4,8 +4,8 @@ using System.Linq;
 using Birdhouse.Abstractions.Initializables;
 using Birdhouse.Abstractions.Observables;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Features.Registries;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries;
+using Birdhouse.Collections.Registries.Abstractions;
 using Birdhouse.Tools.Inputs.Remapping.Interfaces;
 
 namespace Birdhouse.Tools.Inputs.Remapping

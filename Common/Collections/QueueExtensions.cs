@@ -10,13 +10,11 @@ namespace Birdhouse.Common.Collections
             value = default;
 
             var hasValue = self.Any();
-            if (hasValue)
-            {
-                value = self.Dequeue();
-                return true;
-            }
+            if (!hasValue) return false;
+            
+            value = self.Dequeue();
+            return true;
 
-            return false;
         }
         
         public static bool TryPeek<T>(this Queue<T> self, out T value)
@@ -24,13 +22,11 @@ namespace Birdhouse.Common.Collections
             value = default;
 
             var hasValue = self.Any();
-            if (hasValue)
-            {
-                value = self.Peek();
-                return true;
-            }
+            if (!hasValue) return false;
+            
+            value = self.Peek();
+            return true;
 
-            return false;
         }
     }
 }

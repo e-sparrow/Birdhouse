@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Birdhouse.Common.Helpers;
 using UnityEngine;
 
@@ -55,14 +56,7 @@ namespace Birdhouse.Common.Extensions
         /// <returns>True if other is child of self and false otherwise</returns>
         public static bool IsParentOf(this Transform self, Transform other, bool nesting = false)
         {
-            if (nesting)
-            {
-                return self.GetChildren(true).Contains(other);
-            }
-            else
-            {
-                return other.IsChildOf(self);
-            }
+            return nesting ? self.GetChildren(true).Contains(other) : other.IsChildOf(self);
         }
 
         /// <summary>
@@ -91,6 +85,21 @@ namespace Birdhouse.Common.Extensions
             self.rotation = matrix.GetRotation();
             self.position = matrix.GetPosition();
             self.localScale = matrix.GetScale();
+        }
+        
+        
+        public static string GetPathInHierarchy(this Transform self)
+        {
+            if (self == null) return "";
+        
+            var path = self.name;
+            while (self.parent != null)
+            {
+                self = self.parent;
+                path = self.name + "/" + path;
+            }
+            
+            return path;
         }
     }
 }

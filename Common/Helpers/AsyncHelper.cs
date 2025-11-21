@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Birdhouse.Abstractions.Disposables;
 using Birdhouse.Tools.Easing.Interfaces;
 using Birdhouse.Tools.Graduating;
 using Birdhouse.Tools.Graduating.Interfaces;
@@ -14,6 +15,16 @@ namespace Birdhouse.Common.Helpers
     
     public static class AsyncHelper
     {
+        public static IDisposable AsDisposable(this CancellationTokenSource self)
+            => new CallbackDisposable(self.Cancel);
+        
+        public static CancellationTokenSource CreateChild(this CancellationTokenSource self)
+        {
+            var result = new CancellationTokenSource();
+            self.Token.Register(() => result.Cancel());
+            return result;
+        }
+        
         public static Task AwaitAction(ActionRef self)
         {
             var source = new TaskCompletionSource<bool>();

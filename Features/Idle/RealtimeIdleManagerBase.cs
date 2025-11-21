@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Birdhouse.Common.Extensions;
 using Birdhouse.Features.Idle.Interfaces;
-using Birdhouse.Features.Registries;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries;
+using Birdhouse.Collections.Registries.Abstractions;
 using Birdhouse.Tools.Tense.Timestamps.Interfaces;
 
 namespace Birdhouse.Features.Idle

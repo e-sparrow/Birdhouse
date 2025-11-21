@@ -1,7 +1,7 @@
 ﻿using System;
 using Birdhouse.Features.Aggregators.Interfaces;
-using Birdhouse.Features.Registries;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries;
+using Birdhouse.Collections.Registries.Abstractions;
 
 namespace Birdhouse.Features.Aggregators
 {

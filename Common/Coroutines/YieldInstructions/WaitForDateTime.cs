@@ -4,7 +4,8 @@ using Birdhouse.Tools.Tense.Providers.Interfaces;
 
 namespace Birdhouse.Common.Coroutines.YieldInstructions
 {
-    public class WaitForDateTime : FlowableYieldInstructionBase
+    public class WaitForDateTime 
+        : FlowableYieldInstructionBase
     {
         public WaitForDateTime(DateTime expiration, ITenseProvider<DateTime> tenseProvider = null) 
             : base(1f)

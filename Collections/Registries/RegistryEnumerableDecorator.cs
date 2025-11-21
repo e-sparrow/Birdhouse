@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     // TODO:
     public sealed class RegistryEnumerableDecorator<TElement, TToken>

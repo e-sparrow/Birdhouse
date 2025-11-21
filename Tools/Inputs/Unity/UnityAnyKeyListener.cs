@@ -1,7 +1,7 @@
 ﻿using System;
-using Birdhouse.Abstractions.Disposables.Interfaces;
-using Birdhouse.Features.Registries;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Abstractions.Disposables;
+using Birdhouse.Collections.Registries;
+using Birdhouse.Collections.Registries.Abstractions;
 using Birdhouse.Tools.Inputs.AnyKey.Interfaces;
 using Birdhouse.Tools.Inputs.Pressures.Enums;
 using Birdhouse.Tools.Inputs.Pressures.Interfaces;

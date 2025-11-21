@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Birdhouse.Features.Registries.Interfaces
+namespace Birdhouse.Collections.Registries.Abstractions
 {
     public interface IRegistryDictionary<TKey, TValue, out TToken>
         : IRegistryEnumerable<KeyValuePair<TKey, TValue>>

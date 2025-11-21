@@ -1,5 +1,7 @@
 ﻿namespace Birdhouse.Common.Delegates
 {
+    public delegate bool ConditionalFunc<TOut>(out TOut result);
+
     public delegate bool ConditionalFunc<in TIn, TOut>
         (TIn parameter, out TOut result);
     

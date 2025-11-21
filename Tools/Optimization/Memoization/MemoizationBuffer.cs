@@ -10,9 +10,7 @@ namespace Birdhouse.Tools.Optimization.Memoization
     {
         public MemoizationBuffer(Func<ITermInfo> termInfoCreator, bool capacious = false, int capacity = 0) 
             : base(new Dictionary<TKey, IMemoizationElement<TValue>>(), capacious, capacity)
-        {
-            _termInfoCreator = termInfoCreator;
-        }
+                => _termInfoCreator = termInfoCreator;
 
         private readonly Func<ITermInfo> _termInfoCreator;
 

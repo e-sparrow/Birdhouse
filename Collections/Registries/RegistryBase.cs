@@ -1,7 +1,7 @@
 ﻿using System;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries.Abstractions;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     public abstract class RegistryBase<TElement, TToken> 
         : IRegistry<TElement, TToken>

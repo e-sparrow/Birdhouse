@@ -17,22 +17,14 @@ namespace Birdhouse.Tools.Optimization.Memoization
         protected abstract IMemoizationBuffer<object[], object> CreateBuffer(TimeSpan elementLifetime);
         protected abstract IMemoizationBuffer<object[], object> CreateBuffer(Func<ITermInfo> termInfoCreator);
 
-        public IMemoizationBuffer<object[], object> GetOrCreateBuffer(TKey key)
-        {
-            var result = _buffer.GetOrCreate(key, CreateBuffer);
-            return result;
-        }
+        public IMemoizationBuffer<object[], object> GetOrCreateBuffer(TKey key) => _buffer.GetOrCreate(key, CreateBuffer);
 
         public IMemoizationBuffer<object[], object> GetOrCreateBuffer(TKey key, TimeSpan elementLifetime)
         {
             var result = _buffer.GetOrCreate(key, CreateBufferByLifetime);
             return result;
 
-            IMemoizationBuffer<object[], object> CreateBufferByLifetime()
-            {
-                var buffer = CreateBuffer(elementLifetime);
-                return buffer;
-            }
+            IMemoizationBuffer<object[], object> CreateBufferByLifetime() => CreateBuffer(elementLifetime);
         }
 
         public IMemoizationBuffer<object[], object> GetOrCreateBuffer(TKey key, Func<ITermInfo> termInfoCreator)
@@ -40,11 +32,7 @@ namespace Birdhouse.Tools.Optimization.Memoization
             var result = _buffer.GetOrCreate(key, CreateBufferByTermCreator);
             return result;
 
-            IMemoizationBuffer<object[], object> CreateBufferByTermCreator()
-            {
-                var buffer = CreateBuffer(termInfoCreator);
-                return buffer;
-            }
+            IMemoizationBuffer<object[], object> CreateBufferByTermCreator() => CreateBuffer(termInfoCreator);
         }
     }
 }

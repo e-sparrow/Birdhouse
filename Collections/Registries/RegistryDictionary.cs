@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Birdhouse.Collections.Registries.Abstractions;
 using Birdhouse.Common.Extensions;
-using Birdhouse.Features.Registries.Interfaces;
 
-namespace Birdhouse.Features.Registries
+namespace Birdhouse.Collections.Registries
 {
     public class RegistryDictionary<TKey, TValue>
         : IRegistryDictionary<TKey, TValue>

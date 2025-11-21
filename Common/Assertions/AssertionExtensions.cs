@@ -4,9 +4,9 @@ namespace Birdhouse.Common.Assertions
 {
     public static class AssertionExtensions
     {
-        public static LogicRoot Is<T>(this T self, T other)
+        public static BranchingRoot Is<T>(this T self, T other)
         {
-            var result = new LogicRoot(() => self.Equals(other));
+            var result = new BranchingRoot(() => self.Equals(other));
             return result;
         }
     }

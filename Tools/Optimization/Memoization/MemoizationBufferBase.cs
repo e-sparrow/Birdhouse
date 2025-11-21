@@ -19,7 +19,6 @@ namespace Birdhouse.Tools.Optimization.Memoization
         }
 
         private readonly IDictionary<TKey, IMemoizationElement<TValue>> _dictionary;
-        
         private readonly ISubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>> _substitutionController;
 
         private static ISubstitutionController<KeyValuePair<TKey, IMemoizationElement<TValue>>> CreateSubstitutionController
@@ -28,22 +27,15 @@ namespace Birdhouse.Tools.Optimization.Memoization
             var substitutionOperator = dictionary.AsSubstitutionOperator();
 
             var method = SubstitutionHelper.CreateSubstitutionMethod(substitutionOperator, ESubstitutionType.Forget);
-            if (capacious)
-            {
-                method = SubstitutionHelper.CreateCapaciousSubstitutionMethod(capacity, method, substitutionOperator);
-            }
-
+            if (capacious) method = SubstitutionHelper.CreateCapaciousSubstitutionMethod(capacity, method, substitutionOperator);
+            
             var controller = SubstitutionHelper.CreateSubstitutionController(method);
             return controller;
         }
 
         protected abstract ITerm CreateTerm();
 
-        public TValue GetOrCreate(TKey key, Func<TValue> create)
-        {
-            var result = GetOrCreate(key, create, CreateTerm());
-            return result;
-        }
+        public TValue GetOrCreate(TKey key, Func<TValue> create) => GetOrCreate(key, create, CreateTerm());
 
         public TValue GetOrCreate(TKey key, Func<TValue> create, ITerm term)
         {
@@ -52,23 +44,17 @@ namespace Birdhouse.Tools.Optimization.Memoization
             {
                 var element = new MemoizationElement<TValue>(create.Invoke(), term);
                 var pair = new KeyValuePair<TKey, IMemoizationElement<TValue>>(key, element);
-                
                 _substitutionController.Add(pair);
             }
             
-            var result = _dictionary[key].Value;
-            return result;
+            return _dictionary[key].Value;
         }
 
         public void Check()
         {
             foreach (var item in _dictionary)
-            {
                 if (item.Value.Term.Check())
-                {
                     _dictionary.Remove(item.Key);
-                }
-            }
         }
     }
 }

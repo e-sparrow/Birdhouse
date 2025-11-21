@@ -1,6 +1,6 @@
 ﻿using System;
-using Birdhouse.Features.Registries;
-using Birdhouse.Features.Registries.Interfaces;
+using Birdhouse.Collections.Registries;
+using Birdhouse.Collections.Registries.Abstractions;
 using Birdhouse.Tools.Strings.Abstractions;
 
 namespace Birdhouse.Tools.Strings

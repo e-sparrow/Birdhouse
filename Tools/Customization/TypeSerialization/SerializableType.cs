@@ -8,14 +8,7 @@
             TypeName = typeName;
         }
 
-        public string AssemblyName
-        {
-            get;
-        }
-
-        public string TypeName
-        {
-            get;
-        }
+        public string AssemblyName { get; }
+        public string TypeName { get; }
     }
 }

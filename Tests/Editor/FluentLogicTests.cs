@@ -85,7 +85,7 @@ namespace Birdhouse.Tests.Editor
         
         private static void ExecuteFluent(List<int> list, Action notifyTooMuch, Action notifyTooFew, Action notifyOkay)
         {
-            FluentLogic
+            FluentBranching
                 .If(() => list.Count > 10).So(notifyTooMuch.Invoke)
                 .ElseIf(() => list.Count < 5).So(notifyTooFew.Invoke)
                 .Else().So(notifyOkay.Invoke);
@@ -150,7 +150,7 @@ namespace Birdhouse.Tests.Editor
 
         private static ESizeResult GetResultFluent(List<int> list)
         {
-            var result = FluentLogic<ESizeResult>
+            var result = FluentBranching<ESizeResult>
                 .If(() => list.Count > 10).SoReturn(() => ESizeResult.TooMuch)
                 .ElseIf(() => list.Count < 5).SoReturn(() => ESizeResult.TooFew)
                 .Else().SoReturn(() => ESizeResult.Okay);

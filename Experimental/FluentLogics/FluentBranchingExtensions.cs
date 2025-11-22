@@ -3,7 +3,7 @@ using Birdhouse.Common.Helpers;
 
 namespace Birdhouse.Experimental.FluentLogics
 {
-    public static class FluentLogicExtensions
+    public static class FluentBranchingExtensions
     {
         public static BranchingSoHandler IfTrue(this bool self, Action action) => new BranchingRoot(() => self).So(action);
         public static BranchingSoHandler IfTrue(this Func<bool> self, Action action) => new BranchingRoot(self).So(action);

@@ -15,7 +15,7 @@ namespace Birdhouse.Experimental.FluentLogics
 
         public BranchingSoHandler So(Action action)
         {
-            var construction = new ConditionalConstruction(_condition, action);
+            var construction = new BranchingConstruction(_condition, action);
             _root.Add(construction);
 
             var handler = new BranchingSoHandler(_root);

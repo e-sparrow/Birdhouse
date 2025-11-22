@@ -9,13 +9,13 @@ namespace Birdhouse.Experimental.FluentLogics
         public BranchingRoot(Func<bool> func)
         {
             _func = func;
-            _constructions = new List<ConditionalConstruction>();
+            _constructions = new List<BranchingConstruction>();
         }
 
         private readonly Func<bool> _func;
-        private readonly IList<ConditionalConstruction> _constructions;
+        private readonly IList<BranchingConstruction> _constructions;
 
-        public void Add(ConditionalConstruction construction) => _constructions.Add(construction);
+        public void Add(BranchingConstruction construction) => _constructions.Add(construction);
         
         public void Execute(Action elseAction)
         {
@@ -25,7 +25,7 @@ namespace Birdhouse.Experimental.FluentLogics
  
         public BranchingSoHandler So(Action action)
         {
-            var construction = new ConditionalConstruction(_func, action);
+            var construction = new BranchingConstruction(_func, action);
             Add(construction);
 
             var handler = new BranchingSoHandler(this);

@@ -2,9 +2,9 @@
 
 namespace Birdhouse.Experimental.FluentLogics
 {
-    public readonly struct ConditionalConstruction
+    public readonly struct BranchingConstruction
     {
-        public ConditionalConstruction(Func<bool> func, Action action)
+        public BranchingConstruction(Func<bool> func, Action action)
         {
             _func = func;
             _action = action;

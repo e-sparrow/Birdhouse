@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Birdhouse.Common.Tasks
+namespace Birdhouse.Common.Threading
 {
     public sealed class AsyncLocker
     {

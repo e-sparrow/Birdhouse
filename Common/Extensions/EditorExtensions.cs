@@ -23,10 +23,21 @@ namespace Birdhouse.Common.Extensions
         
         public static object GetValue(this SerializedProperty self)
         {
-            var fieldInfo = self.GetFieldInfo();
-            var value = fieldInfo.GetValue(self.serializedObject.targetObject);
-
-            return value;
+            object targetObject = self.serializedObject.targetObject;
+        
+            var field = targetObject.GetType().GetField(self.propertyPath.Split('.')[0]);
+            if (field == null) return default;
+        
+            object fieldValue = field.GetValue(targetObject);
+        
+            string[] path = self.propertyPath.Split('.');
+            for (int i = 1; i < path.Length; i++)
+            {
+                fieldValue = fieldValue.GetType().GetField(path[i]).GetValue(fieldValue);
+                if (fieldValue == null) break;
+            }
+        
+            return fieldValue;
         }
 
         public static T GetValue<T>(this SerializedProperty self)

@@ -178,5 +178,23 @@ namespace Birdhouse.Common.Extensions
 
             return self;
         }
+
+        public static float Round(this float self, int digitsAfterPoint = 0)
+        {
+            var multiplier = Mathf.Pow(10, digitsAfterPoint);
+            return Mathf.Round(self * multiplier) / multiplier;
+        }
+
+        public static float Ceil(this float self, int digitsAfterPoint = 0)
+        {
+            var multiplier = Mathf.Pow(10, digitsAfterPoint);
+            return Mathf.Ceil(self * multiplier) / multiplier;
+        }
+
+        public static float Floor(this float self, int digitsAfterPoint = 0)
+        {
+            var multiplier = Mathf.Pow(10, digitsAfterPoint);
+            return Mathf.Floor(self * multiplier) / multiplier;
+        }
     }
 }

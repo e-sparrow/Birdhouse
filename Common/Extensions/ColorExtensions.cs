@@ -44,5 +44,21 @@ namespace Birdhouse.Common.Extensions
             var result = new Color(color.r, color.g, color.b, alpha);
             return result;
         }
+        
+        public static Color HsvShift(this Color self, float hueDegrees = 0f, float saturation = 0f, float value = 0f)
+        {
+            Color.RGBToHSV(self, out var h, out var s, out var v);
+
+            h += hueDegrees / 360f;
+            s += saturation;
+            v += value;
+
+            h %= 1.0f;
+            if (h < 0) h += 1.0f;
+            s = Mathf.Clamp01(s);
+            v = Mathf.Clamp01(v);
+
+            return Color.HSVToRGB(h, s, v);
+        }
     }
 }
